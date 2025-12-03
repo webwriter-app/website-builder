@@ -1,19 +1,15 @@
 import {html, css} from "lit"
 import {LitElementWw} from "@webwriter/lit"
 import {customElement} from "lit/decorators.js"
-
-
-/* Optional LOCALIZATION: Uncomment this after first running `npm run localize` in the command line.
 import LOCALIZE from '../localization/generated'
 import {msg} from '@lit/localize'
-*/
+
 
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElementWw {
 
-  /* Optional LOCALIZATION: Uncomment this after first running `npm run localize` in the command line.
   localize = LOCALIZE
-  */
+  msg = msg
 
   /** Register the classes of custom elements to use in the Shadow DOM here.
    * @example
@@ -28,6 +24,6 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   /** Define your template here and return it. */
   render() {
-    return html`Hello, world!!!`
+    return html`Hello, world!!!!`
   }
 }
