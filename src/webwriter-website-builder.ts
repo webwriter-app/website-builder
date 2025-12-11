@@ -1,5 +1,4 @@
 import { html, css, LitElement, render } from "lit";
-import { property } from "lit/decorators.js";
 import { customElement } from "lit/decorators.js";
 import LOCALIZE from "../localization/generated";
 import { msg } from "@lit/localize";
