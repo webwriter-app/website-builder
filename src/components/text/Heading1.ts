@@ -5,7 +5,7 @@ export const Heading1: BuilderComponent = {
   type: "h1",
 
   render: () => html`
-    <h1 contenteditable="true" style="margin: 0.5rem 0;">
+    <h1 contenteditable="true" style="margin: 0.5rem 0; display: inline-block">
       Heading 1
     </h1>
   `
