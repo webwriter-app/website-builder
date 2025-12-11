@@ -16,7 +16,7 @@
     },
     "exports": {
         "./widgets/webwriter-website-builder.*": {
-            "source": "./widgets/webwriter-website-builder.ts",
+            "source": "./src/webwriter-website-builder.ts",
             "default": "./dist/widgets/webwriter-website-builder.*"
         }
     },

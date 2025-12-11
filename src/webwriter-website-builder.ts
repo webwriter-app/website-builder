@@ -3,10 +3,8 @@ import { customElement } from "lit/decorators.js";
 import LOCALIZE from "../localization/generated";
 import { msg } from "@lit/localize";
 
-import "@shoelace-style/shoelace/dist/components/drawer/drawer.js";
-import "@shoelace-style/shoelace/dist/components/button/button.js";
-import "@shoelace-style/shoelace/dist/components/card/card.js";
-import "@shoelace-style/shoelace/dist/components/icon/icon.js";
+import { biGear } from "./assets/icons";
+
 
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElement {
@@ -20,35 +18,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
       height: 700px;
       overflow: hidden;
       background: var(--sl-color-neutral-0);
-    }
-
-    /* Drawer overlay doesn't block pointer events on canvas */
-    sl-drawer::part(overlay) {
-      pointer-events: none;
-    }
-
-    sl-drawer::part(panel) {
-      pointer-events: auto;
-    }
-
-    .layout {
-      display: flex;
-      height: 100%;
-      width: 100%;
-      position: relative;
-    }
-
-    /* Drawer is contained within component */
-    ::slotted(sl-drawer) {
-      --size: 320px;
-    }
-
-    /* Sidebar toggle button */
-    .sidebar-toggle {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      z-index: 10;
     }
 
     /* Canvas */
@@ -88,37 +57,10 @@ export class WebwriterWebsiteBuilder extends LitElement {
     return html`
       <div class="layout">
 
-        <!-- Sidebar open button -->
-        <sl-button
-          class="sidebar-toggle"
-          variant="primary"
-          size="small"
-          @click=${() => (this.shadowRoot!.querySelector("sl-drawer") as any).show()}
-        >
-          <sl-icon name="layout-sidebar"></sl-icon> Components
-        </sl-button>
-
         <!-- Sidebar -->
-        <sl-drawer label="Components" placement="start" style="--size: 320px;">
-          <sl-card class="tool-item" draggable="true" @dragstart=${this._onDragStart}>
-            <strong>Button</strong><br />
-            A clickable button element.
-          </sl-card>
-
-          <sl-card class="tool-item" draggable="true" @dragstart=${this._onDragStart}>
-            <strong>Text</strong><br />
-            A basic text block.
-          </sl-card>
-
-          <sl-card class="tool-item" draggable="true" @dragstart=${this._onDragStart}>
-            <strong>Image</strong><br />
-            A placeholder image element.
-          </sl-card>
-
-          <sl-button slot="footer" variant="default" @click=${this._closeDrawer}>
-            Close
-          </sl-button>
-        </sl-drawer>
+        <div part="options">
+          <h2> ${biGear} ${msg("Components")} </h2>
+        </div>
 
         <!-- Canvas -->
         <div class="canvas" @dragover=${this._onDragOver} @drop=${this._onDrop}>
