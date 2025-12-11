@@ -1,17 +1,18 @@
-import { html, css, LitElement } from "lit";
+import { html, css, LitElement, render } from "lit";
 import { customElement } from "lit/decorators.js";
 import LOCALIZE from "../localization/generated";
 import { msg } from "@lit/localize";
-
 import { biGear } from "./assets/icons";
+import { ComponentRegistry } from "./components/registry";
 
+import "@shoelace-style/shoelace/dist/components/details/details.js";
 
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElement {
   localize = LOCALIZE;
   msg = msg;
 
-    static styles = css`
+  static styles = css`
     :host {
       display: flex;
       width: 100%;
@@ -56,10 +57,78 @@ export class WebwriterWebsiteBuilder extends LitElement {
   render() {
     return html`
       <div class="layout">
-
         <!-- Sidebar -->
         <div part="options">
-          <h2> ${biGear} ${msg("Components")} </h2>
+          <h2>${biGear} ${msg("Components")}</h2>
+
+          <hr />
+          <sl-details summary=${msg("Text Components")}>
+            <sl-option
+              data-component-type="paragraph"
+              draggable="true"
+              @dragstart=${this._onDragStart}
+              >${msg("Paragraph")}
+            </sl-option>
+            <sl-details summary=${msg("Headings")}>
+              <sl-option
+                data-component-type="h1"
+                draggable="true"
+                @dragstart=${this._onDragStart}
+                >${msg("Heading 1")}</sl-option
+              >
+              <sl-option draggable="true" @dragstart=${this._onDragStart}
+                >${msg("H2")}</sl-option
+              >
+              <sl-option draggable="true" @dragstart=${this._onDragStart}
+                >${msg("H3")}</sl-option
+              >
+              <sl-option draggable="true" @dragstart=${this._onDragStart}
+                >${msg("H4")}</sl-option
+              >
+              <sl-option draggable="true" @dragstart=${this._onDragStart}
+                >${msg("H5")}</sl-option
+              >
+              <sl-option draggable="true" @dragstart=${this._onDragStart}
+                >${msg("H6")}</sl-option
+              >
+            </sl-details>
+            <sl-option draggable="true" @dragstart=${this._onDragStart}
+              >${msg("Label/ Caption")}
+            </sl-option>
+          </sl-details>
+
+          <sl-details summary=${msg("Media Components")}>
+            <sl-option draggable="true" @dragstart=${this._onDragStart}
+              >${msg("Image")}
+            </sl-option>
+            <sl-option draggable="true" @dragstart=${this._onDragStart}
+              >${msg("Video")}
+            </sl-option>
+            <sl-option draggable="true" @dragstart=${this._onDragStart}
+              >${msg("Audio")}
+            </sl-option>
+            <sl-option draggable="true" @dragstart=${this._onDragStart}
+              >${msg("Icon")}
+            </sl-option>
+          </sl-details>
+
+          <sl-details summary=${msg("Buttons & Links")}>
+            <sl-option draggable="true" @dragstart=${this._onDragStart}
+              >${msg("Button")}
+            </sl-option>
+            <sl-option draggable="true" @dragstart=${this._onDragStart}
+              >${msg("Link")}
+            </sl-option>
+          </sl-details>
+
+          <sl-details summary=${msg("Dividers")}>
+            <sl-option draggable="true" @dragstart=${this._onDragStart}
+              >${msg("Divider")}
+            </sl-option>
+            <sl-option draggable="true" @dragstart=${this._onDragStart}
+              >${msg("Spacer")}
+            </sl-option>
+          </sl-details>
         </div>
 
         <!-- Canvas -->
@@ -70,13 +139,10 @@ export class WebwriterWebsiteBuilder extends LitElement {
     `;
   }
 
-  _closeDrawer() {
-    (this.shadowRoot!.querySelector("sl-drawer") as any).hide();
-  }
-
   _onDragStart(event: DragEvent) {
     const target = event.target as HTMLElement;
-    event.dataTransfer?.setData("text/plain", target.innerText.trim());
+    const type = target.getAttribute("data-component-type");
+    event.dataTransfer?.setData("component-type", type ?? "");
   }
 
   _onDragOver(event: DragEvent) {
@@ -85,15 +151,26 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
   _onDrop(event: DragEvent) {
     event.preventDefault();
-    const data = event.dataTransfer?.getData("text/plain") || "";
+
+    const type = event.dataTransfer?.getData("component-type");
+    if (!type) return;
+
+    const component = ComponentRegistry[type];
+    if (!component) return;
+
     const canvas = this.shadowRoot!.querySelector(".canvas")!;
 
     const placeholder = canvas.querySelector(".drop-zone");
     if (placeholder) placeholder.remove();
 
-    const newEl = document.createElement("div");
-    newEl.classList.add("dropped-element");
-    newEl.textContent = data;
-    canvas.appendChild(newEl);
+    // Create wrapper
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("builder-element");
+    wrapper.style.position = "relative";
+
+    // Render actual lit template into the wrapper
+    render(component.render(component.defaultData), wrapper);
+
+    canvas.appendChild(wrapper);
   }
 }
