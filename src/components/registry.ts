@@ -1,5 +1,9 @@
 import { BuilderComponent } from "../types/BuilderComponent";
 import { ParagraphComponent } from "./text/paragraph";
+import { LabelComponent } from "./text/label";
+import { ImageComponent } from "./media/image";
+import { VideoComponent } from "./media/video";
+import { AudioComponent } from "./media/audio";
 import { Heading1 } from "./text/Heading1";
 import { Heading2 } from "./text/Heading2";
 import { Heading3 } from "./text/Heading3";
@@ -14,5 +18,9 @@ export const ComponentRegistry: Record<string, BuilderComponent> = {
   h3: Heading3,
   h4: Heading4,
   h5: Heading5,
-  h6: Heading6
+  h6: Heading6,
+  label: LabelComponent,
+  image: ImageComponent,
+  video: VideoComponent,
+  audio: AudioComponent,
 };

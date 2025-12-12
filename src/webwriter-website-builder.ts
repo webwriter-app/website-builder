@@ -280,10 +280,12 @@ export class WebwriterWebsiteBuilder extends LitElement {
   }
 
   _makeDraggable(element: HTMLElement, container: HTMLElement) {
-    const EDGE_SIZE = 8; // px from border to allow dragging
+    const EDGE_SIZE = 8; // px from border to allow resizing
+    const DRAG_THRESHOLD = 5; // px movement to start drag
     let offsetX = 0;
     let offsetY = 0;
     let dragging = false;
+    let dragStarted = false;
 
     const disableEditing = () => {
       element.setAttribute("contenteditable", "false");
@@ -298,64 +300,83 @@ export class WebwriterWebsiteBuilder extends LitElement {
         this.selectedElement.classList.remove("selected");
       this.selectedElement = element;
       element.classList.add("selected");
-      enableEditing(); // allow typing when clicking inside
+      enableEditing();
     });
 
     const onMouseDown = (e: MouseEvent) => {
       const rect = element.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const clickY = e.clientY - rect.top;
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      dragStarted = false;
 
-      const onEdgeX = clickX <= EDGE_SIZE || clickX >= rect.width - EDGE_SIZE;
-      const onEdgeY = clickY <= EDGE_SIZE || clickY >= rect.height - EDGE_SIZE;
+      // Check if element is resizable and if click is on resize corner
+      const resizableEl = element.querySelector(
+        ".resizable"
+      ) as HTMLElement | null;
+      if (resizableEl) {
+        const resRect = resizableEl.getBoundingClientRect();
+        const edgeX =
+          e.clientX >= resRect.right - EDGE_SIZE && e.clientX <= resRect.right;
+        const edgeY =
+          e.clientY >= resRect.bottom - EDGE_SIZE &&
+          e.clientY <= resRect.bottom;
+        if (edgeX && edgeY) return; // let CSS handle resizing
+      }
 
-      if (!onEdgeX && !onEdgeY) return;
+      const onMouseMove = (e: MouseEvent) => {
+        const deltaX = Math.abs(e.clientX - (rect.left + offsetX));
+        const deltaY = Math.abs(e.clientY - (rect.top + offsetY));
 
-      dragging = true;
-      disableEditing(); // disable editing while dragging
-      offsetX = clickX;
-      offsetY = clickY;
-      element.style.cursor = "grabbing";
+        // Start drag only after threshold
+        if (
+          !dragStarted &&
+          (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD)
+        ) {
+          dragStarted = true;
+          dragging = true;
+          disableEditing();
+          element.style.cursor = "grabbing";
+        }
+
+        if (!dragging) return;
+
+        const containerRect = container.getBoundingClientRect();
+        let newX = e.clientX - containerRect.left - offsetX;
+        let newY = e.clientY - containerRect.top - offsetY;
+
+        if (this.shiftPressed) {
+          newX = Math.round(newX / this.gridSize) * this.gridSize;
+          newY = Math.round(newY / this.gridSize) * this.gridSize;
+        }
+
+        newX = Math.max(
+          0,
+          Math.min(newX, containerRect.width - element.offsetWidth)
+        );
+        newY = Math.max(
+          0,
+          Math.min(newY, containerRect.height - element.offsetHeight)
+        );
+
+        element.style.left = `${newX}px`;
+        element.style.top = `${newY}px`;
+      };
+
+      const onMouseUp = () => {
+        dragging = false;
+        element.style.cursor = "grab";
+        enableEditing();
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mouseup", onMouseUp);
+      };
 
       window.addEventListener("mousemove", onMouseMove);
       window.addEventListener("mouseup", onMouseUp);
-      e.preventDefault();
-    };
-
-    const onMouseMove = (e: MouseEvent) => {
-      if (!dragging) return;
-      const containerRect = container.getBoundingClientRect();
-      let newX = e.clientX - containerRect.left - offsetX;
-      let newY = e.clientY - containerRect.top - offsetY;
-
-      if (this.shiftPressed) {
-        newX = Math.round(newX / this.gridSize) * this.gridSize;
-        newY = Math.round(newY / this.gridSize) * this.gridSize;
-      }
-
-      newX = Math.max(
-        0,
-        Math.min(newX, containerRect.width - element.offsetWidth)
-      );
-      newY = Math.max(
-        0,
-        Math.min(newY, containerRect.height - element.offsetHeight)
-      );
-
-      element.style.left = `${newX}px`;
-      element.style.top = `${newY}px`;
-    };
-
-    const onMouseUp = () => {
-      dragging = false;
-      element.style.cursor = "grab";
-      enableEditing(); // re-enable editing after drag ends
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
     };
 
     element.addEventListener("mousedown", onMouseDown);
 
+    // Click outside to deselect
     container.addEventListener("click", () => {
       if (this.selectedElement) {
         this.selectedElement.classList.remove("selected");
