@@ -7,6 +7,7 @@ import { ComponentRegistry } from "./components/registry";
 
 import "@shoelace-style/shoelace/dist/components/details/details.js";
 import "@shoelace-style/shoelace/dist/components/switch/switch.js";
+import "@shoelace-style/shoelace/dist/themes/light.css";
 
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElement {
@@ -28,6 +29,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
       background: var(--sl-color-neutral-0);
       padding: 0;
       margin: 0;
+      position: relative;
     }
 
     .components {

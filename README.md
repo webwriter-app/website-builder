@@ -2,6 +2,8 @@
 
 ## Documentation
 
+### To execute script, run npx @webwriter/build dev
+
 ### To create a new component: 
     - add a component file under ./src/components
     - provide a type and the render() method that displays the html
