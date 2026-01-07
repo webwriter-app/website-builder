@@ -7,6 +7,8 @@ import '@shoelace-style/shoelace/dist/components/range/range.js';
 
 export const AudioComponent: BuilderComponent = {
   type: "audio",
+  label: "Audio",
+  group: "media",
 
   render: () => html`
     <style>

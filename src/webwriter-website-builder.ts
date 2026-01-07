@@ -2,12 +2,9 @@ import { html, css, LitElement, render } from "lit";
 import { customElement } from "lit/decorators.js";
 import LOCALIZE from "../localization/generated";
 import { msg } from "@lit/localize";
-import { wbBox, wbGear } from "./assets/icons";
+import { wbGear } from "./assets/icons";
 import { ComponentRegistry } from "./components/registry";
-
-import "@shoelace-style/shoelace/dist/components/details/details.js";
-import "@shoelace-style/shoelace/dist/components/switch/switch.js";
-import "@shoelace-style/shoelace/dist/themes/light.css";
+import "./assets/shoelaceImports.ts";
 
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElement {
@@ -32,16 +29,61 @@ export class WebwriterWebsiteBuilder extends LitElement {
       position: relative;
     }
 
-    .components {
-      color: var(--sl-color-gray-600);
-      font-size: var(--sl-font-size-medium);
-      line-height: var(--sl-line-height-medium);
-      font-weight: 400;
-      margin: 0;
-      padding: 0;
+    .editor {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      height: 100%;
     }
 
-    .components h2,
+    .component-bar {
+      display: flex;
+      gap: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--sl-color-neutral-0);
+      border-bottom: 1px solid var(--sl-color-neutral-200);
+      overflow-x: auto;
+    }
+
+    .component-tabs {
+      border-bottom: 1px solid var(--sl-color-neutral-200);
+    }
+
+    .component-button-row {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .component-button-row sl-button {
+      cursor: grab;
+    }
+
+    .component-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .group-label {
+      font-size: 0.8rem;
+      color: var(--sl-color-neutral-600);
+      margin-right: 0.25rem;
+    }
+
+    .component-bar sl-option {
+      padding: 0.35rem 0.6rem;
+      border-radius: 0.3rem;
+      font-size: 0.85rem;
+      cursor: grab;
+    }
+
+    .component-bar sl-option:hover {
+      background: var(--sl-color-neutral-200);
+    }
+
     .settings h2 {
       font-size: var(--sl-button-font-size-medium);
       line-height: calc(
@@ -55,34 +97,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
       gap: 1ch;
       border-bottom: 2px solid var(--sl-color-gray-600);
       color: var(--sl-color-gray-600);
-    }
-
-    .components hr {
-      border: none;
-      border-top: 1px solid var(--sl-color-neutral-200);
-      margin: 0;
-    }
-
-    .components sl-details {
-      margin-bottom: 1rem;
-      border-bottom: 1px solid var(--sl-color-gray-300);
-    }
-
-    .components sl-details::part(base) {
-      background-color: unset;
-      border: none;
-    }
-
-    .components sl-option {
-      padding: 0.4rem 0.5rem;
-      border-radius: 0.3rem;
-      font-size: 0.9rem;
-      user-select: none;
-    }
-
-    .components sl-option:hover {
-      background: var(--sl-color-neutral-200);
-      cursor: grab;
     }
 
     .settings sl-switch {
@@ -127,10 +141,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
         ),
         linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
     }
-
-    .grid-overlay.hidden {
-      display: none;
-    }
   `;
 
   render() {
@@ -139,80 +149,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
       <div class="layout">
         <!-- Sidebar -->
         <div part="options">
-          <div class="components">
-            <h2>
-              <span style="display:inline-block; width:1.4rem; height:1.4rem;">
-                ${wbBox}
-              </span>
-              ${msg("Components")}
-            </h2>
-
-            <hr />
-            <sl-details summary=${msg("Text Components")}>
-              <sl-details summary=${msg("Headings")}>
-                ${["h1", "h2", "h3", "h4", "h5", "h6"].map(
-                  (h) => html`
-                    <sl-option
-                      data-component-type="${h}"
-                      draggable="true"
-                      @dragstart=${this._onDragStart}
-                      >${msg(h)}</sl-option
-                    >
-                  `
-                )}
-              </sl-details>
-              ${["paragraph", "label"].map(
-                (t) => html`
-                  <sl-option
-                    data-component-type="${t}"
-                    draggable="true"
-                    @dragstart=${this._onDragStart}
-                    >${msg(t)}</sl-option
-                  >
-                `
-              )}
-            </sl-details>
-
-            <sl-details summary=${msg("Media Components")}>
-              ${["image", "video", "audio", "icon"].map(
-                (t) => html`
-                  <sl-option
-                    data-component-type="${t}"
-                    draggable="true"
-                    @dragstart=${this._onDragStart}
-                    >${msg(t)}</sl-option
-                  >
-                `
-              )}
-            </sl-details>
-
-            <sl-details summary=${msg("Buttons & Links")}>
-              ${["button", "link"].map(
-                (t) => html`
-                  <sl-option
-                    data-component-type="${t}"
-                    draggable="true"
-                    @dragstart=${this._onDragStart}
-                    >${msg(t)}</sl-option
-                  >
-                `
-              )}
-            </sl-details>
-
-            <sl-details summary=${msg("Dividers")}>
-              ${["divider", "spacer"].map(
-                (t) => html`
-                  <sl-option
-                    data-component-type="${t}"
-                    draggable="true"
-                    @dragstart=${this._onDragStart}
-                    >${msg(t)}</sl-option
-                  >
-                `
-              )}
-            </sl-details>
-          </div>
-
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
             <sl-switch
@@ -223,19 +159,97 @@ export class WebwriterWebsiteBuilder extends LitElement {
               }}
               >Show Grid</sl-switch
             >
+
+            ${this._renderSelectedComponentSettings()}
           </div>
         </div>
 
-        <!-- Canvas -->
-        <div
-          class="canvas"
-          @dragover=${this._onDragOver}
-          @drop=${this._onDrop}
-          style="--grid-size: ${this.gridSize}px"
-        >
-          ${showGridOverlay ? html`<div class="grid-overlay"></div>` : null}
-          <div class="drop-zone">Drag and drop components here</div>
+        <div class="editor">
+          ${this._renderComponentBar()}
+
+          <!-- Canvas -->
+          <div
+            class="canvas"
+            @dragover=${this._onDragOver}
+            @drop=${this._onDrop}
+            style="--grid-size: ${this.gridSize}px"
+          >
+            ${showGridOverlay ? html`<div class="grid-overlay"></div>` : null}
+            <div class="drop-zone">Drag and drop components here</div>
+          </div>
         </div>
+      </div>
+    `;
+  }
+
+  private _renderComponentBar() {
+    return html`
+      <sl-tab-group class="component-tabs" placement="top">
+        <sl-tab slot="nav" panel="text">Text</sl-tab>
+        <sl-tab slot="nav" panel="media">Media</sl-tab>
+        <sl-tab slot="nav" panel="buttons">Buttons</sl-tab>
+        <sl-tab slot="nav" panel="dividers">Dividers</sl-tab>
+
+        <sl-tab-panel name="text">
+          ${this._componentButtons([
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "paragraph",
+            "label",
+          ])}
+        </sl-tab-panel>
+
+        <sl-tab-panel name="media">
+          ${this._componentButtons(["image", "video", "audio", "icon"])}
+        </sl-tab-panel>
+
+        <sl-tab-panel name="buttons">
+          ${this._componentButtons(["button", "link"])}
+        </sl-tab-panel>
+
+        <sl-tab-panel name="dividers">
+          ${this._componentButtons(["divider", "spacer"])}
+        </sl-tab-panel>
+      </sl-tab-group>
+    `;
+  }
+
+  private _componentButtons(types: string[]) {
+    return html`
+      <div class="component-button-row">
+        ${types.map(
+          (t) => html`
+            <sl-button
+              size="small"
+              variant="default"
+              draggable="true"
+              data-component-type="${t}"
+              @dragstart=${this._onDragStart}
+            >
+              ${msg(t)}
+            </sl-button>
+          `
+        )}
+      </div>
+    `;
+  }
+
+  private _renderSelectedComponentSettings() {
+    if (!this.selectedElement) return null;
+
+    const type = this.selectedElement.dataset.componentType;
+    if (!type) return null;
+
+    const component = ComponentRegistry[type];
+    if (!component?.settings) return null;
+
+    return html`
+      <div style="margin-top: 1rem">
+        ${component.settings(this.selectedElement)}
       </div>
     `;
   }
@@ -270,6 +284,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
     const wrapper = document.createElement("div");
     wrapper.classList.add("builder-element");
+    wrapper.dataset.componentType = type;
     wrapper.style.position = "absolute";
     wrapper.style.left = `${x}px`;
     wrapper.style.top = `${y}px`;
@@ -302,6 +317,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
         this.selectedElement.classList.remove("selected");
       this.selectedElement = element;
       element.classList.add("selected");
+      this.requestUpdate();
       enableEditing();
     });
 
@@ -383,6 +399,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
       if (this.selectedElement) {
         this.selectedElement.classList.remove("selected");
         this.selectedElement = null;
+        this.requestUpdate();
       }
     });
   }

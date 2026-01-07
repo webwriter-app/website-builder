@@ -3,6 +3,8 @@ import type { BuilderComponent } from "../../types/BuilderComponent";
 
 export const VideoComponent: BuilderComponent = {
   type: "video",
+  label: "Video",
+  group: "media",
 
   render: () => html`
     <style>

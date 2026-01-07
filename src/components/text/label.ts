@@ -3,6 +3,8 @@ import type { BuilderComponent } from "../../types/BuilderComponent";
 
 export const LabelComponent: BuilderComponent = {
   type: "label",
+  label: "Label",
+  group: "text",
 
   render: () => html`
     <label

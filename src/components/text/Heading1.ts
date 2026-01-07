@@ -3,6 +3,8 @@ import type { BuilderComponent } from "../../types/BuilderComponent";
 
 export const Heading1: BuilderComponent = {
   type: "h1",
+  label: "Heading 1",
+  group: "text",
 
   render: () => html`
     <h1 contenteditable="true" style="margin: 0.5rem 0; display: inline-block">
