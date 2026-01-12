@@ -103,6 +103,10 @@ export class WebwriterWebsiteBuilder extends LitElement {
       margin-left: 0.1em;
     }
 
+    .setting-row {
+      margin-top: 0.75rem;
+    }
+
     .layout {
       display: flex;
       flex: 1;
@@ -124,6 +128,14 @@ export class WebwriterWebsiteBuilder extends LitElement {
       border-radius: 0.5rem;
       margin: 1rem;
       height: 95%;
+    }
+
+    .builder-element {
+      user-select: none;
+    }
+
+    .builder-element[contenteditable="true"] {
+      cursor: text;
     }
 
     .grid-overlay {
@@ -151,15 +163,28 @@ export class WebwriterWebsiteBuilder extends LitElement {
         <div part="options">
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
-            <sl-switch
-              .checked=${this.showGrid}
-              @sl-change=${(e: CustomEvent) => {
-                this.showGrid = e.detail.checked;
-                this.requestUpdate();
-              }}
-              >Show Grid</sl-switch
-            >
-
+            <div class="settings-row">
+              <sl-switch
+                .checked=${this.showGrid}
+                @sl-change=${(e: CustomEvent) => {
+                  this.showGrid = e.detail.checked;
+                  this.requestUpdate();
+                }}
+                >Show Grid</sl-switch
+              >
+            </div>
+            <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
+            <div class="settings-row">
+              <sl-button
+                size="small"
+                variant="default"
+                @click=${this._confirmReset}
+                title=${this.msg("Reset canvas")}
+                style="margin-left: auto;"
+              >
+                Reset Canvas
+              </sl-button>
+            </div>
             ${this._renderSelectedComponentSettings()}
           </div>
         </div>
@@ -296,6 +321,16 @@ export class WebwriterWebsiteBuilder extends LitElement {
     this._makeDraggable(wrapper, canvas);
   }
 
+  private _isInteractiveTarget(target: EventTarget | null): boolean {
+    if (!(target instanceof HTMLElement)) return false;
+
+    return Boolean(
+      target.closest(
+        "input, textarea, button, select, sl-range, sl-button, sl-icon-button, audio, video, canvas"
+      )
+    );
+  }
+
   _makeDraggable(element: HTMLElement, container: HTMLElement) {
     const EDGE_SIZE = 8; // px from border to allow resizing
     const DRAG_THRESHOLD = 5; // px movement to start drag
@@ -304,55 +339,73 @@ export class WebwriterWebsiteBuilder extends LitElement {
     let dragging = false;
     let dragStarted = false;
 
-    const disableEditing = () => {
+    element.addEventListener("blur", () => {
       element.setAttribute("contenteditable", "false");
-    };
-    const enableEditing = () => {
-      element.setAttribute("contenteditable", "true");
-    };
+    });
 
     element.addEventListener("click", (e) => {
       e.stopPropagation();
-      if (this.selectedElement)
+
+      if (this.selectedElement) {
         this.selectedElement.classList.remove("selected");
+        this.selectedElement.setAttribute("contenteditable", "false");
+      }
+
       this.selectedElement = element;
       element.classList.add("selected");
+
       this.requestUpdate();
-      enableEditing();
+    });
+
+    element.addEventListener("dblclick", (e) => {
+      // If already editing, let the browser handle it (select-all, etc.)
+      if (element.getAttribute("contenteditable") === "true") {
+        return;
+      }
+
+      e.stopPropagation();
+
+      const type = element.dataset.componentType;
+
+      if (type?.startsWith("h") || type === "paragraph" || type === "label") {
+        element.setAttribute("contenteditable", "true");
+        element.focus();
+      }
     });
 
     const onMouseDown = (e: MouseEvent) => {
+      // Allow text interaction if already editing
+      if (element.getAttribute("contenteditable") === "true") {
+        return;
+      }
+
+      // If click started on an interactive child, DO NOT DRAG
+      if (this._isInteractiveTarget(e.target)) {
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      element.setAttribute("contenteditable", "false");
+
       const rect = element.getBoundingClientRect();
       offsetX = e.clientX - rect.left;
       offsetY = e.clientY - rect.top;
-      dragStarted = false;
 
-      // Check if element is resizable and if click is on resize corner
-      const resizableEl = element.querySelector(
-        ".resizable"
-      ) as HTMLElement | null;
-      if (resizableEl) {
-        const resRect = resizableEl.getBoundingClientRect();
-        const edgeX =
-          e.clientX >= resRect.right - EDGE_SIZE && e.clientX <= resRect.right;
-        const edgeY =
-          e.clientY >= resRect.bottom - EDGE_SIZE &&
-          e.clientY <= resRect.bottom;
-        if (edgeX && edgeY) return; // let CSS handle resizing
-      }
+      dragStarted = false;
+      dragging = false;
 
       const onMouseMove = (e: MouseEvent) => {
         const deltaX = Math.abs(e.clientX - (rect.left + offsetX));
         const deltaY = Math.abs(e.clientY - (rect.top + offsetY));
 
-        // Start drag only after threshold
         if (
           !dragStarted &&
           (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD)
         ) {
           dragStarted = true;
           dragging = true;
-          disableEditing();
           element.style.cursor = "grabbing";
         }
 
@@ -383,7 +436,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
       const onMouseUp = () => {
         dragging = false;
         element.style.cursor = "grab";
-        enableEditing();
+
         window.removeEventListener("mousemove", onMouseMove);
         window.removeEventListener("mouseup", onMouseUp);
       };
@@ -395,13 +448,45 @@ export class WebwriterWebsiteBuilder extends LitElement {
     element.addEventListener("mousedown", onMouseDown);
 
     // Click outside to deselect
-    container.addEventListener("click", () => {
-      if (this.selectedElement) {
-        this.selectedElement.classList.remove("selected");
-        this.selectedElement = null;
-        this.requestUpdate();
+    container.addEventListener("click", (e) => {
+      if (!this.selectedElement) return;
+
+      // If click happened inside the selected element, do nothing
+      if (e.target instanceof Node && this.selectedElement.contains(e.target)) {
+        return;
       }
+
+      this.selectedElement.classList.remove("selected");
+      this.selectedElement.setAttribute("contenteditable", "false");
+      this.selectedElement = null;
+      this.requestUpdate();
     });
+  }
+
+  private async _confirmReset() {
+    const confirmed = confirm(
+      this.msg("This will remove all elements from the canvas. Continue?")
+    );
+
+    if (confirmed) {
+      this._resetCanvas();
+    }
+  }
+
+  private _resetCanvas() {
+    const canvas = this.renderRoot.querySelector(".canvas") as HTMLElement;
+    if (!canvas) return;
+
+    // Remove all placed components
+    while (canvas.firstChild) {
+      canvas.removeChild(canvas.firstChild);
+    }
+
+    // Reset internal state
+    this.selectedElement = null;
+
+    // Force re-render if any UI depends on selection
+    this.requestUpdate();
   }
 
   connectedCallback() {

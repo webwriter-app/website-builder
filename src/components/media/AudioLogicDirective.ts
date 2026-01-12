@@ -1,4 +1,3 @@
-import { html } from "lit";
 import { Directive, directive } from "lit/directive.js";
 
 class AudioLogicDirective extends Directive {

@@ -2,8 +2,8 @@ import { html } from "lit";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import { audioLogic } from "./AudioLogicDirective";
 
-import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
-import '@shoelace-style/shoelace/dist/components/range/range.js';
+import "@shoelace-style/shoelace/dist/components/icon-button/icon-button.js";
+import "@shoelace-style/shoelace/dist/components/range/range.js";
 
 export const AudioComponent: BuilderComponent = {
   type: "audio",
@@ -22,6 +22,7 @@ export const AudioComponent: BuilderComponent = {
         width: 280px;
         background: white;
         user-select: none;
+        pointer-events: auto;
       }
 
       .controls {
