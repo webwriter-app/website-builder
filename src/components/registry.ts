@@ -10,6 +10,9 @@ import { Heading3 } from "./text/Heading3";
 import { Heading4 } from "./text/Heading4";
 import { Heading5 } from "./text/Heading5";
 import { Heading6 } from "./text/Heading6";
+import { Button } from "./buttons/button";
+import { Link } from "./buttons/link";
+import { Divider } from "./dividers/divider";
 
 export const ComponentRegistry: Record<string, BuilderComponent> = {
   paragraph: ParagraphComponent,
@@ -23,4 +26,7 @@ export const ComponentRegistry: Record<string, BuilderComponent> = {
   image: ImageComponent,
   video: VideoComponent,
   audio: AudioComponent,
+  button: Button,
+  link: Link,
+  divider: Divider
 };

@@ -237,7 +237,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
         </sl-tab-panel>
 
         <sl-tab-panel name="dividers">
-          ${this._componentButtons(["divider", "spacer"])}
+          ${this._componentButtons(["divider"])}
         </sl-tab-panel>
       </sl-tab-group>
     `;
