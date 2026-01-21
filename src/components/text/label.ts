@@ -7,12 +7,7 @@ export const LabelComponent: BuilderComponent = {
   group: "text",
 
   render: () => html`
-    <label
-      contenteditable="true"
-      style="margin: 0.5rem 0; display: inline-block"
-    >
-      Label
-    </label>
+    <label style="margin: 0.5rem 0; display: inline-block"> Label </label>
   `,
   bindings: [
     {

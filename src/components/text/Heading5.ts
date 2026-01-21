@@ -7,7 +7,7 @@ export const Heading5: BuilderComponent = {
   group: "text",
 
   render: () => html`
-    <h5 contenteditable="true" style="margin: 0.5rem 0; display: inline-block">
+    <h5 style="margin: 0.5rem 0; display: inline-block">
       Heading 5
     </h5>
   `,
