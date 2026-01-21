@@ -10,5 +10,14 @@ export const Heading6: BuilderComponent = {
     <h6 contenteditable="true" style="margin: 0.5rem 0; display: inline-block">
       Heading 6
     </h6>
-  `
+  `,
+  bindings: [
+    {
+      key: "content",
+      label: "Heading text",
+      kind: "text",
+      target: "h6",
+      placeholder: "Enter heading…",
+    },
+  ],
 };

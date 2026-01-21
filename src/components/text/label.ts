@@ -14,4 +14,13 @@ export const LabelComponent: BuilderComponent = {
       Label
     </label>
   `,
+  bindings: [
+    {
+      key: "content",
+      label: "Label text",
+      kind: "text",
+      target: "label",
+      placeholder: "Enter label text…",
+    },
+  ],
 };
