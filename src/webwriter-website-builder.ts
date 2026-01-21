@@ -7,16 +7,39 @@ import { ComponentRegistry } from "./components/registry";
 import type { ComponentBinding } from "./types/BuilderComponent";
 import "./assets/shoelaceImports.ts";
 
+type ComponentGroup = "all" | "text" | "media" | "buttons" | "dividers";
+
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElement {
   localize = LOCALIZE;
   msg = msg;
+
   selectedElement: HTMLElement | null = null;
-  gridSize = 20; // pixels
+  gridSize = 20;
 
   showGrid = false;
   shiftPressed = false;
   gridKeyPressed = false;
+
+  private componentQuery = "";
+  private trayOpen = false;
+
+  private oftenUsed: string[] = [
+    "h1",
+    "paragraph",
+    "image",
+    "button",
+    "link",
+    "divider",
+    "icon",
+  ];
+
+  private infoForType: string | null = null;
+  private infoAnchorEl: HTMLElement | null = null;
+
+  private activeGroup: ComponentGroup = "all";
+
+  private suppressNextClick = false;
 
   static styles = css`
     :host {
@@ -37,54 +60,182 @@ export class WebwriterWebsiteBuilder extends LitElement {
       height: 100%;
     }
 
-    .component-bar {
-      display: flex;
-      gap: 1.5rem;
-      padding: 0.75rem 1rem;
+    /* Compact palette */
+    .palette {
       background: var(--sl-color-neutral-0);
       border-bottom: 1px solid var(--sl-color-neutral-200);
-      overflow-x: auto;
+      padding: 0.5rem 0.75rem 0.55rem 0.75rem;
+      position: relative;
+      z-index: 5;
     }
 
-    .component-tabs {
-      border-bottom: 1px solid var(--sl-color-neutral-200);
-    }
-
-    .component-button-row {
-      display: flex;
-      gap: 0.5rem;
-      padding: 0.5rem 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    .component-button-row sl-button {
-      cursor: grab;
-    }
-
-    .component-group {
+    .palette-top {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      white-space: nowrap;
+      gap: 0.6rem;
     }
 
-    .group-label {
+    .palette-search {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .seg {
+      display: inline-flex;
+      padding: 0.15rem;
+      border: 1px solid var(--sl-color-neutral-200);
+      border-radius: 999px;
+      background: var(--sl-color-neutral-50);
+      gap: 0.15rem;
+    }
+
+    .quick-row {
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      overflow-x: auto;
+      padding-bottom: 0.2rem;
+    }
+
+    .quick-row::-webkit-scrollbar {
+      height: 6px;
+    }
+    .quick-row::-webkit-scrollbar-thumb {
+      background: var(--sl-color-neutral-200);
+      border-radius: 999px;
+    }
+
+    /* Slide-down tray */
+    .tray {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 1px);
+      background: var(--sl-color-neutral-0);
+      border-bottom: 1px solid var(--sl-color-neutral-200);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border-radius: 0 0 14px 14px;
+      overflow: hidden;
+      transform-origin: top;
+    }
+
+    .tray-inner {
+      max-height: 220px; /* keeps it compact */
+      overflow: auto;
+      padding: 0.65rem;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+      gap: 0.55rem;
+    }
+
+    .tray-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.55rem 0.65rem;
+      border-bottom: 1px solid var(--sl-color-neutral-200);
+      background: var(--sl-color-neutral-50);
+    }
+
+    .tray-title {
       font-size: 0.8rem;
       color: var(--sl-color-neutral-600);
-      margin-right: 0.25rem;
     }
 
-    .component-bar sl-option {
-      padding: 0.35rem 0.6rem;
-      border-radius: 0.3rem;
+    .tray-count {
+      font-size: 0.75rem;
+      color: var(--sl-color-neutral-500);
+    }
+
+    /* Simple slide animation */
+    .tray[hidden] {
+      display: none;
+    }
+
+    /* Shoelace-specific small polish */
+    .palette-search sl-input::part(base) {
+      border-radius: 999px;
+      background: var(--sl-color-neutral-0);
+    }
+
+    .seg-btn {
+      border: 0;
+      background: transparent;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
       font-size: 0.85rem;
+      color: var(--sl-color-neutral-700);
+      cursor: pointer;
+      user-select: none;
+      line-height: 1;
+      white-space: nowrap;
+      transition: background 120ms ease, color 120ms ease;
+    }
+
+    .seg-btn:hover {
+      background: var(--sl-color-neutral-100);
+    }
+
+    .seg-btn.active {
+      background: var(--sl-color-neutral-0);
+      color: var(--sl-color-primary-700);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    .tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.65rem 0.5rem;
+      border: 1px solid var(--sl-color-neutral-200);
+      border-radius: 12px;
+      background: var(--sl-color-neutral-0);
       cursor: grab;
+      user-select: none;
+      transition: transform 120ms ease, box-shadow 120ms ease,
+        border-color 120ms ease, background 120ms ease;
     }
 
-    .component-bar sl-option:hover {
-      background: var(--sl-color-neutral-200);
+    .tile:hover {
+      border-color: var(--sl-color-primary-200);
+      background: var(--sl-color-primary-50);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      transform: translateY(-1px);
     }
 
+    .tile:active {
+      cursor: grabbing;
+      transform: translateY(0px);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .tile-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      border: 1px solid var(--sl-color-neutral-200);
+      background: var(--sl-color-neutral-50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: var(--sl-color-neutral-700);
+    }
+
+    .tile-label {
+      font-size: 0.78rem;
+      color: var(--sl-color-neutral-800);
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    /* ===== Existing UI ===== */
     .builder-element.selected {
       outline: 2px solid var(--sl-color-primary-600);
       outline-offset: 2px;
@@ -159,6 +310,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
   render() {
     const showGridOverlay = this.showGrid || this.gridKeyPressed;
+
     return html`
       <div class="layout">
         <!-- Sidebar -->
@@ -192,7 +344,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
         </div>
 
         <div class="editor">
-          ${this._renderComponentBar()}
+          ${this._renderPalette()}
 
           <!-- Canvas -->
           <div
@@ -209,61 +361,370 @@ export class WebwriterWebsiteBuilder extends LitElement {
     `;
   }
 
-  private _renderComponentBar() {
+  /* ===== New palette UI ===== */
+
+  private _renderPalette() {
+    const q = this.componentQuery.trim();
+    const searching = q.length > 0;
+
+    const results = searching ? this._getPaletteItems() : [];
+    const quick = this.oftenUsed.filter((t) => ComponentRegistry[t]);
+
     return html`
-      <sl-tab-group class="component-tabs" placement="top">
-        <sl-tab slot="nav" panel="text">Text</sl-tab>
-        <sl-tab slot="nav" panel="media">Media</sl-tab>
-        <sl-tab slot="nav" panel="buttons">Buttons</sl-tab>
-        <sl-tab slot="nav" panel="dividers">Dividers</sl-tab>
-
-        <sl-tab-panel name="text">
-          ${this._componentButtons([
-            "h1",
-            "h2",
-            "h3",
-            "h4",
-            "h5",
-            "h6",
-            "paragraph",
-            "label",
-          ])}
-        </sl-tab-panel>
-
-        <sl-tab-panel name="media">
-          ${this._componentButtons(["image", "video", "audio", "icon"])}
-        </sl-tab-panel>
-
-        <sl-tab-panel name="buttons">
-          ${this._componentButtons(["button", "link"])}
-        </sl-tab-panel>
-
-        <sl-tab-panel name="dividers">
-          ${this._componentButtons(["divider"])}
-        </sl-tab-panel>
-      </sl-tab-group>
-    `;
-  }
-
-  private _componentButtons(types: string[]) {
-    return html`
-      <div class="component-button-row">
-        ${types.map(
-          (t) => html`
-            <sl-button
+      <div class="palette">
+        <div class="palette-top">
+          <div class="palette-search">
+            <sl-input
               size="small"
-              variant="default"
-              draggable="true"
-              data-component-type="${t}"
-              @dragstart=${this._onDragStart}
-            >
-              ${msg(t)}
-            </sl-button>
-          `
-        )}
+              clearable
+              placeholder="Search components…"
+              .value=${this.componentQuery}
+              @sl-input=${(e: any) => {
+                this.componentQuery = String(e.target.value ?? "");
+                this.trayOpen = this.componentQuery.trim().length > 0;
+                this.requestUpdate();
+              }}
+              @sl-clear=${() => {
+                this.componentQuery = "";
+                this.trayOpen = false;
+                this.requestUpdate();
+              }}
+              @focus=${() => {
+                if (this.componentQuery.trim().length > 0) {
+                  this.trayOpen = true;
+                  this.requestUpdate();
+                }
+              }}
+            ></sl-input>
+          </div>
+
+          <!-- optional segmented group; can be removed to save space -->
+          <div class="seg">
+            ${this._segBtn("all", "All")} ${this._segBtn("text", "Text")}
+            ${this._segBtn("media", "Media")}
+            ${this._segBtn("buttons", "Buttons")}
+            ${this._segBtn("dividers", "Dividers")}
+          </div>
+        </div>
+
+        <!-- Only 1 row when not searching -->
+        ${!searching
+          ? html`
+              <div class="quick-row" aria-label="Often used components">
+                ${quick.map((t) => this._tile(t, { compact: true }))}
+              </div>
+            `
+          : null}
+
+        <!-- Slide-down tray when searching -->
+        <div class="tray" ?hidden=${!(this.trayOpen && searching)}>
+          <div class="tray-header">
+            <div class="tray-title">Results</div>
+            <div class="tray-count">${results.length}</div>
+          </div>
+
+          <div class="tray-inner">
+            <div class="results-grid">
+              ${results.map((t) => this._tile(t, { compact: false }))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Info popup -->
+        ${this._renderInfoPopup()}
       </div>
     `;
   }
+
+  private _segBtn(group: ComponentGroup, label: string) {
+    const active = this.activeGroup === group;
+    return html`
+      <button
+        class="seg-btn ${active ? "active" : ""}"
+        @click=${() => {
+          this.activeGroup = group;
+          this.requestUpdate();
+        }}
+        type="button"
+      >
+        ${label}
+      </button>
+    `;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener("mousedown", this._onGlobalMouseDown);
+    window.addEventListener("keydown", this._onKeyDown);
+    window.addEventListener("keyup", this._onKeyUp);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener("mousedown", this._onGlobalMouseDown);
+    window.removeEventListener("keydown", this._onKeyDown);
+    window.removeEventListener("keyup", this._onKeyUp);
+  }
+
+  private _onGlobalMouseDown = (e: MouseEvent) => {
+    const path = e.composedPath();
+    const clickedInsideThisComponent = path.includes(this);
+
+    if (!clickedInsideThisComponent) return;
+
+    const palette = this.shadowRoot?.querySelector(".palette");
+    const clickedInsidePalette = palette ? path.includes(palette) : false;
+
+    // Only close when clicking outside the palette (i.e., canvas/sidebar)
+    if (!clickedInsidePalette && (this.trayOpen || this.infoForType)) {
+      this.trayOpen = false;
+      this.infoForType = null;
+      this.infoAnchorEl = null;
+      this.requestUpdate();
+    }
+  };
+
+  private _renderInfoPopup() {
+    if (!this.infoForType || !this.infoAnchorEl) return null;
+
+    const comp = ComponentRegistry[this.infoForType];
+    const label = comp?.label ?? this.infoForType;
+
+    // placeholder for your future “code view”
+    const syntax = this._componentSyntaxHint(this.infoForType);
+
+    const insert = () => {
+      this._quickAdd(this.infoForType!);
+      this.infoForType = null;
+      this.infoAnchorEl = null;
+      this.trayOpen = false;
+      this.requestUpdate();
+    };
+
+    return html`
+      <sl-popup
+        placement="bottom-start"
+        strategy="fixed"
+        ?active=${true}
+        .anchor=${this.infoAnchorEl}
+      >
+        <sl-card
+          style="width: 320px;"
+          @mousedown=${(e: MouseEvent) => e.stopPropagation()}
+        >
+          <div
+            style="display:flex; align-items:center; justify-content:space-between; gap: 0.75rem;"
+          >
+            <div style="font-weight: 600; color: var(--sl-color-neutral-900);">
+              ${msg(label)}
+            </div>
+            <sl-button size="small" variant="primary" @click=${insert}
+              >Insert</sl-button
+            >
+          </div>
+
+          <div
+            style="margin-top: 0.4rem; font-size: 0.8rem; color: var(--sl-color-neutral-600);"
+          >
+            Drag to place on canvas. Click Insert to add at default position.
+          </div>
+
+          <div style="margin-top: 0.6rem;">
+            <div
+              style="font-size: 0.75rem; color: var(--sl-color-neutral-500); margin-bottom: 0.25rem;"
+            >
+              Syntax (preview)
+            </div>
+            <pre
+              style="
+              margin: 0;
+              padding: 0.6rem;
+              border-radius: 10px;
+              background: var(--sl-color-neutral-50);
+              border: 1px solid var(--sl-color-neutral-200);
+              font-size: 0.75rem;
+              overflow: auto;
+            "
+            >
+              ${syntax}</pre
+            >
+          </div>
+        </sl-card>
+      </sl-popup>
+    `;
+  }
+
+  private _componentSyntaxHint(type: string): string {
+    // Later: generate from registry or actual DOM serialization
+    switch (type) {
+      case "h1":
+        return `<h1>Heading</h1>`;
+      case "paragraph":
+        return `<p>Text…</p>`;
+      case "image":
+        return `<img src="…" alt="…">`;
+      case "button":
+        return `<button>Button</button>`;
+      case "link":
+        return `<a href="https://…">Link</a>`;
+      case "divider":
+        return `<hr />`;
+      case "video":
+        return `<video src="…" controls></video>`;
+      case "audio":
+        return `<audio src="…" controls></audio>`;
+      case "icon":
+        return `<sl-icon name="alarm"></sl-icon>`;
+      default:
+        return `<!-- ${type} -->`;
+    }
+  }
+
+  private _tile(type: string, opts: { compact: boolean }) {
+    const comp = ComponentRegistry[type];
+    const label = comp?.label ?? type;
+
+    const onDragStart = (e: DragEvent) => {
+      this.suppressNextClick = true;
+      setTimeout(() => (this.suppressNextClick = false), 0);
+
+      this._onDragStart(e);
+      // close only after drag started
+      requestAnimationFrame(() => {
+        this.trayOpen = false;
+        this.requestUpdate();
+      });
+    };
+
+    const onClick = (e: MouseEvent) => {
+      if (this.suppressNextClick) return;
+      e.stopPropagation();
+
+      this.infoForType = type;
+      this.infoAnchorEl = e.currentTarget as HTMLElement;
+      this.requestUpdate();
+    };
+
+    return html`
+      <div
+        class="tile"
+        draggable="true"
+        data-component-type=${type}
+        @dragstart=${onDragStart}
+        @click=${onClick}
+        title="Drag to canvas · Click for info"
+        style=${opts.compact ? "height: 64px;" : "height: 72px;"}
+      >
+        <div class="tile-icon">${this._tileGlyph(type)}</div>
+        <div class="tile-label">${msg(label)}</div>
+      </div>
+    `;
+  }
+
+  private _tileGlyph(type: string): string {
+    // Small glyphs that read nicely in a 28px pill
+    switch (type) {
+      case "h1":
+        return "H1";
+      case "h2":
+        return "H2";
+      case "h3":
+        return "H3";
+      case "h4":
+        return "H4";
+      case "h5":
+        return "H5";
+      case "h6":
+        return "H6";
+      case "paragraph":
+        return "¶";
+      case "label":
+        return "T";
+      case "image":
+        return "🖼";
+      case "video":
+        return "▶";
+      case "audio":
+        return "♪";
+      case "icon":
+        return "★";
+      case "button":
+        return "▢";
+      case "link":
+        return "↗";
+      case "divider":
+        return "—";
+      default:
+        return type.slice(0, 2).toUpperCase();
+    }
+  }
+
+  private _getPaletteItems(): string[] {
+    const q = this.componentQuery.trim().toLowerCase();
+
+    const allTypes = Object.keys(ComponentRegistry);
+
+    // group filter
+    const groupFiltered =
+      this.activeGroup === "all"
+        ? allTypes
+        : allTypes.filter(
+            (t) => ComponentRegistry[t]?.group === this.activeGroup
+          );
+
+    // search filter (type or label)
+    const searched = q
+      ? groupFiltered.filter((t) => {
+          const comp = ComponentRegistry[t];
+          const label = (comp?.label ?? t).toLowerCase();
+          return t.toLowerCase().includes(q) || label.includes(q);
+        })
+      : groupFiltered;
+
+    // stable ordering: group order then label
+    return searched.sort((a, b) => {
+      const la = (ComponentRegistry[a]?.label ?? a).toLowerCase();
+      const lb = (ComponentRegistry[b]?.label ?? b).toLowerCase();
+      return la.localeCompare(lb);
+    });
+  }
+
+  private _quickAdd(type: string) {
+    const component = ComponentRegistry[type];
+    if (!component) return;
+
+    const canvasEl = this.shadowRoot!.querySelector(".canvas");
+    if (!(canvasEl instanceof HTMLElement)) return;
+    const canvas = canvasEl;
+
+    const placeholder = canvas.querySelector(".drop-zone");
+    if (placeholder) placeholder.remove();
+
+    // drop near top-left with a pleasant offset; feels intentional
+    const x = 32;
+    const y = 32;
+
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("builder-element");
+    wrapper.dataset.componentType = type;
+    wrapper.style.position = "absolute";
+    wrapper.style.left = `${x}px`;
+    wrapper.style.top = `${y}px`;
+    wrapper.style.cursor = "grab";
+
+    render(component.render(component.defaultData), wrapper);
+    canvas.appendChild(wrapper);
+
+    this._makeDraggable(wrapper, canvas);
+
+    // auto-select new element
+    if (this.selectedElement) this.selectedElement.classList.remove("selected");
+    this.selectedElement = wrapper;
+    wrapper.classList.add("selected");
+    this.requestUpdate();
+  }
+
+  /* ===== Existing selection/settings code unchanged ===== */
 
   private _renderSelectedComponentSettings() {
     if (!this.selectedElement) return null;
@@ -315,10 +776,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
     wrapper: HTMLElement,
     sel?: string
   ): HTMLElement | null {
-    if (!sel) {
-      // prefer first element child
-      return (wrapper.firstElementChild as HTMLElement) ?? wrapper;
-    }
+    if (!sel) return (wrapper.firstElementChild as HTMLElement) ?? wrapper;
     return wrapper.querySelector(sel);
   }
 
@@ -420,25 +878,19 @@ export class WebwriterWebsiteBuilder extends LitElement {
   }
 
   _makeDraggable(element: HTMLElement, container: HTMLElement) {
-    const EDGE_SIZE = 8; // px from border to allow resizing
-    const DRAG_THRESHOLD = 5; // px movement to start drag
+    const DRAG_THRESHOLD = 5;
     let offsetX = 0;
     let offsetY = 0;
-    let dragging = false;
-    let dragStarted = false;
 
     element.addEventListener("click", (e) => {
       e.stopPropagation();
 
       const target = e.target as HTMLElement | null;
       const anchor = target?.closest("a") as HTMLAnchorElement | null;
-
       const allowFollow =
         e instanceof MouseEvent && (e.metaKey || e.ctrlKey || e.altKey);
 
-      if (anchor && !allowFollow) {
-        e.preventDefault();
-      }
+      if (anchor && !allowFollow) e.preventDefault();
 
       if (this.selectedElement) {
         this.selectedElement.classList.remove("selected");
@@ -451,10 +903,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
     });
 
     const onMouseDown = (e: MouseEvent) => {
-      // If click started on an interactive child, DO NOT DRAG
-      if (this._isInteractiveTarget(e.target)) {
-        return;
-      }
+      if (this._isInteractiveTarget(e.target)) return;
 
       e.preventDefault();
       e.stopPropagation();
@@ -463,24 +912,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
       offsetX = e.clientX - rect.left;
       offsetY = e.clientY - rect.top;
 
-      dragStarted = false;
-      dragging = false;
-
       const onMouseMove = (e: MouseEvent) => {
-        const deltaX = Math.abs(e.clientX - (rect.left + offsetX));
-        const deltaY = Math.abs(e.clientY - (rect.top + offsetY));
-
-        if (
-          !dragStarted &&
-          (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD)
-        ) {
-          dragStarted = true;
-          dragging = true;
-          element.style.cursor = "grabbing";
-        }
-
-        if (!dragging) return;
-
         const containerRect = container.getBoundingClientRect();
         let newX = e.clientX - containerRect.left - offsetX;
         let newY = e.clientY - containerRect.top - offsetY;
@@ -504,9 +936,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
       };
 
       const onMouseUp = () => {
-        dragging = false;
         element.style.cursor = "grab";
-
         window.removeEventListener("mousemove", onMouseMove);
         window.removeEventListener("mouseup", onMouseUp);
       };
@@ -517,14 +947,11 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
     element.addEventListener("mousedown", onMouseDown);
 
-    // Click outside to deselect
     container.addEventListener("click", (e) => {
       if (!this.selectedElement) return;
 
-      // If click happened inside the selected element, do nothing
-      if (e.target instanceof Node && this.selectedElement.contains(e.target)) {
+      if (e.target instanceof Node && this.selectedElement.contains(e.target))
         return;
-      }
 
       this.selectedElement.classList.remove("selected");
       this.selectedElement.setAttribute("contenteditable", "false");
@@ -537,38 +964,17 @@ export class WebwriterWebsiteBuilder extends LitElement {
     const confirmed = confirm(
       this.msg("This will remove all elements from the canvas. Continue?")
     );
-
-    if (confirmed) {
-      this._resetCanvas();
-    }
+    if (confirmed) this._resetCanvas();
   }
 
   private _resetCanvas() {
     const canvas = this.renderRoot.querySelector(".canvas") as HTMLElement;
     if (!canvas) return;
 
-    // Remove all placed components
-    while (canvas.firstChild) {
-      canvas.removeChild(canvas.firstChild);
-    }
+    while (canvas.firstChild) canvas.removeChild(canvas.firstChild);
 
-    // Reset internal state
     this.selectedElement = null;
-
-    // Force re-render if any UI depends on selection
     this.requestUpdate();
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener("keydown", this._onKeyDown);
-    window.addEventListener("keyup", this._onKeyUp);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window.removeEventListener("keydown", this._onKeyDown);
-    window.removeEventListener("keyup", this._onKeyUp);
   }
 
   private _onKeyDown = (e: KeyboardEvent) => {
