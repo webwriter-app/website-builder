@@ -10,7 +10,7 @@ import { Heading3 } from "./text/Heading3";
 import { Heading4 } from "./text/Heading4";
 import { Heading5 } from "./text/Heading5";
 import { Heading6 } from "./text/Heading6";
-import { Button } from "./buttons/button";
+import { ButtonComponent } from "./buttons/button";
 import { Link } from "./buttons/link";
 import { Divider } from "./dividers/divider";
 import { IconComponent } from "./media/icon";
@@ -28,7 +28,7 @@ export const ComponentRegistry: Record<string, BuilderComponent> = {
   video: VideoComponent,
   audio: AudioComponent,
   icon: IconComponent,
-  button: Button,
+  button: ButtonComponent,
   link: Link,
   divider: Divider
 };
