@@ -12,3 +12,10 @@ import "@shoelace-style/shoelace/dist/components/divider/divider.js";
 import "@shoelace-style/shoelace/dist/components/textarea/textarea.js";
 import "@shoelace-style/shoelace/dist/components/icon-button/icon-button.js";
 import "@shoelace-style/shoelace/dist/components/range/range.js";
+import { registerIconLibrary } from "@shoelace-style/shoelace/dist/utilities/icon-library.js";
+
+registerIconLibrary("default", {
+  resolver: (name) =>
+    `https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/${name}.svg`,
+  mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+});
