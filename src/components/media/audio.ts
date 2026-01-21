@@ -1,88 +1,116 @@
 import { html } from "lit";
 import type { BuilderComponent } from "../../types/BuilderComponent";
-import { audioLogic } from "./AudioLogicDirective";
 
-import "@shoelace-style/shoelace/dist/components/icon-button/icon-button.js";
-import "@shoelace-style/shoelace/dist/components/range/range.js";
+const PLACEHOLDER_AUDIO =
+  "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3";
 
 export const AudioComponent: BuilderComponent = {
   type: "audio",
   label: "Audio",
   group: "media",
 
-  render: () => html`
-    <style>
-      .audio-player {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        padding: 0.75rem;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        width: 280px;
-        background: white;
-        user-select: none;
-        pointer-events: auto;
-      }
+  defaultData: {
+    src: PLACEHOLDER_AUDIO,
+  },
 
-      .controls {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
+  render(data) {
+    const src = data?.src || PLACEHOLDER_AUDIO;
 
-      .time-display {
-        font-size: 0.8rem;
-        width: 70px;
-        text-align: right;
-        pointer-events: none; /* prevent accidental editing */
-      }
+    return html`
+      <style>
+        .audio-wrap {
+          display: inline-block;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          padding: 0.5rem;
+          background: white;
+          width: 320px;
+          user-select: none;
+        }
 
-      canvas {
-        width: 100%;
-        height: 50px;
-        background: #f3f3f3;
-        border-radius: 4px;
-        pointer-events: none;
-      }
+        audio {
+          width: 100%;
+          display: block;
+        }
+      </style>
 
-      audio {
-        display: none;
-      }
-
-      sl-range {
-        flex: 1;
-      }
-
-      .volume-row {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .volume-row span {
-        pointer-events: none; /* prevent accidental editing */
-      }
-    </style>
-
-    <div class="audio-player" ${audioLogic()}>
-      <canvas id="waveform"></canvas>
-
-      <audio
-        id="audioEl"
-        src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"
-      ></audio>
-
-      <div class="controls">
-        <sl-icon-button id="playBtn" name="play"></sl-icon-button>
-        <sl-range id="seek" min="0" max="100" value="0"></sl-range>
-        <div id="timeDisplay" class="time-display">0:00 / 0:00</div>
+      <div class="audio-wrap">
+        <audio src=${src} controls></audio>
       </div>
+    `;
+  },
 
-      <div class="volume-row">
-        <span>Volume</span>
-        <sl-range id="volume" min="0" max="1" step="0.01" value="1"></sl-range>
+  // Generic sidebar field
+  bindings: [
+    {
+      key: "src",
+      label: "Audio URL",
+      kind: "attr",
+      target: "audio",
+      name: "src",
+      placeholder: "https://… or data:audio/…",
+    },
+  ],
+
+  // Upload + reset grouped consistently with other media components
+  settings: (element) => {
+    const audio = element.querySelector("audio") as HTMLAudioElement | null;
+    if (!audio) return html``;
+
+    const onFileChange = (e: Event) => {
+      const input = e.currentTarget as HTMLInputElement;
+      const file = input.files?.[0];
+      if (!file) return;
+      if (!file.type.startsWith("audio/")) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        audio.src = String(reader.result ?? PLACEHOLDER_AUDIO);
+        audio.currentTime = 0;
+        audio.pause();
+      };
+      reader.readAsDataURL(file);
+
+      // allow re-uploading same file
+      input.value = "";
+    };
+
+    const resetToPlaceholder = () => {
+      audio.src = PLACEHOLDER_AUDIO;
+      audio.currentTime = 0;
+      audio.pause();
+    };
+
+    return html`
+      <div style="margin-top: 1rem">
+        <h2 style="margin-top: 0">Audio</h2>
+
+        <div class="setting-row">
+          <label
+            style="
+              display: block;
+              font-size: var(--sl-input-label-font-size-medium);
+              color: var(--sl-color-neutral-700);
+              margin-bottom: 0.25rem;
+            "
+          >
+            Upload Audio
+          </label>
+
+          <input
+            type="file"
+            accept="audio/*"
+            @change=${onFileChange}
+            style="display:block; width:100%; box-sizing:border-box;"
+          />
+        </div>
+
+        <div class="setting-row">
+          <sl-button size="small" variant="default" @click=${resetToPlaceholder}>
+            Reset to placeholder
+          </sl-button>
+        </div>
       </div>
-    </div>
-  `,
+    `;
+  },
 };
