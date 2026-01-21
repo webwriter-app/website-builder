@@ -12,7 +12,7 @@ import { Heading5 } from "./text/Heading5";
 import { Heading6 } from "./text/Heading6";
 import { ButtonComponent } from "./buttons/button";
 import { LinkComponent } from "./buttons/link";
-import { Divider } from "./dividers/divider";
+import { DividerComponent } from "./dividers/divider";
 import { IconComponent } from "./media/icon";
 
 export const ComponentRegistry: Record<string, BuilderComponent> = {
@@ -30,5 +30,5 @@ export const ComponentRegistry: Record<string, BuilderComponent> = {
   icon: IconComponent,
   button: ButtonComponent,
   link: LinkComponent,
-  divider: Divider
+  divider: DividerComponent
 };
