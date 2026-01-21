@@ -4,6 +4,7 @@ import LOCALIZE from "../localization/generated";
 import { msg } from "@lit/localize";
 import { wbGear } from "./assets/icons";
 import { ComponentRegistry } from "./components/registry";
+import type { ComponentBinding } from "./types/BuilderComponent";
 import "./assets/shoelaceImports.ts";
 
 @customElement("webwriter-website-builder")
@@ -84,6 +85,11 @@ export class WebwriterWebsiteBuilder extends LitElement {
       background: var(--sl-color-neutral-200);
     }
 
+    .builder-element.selected {
+      outline: 2px solid var(--sl-color-primary-600);
+      outline-offset: 2px;
+    }
+
     .settings h2 {
       font-size: var(--sl-button-font-size-medium);
       line-height: calc(
@@ -132,10 +138,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
     .builder-element {
       user-select: none;
-    }
-
-    .builder-element[contenteditable="true"] {
-      cursor: text;
     }
 
     .grid-overlay {
@@ -270,13 +272,99 @@ export class WebwriterWebsiteBuilder extends LitElement {
     if (!type) return null;
 
     const component = ComponentRegistry[type];
-    if (!component?.settings) return null;
+    if (!component) return null;
+
+    const custom = component.settings?.(this.selectedElement);
+
+    const bindingsUI = component.bindings?.length
+      ? html`
+          <div style="margin-top: 1rem">
+            <h2 style="margin-top: 0">${this.msg("Content")}</h2>
+
+            ${component.bindings.map((b) => {
+              const current = this._readBinding(this.selectedElement!, b);
+
+              return html`
+                <div class="setting-row">
+                  <sl-input
+                    label=${b.label}
+                    .value=${current}
+                    placeholder=${b.placeholder ?? ""}
+                    @sl-input=${(e: CustomEvent) => {
+                      const input = e.target as any;
+                      this._writeBinding(
+                        this.selectedElement!,
+                        b,
+                        input.value ?? ""
+                      );
+                    }}
+                  ></sl-input>
+                </div>
+              `;
+            })}
+          </div>
+        `
+      : null;
 
     return html`
-      <div style="margin-top: 1rem">
-        ${component.settings(this.selectedElement)}
-      </div>
+      <div style="margin-top: 1rem">${custom ?? null} ${bindingsUI}</div>
     `;
+  }
+
+  private _getBindingTarget(
+    wrapper: HTMLElement,
+    sel?: string
+  ): HTMLElement | null {
+    if (!sel) {
+      // prefer first element child
+      return (wrapper.firstElementChild as HTMLElement) ?? wrapper;
+    }
+    return wrapper.querySelector(sel);
+  }
+
+  private _readBinding(wrapper: HTMLElement, b: ComponentBinding): string {
+    const target = this._getBindingTarget(wrapper, b.target);
+    if (!target) return "";
+
+    switch (b.kind) {
+      case "text":
+        return target.textContent ?? "";
+      case "html":
+        return target.innerHTML ?? "";
+      case "attr":
+        return b.name ? target.getAttribute(b.name) ?? "" : "";
+      case "style":
+        return b.name ? target.style.getPropertyValue(b.name) ?? "" : "";
+      default:
+        return "";
+    }
+  }
+
+  private _writeBinding(
+    wrapper: HTMLElement,
+    b: ComponentBinding,
+    value: string
+  ) {
+    const target = this._getBindingTarget(wrapper, b.target);
+    if (!target) return;
+
+    switch (b.kind) {
+      case "text":
+        target.textContent = value;
+        break;
+      case "html":
+        target.innerHTML = value;
+        break;
+      case "attr":
+        if (!b.name) return;
+        if (value === "") target.removeAttribute(b.name);
+        else target.setAttribute(b.name, value);
+        break;
+      case "style":
+        if (!b.name) return;
+        target.style.setProperty(b.name, value);
+        break;
+    }
   }
 
   _onDragStart(event: DragEvent) {
@@ -339,10 +427,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
     let dragging = false;
     let dragStarted = false;
 
-    element.addEventListener("blur", () => {
-      element.setAttribute("contenteditable", "false");
-    });
-
     element.addEventListener("click", (e) => {
       e.stopPropagation();
 
@@ -357,27 +441,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
       this.requestUpdate();
     });
 
-    element.addEventListener("dblclick", (e) => {
-      // If already editing, let the browser handle it (select-all, etc.)
-      if (element.getAttribute("contenteditable") === "true") {
-        return;
-      }
-
-      e.stopPropagation();
-
-      const type = element.dataset.componentType;
-
-      if (type?.startsWith("h") || type === "paragraph" || type === "label") {
-        element.setAttribute("contenteditable", "true");
-        element.focus();
-      }
-    });
-
     const onMouseDown = (e: MouseEvent) => {
-      // Allow text interaction if already editing
-      if (element.getAttribute("contenteditable") === "true") {
-        return;
-      }
 
       // If click started on an interactive child, DO NOT DRAG
       if (this._isInteractiveTarget(e.target)) {
@@ -386,8 +450,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
       e.preventDefault();
       e.stopPropagation();
-
-      element.setAttribute("contenteditable", "false");
 
       const rect = element.getBoundingClientRect();
       offsetX = e.clientX - rect.left;

@@ -7,8 +7,16 @@ export const Heading1: BuilderComponent = {
   group: "text",
 
   render: () => html`
-    <h1 contenteditable="true" style="margin: 0.5rem 0; display: inline-block">
-      Heading 1
-    </h1>
-  `
+    <h1 style="margin: 0.5rem 0; display: inline-block">Heading 1</h1>
+  `,
+
+  bindings: [
+    {
+      key: "content",
+      label: "Heading text",
+      kind: "text",
+      target: "h1",
+      placeholder: "Enter heading…",
+    },
+  ],
 };
