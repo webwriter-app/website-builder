@@ -414,7 +414,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
     return Boolean(
       target.closest(
-        "input, textarea, button, select, sl-range, sl-button, sl-icon-button, audio, video, canvas"
+        "a, input, textarea, button, select, sl-range, sl-button, sl-icon-button, audio, video, canvas"
       )
     );
   }
@@ -430,6 +430,16 @@ export class WebwriterWebsiteBuilder extends LitElement {
     element.addEventListener("click", (e) => {
       e.stopPropagation();
 
+      const target = e.target as HTMLElement | null;
+      const anchor = target?.closest("a") as HTMLAnchorElement | null;
+
+      const allowFollow =
+        e instanceof MouseEvent && (e.metaKey || e.ctrlKey || e.altKey);
+
+      if (anchor && !allowFollow) {
+        e.preventDefault();
+      }
+
       if (this.selectedElement) {
         this.selectedElement.classList.remove("selected");
         this.selectedElement.setAttribute("contenteditable", "false");
@@ -437,12 +447,10 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
       this.selectedElement = element;
       element.classList.add("selected");
-
       this.requestUpdate();
     });
 
     const onMouseDown = (e: MouseEvent) => {
-
       // If click started on an interactive child, DO NOT DRAG
       if (this._isInteractiveTarget(e.target)) {
         return;
