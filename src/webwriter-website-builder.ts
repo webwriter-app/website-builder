@@ -1,5 +1,5 @@
 import { html, css, LitElement, render } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import LOCALIZE from "../localization/generated";
 import { msg } from "@lit/localize";
@@ -41,6 +41,15 @@ type BuilderNode = {
 export class WebwriterWebsiteBuilder extends LitElement {
   localize = LOCALIZE;
   msg = msg;
+
+  // persistent state
+  @property({ attribute: "ww-state" })
+  accessor wwState: string = "";
+
+  // internal guard to avoid loops
+  private _hydrating = false;
+  private _lastSerialized = "";
+  private _skipNextApplyFromWwState = false;
 
   // selection
   selectedElement: HTMLElement | null = null;
@@ -957,12 +966,58 @@ export class WebwriterWebsiteBuilder extends LitElement {
     this.requestUpdate();
   }
 
-  private _getBindingTarget(
-    wrapper: HTMLElement,
-    sel?: string,
-  ): HTMLElement | null {
-    if (!sel) return (wrapper.firstElementChild as HTMLElement) ?? wrapper;
-    return wrapper.querySelector(sel);
+  private _serializeState(): string {
+    // Only include what must be saved/restored.
+    const payload = {
+      layoutMode: this.layoutMode,
+      nodes: this.nodes,
+      showGrid: this.showGrid,
+      gridSize: this.gridSize,
+      flexSettings: this._getFlexSettings(),
+      gridSettings: this._getGridSettings(),
+    };
+
+    return JSON.stringify(payload);
+  }
+
+  private _applyState(serialized: string) {
+    if (!serialized) return;
+
+    try {
+      const parsed = JSON.parse(serialized);
+
+      // basic validation / defaults
+      const layoutMode = parsed.layoutMode as LayoutMode | undefined;
+      const nodes = Array.isArray(parsed.nodes)
+        ? (parsed.nodes as BuilderNode[])
+        : [];
+
+      this.layoutMode = layoutMode ?? "freeform";
+      this.nodes = nodes;
+
+      this.showGrid = Boolean(parsed.showGrid);
+      this.gridSize = Number(parsed.gridSize ?? 20);
+
+      // restore flex/grid settings
+      if (parsed.flexSettings && typeof parsed.flexSettings === "object") {
+        (this as any)._flexSettings = {
+          ...this._getFlexSettings(),
+          ...parsed.flexSettings,
+        };
+      }
+
+      if (parsed.gridSettings && typeof parsed.gridSettings === "object") {
+        (this as any)._gridSettings = {
+          ...this._getGridSettings(),
+          ...parsed.gridSettings,
+        };
+      }
+
+      // selection is ephemeral – do NOT restore
+      this._clearSelection();
+    } catch {
+      // ignore invalid JSON to avoid breaking widget
+    }
   }
 
   /* ===== Info popup (unchanged) ===== */
@@ -1145,9 +1200,50 @@ ${syntax}</pre
 
   connectedCallback() {
     super.connectedCallback();
+
+    // hydrate once from attribute (important for initial render)
+    this._hydrating = true;
+    const attr = this.getAttribute("ww-state") || "";
+    // prefer attribute as source of truth on boot
+    this._applyState(attr);
+    this._hydrating = false;
+
     window.addEventListener("mousedown", this._onGlobalMouseDown);
     window.addEventListener("keydown", this._onKeyDown);
     window.addEventListener("keyup", this._onKeyUp);
+  }
+
+  updated(changed: Map<string, unknown>) {
+    super.updated(changed);
+
+    // 1) If wwState changed, only apply when it is EXTERNAL (e.g. WebWriter reparse)
+    if (changed.has("wwState")) {
+      if (this._skipNextApplyFromWwState) {
+        this._skipNextApplyFromWwState = false;
+      } else if (!this._hydrating) {
+        this._hydrating = true;
+        this._applyState(this.wwState);
+        this._hydrating = false;
+      }
+    }
+
+    // 2) Persist internal state → attribute (for save + undo/redo)
+    if (!this._hydrating) {
+      const next = this._serializeState();
+
+      if (next !== this._lastSerialized) {
+        this._lastSerialized = next;
+
+        // IMPORTANT: prevent the next wwState-change from re-applying + clearing selection
+        this._skipNextApplyFromWwState = true;
+
+        // Write attribute directly so WebWriter "Edit source" sees it
+        this.setAttribute("ww-state", next);
+
+        // keep property in sync too (optional but nice)
+        this.wwState = next;
+      }
+    }
   }
 
   disconnectedCallback() {
