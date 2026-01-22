@@ -1,5 +1,5 @@
-import { html, css, LitElement, render } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { html, css, LitElement } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import LOCALIZE from "../localization/generated";
 import { msg } from "@lit/localize";
@@ -46,10 +46,15 @@ export class WebwriterWebsiteBuilder extends LitElement {
   @property({ attribute: "ww-state" })
   accessor wwState: string = "";
 
+  @state() private _isFullscreen = false;
+
   // internal guard to avoid loops
   private _hydrating = false;
   private _lastSerialized = "";
   private _skipNextApplyFromWwState = false;
+
+  // fullscreen + code panel
+  private _codeTab: "html" | "css" | "combined" = "combined";
 
   // selection
   selectedElement: HTMLElement | null = null;
@@ -79,9 +84,28 @@ export class WebwriterWebsiteBuilder extends LitElement {
   private infoForType: string | null = null;
   private infoAnchorEl: HTMLElement | null = null;
 
-  // NEW: layout mode + nodes model
+  // layout mode + nodes model
   private layoutMode: LayoutMode = "freeform";
   private nodes: BuilderNode[] = [];
+
+  private _onFsChange = () => {
+    this._isFullscreen = this.ownerDocument.fullscreenElement === this;
+  };
+
+  constructor() {
+    super();
+  }
+
+  private async _toggleFullscreen() {
+    const doc = this.ownerDocument;
+    if (doc.fullscreenElement === this) {
+      await doc.exitFullscreen();
+    } else {
+      await this.requestFullscreen();
+    }
+    // immediately sync; doc event will also fire
+    this._isFullscreen = doc.fullscreenElement === this;
+  }
 
   static styles = css`
     :host {
@@ -95,11 +119,19 @@ export class WebwriterWebsiteBuilder extends LitElement {
       position: relative;
     }
 
+    /* Make the widget fill the screen in fullscreen */
+    :host(:fullscreen) {
+      width: 100vw;
+      height: 100vh;
+      background: var(--sl-color-neutral-0);
+    }
+
     .editor {
       display: flex;
       flex-direction: column;
       flex: 1;
       height: 100%;
+      min-width: 0;
     }
 
     /* Compact palette */
@@ -314,6 +346,16 @@ export class WebwriterWebsiteBuilder extends LitElement {
       display: flex;
       flex: 1;
       height: 100%;
+      min-width: 0;
+    }
+
+    /* Fullscreen: split canvas + code panel */
+    .layout.fullscreen-split {
+      display: grid;
+      grid-template-columns: minmax(360px, 1fr) minmax(320px, 520px);
+      gap: 0.75rem;
+      padding: 0.75rem;
+      box-sizing: border-box;
     }
 
     .canvas {
@@ -322,6 +364,13 @@ export class WebwriterWebsiteBuilder extends LitElement {
       background: var(--sl-color-neutral-50);
       overflow: hidden;
       position: relative;
+      min-width: 0;
+      border-radius: 12px;
+    }
+
+    :host(:fullscreen) .canvas {
+      background: var(--sl-color-neutral-0);
+      border: 1px solid var(--sl-color-neutral-200);
     }
 
     .drop-zone {
@@ -404,15 +453,106 @@ export class WebwriterWebsiteBuilder extends LitElement {
       border: 1px solid var(--sl-color-neutral-200);
       display: grid;
     }
+
+    /* Hovering fullscreen button (bottom-right of canvas) */
+    .fs-btn {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      z-index: 20;
+      border-radius: 999px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+    }
+    .fs-btn sl-button::part(base) {
+      border-radius: 999px;
+    }
+
+    /* Code panel (only shown in fullscreen) */
+    .code-panel {
+      background: var(--sl-color-neutral-0);
+      border: 1px solid var(--sl-color-neutral-200);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      height: 100%;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.5rem 0.6rem;
+      border-bottom: 1px solid var(--sl-color-neutral-200);
+      background: var(--sl-color-neutral-50);
+    }
+
+    .code-title {
+      font-size: 0.8rem;
+      color: var(--sl-color-neutral-700);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .code-body {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 0.6rem;
+      font-family:
+        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      line-height: 1.4;
+      white-space: pre;
+      background: var(--sl-color-neutral-0);
+      user-select: text;
+      margin: 0;
+    }
+
+    .code-body code {
+      white-space: pre;
+    }
+
+    .code-tabs {
+      display: flex;
+      gap: 0.35rem;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .code-tab {
+      border: 1px solid var(--sl-color-neutral-200);
+      background: var(--sl-color-neutral-0);
+      border-radius: 999px;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.75rem;
+      color: var(--sl-color-neutral-700);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .code-tab.active {
+      border-color: var(--sl-color-primary-300);
+      background: var(--sl-color-primary-50);
+      color: var(--sl-color-primary-700);
+    }
   `;
 
   render() {
     const showGridOverlay = this.showGrid || this.gridKeyPressed;
 
+    // Only show code panel in fullscreen
+    const split = this._isFullscreen;
+
+    const { html: outHtml, css: outCss, combined } = this._generateExport();
+
     return html`
-      <div class="layout">
-        <!-- Sidebar -->
-        <div part="options">
+      <div class="layout ${split ? "fullscreen-split" : ""}">
+        <!-- Sidebar (kept as-is; in fullscreen it becomes the left column wrapper) -->
+        <div part="options" style=${split ? "display:none;" : ""}>
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
 
@@ -446,7 +586,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
           </div>
         </div>
 
-        <div class="editor">
+        <div class="editor" style=${split ? "height:100%;" : ""}>
           ${this._renderPalette()}
 
           <!-- Canvas -->
@@ -455,16 +595,75 @@ export class WebwriterWebsiteBuilder extends LitElement {
             @dragover=${this._onDragOver}
             @drop=${this._onDrop}
             style="--grid-size: ${this.gridSize}px"
+            @click=${this._onCanvasClick}
           >
             ${showGridOverlay ? html`<div class="grid-overlay"></div>` : null}
             ${this._renderCanvasInner()}
+
+            <!-- Hovering fullscreen button -->
+            <div class="fs-btn">
+              <sl-button
+                size="small"
+                variant="primary"
+                @click=${this._toggleFullscreen}
+                @mousedown=${(e: MouseEvent) => e.preventDefault()}
+              >
+                <sl-icon
+                  name=${this._isFullscreen ? "fullscreen-exit" : "fullscreen"}
+                ></sl-icon>
+              </sl-button>
+            </div>
           </div>
         </div>
+
+        <!-- Code panel (fullscreen only) -->
+        ${split
+          ? html`
+              <div class="code-panel" aria-label="Code">
+                <div class="code-header">
+                  <div class="code-title">Code</div>
+
+                  <div class="code-tabs" role="tablist" aria-label="Code tabs">
+                    ${this._codeTabBtn("combined", "Combined")}
+                    ${this._codeTabBtn("html", "HTML")}
+                    ${this._codeTabBtn("css", "CSS")}
+                  </div>
+                </div>
+
+                <pre class="code-body" tabindex="0">
+                  ${this._codeTab === "combined"
+                    ? combined
+                    : this._codeTab === "html"
+                      ? outHtml
+                      : outCss}
+                </pre
+                >
+              </div>
+            `
+          : null}
       </div>
     `;
   }
 
-  /* ===== Palette UI (remove group filtering, add layout tabs) ===== */
+  private _codeTabBtn(tab: "html" | "css" | "combined", label: string) {
+    const active = this._codeTab === tab;
+    return html`
+      <button
+        class="code-tab ${active ? "active" : ""}"
+        @click=${() => {
+          this._codeTab = tab;
+          this.requestUpdate();
+        }}
+        type="button"
+        role="tab"
+        aria-selected=${active ? "true" : "false"}
+      >
+        ${label}
+      </button>
+    `;
+  }
+
+  /* ===== Palette UI ===== */
 
   private _renderPalette() {
     const q = this.componentQuery.trim();
@@ -501,7 +700,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
             ></sl-input>
           </div>
 
-          <!-- NEW: layout mode tabs -->
           <div class="seg" aria-label="Layout mode">
             ${this._layoutBtn("freeform", "Freeform")}
             ${this._layoutBtn("flow", "Flow")}
@@ -642,7 +840,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
     const pos = n.pos ?? { x: 32, y: 32 };
     const selected = this.selectedNodeId === n.id;
 
-    // wrapper is draggable only in freeform
     return html`
       <div
         class="builder-element ${selected ? "selected" : ""}"
@@ -685,7 +882,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
   /* ===== Layout settings (global) ===== */
 
   private _renderLayoutSettings() {
-    // Minimal controls to make flex/grid meaningful, without touching component registry
     if (this.layoutMode === "flex") {
       const flex = this._getFlexSettings();
       return html`
@@ -801,7 +997,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
       `;
     }
 
-    // flow/freeform: no global layout settings needed
     return null;
   }
 
@@ -824,7 +1019,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
   }
 
   private _getFlexSettings() {
-    // store on host for now (simple). You can persist later.
     const anyThis = this as any;
     anyThis._flexSettings ??= {
       direction: "row",
@@ -858,7 +1052,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
     this.requestUpdate();
   }
 
-  /* ===== Selection + per-node settings (bindings, plus flow display) ===== */
+  /* ===== Selection + per-node settings ===== */
 
   private _renderSelectedComponentSettings() {
     const node = this._getSelectedNode();
@@ -866,12 +1060,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
     const component = ComponentRegistry[node.type];
     if (!component) return null;
-
-    // existing custom settings callback still expects HTMLElement.
-    // Since we now render from data, keep it optional: only call if we can find wrapper.
-    const wrapperEl = this.renderRoot.querySelector(
-      `[data-node-id="${node.id}"]`,
-    ) as HTMLElement | null;
 
     const custom = component.settings
       ? component.settings({
@@ -966,8 +1154,9 @@ export class WebwriterWebsiteBuilder extends LitElement {
     this.requestUpdate();
   }
 
+  /* ===== State persistence ===== */
+
   private _serializeState(): string {
-    // Only include what must be saved/restored.
     const payload = {
       layoutMode: this.layoutMode,
       nodes: this.nodes,
@@ -976,7 +1165,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
       flexSettings: this._getFlexSettings(),
       gridSettings: this._getGridSettings(),
     };
-
     return JSON.stringify(payload);
   }
 
@@ -986,7 +1174,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
     try {
       const parsed = JSON.parse(serialized);
 
-      // basic validation / defaults
       const layoutMode = parsed.layoutMode as LayoutMode | undefined;
       const nodes = Array.isArray(parsed.nodes)
         ? (parsed.nodes as BuilderNode[])
@@ -998,7 +1185,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
       this.showGrid = Boolean(parsed.showGrid);
       this.gridSize = Number(parsed.gridSize ?? 20);
 
-      // restore flex/grid settings
       if (parsed.flexSettings && typeof parsed.flexSettings === "object") {
         (this as any)._flexSettings = {
           ...this._getFlexSettings(),
@@ -1013,11 +1199,190 @@ export class WebwriterWebsiteBuilder extends LitElement {
         };
       }
 
-      // selection is ephemeral – do NOT restore
       this._clearSelection();
     } catch {
-      // ignore invalid JSON to avoid breaking widget
+      // ignore invalid JSON
     }
+  }
+
+  /* ===== Code export (first version) ===== */
+
+  private _escapeHtml(s: string) {
+    return s
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;");
+  }
+
+  private _safeAttr(s: unknown) {
+    if (s == null) return "";
+    return String(s).replaceAll('"', "&quot;");
+  }
+
+  private _nodeToHtml(n: BuilderNode): string {
+    const t = n.type;
+    const d = n.data ?? {};
+
+    // First version: map only the common primitives you already have.
+    // Fallback: emit a comment so it's obvious something exists.
+    switch (t) {
+      case "h1": {
+        const text = d.text ?? d.value ?? "Heading";
+        return `<h1>${this._escapeHtml(String(text))}</h1>`;
+      }
+      case "paragraph": {
+        const text = d.text ?? d.value ?? "Text…";
+        return `<p>${this._escapeHtml(String(text))}</p>`;
+      }
+      case "image": {
+        const src = d.src ?? "";
+        const alt = d.alt ?? "";
+        return `<img src="${this._safeAttr(src)}" alt="${this._escapeHtml(
+          String(alt),
+        )}">`;
+      }
+      case "video": {
+        const src = d.src ?? "";
+        return `<video src="${this._safeAttr(src)}" controls></video>`;
+      }
+      case "audio": {
+        const src = d.src ?? "";
+        return `<audio src="${this._safeAttr(src)}" controls></audio>`;
+      }
+      case "divider": {
+        return `<hr>`;
+      }
+      case "link": {
+        const href = d.href ?? "#";
+        const label = d.label ?? "Link";
+        return `<a href="${this._safeAttr(href)}" target="_blank" rel="noopener">${this._escapeHtml(
+          String(label),
+        )}</a>`;
+      }
+      case "button": {
+        const label = d.label ?? "Button";
+        return `<button type="button">${this._escapeHtml(String(label))}</button>`;
+      }
+      case "icon": {
+        const name = d.name ?? "gear";
+        return `<span class="icon" data-icon="${this._safeAttr(name)}"></span>`;
+      }
+      default:
+        return `<!-- unsupported: ${t} -->`;
+    }
+  }
+
+  private _indent(lines: string[], spaces = 2) {
+    const pad = " ".repeat(spaces);
+    return lines.map((l) => (l ? pad + l : l)).join("\n");
+  }
+
+  private _generateExport(): { html: string; css: string; combined: string } {
+    const sorted = this._sortedNodes();
+
+    const containerClass =
+      this.layoutMode === "freeform"
+        ? "page page--freeform"
+        : this.layoutMode === "flex"
+          ? "page page--flex"
+          : this.layoutMode === "grid"
+            ? "page page--grid"
+            : "page page--flow";
+
+    let bodyHtml = "";
+
+    if (this.layoutMode === "freeform") {
+      bodyHtml = sorted
+        .map((n) => {
+          const pos = n.pos ?? { x: 0, y: 0 };
+          return `<div class="el" style="left:${Math.round(
+            pos.x,
+          )}px; top:${Math.round(pos.y)}px;">${this._nodeToHtml(n)}</div>`;
+        })
+        .join("\n");
+    } else {
+      bodyHtml = sorted
+        .map((n) => {
+          const display = n.display ?? "block";
+          const cls = display === "inline" ? "el el--inline" : "el";
+          return `<div class="${cls}">${this._nodeToHtml(n)}</div>`;
+        })
+        .join("\n");
+    }
+
+    const htmlLines = [
+      `<!-- Generated by webwriter-website-builder -->`,
+      `<div class="${containerClass}">`,
+      this._indent(bodyHtml.split("\n"), 2),
+      `</div>`,
+    ];
+    const htmlOut = htmlLines.join("\n");
+
+    const flex = this._getFlexSettings();
+    const grid = this._getGridSettings();
+
+    const cssOut = `/* Generated by webwriter-website-builder */
+    .page {
+      box-sizing: border-box;
+      padding: 16px;
+      background: #fff;
+      color: #0f172a;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .page img, .page video {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .page--freeform {
+      position: relative;
+      min-height: 600px;
+    }
+
+    .page--freeform .el {
+      position: absolute;
+    }
+
+    .page--flow .el--inline {
+      display: inline-block;
+    }
+
+    .page--flex {
+      display: flex;
+      flex-direction: ${flex.direction ?? "row"};
+      justify-content: ${flex.justify ?? "flex-start"};
+      align-items: ${flex.align ?? "stretch"};
+      flex-wrap: ${flex.wrap ?? "nowrap"};
+      gap: ${flex.gap ?? "12px"};
+    }
+
+    .page--grid {
+      display: grid;
+      grid-template-columns: ${grid.columns ?? "repeat(3, 1fr)"};
+      grid-auto-rows: ${grid.rows ?? "auto"};
+      gap: ${grid.gap ?? "12px"};
+    }
+
+    /* Icons: placeholder representation */
+    .page .icon::before {
+      content: attr(data-icon);
+      font-size: 12px;
+      opacity: 0.7;
+      border: 1px solid #e5e7eb;
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+    `;
+
+    const combined = `<!-- HTML -->
+    ${htmlOut}
+
+    <style>
+    ${cssOut}
+    </style>`;
+
+    return { html: htmlOut, css: cssOut, combined };
   }
 
   /* ===== Info popup (unchanged) ===== */
@@ -1196,15 +1561,16 @@ ${syntax}</pre
     }
   }
 
-  /* ===== Global listeners (keep, but simplify) ===== */
+  /* ===== Global listeners ===== */
 
   connectedCallback() {
     super.connectedCallback();
 
-    // hydrate once from attribute (important for initial render)
+    this.ownerDocument.addEventListener("fullscreenchange", this._onFsChange);
+    this._isFullscreen = this.ownerDocument.fullscreenElement === this;
+
     this._hydrating = true;
     const attr = this.getAttribute("ww-state") || "";
-    // prefer attribute as source of truth on boot
     this._applyState(attr);
     this._hydrating = false;
 
@@ -1216,7 +1582,6 @@ ${syntax}</pre
   updated(changed: Map<string, unknown>) {
     super.updated(changed);
 
-    // 1) If wwState changed, only apply when it is EXTERNAL (e.g. WebWriter reparse)
     if (changed.has("wwState")) {
       if (this._skipNextApplyFromWwState) {
         this._skipNextApplyFromWwState = false;
@@ -1227,30 +1592,29 @@ ${syntax}</pre
       }
     }
 
-    // 2) Persist internal state → attribute (for save + undo/redo)
     if (!this._hydrating) {
       const next = this._serializeState();
 
       if (next !== this._lastSerialized) {
         this._lastSerialized = next;
-
-        // IMPORTANT: prevent the next wwState-change from re-applying + clearing selection
         this._skipNextApplyFromWwState = true;
-
-        // Write attribute directly so WebWriter "Edit source" sees it
         this.setAttribute("ww-state", next);
-
-        // keep property in sync too (optional but nice)
         this.wwState = next;
       }
     }
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback();
+    this.ownerDocument.removeEventListener(
+      "fullscreenchange",
+      this._onFsChange,
+    );
+
     window.removeEventListener("mousedown", this._onGlobalMouseDown);
     window.removeEventListener("keydown", this._onKeyDown);
     window.removeEventListener("keyup", this._onKeyUp);
+
+    super.disconnectedCallback();
   }
 
   private _onGlobalMouseDown = (e: MouseEvent) => {
@@ -1294,7 +1658,6 @@ ${syntax}</pre
       return;
     }
 
-    // flow/flex/grid: insert by mouse position (top-down)
     this._dropFlowLike(event, type);
   }
 
@@ -1328,7 +1691,6 @@ ${syntax}</pre
           : ".grid-root",
     ) as HTMLElement | null;
 
-    // If empty, root may not exist yet (drop-zone showing)
     const items = root
       ? (Array.from(root.querySelectorAll(".flow-item")) as HTMLElement[])
       : [];
@@ -1352,8 +1714,6 @@ ${syntax}</pre
       display: "block",
     };
 
-    const next = [...this.nodes];
-    // insert according to sorted order; easiest: sort first, splice, then normalize
     const sorted = this._sortedNodes();
     sorted.splice(insertIndex, 0, node);
     this.nodes = sorted;
@@ -1401,7 +1761,6 @@ ${syntax}</pre
   private _selectNodeFromWrapper(e: MouseEvent, id: string) {
     e.stopPropagation();
 
-    // prevent following links unless modifier (keeps your old behavior idea)
     const target = e.target as HTMLElement | null;
     const anchor = target?.closest("a") as HTMLAnchorElement | null;
     const allowFollow =
@@ -1413,14 +1772,13 @@ ${syntax}</pre
 
   private _selectNodeId(id: string) {
     this.selectedNodeId = id;
-    // maintain selectedElement for minimal compatibility with your code
     this.selectedElement = this.renderRoot.querySelector(
       `[data-node-id="${id}"]`,
     ) as HTMLElement | null;
     this.requestUpdate();
   }
 
-  /* ===== Freeform drag-move (replaces _makeDraggable) ===== */
+  /* ===== Freeform drag-move ===== */
 
   private _isInteractiveTarget(target: EventTarget | null): boolean {
     if (!(target instanceof HTMLElement)) return false;
@@ -1466,11 +1824,9 @@ ${syntax}</pre
         Math.min(newY, containerRect.height - el.offsetHeight),
       );
 
-      // update model (source of truth)
       this.nodes = this.nodes.map((n) =>
         n.id === nodeId ? { ...n, pos: { x: newX, y: newY } } : n,
       );
-      // no requestUpdate spam; style is bound to render. Lit will batch.
       this.requestUpdate();
     };
 
@@ -1483,7 +1839,17 @@ ${syntax}</pre
     window.addEventListener("mouseup", onUp);
   }
 
-  /* ===== Layout mode switching (basic conversions) ===== */
+  private _onCanvasClick = (e: MouseEvent) => {
+    const path = e.composedPath() as EventTarget[];
+    const clickedElement = path.find(
+      (p) =>
+        p instanceof HTMLElement && p.classList?.contains("builder-element"),
+    ) as HTMLElement | undefined;
+
+    if (!clickedElement) this._clearSelection();
+  };
+
+  /* ===== Layout mode switching ===== */
 
   private _setLayoutMode(next: LayoutMode) {
     if (this.layoutMode === next) return;
@@ -1547,7 +1913,7 @@ ${syntax}</pre
     this.requestUpdate();
   }
 
-  /* ===== Keyboard (freeform arrow move only) ===== */
+  /* ===== Keyboard ===== */
 
   private _onKeyDown = (e: KeyboardEvent) => {
     if (e.key === "g" || e.key === "G") {
@@ -1572,6 +1938,7 @@ ${syntax}</pre
         break;
       case "ArrowDown":
         e.preventDefault();
+
         y += 1;
         break;
       case "ArrowLeft":
