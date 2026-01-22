@@ -85,17 +85,9 @@ export const LinkComponent: BuilderComponent = {
     },
   ],
 
-  settings: (element) => {
-    const link = element.querySelector("a");
-    if (!link) return html``;
-
+  settings: ({ setData }) => {
     const reset = () => {
-      const span = element.querySelector("span");
-      const icon = element.querySelector("sl-icon");
-
-      if (span) span.textContent = DEFAULT_LABEL;
-      link.setAttribute("href", DEFAULT_HREF);
-      if (icon) icon.remove();
+      setData({ label: DEFAULT_LABEL, href: DEFAULT_HREF, icon: DEFAULT_ICON });
     };
 
     return html`

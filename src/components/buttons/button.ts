@@ -73,19 +73,9 @@ export const ButtonComponent: BuilderComponent = {
     },
   ],
 
-  settings: (element) => {
-    const button = element.querySelector("button");
-    if (!button) return html``;
-
+  settings: ({ setData }) => {
     const reset = () => {
-      const span = element.querySelector("span");
-      const icon = element.querySelector("sl-icon");
-
-      if (span) span.textContent = DEFAULT_LABEL;
-      if (icon) icon.remove();
-
-      // Force re-render of bindings UI
-      element.dispatchEvent(new Event("updated"));
+      setData({ label: DEFAULT_LABEL, icon: DEFAULT_ICON });
     };
 
     return html`

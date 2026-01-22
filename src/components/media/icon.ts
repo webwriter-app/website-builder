@@ -74,14 +74,9 @@ export const IconComponent: BuilderComponent = {
   ],
 
   // Optional helper UI
-  settings: (element) => {
-    const icon = element.querySelector("sl-icon") as HTMLElement | null;
-    if (!icon) return html``;
-
+  settings: ({ setData }) => {
     const resetIcon = () => {
-      icon.setAttribute("name", DEFAULT_ICON);
-      icon.style.fontSize = "32px";
-      icon.style.color = DEFAULT_COLOR;
+      setData({ name: DEFAULT_ICON, size: "32px", color: DEFAULT_COLOR });
     };
 
     return html`
@@ -95,8 +90,7 @@ export const IconComponent: BuilderComponent = {
         </div>
 
         <div class="setting-row" style="font-size: 0.8rem; color: #666;">
-          Icons are from Shoelace.  
-          See: https://shoelace.style/components/icon
+          Icons are from Shoelace. See: https://shoelace.style/components/icon
         </div>
       </div>
     `;

@@ -60,10 +60,7 @@ export const VideoComponent: BuilderComponent = {
   ],
 
   // Upload and reset belong into custom settings
-  settings: (element) => {
-    const video = element.querySelector("video") as HTMLVideoElement | null;
-    if (!video) return html``;
-
+  settings: ({ setData }) => {
     const onFileChange = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       const file = input.files?.[0];
@@ -71,18 +68,14 @@ export const VideoComponent: BuilderComponent = {
       if (!file.type.startsWith("video/")) return;
 
       const reader = new FileReader();
-      reader.onload = () => {
-        video.src = String(reader.result ?? PLACEHOLDER_VIDEO);
-      };
+      reader.onload = () =>
+        setData({ src: String(reader.result ?? PLACEHOLDER_VIDEO) });
       reader.readAsDataURL(file);
 
-      // allow re-uploading the same file
       input.value = "";
     };
 
-    const resetToPlaceholder = () => {
-      video.src = PLACEHOLDER_VIDEO;
-    };
+    const resetToPlaceholder = () => setData({ src: PLACEHOLDER_VIDEO });
 
     return html`
       <div style="margin-top: 1rem">

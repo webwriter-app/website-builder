@@ -1,5 +1,6 @@
 import { html, css, LitElement, render } from "lit";
 import { customElement } from "lit/decorators.js";
+import { repeat } from "lit/directives/repeat.js";
 import LOCALIZE from "../localization/generated";
 import { msg } from "@lit/localize";
 import { wbGear } from "./assets/icons";
@@ -7,22 +8,54 @@ import { ComponentRegistry } from "./components/registry";
 import type { ComponentBinding } from "./types/BuilderComponent";
 import "./assets/shoelaceImports.ts";
 
-type ComponentGroup = "all" | "text" | "media" | "buttons" | "dividers";
+type LayoutMode = "freeform" | "flow" | "flex" | "grid";
+
+type BuilderNode = {
+  id: string;
+  type: string;
+  data: any;
+
+  // freeform
+  pos?: { x: number; y: number };
+
+  // flow/flex/grid ordering & display
+  order?: number;
+  display?: "block" | "inline";
+
+  // flex/grid (minimal foundation)
+  flex?: {
+    direction?: "row" | "column";
+    justify?: string;
+    align?: string;
+    gap?: string;
+    wrap?: "nowrap" | "wrap";
+  };
+  grid?: {
+    columns?: string;
+    rows?: string;
+    gap?: string;
+  };
+};
 
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElement {
   localize = LOCALIZE;
   msg = msg;
 
+  // selection
   selectedElement: HTMLElement | null = null;
-  gridSize = 20;
+  private selectedNodeId: string | null = null;
 
+  // grid assist for freeform
+  gridSize = 20;
   showGrid = false;
   shiftPressed = false;
   gridKeyPressed = false;
 
+  // palette
   private componentQuery = "";
   private trayOpen = false;
+  private suppressNextClick = false;
 
   private oftenUsed: string[] = [
     "h1",
@@ -37,9 +70,9 @@ export class WebwriterWebsiteBuilder extends LitElement {
   private infoForType: string | null = null;
   private infoAnchorEl: HTMLElement | null = null;
 
-  private activeGroup: ComponentGroup = "all";
-
-  private suppressNextClick = false;
+  // NEW: layout mode + nodes model
+  private layoutMode: LayoutMode = "freeform";
+  private nodes: BuilderNode[] = [];
 
   static styles = css`
     :host {
@@ -89,6 +122,32 @@ export class WebwriterWebsiteBuilder extends LitElement {
       gap: 0.15rem;
     }
 
+    .seg-btn {
+      border: 0;
+      background: transparent;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      color: var(--sl-color-neutral-700);
+      cursor: pointer;
+      user-select: none;
+      line-height: 1;
+      white-space: nowrap;
+      transition:
+        background 120ms ease,
+        color 120ms ease;
+    }
+
+    .seg-btn:hover {
+      background: var(--sl-color-neutral-100);
+    }
+
+    .seg-btn.active {
+      background: var(--sl-color-neutral-0);
+      color: var(--sl-color-primary-700);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
     .quick-row {
       margin-top: 0.5rem;
       display: flex;
@@ -121,7 +180,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
     }
 
     .tray-inner {
-      max-height: 220px; /* keeps it compact */
+      max-height: 220px;
       overflow: auto;
       padding: 0.65rem;
     }
@@ -151,7 +210,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
       color: var(--sl-color-neutral-500);
     }
 
-    /* Simple slide animation */
     .tray[hidden] {
       display: none;
     }
@@ -160,30 +218,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
     .palette-search sl-input::part(base) {
       border-radius: 999px;
       background: var(--sl-color-neutral-0);
-    }
-
-    .seg-btn {
-      border: 0;
-      background: transparent;
-      padding: 0.35rem 0.7rem;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      color: var(--sl-color-neutral-700);
-      cursor: pointer;
-      user-select: none;
-      line-height: 1;
-      white-space: nowrap;
-      transition: background 120ms ease, color 120ms ease;
-    }
-
-    .seg-btn:hover {
-      background: var(--sl-color-neutral-100);
-    }
-
-    .seg-btn.active {
-      background: var(--sl-color-neutral-0);
-      color: var(--sl-color-primary-700);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     }
 
     .tile {
@@ -198,8 +232,11 @@ export class WebwriterWebsiteBuilder extends LitElement {
       background: var(--sl-color-neutral-0);
       cursor: grab;
       user-select: none;
-      transition: transform 120ms ease, box-shadow 120ms ease,
-        border-color 120ms ease, background 120ms ease;
+      transition:
+        transform 120ms ease,
+        box-shadow 120ms ease,
+        border-color 120ms ease,
+        background 120ms ease;
     }
 
     .tile:hover {
@@ -285,6 +322,9 @@ export class WebwriterWebsiteBuilder extends LitElement {
       border-radius: 0.5rem;
       margin: 1rem;
       height: 95%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .builder-element {
@@ -299,12 +339,61 @@ export class WebwriterWebsiteBuilder extends LitElement {
       height: 100%;
       pointer-events: none;
       background-size: var(--grid-size, 20px) var(--grid-size, 20px);
-      background-image: linear-gradient(
-          to right,
-          rgba(0, 0, 0, 0.1) 1px,
-          transparent 1px
-        ),
+      background-image:
+        linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    }
+
+    /* NEW: roots for different layout modes */
+    .freeform-root {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .flow-root {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      padding: 1rem;
+      background: var(--sl-color-neutral-0);
+      border-radius: 12px;
+      border: 1px solid var(--sl-color-neutral-200);
+    }
+
+    .flow-item[data-display="inline"] {
+      display: inline;
+      margin: 0;
+    }
+
+    .flow-item[data-display="block"] {
+      display: block;
+      margin: 0.5rem 0;
+    }
+
+    .flex-root {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      padding: 1rem;
+      background: var(--sl-color-neutral-0);
+      border-radius: 12px;
+      border: 1px solid var(--sl-color-neutral-200);
+      display: flex;
+    }
+
+    .grid-root {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      padding: 1rem;
+      background: var(--sl-color-neutral-0);
+      border-radius: 12px;
+      border: 1px solid var(--sl-color-neutral-200);
+      display: grid;
     }
   `;
 
@@ -317,17 +406,20 @@ export class WebwriterWebsiteBuilder extends LitElement {
         <div part="options">
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
+
             <div class="settings-row">
               <sl-switch
                 .checked=${this.showGrid}
                 @sl-change=${(e: CustomEvent) => {
-                  this.showGrid = e.detail.checked;
+                  this.showGrid = (e as any).detail.checked;
                   this.requestUpdate();
                 }}
                 >Show Grid</sl-switch
               >
             </div>
+
             <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
+
             <div class="settings-row">
               <sl-button
                 size="small"
@@ -339,6 +431,8 @@ export class WebwriterWebsiteBuilder extends LitElement {
                 Reset Canvas
               </sl-button>
             </div>
+
+            ${this._renderLayoutSettings()}
             ${this._renderSelectedComponentSettings()}
           </div>
         </div>
@@ -354,14 +448,14 @@ export class WebwriterWebsiteBuilder extends LitElement {
             style="--grid-size: ${this.gridSize}px"
           >
             ${showGridOverlay ? html`<div class="grid-overlay"></div>` : null}
-            <div class="drop-zone">Drag and drop components here</div>
+            ${this._renderCanvasInner()}
           </div>
         </div>
       </div>
     `;
   }
 
-  /* ===== New palette UI ===== */
+  /* ===== Palette UI (remove group filtering, add layout tabs) ===== */
 
   private _renderPalette() {
     const q = this.componentQuery.trim();
@@ -398,16 +492,15 @@ export class WebwriterWebsiteBuilder extends LitElement {
             ></sl-input>
           </div>
 
-          <!-- optional segmented group; can be removed to save space -->
-          <div class="seg">
-            ${this._segBtn("all", "All")} ${this._segBtn("text", "Text")}
-            ${this._segBtn("media", "Media")}
-            ${this._segBtn("buttons", "Buttons")}
-            ${this._segBtn("dividers", "Dividers")}
+          <!-- NEW: layout mode tabs -->
+          <div class="seg" aria-label="Layout mode">
+            ${this._layoutBtn("freeform", "Freeform")}
+            ${this._layoutBtn("flow", "Flow")}
+            ${this._layoutBtn("flex", "Flex")}
+            ${this._layoutBtn("grid", "Grid")}
           </div>
         </div>
 
-        <!-- Only 1 row when not searching -->
         ${!searching
           ? html`
               <div class="quick-row" aria-label="Often used components">
@@ -416,7 +509,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
             `
           : null}
 
-        <!-- Slide-down tray when searching -->
         <div class="tray" ?hidden=${!(this.trayOpen && searching)}>
           <div class="tray-header">
             <div class="tray-title">Results</div>
@@ -430,59 +522,450 @@ export class WebwriterWebsiteBuilder extends LitElement {
           </div>
         </div>
 
-        <!-- Info popup -->
         ${this._renderInfoPopup()}
       </div>
     `;
   }
 
-  private _segBtn(group: ComponentGroup, label: string) {
-    const active = this.activeGroup === group;
+  private _layoutBtn(mode: LayoutMode, label: string) {
+    const active = this.layoutMode === mode;
     return html`
       <button
         class="seg-btn ${active ? "active" : ""}"
-        @click=${() => {
-          this.activeGroup = group;
-          this.requestUpdate();
-        }}
+        @click=${() => this._setLayoutMode(mode)}
         type="button"
+        title=${`Switch layout to ${mode}`}
       >
         ${label}
       </button>
     `;
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener("mousedown", this._onGlobalMouseDown);
-    window.addEventListener("keydown", this._onKeyDown);
-    window.addEventListener("keyup", this._onKeyUp);
+  private _getPaletteItems(): string[] {
+    const q = this.componentQuery.trim().toLowerCase();
+    const allTypes = Object.keys(ComponentRegistry);
+
+    const searched = q
+      ? allTypes.filter((t) => {
+          const comp = ComponentRegistry[t];
+          const label = (comp?.label ?? t).toLowerCase();
+          return t.toLowerCase().includes(q) || label.includes(q);
+        })
+      : allTypes;
+
+    return searched.sort((a, b) => {
+      const la = (ComponentRegistry[a]?.label ?? a).toLowerCase();
+      const lb = (ComponentRegistry[b]?.label ?? b).toLowerCase();
+      return la.localeCompare(lb);
+    });
   }
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window.removeEventListener("mousedown", this._onGlobalMouseDown);
-    window.removeEventListener("keydown", this._onKeyDown);
-    window.removeEventListener("keyup", this._onKeyUp);
-  }
+  /* ===== Canvas rendering per mode ===== */
 
-  private _onGlobalMouseDown = (e: MouseEvent) => {
-    const path = e.composedPath();
-    const clickedInsideThisComponent = path.includes(this);
+  private _renderCanvasInner() {
+    const empty = this.nodes.length === 0;
 
-    if (!clickedInsideThisComponent) return;
-
-    const palette = this.shadowRoot?.querySelector(".palette");
-    const clickedInsidePalette = palette ? path.includes(palette) : false;
-
-    // Only close when clicking outside the palette (i.e., canvas/sidebar)
-    if (!clickedInsidePalette && (this.trayOpen || this.infoForType)) {
-      this.trayOpen = false;
-      this.infoForType = null;
-      this.infoAnchorEl = null;
-      this.requestUpdate();
+    if (empty) {
+      return html`<div class="drop-zone">Drag and drop components here</div>`;
     }
-  };
+
+    if (this.layoutMode === "freeform") {
+      return html`
+        <div class="freeform-root">
+          ${repeat(
+            this.nodes,
+            (n) => n.id,
+            (n) => this._renderNodeFreeform(n),
+          )}
+        </div>
+      `;
+    }
+
+    if (this.layoutMode === "flow") {
+      const sorted = this._sortedNodes();
+      return html`
+        <div class="flow-root">
+          ${repeat(
+            sorted,
+            (n) => n.id,
+            (n) => this._renderNodeFlow(n),
+          )}
+        </div>
+      `;
+    }
+
+    if (this.layoutMode === "flex") {
+      const sorted = this._sortedNodes();
+      const style = this._flexContainerStyle();
+      return html`
+        <div class="flex-root" style=${style}>
+          ${repeat(
+            sorted,
+            (n) => n.id,
+            (n) => this._renderNodeFlow(n),
+          )}
+        </div>
+      `;
+    }
+
+    // grid
+    const sorted = this._sortedNodes();
+    const style = this._gridContainerStyle();
+    return html`
+      <div class="grid-root" style=${style}>
+        ${repeat(
+          sorted,
+          (n) => n.id,
+          (n) => this._renderNodeFlow(n),
+        )}
+      </div>
+    `;
+  }
+
+  private _sortedNodes() {
+    return [...this.nodes].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  }
+
+  private _renderNodeFreeform(n: BuilderNode) {
+    const comp = ComponentRegistry[n.type];
+    if (!comp) return null;
+
+    const pos = n.pos ?? { x: 32, y: 32 };
+    const selected = this.selectedNodeId === n.id;
+
+    // wrapper is draggable only in freeform
+    return html`
+      <div
+        class="builder-element ${selected ? "selected" : ""}"
+        data-node-id=${n.id}
+        data-component-type=${n.type}
+        style="
+          position:absolute;
+          left:${pos.x}px;
+          top:${pos.y}px;
+          cursor:grab;
+        "
+        @click=${(e: MouseEvent) => this._selectNodeFromWrapper(e, n.id)}
+        @mousedown=${(e: MouseEvent) => this._freeformMouseDown(e, n.id)}
+      >
+        ${comp.render(n.data ?? comp.defaultData)}
+      </div>
+    `;
+  }
+
+  private _renderNodeFlow(n: BuilderNode) {
+    const comp = ComponentRegistry[n.type];
+    if (!comp) return null;
+
+    const selected = this.selectedNodeId === n.id;
+    const display = n.display ?? "block";
+
+    return html`
+      <div
+        class="builder-element flow-item ${selected ? "selected" : ""}"
+        data-node-id=${n.id}
+        data-component-type=${n.type}
+        data-display=${display}
+        @click=${(e: MouseEvent) => this._selectNodeFromWrapper(e, n.id)}
+      >
+        ${comp.render(n.data ?? comp.defaultData)}
+      </div>
+    `;
+  }
+
+  /* ===== Layout settings (global) ===== */
+
+  private _renderLayoutSettings() {
+    // Minimal controls to make flex/grid meaningful, without touching component registry
+    if (this.layoutMode === "flex") {
+      const flex = this._getFlexSettings();
+      return html`
+        <div style="margin-top: 1rem">
+          <h2 style="margin-top: 0">${this.msg("Layout")}</h2>
+
+          <div class="setting-row">
+            <sl-select
+              label="Direction"
+              value=${flex.direction ?? "row"}
+              @sl-change=${(e: any) =>
+                this._setFlexSettings({ direction: e.target.value })}
+            >
+              <sl-option value="row">row</sl-option>
+              <sl-option value="column">column</sl-option>
+            </sl-select>
+          </div>
+
+          <div class="setting-row">
+            <sl-select
+              label="Justify content"
+              value=${flex.justify ?? "flex-start"}
+              @sl-change=${(e: any) =>
+                this._setFlexSettings({ justify: e.target.value })}
+            >
+              <sl-option value="flex-start">flex-start</sl-option>
+              <sl-option value="center">center</sl-option>
+              <sl-option value="flex-end">flex-end</sl-option>
+              <sl-option value="space-between">space-between</sl-option>
+              <sl-option value="space-around">space-around</sl-option>
+              <sl-option value="space-evenly">space-evenly</sl-option>
+            </sl-select>
+          </div>
+
+          <div class="setting-row">
+            <sl-select
+              label="Align items"
+              value=${flex.align ?? "stretch"}
+              @sl-change=${(e: any) =>
+                this._setFlexSettings({ align: e.target.value })}
+            >
+              <sl-option value="stretch">stretch</sl-option>
+              <sl-option value="flex-start">flex-start</sl-option>
+              <sl-option value="center">center</sl-option>
+              <sl-option value="flex-end">flex-end</sl-option>
+              <sl-option value="baseline">baseline</sl-option>
+            </sl-select>
+          </div>
+
+          <div class="setting-row">
+            <sl-select
+              label="Wrap"
+              value=${flex.wrap ?? "nowrap"}
+              @sl-change=${(e: any) =>
+                this._setFlexSettings({ wrap: e.target.value })}
+            >
+              <sl-option value="nowrap">nowrap</sl-option>
+              <sl-option value="wrap">wrap</sl-option>
+            </sl-select>
+          </div>
+
+          <div class="setting-row">
+            <sl-input
+              label="Gap"
+              placeholder="e.g. 12px"
+              .value=${flex.gap ?? "12px"}
+              @sl-input=${(e: any) =>
+                this._setFlexSettings({ gap: String(e.target.value ?? "") })}
+            ></sl-input>
+          </div>
+        </div>
+      `;
+    }
+
+    if (this.layoutMode === "grid") {
+      const grid = this._getGridSettings();
+      return html`
+        <div style="margin-top: 1rem">
+          <h2 style="margin-top: 0">${this.msg("Layout")}</h2>
+
+          <div class="setting-row">
+            <sl-input
+              label="Columns"
+              placeholder="e.g. repeat(3, 1fr)"
+              .value=${grid.columns ?? "repeat(3, 1fr)"}
+              @sl-input=${(e: any) =>
+                this._setGridSettings({
+                  columns: String(e.target.value ?? ""),
+                })}
+            ></sl-input>
+          </div>
+
+          <div class="setting-row">
+            <sl-input
+              label="Rows"
+              placeholder="e.g. auto"
+              .value=${grid.rows ?? "auto"}
+              @sl-input=${(e: any) =>
+                this._setGridSettings({ rows: String(e.target.value ?? "") })}
+            ></sl-input>
+          </div>
+
+          <div class="setting-row">
+            <sl-input
+              label="Gap"
+              placeholder="e.g. 12px"
+              .value=${grid.gap ?? "12px"}
+              @sl-input=${(e: any) =>
+                this._setGridSettings({ gap: String(e.target.value ?? "") })}
+            ></sl-input>
+          </div>
+        </div>
+      `;
+    }
+
+    // flow/freeform: no global layout settings needed
+    return null;
+  }
+
+  private _flexContainerStyle(): string {
+    const f = this._getFlexSettings();
+    const direction = f.direction ?? "row";
+    const justify = f.justify ?? "flex-start";
+    const align = f.align ?? "stretch";
+    const wrap = f.wrap ?? "nowrap";
+    const gap = f.gap ?? "12px";
+    return `flex-direction:${direction}; justify-content:${justify}; align-items:${align}; flex-wrap:${wrap}; gap:${gap};`;
+  }
+
+  private _gridContainerStyle(): string {
+    const g = this._getGridSettings();
+    const cols = g.columns ?? "repeat(3, 1fr)";
+    const rows = g.rows ?? "auto";
+    const gap = g.gap ?? "12px";
+    return `grid-template-columns:${cols}; grid-auto-rows:${rows}; gap:${gap};`;
+  }
+
+  private _getFlexSettings() {
+    // store on host for now (simple). You can persist later.
+    const anyThis = this as any;
+    anyThis._flexSettings ??= {
+      direction: "row",
+      justify: "flex-start",
+      align: "stretch",
+      gap: "12px",
+      wrap: "nowrap",
+    };
+    return anyThis._flexSettings as NonNullable<BuilderNode["flex"]>;
+  }
+
+  private _setFlexSettings(patch: Partial<NonNullable<BuilderNode["flex"]>>) {
+    const anyThis = this as any;
+    anyThis._flexSettings = { ...this._getFlexSettings(), ...patch };
+    this.requestUpdate();
+  }
+
+  private _getGridSettings() {
+    const anyThis = this as any;
+    anyThis._gridSettings ??= {
+      columns: "repeat(3, 1fr)",
+      rows: "auto",
+      gap: "12px",
+    };
+    return anyThis._gridSettings as NonNullable<BuilderNode["grid"]>;
+  }
+
+  private _setGridSettings(patch: Partial<NonNullable<BuilderNode["grid"]>>) {
+    const anyThis = this as any;
+    anyThis._gridSettings = { ...this._getGridSettings(), ...patch };
+    this.requestUpdate();
+  }
+
+  /* ===== Selection + per-node settings (bindings, plus flow display) ===== */
+
+  private _renderSelectedComponentSettings() {
+    const node = this._getSelectedNode();
+    if (!node) return null;
+
+    const component = ComponentRegistry[node.type];
+    if (!component) return null;
+
+    // existing custom settings callback still expects HTMLElement.
+    // Since we now render from data, keep it optional: only call if we can find wrapper.
+    const wrapperEl = this.renderRoot.querySelector(
+      `[data-node-id="${node.id}"]`,
+    ) as HTMLElement | null;
+
+    const custom = component.settings
+      ? component.settings({
+          data: node.data ?? {},
+          setData: (patch) => {
+            this.nodes = this.nodes.map((n) =>
+              n.id === node.id
+                ? { ...n, data: { ...(n.data ?? {}), ...patch } }
+                : n,
+            );
+            this.requestUpdate();
+          },
+        })
+      : null;
+
+    const flowDisplayUI =
+      this.layoutMode === "flow"
+        ? html`
+            <div style="margin-top: 1rem">
+              <h2 style="margin-top: 0">${this.msg("Flow")}</h2>
+              <div class="setting-row">
+                <sl-select
+                  label="Display"
+                  value=${node.display ?? "block"}
+                  @sl-change=${(e: any) => {
+                    const v = e.target.value as "block" | "inline";
+                    this._updateNode(node.id, { display: v });
+                  }}
+                >
+                  <sl-option value="block">block</sl-option>
+                  <sl-option value="inline">inline</sl-option>
+                </sl-select>
+              </div>
+            </div>
+          `
+        : null;
+
+    const bindingsUI = component.bindings?.length
+      ? html`
+          <div style="margin-top: 1rem">
+            <h2 style="margin-top: 0">${this.msg("Content")}</h2>
+
+            ${component.bindings.map((b) => {
+              const current = this._readBindingFromNode(node, b);
+
+              return html`
+                <div class="setting-row">
+                  <sl-input
+                    label=${b.label}
+                    .value=${current}
+                    placeholder=${b.placeholder ?? ""}
+                    @sl-input=${(e: CustomEvent) => {
+                      const input = e.target as any;
+                      const value = String(input.value ?? "");
+                      this._writeBindingToNode(node.id, b, value);
+                    }}
+                  ></sl-input>
+                </div>
+              `;
+            })}
+          </div>
+        `
+      : null;
+
+    return html`
+      <div style="margin-top: 1rem">
+        ${custom ?? null} ${flowDisplayUI} ${bindingsUI}
+      </div>
+    `;
+  }
+
+  private _getSelectedNode(): BuilderNode | null {
+    if (!this.selectedNodeId) return null;
+    return this.nodes.find((n) => n.id === this.selectedNodeId) ?? null;
+  }
+
+  private _updateNode(id: string, patch: Partial<BuilderNode>) {
+    this.nodes = this.nodes.map((n) => (n.id === id ? { ...n, ...patch } : n));
+    this.requestUpdate();
+  }
+
+  private _readBindingFromNode(node: BuilderNode, b: ComponentBinding): string {
+    const v = node.data?.[b.key];
+    return v == null ? "" : String(v);
+  }
+
+  private _writeBindingToNode(id: string, b: ComponentBinding, value: string) {
+    this.nodes = this.nodes.map((n) => {
+      if (n.id !== id) return n;
+      return { ...n, data: { ...(n.data ?? {}), [b.key]: value } };
+    });
+    this.requestUpdate();
+  }
+
+  private _getBindingTarget(
+    wrapper: HTMLElement,
+    sel?: string,
+  ): HTMLElement | null {
+    if (!sel) return (wrapper.firstElementChild as HTMLElement) ?? wrapper;
+    return wrapper.querySelector(sel);
+  }
+
+  /* ===== Info popup (unchanged) ===== */
 
   private _renderInfoPopup() {
     if (!this.infoForType || !this.infoAnchorEl) return null;
@@ -490,7 +973,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
     const comp = ComponentRegistry[this.infoForType];
     const label = comp?.label ?? this.infoForType;
 
-    // placeholder for your future “code view”
     const syntax = this._componentSyntaxHint(this.infoForType);
 
     const insert = () => {
@@ -537,16 +1019,16 @@ export class WebwriterWebsiteBuilder extends LitElement {
             </div>
             <pre
               style="
-              margin: 0;
-              padding: 0.6rem;
-              border-radius: 10px;
-              background: var(--sl-color-neutral-50);
-              border: 1px solid var(--sl-color-neutral-200);
-              font-size: 0.75rem;
-              overflow: auto;
-            "
+                margin: 0;
+                padding: 0.6rem;
+                border-radius: 10px;
+                background: var(--sl-color-neutral-50);
+                border: 1px solid var(--sl-color-neutral-200);
+                font-size: 0.75rem;
+                overflow: auto;
+              "
             >
-              ${syntax}</pre
+${syntax}</pre
             >
           </div>
         </sl-card>
@@ -555,7 +1037,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
   }
 
   private _componentSyntaxHint(type: string): string {
-    // Later: generate from registry or actual DOM serialization
     switch (type) {
       case "h1":
         return `<h1>Heading</h1>`;
@@ -580,6 +1061,8 @@ export class WebwriterWebsiteBuilder extends LitElement {
     }
   }
 
+  /* ===== Tiles ===== */
+
   private _tile(type: string, opts: { compact: boolean }) {
     const comp = ComponentRegistry[type];
     const label = comp?.label ?? type;
@@ -589,7 +1072,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
       setTimeout(() => (this.suppressNextClick = false), 0);
 
       this._onDragStart(e);
-      // close only after drag started
+
       requestAnimationFrame(() => {
         this.trayOpen = false;
         this.requestUpdate();
@@ -622,7 +1105,6 @@ export class WebwriterWebsiteBuilder extends LitElement {
   }
 
   private _tileGlyph(type: string): string {
-    // Small glyphs that read nicely in a 28px pill
     switch (type) {
       case "h1":
         return "H1";
@@ -659,323 +1141,317 @@ export class WebwriterWebsiteBuilder extends LitElement {
     }
   }
 
-  private _getPaletteItems(): string[] {
-    const q = this.componentQuery.trim().toLowerCase();
+  /* ===== Global listeners (keep, but simplify) ===== */
 
-    const allTypes = Object.keys(ComponentRegistry);
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener("mousedown", this._onGlobalMouseDown);
+    window.addEventListener("keydown", this._onKeyDown);
+    window.addEventListener("keyup", this._onKeyUp);
+  }
 
-    // group filter
-    const groupFiltered =
-      this.activeGroup === "all"
-        ? allTypes
-        : allTypes.filter(
-            (t) => ComponentRegistry[t]?.group === this.activeGroup
-          );
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener("mousedown", this._onGlobalMouseDown);
+    window.removeEventListener("keydown", this._onKeyDown);
+    window.removeEventListener("keyup", this._onKeyUp);
+  }
 
-    // search filter (type or label)
-    const searched = q
-      ? groupFiltered.filter((t) => {
-          const comp = ComponentRegistry[t];
-          const label = (comp?.label ?? t).toLowerCase();
-          return t.toLowerCase().includes(q) || label.includes(q);
-        })
-      : groupFiltered;
+  private _onGlobalMouseDown = (e: MouseEvent) => {
+    const path = e.composedPath();
+    const clickedInsideThisComponent = path.includes(this);
+    if (!clickedInsideThisComponent) return;
 
-    // stable ordering: group order then label
-    return searched.sort((a, b) => {
-      const la = (ComponentRegistry[a]?.label ?? a).toLowerCase();
-      const lb = (ComponentRegistry[b]?.label ?? b).toLowerCase();
-      return la.localeCompare(lb);
-    });
+    const palette = this.shadowRoot?.querySelector(".palette");
+    const clickedInsidePalette = palette ? path.includes(palette) : false;
+
+    if (!clickedInsidePalette && (this.trayOpen || this.infoForType)) {
+      this.trayOpen = false;
+      this.infoForType = null;
+      this.infoAnchorEl = null;
+      this.requestUpdate();
+    }
+  };
+
+  /* ===== Drag/drop ===== */
+
+  private _onDragStart(event: DragEvent) {
+    const target = event.target as HTMLElement;
+    const type = target.getAttribute("data-component-type");
+    event.dataTransfer?.setData("component-type", type ?? "");
+  }
+
+  private _onDragOver(event: DragEvent) {
+    event.preventDefault();
+  }
+
+  private _onDrop(event: DragEvent) {
+    event.preventDefault();
+    const type = event.dataTransfer?.getData("component-type");
+    if (!type) return;
+
+    const component = ComponentRegistry[type];
+    if (!component) return;
+
+    if (this.layoutMode === "freeform") {
+      this._dropFreeform(event, type);
+      return;
+    }
+
+    // flow/flex/grid: insert by mouse position (top-down)
+    this._dropFlowLike(event, type);
+  }
+
+  private _dropFreeform(event: DragEvent, type: string) {
+    const canvasEl = this.shadowRoot!.querySelector(".canvas");
+    if (!(canvasEl instanceof HTMLElement)) return;
+
+    const rect = canvasEl.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const node: BuilderNode = {
+      id: crypto.randomUUID(),
+      type,
+      data: structuredClone(ComponentRegistry[type]?.defaultData ?? {}),
+      pos: { x, y },
+      order: this.nodes.length,
+      display: "block",
+    };
+
+    this.nodes = [...this.nodes, node];
+    this._selectNodeId(node.id);
+  }
+
+  private _dropFlowLike(event: DragEvent, type: string) {
+    const root = this.renderRoot.querySelector(
+      this.layoutMode === "flow"
+        ? ".flow-root"
+        : this.layoutMode === "flex"
+          ? ".flex-root"
+          : ".grid-root",
+    ) as HTMLElement | null;
+
+    // If empty, root may not exist yet (drop-zone showing)
+    const items = root
+      ? (Array.from(root.querySelectorAll(".flow-item")) as HTMLElement[])
+      : [];
+
+    const y = event.clientY;
+    let insertIndex = items.length;
+
+    for (let i = 0; i < items.length; i++) {
+      const r = items[i].getBoundingClientRect();
+      if (y < r.top + r.height / 2) {
+        insertIndex = i;
+        break;
+      }
+    }
+
+    const node: BuilderNode = {
+      id: crypto.randomUUID(),
+      type,
+      data: structuredClone(ComponentRegistry[type]?.defaultData ?? {}),
+      order: insertIndex,
+      display: "block",
+    };
+
+    const next = [...this.nodes];
+    // insert according to sorted order; easiest: sort first, splice, then normalize
+    const sorted = this._sortedNodes();
+    sorted.splice(insertIndex, 0, node);
+    this.nodes = sorted;
+    this._normalizeOrder();
+
+    this._selectNodeId(node.id);
+  }
+
+  private _normalizeOrder() {
+    this.nodes = this.nodes.map((n, i) => ({ ...n, order: i }));
   }
 
   private _quickAdd(type: string) {
     const component = ComponentRegistry[type];
     if (!component) return;
 
-    const canvasEl = this.shadowRoot!.querySelector(".canvas");
-    if (!(canvasEl instanceof HTMLElement)) return;
-    const canvas = canvasEl;
+    if (this.layoutMode === "freeform") {
+      const node: BuilderNode = {
+        id: crypto.randomUUID(),
+        type,
+        data: structuredClone(component.defaultData ?? {}),
+        pos: { x: 32, y: 32 },
+        order: this.nodes.length,
+        display: "block",
+      };
+      this.nodes = [...this.nodes, node];
+      this._selectNodeId(node.id);
+      return;
+    }
 
-    const placeholder = canvas.querySelector(".drop-zone");
-    if (placeholder) placeholder.remove();
+    const node: BuilderNode = {
+      id: crypto.randomUUID(),
+      type,
+      data: structuredClone(component.defaultData ?? {}),
+      order: this.nodes.length,
+      display: "block",
+    };
+    this.nodes = [...this.nodes, node];
+    this._normalizeOrder();
+    this._selectNodeId(node.id);
+  }
 
-    // drop near top-left with a pleasant offset; feels intentional
-    const x = 32;
-    const y = 32;
+  /* ===== Selection helpers ===== */
 
-    const wrapper = document.createElement("div");
-    wrapper.classList.add("builder-element");
-    wrapper.dataset.componentType = type;
-    wrapper.style.position = "absolute";
-    wrapper.style.left = `${x}px`;
-    wrapper.style.top = `${y}px`;
-    wrapper.style.cursor = "grab";
+  private _selectNodeFromWrapper(e: MouseEvent, id: string) {
+    e.stopPropagation();
 
-    render(component.render(component.defaultData), wrapper);
-    canvas.appendChild(wrapper);
+    // prevent following links unless modifier (keeps your old behavior idea)
+    const target = e.target as HTMLElement | null;
+    const anchor = target?.closest("a") as HTMLAnchorElement | null;
+    const allowFollow =
+      e instanceof MouseEvent && (e.metaKey || e.ctrlKey || e.altKey);
+    if (anchor && !allowFollow) e.preventDefault();
 
-    this._makeDraggable(wrapper, canvas);
+    this._selectNodeId(id);
+  }
 
-    // auto-select new element
-    if (this.selectedElement) this.selectedElement.classList.remove("selected");
-    this.selectedElement = wrapper;
-    wrapper.classList.add("selected");
+  private _selectNodeId(id: string) {
+    this.selectedNodeId = id;
+    // maintain selectedElement for minimal compatibility with your code
+    this.selectedElement = this.renderRoot.querySelector(
+      `[data-node-id="${id}"]`,
+    ) as HTMLElement | null;
     this.requestUpdate();
   }
 
-  /* ===== Existing selection/settings code unchanged ===== */
-
-  private _renderSelectedComponentSettings() {
-    if (!this.selectedElement) return null;
-
-    const type = this.selectedElement.dataset.componentType;
-    if (!type) return null;
-
-    const component = ComponentRegistry[type];
-    if (!component) return null;
-
-    const custom = component.settings?.(this.selectedElement);
-
-    const bindingsUI = component.bindings?.length
-      ? html`
-          <div style="margin-top: 1rem">
-            <h2 style="margin-top: 0">${this.msg("Content")}</h2>
-
-            ${component.bindings.map((b) => {
-              const current = this._readBinding(this.selectedElement!, b);
-
-              return html`
-                <div class="setting-row">
-                  <sl-input
-                    label=${b.label}
-                    .value=${current}
-                    placeholder=${b.placeholder ?? ""}
-                    @sl-input=${(e: CustomEvent) => {
-                      const input = e.target as any;
-                      this._writeBinding(
-                        this.selectedElement!,
-                        b,
-                        input.value ?? ""
-                      );
-                    }}
-                  ></sl-input>
-                </div>
-              `;
-            })}
-          </div>
-        `
-      : null;
-
-    return html`
-      <div style="margin-top: 1rem">${custom ?? null} ${bindingsUI}</div>
-    `;
-  }
-
-  private _getBindingTarget(
-    wrapper: HTMLElement,
-    sel?: string
-  ): HTMLElement | null {
-    if (!sel) return (wrapper.firstElementChild as HTMLElement) ?? wrapper;
-    return wrapper.querySelector(sel);
-  }
-
-  private _readBinding(wrapper: HTMLElement, b: ComponentBinding): string {
-    const target = this._getBindingTarget(wrapper, b.target);
-    if (!target) return "";
-
-    switch (b.kind) {
-      case "text":
-        return target.textContent ?? "";
-      case "html":
-        return target.innerHTML ?? "";
-      case "attr":
-        return b.name ? target.getAttribute(b.name) ?? "" : "";
-      case "style":
-        return b.name ? target.style.getPropertyValue(b.name) ?? "" : "";
-      default:
-        return "";
-    }
-  }
-
-  private _writeBinding(
-    wrapper: HTMLElement,
-    b: ComponentBinding,
-    value: string
-  ) {
-    const target = this._getBindingTarget(wrapper, b.target);
-    if (!target) return;
-
-    switch (b.kind) {
-      case "text":
-        target.textContent = value;
-        break;
-      case "html":
-        target.innerHTML = value;
-        break;
-      case "attr":
-        if (!b.name) return;
-        if (value === "") target.removeAttribute(b.name);
-        else target.setAttribute(b.name, value);
-        break;
-      case "style":
-        if (!b.name) return;
-        target.style.setProperty(b.name, value);
-        break;
-    }
-  }
-
-  _onDragStart(event: DragEvent) {
-    const target = event.target as HTMLElement;
-    const type = target.getAttribute("data-component-type");
-    event.dataTransfer?.setData("component-type", type ?? "");
-  }
-
-  _onDragOver(event: DragEvent) {
-    event.preventDefault();
-  }
-
-  _onDrop(event: DragEvent) {
-    event.preventDefault();
-    const type = event.dataTransfer?.getData("component-type");
-    if (!type) return;
-    const component = ComponentRegistry[type];
-    if (!component) return;
-
-    const canvasEl = this.shadowRoot!.querySelector(".canvas");
-    if (!(canvasEl instanceof HTMLElement)) return;
-    const canvas = canvasEl;
-
-    const placeholder = canvas.querySelector(".drop-zone");
-    if (placeholder) placeholder.remove();
-
-    const canvasRect = canvas.getBoundingClientRect();
-    const x = event.clientX - canvasRect.left;
-    const y = event.clientY - canvasRect.top;
-
-    const wrapper = document.createElement("div");
-    wrapper.classList.add("builder-element");
-    wrapper.dataset.componentType = type;
-    wrapper.style.position = "absolute";
-    wrapper.style.left = `${x}px`;
-    wrapper.style.top = `${y}px`;
-    wrapper.style.cursor = "grab";
-
-    render(component.render(component.defaultData), wrapper);
-    canvas.appendChild(wrapper);
-
-    this._makeDraggable(wrapper, canvas);
-  }
+  /* ===== Freeform drag-move (replaces _makeDraggable) ===== */
 
   private _isInteractiveTarget(target: EventTarget | null): boolean {
     if (!(target instanceof HTMLElement)) return false;
-
     return Boolean(
       target.closest(
-        "a, input, textarea, button, select, sl-range, sl-button, sl-icon-button, audio, video, canvas"
-      )
+        "a, input, textarea, button, select, sl-range, sl-button, sl-icon-button, audio, video, canvas",
+      ),
     );
   }
 
-  _makeDraggable(element: HTMLElement, container: HTMLElement) {
-    const DRAG_THRESHOLD = 5;
-    let offsetX = 0;
-    let offsetY = 0;
+  private _freeformMouseDown(e: MouseEvent, nodeId: string) {
+    if (this.layoutMode !== "freeform") return;
+    if (this._isInteractiveTarget(e.target)) return;
 
-    element.addEventListener("click", (e) => {
-      e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
 
-      const target = e.target as HTMLElement | null;
-      const anchor = target?.closest("a") as HTMLAnchorElement | null;
-      const allowFollow =
-        e instanceof MouseEvent && (e.metaKey || e.ctrlKey || e.altKey);
+    const el = this.renderRoot.querySelector(
+      `[data-node-id="${nodeId}"]`,
+    ) as HTMLElement | null;
+    const canvas = this.renderRoot.querySelector(
+      ".canvas",
+    ) as HTMLElement | null;
+    if (!el || !canvas) return;
 
-      if (anchor && !allowFollow) e.preventDefault();
+    const rect = el.getBoundingClientRect();
+    let offsetX = e.clientX - rect.left;
+    let offsetY = e.clientY - rect.top;
 
-      if (this.selectedElement) {
-        this.selectedElement.classList.remove("selected");
-        this.selectedElement.setAttribute("contenteditable", "false");
+    const onMove = (ev: MouseEvent) => {
+      const containerRect = canvas.getBoundingClientRect();
+      let newX = ev.clientX - containerRect.left - offsetX;
+      let newY = ev.clientY - containerRect.top - offsetY;
+
+      if (this.shiftPressed) {
+        newX = Math.round(newX / this.gridSize) * this.gridSize;
+        newY = Math.round(newY / this.gridSize) * this.gridSize;
       }
 
-      this.selectedElement = element;
-      element.classList.add("selected");
+      newX = Math.max(0, Math.min(newX, containerRect.width - el.offsetWidth));
+      newY = Math.max(
+        0,
+        Math.min(newY, containerRect.height - el.offsetHeight),
+      );
+
+      // update model (source of truth)
+      this.nodes = this.nodes.map((n) =>
+        n.id === nodeId ? { ...n, pos: { x: newX, y: newY } } : n,
+      );
+      // no requestUpdate spam; style is bound to render. Lit will batch.
       this.requestUpdate();
-    });
-
-    const onMouseDown = (e: MouseEvent) => {
-      if (this._isInteractiveTarget(e.target)) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      const rect = element.getBoundingClientRect();
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
-
-      const onMouseMove = (e: MouseEvent) => {
-        const containerRect = container.getBoundingClientRect();
-        let newX = e.clientX - containerRect.left - offsetX;
-        let newY = e.clientY - containerRect.top - offsetY;
-
-        if (this.shiftPressed) {
-          newX = Math.round(newX / this.gridSize) * this.gridSize;
-          newY = Math.round(newY / this.gridSize) * this.gridSize;
-        }
-
-        newX = Math.max(
-          0,
-          Math.min(newX, containerRect.width - element.offsetWidth)
-        );
-        newY = Math.max(
-          0,
-          Math.min(newY, containerRect.height - element.offsetHeight)
-        );
-
-        element.style.left = `${newX}px`;
-        element.style.top = `${newY}px`;
-      };
-
-      const onMouseUp = () => {
-        element.style.cursor = "grab";
-        window.removeEventListener("mousemove", onMouseMove);
-        window.removeEventListener("mouseup", onMouseUp);
-      };
-
-      window.addEventListener("mousemove", onMouseMove);
-      window.addEventListener("mouseup", onMouseUp);
     };
 
-    element.addEventListener("mousedown", onMouseDown);
+    const onUp = () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
 
-    container.addEventListener("click", (e) => {
-      if (!this.selectedElement) return;
-
-      if (e.target instanceof Node && this.selectedElement.contains(e.target))
-        return;
-
-      this.selectedElement.classList.remove("selected");
-      this.selectedElement.setAttribute("contenteditable", "false");
-      this.selectedElement = null;
-      this.requestUpdate();
-    });
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
   }
+
+  /* ===== Layout mode switching (basic conversions) ===== */
+
+  private _setLayoutMode(next: LayoutMode) {
+    if (this.layoutMode === next) return;
+
+    if (this.layoutMode === "freeform" && next !== "freeform") {
+      this._convertFreeformToOrdered();
+    }
+
+    if (this.layoutMode !== "freeform" && next === "freeform") {
+      this._convertOrderedToFreeform();
+    }
+
+    this.layoutMode = next;
+    this.requestUpdate();
+  }
+
+  private _convertFreeformToOrdered() {
+    const withPos = this.nodes.map((n) => ({
+      ...n,
+      pos: n.pos ?? { x: 0, y: 0 },
+      display: n.display ?? "block",
+    }));
+
+    withPos.sort((a, b) => a.pos!.y - b.pos!.y || a.pos!.x - b.pos!.x);
+
+    this.nodes = withPos.map((n, i) => ({ ...n, order: i }));
+    this._clearSelection();
+  }
+
+  private _convertOrderedToFreeform() {
+    const sorted = this._sortedNodes();
+    let y = 32;
+    const x = 32;
+
+    this.nodes = sorted.map((n) => {
+      const pos = n.pos ?? { x, y };
+      y += 80;
+      return { ...n, pos };
+    });
+
+    this._clearSelection();
+  }
+
+  private _clearSelection() {
+    this.selectedNodeId = null;
+    this.selectedElement = null;
+  }
+
+  /* ===== Reset ===== */
 
   private async _confirmReset() {
     const confirmed = confirm(
-      this.msg("This will remove all elements from the canvas. Continue?")
+      this.msg("This will remove all elements from the canvas. Continue?"),
     );
     if (confirmed) this._resetCanvas();
   }
 
   private _resetCanvas() {
-    const canvas = this.renderRoot.querySelector(".canvas") as HTMLElement;
-    if (!canvas) return;
-
-    while (canvas.firstChild) canvas.removeChild(canvas.firstChild);
-
-    this.selectedElement = null;
+    this.nodes = [];
+    this._clearSelection();
     this.requestUpdate();
   }
+
+  /* ===== Keyboard (freeform arrow move only) ===== */
 
   private _onKeyDown = (e: KeyboardEvent) => {
     if (e.key === "g" || e.key === "G") {
@@ -985,32 +1461,36 @@ export class WebwriterWebsiteBuilder extends LitElement {
       }
     }
     if (e.key === "Shift") this.shiftPressed = true;
-    if (!this.selectedElement) return;
 
-    let left = parseInt(this.selectedElement.style.left || "0", 10);
-    let top = parseInt(this.selectedElement.style.top || "0", 10);
+    if (this.layoutMode !== "freeform") return;
+    const node = this._getSelectedNode();
+    if (!node) return;
+
+    const pos = node.pos ?? { x: 0, y: 0 };
+    let { x, y } = pos;
 
     switch (e.key) {
       case "ArrowUp":
         e.preventDefault();
-        top -= 1;
+        y -= 1;
         break;
       case "ArrowDown":
         e.preventDefault();
-        top += 1;
+        y += 1;
         break;
       case "ArrowLeft":
         e.preventDefault();
-        left -= 1;
+        x -= 1;
         break;
       case "ArrowRight":
         e.preventDefault();
-        left += 1;
+        x += 1;
         break;
+      default:
+        return;
     }
 
-    this.selectedElement.style.left = `${left}px`;
-    this.selectedElement.style.top = `${top}px`;
+    this._updateNode(node.id, { pos: { x, y } });
   };
 
   private _onKeyUp = (e: KeyboardEvent) => {

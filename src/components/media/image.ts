@@ -54,10 +54,7 @@ export const ImageComponent: BuilderComponent = {
   ],
 
   // Upload is now grouped with the other image-related controls
-  settings: (element) => {
-    const img = element.querySelector("img") as HTMLImageElement | null;
-    if (!img) return html``;
-
+  settings: ({ data, setData }) => {
     const onFileChange = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       const file = input.files?.[0];
@@ -66,17 +63,17 @@ export const ImageComponent: BuilderComponent = {
 
       const reader = new FileReader();
       reader.onload = () => {
-        img.src = String(reader.result ?? PLACEHOLDER_SRC);
+        setData({
+          src: String(reader.result ?? PLACEHOLDER_SRC),
+        });
       };
       reader.readAsDataURL(file);
 
-      // allow re-uploading the same file
       input.value = "";
     };
 
     const resetToPlaceholder = () => {
-      img.src = PLACEHOLDER_SRC;
-      img.alt = "Placeholder image";
+      setData({ src: PLACEHOLDER_SRC, alt: "Placeholder image" });
     };
 
     return html`
@@ -86,11 +83,11 @@ export const ImageComponent: BuilderComponent = {
         <div class="setting-row">
           <label
             style="
-              display: block;
-              font-size: var(--sl-input-label-font-size-medium);
-              color: var(--sl-color-neutral-700);
-              margin-bottom: 0.25rem;
-            "
+            display: block;
+            font-size: var(--sl-input-label-font-size-medium);
+            color: var(--sl-color-neutral-700);
+            margin-bottom: 0.25rem;
+          "
           >
             Upload Image
           </label>

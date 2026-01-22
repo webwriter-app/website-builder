@@ -6,8 +6,8 @@ export const Heading2: BuilderComponent = {
   label: "Heading 2",
   group: "text",
 
-  render: () => html`
-    <h2 style="margin: 0.5rem 0; display: inline-block">Heading 2</h2>
+  render: (data) => html`
+    <h2 style="margin: 0.5rem 0; display: inline-block">${data.content ?? "Heading 2"}</h2>
   `,
 
   bindings: [

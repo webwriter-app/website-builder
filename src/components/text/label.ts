@@ -6,8 +6,8 @@ export const LabelComponent: BuilderComponent = {
   label: "Label",
   group: "text",
 
-  render: () => html`
-    <label style="margin: 0.5rem 0; display: inline-block"> Label </label>
+  render: (data) => html`
+    <label style="margin: 0.5rem 0; display: inline-block">${data.content ?? "Label"}</label>
   `,
   bindings: [
     {

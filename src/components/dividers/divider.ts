@@ -49,13 +49,8 @@ export const DividerComponent: BuilderComponent = {
     },
   ],
 
-  settings: (element) => {
-    const hr = element.querySelector("hr") as HTMLHRElement | null;
-    if (!hr) return html``;
-
-    const reset = () => {
-      hr.style.width = DEFAULT_WIDTH;
-    };
+  settings: ({ setData }) => {
+    const reset = () => setData({ width: DEFAULT_WIDTH });
 
     return html`
       <div style="margin-top: 1rem">

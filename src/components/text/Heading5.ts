@@ -6,9 +6,9 @@ export const Heading5: BuilderComponent = {
   label: "Heading 5",
   group: "text",
 
-  render: () => html`
+  render: (data) => html`
     <h5 style="margin: 0.5rem 0; display: inline-block">
-      Heading 5
+      ${data.content ?? "Heading 5"}
     </h5>
   `,
   bindings: [

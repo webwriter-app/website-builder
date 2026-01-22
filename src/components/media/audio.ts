@@ -53,10 +53,7 @@ export const AudioComponent: BuilderComponent = {
   ],
 
   // Upload + reset grouped consistently with other media components
-  settings: (element) => {
-    const audio = element.querySelector("audio") as HTMLAudioElement | null;
-    if (!audio) return html``;
-
+  settings: ({ setData }) => {
     const onFileChange = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       const file = input.files?.[0];
@@ -64,22 +61,14 @@ export const AudioComponent: BuilderComponent = {
       if (!file.type.startsWith("audio/")) return;
 
       const reader = new FileReader();
-      reader.onload = () => {
-        audio.src = String(reader.result ?? PLACEHOLDER_AUDIO);
-        audio.currentTime = 0;
-        audio.pause();
-      };
+      reader.onload = () =>
+        setData({ src: String(reader.result ?? PLACEHOLDER_AUDIO) });
       reader.readAsDataURL(file);
 
-      // allow re-uploading same file
       input.value = "";
     };
 
-    const resetToPlaceholder = () => {
-      audio.src = PLACEHOLDER_AUDIO;
-      audio.currentTime = 0;
-      audio.pause();
-    };
+    const resetToPlaceholder = () => setData({ src: PLACEHOLDER_AUDIO });
 
     return html`
       <div style="margin-top: 1rem">
@@ -106,7 +95,11 @@ export const AudioComponent: BuilderComponent = {
         </div>
 
         <div class="setting-row">
-          <sl-button size="small" variant="default" @click=${resetToPlaceholder}>
+          <sl-button
+            size="small"
+            variant="default"
+            @click=${resetToPlaceholder}
+          >
             Reset to placeholder
           </sl-button>
         </div>

@@ -6,7 +6,7 @@ export const ParagraphComponent: BuilderComponent = {
   label: "Paragraph",
   group: "text",
 
-  render: () => html` <p style="margin: 0.5rem 0;">Enter your text here…</p> `,
+  render: (data) => html` <p style="margin: 0.5rem 0;">${data.content ?? "Enter your text here…"}</p> `,
   bindings: [
     {
       key: "content",
