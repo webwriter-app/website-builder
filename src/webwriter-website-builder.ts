@@ -1,4 +1,4 @@
-import { html, css, LitElement } from "lit";
+import { html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import LOCALIZE from "../localization/generated";
@@ -8,34 +8,13 @@ import { ComponentRegistry } from "./components/registry";
 import type { ComponentBinding } from "./types/BuilderComponent";
 import "./assets/shoelaceImports.ts";
 
-type LayoutMode = "freeform" | "flow" | "flex" | "grid";
-
-type BuilderNode = {
-  id: string;
-  type: string;
-  data: any;
-
-  // freeform
-  pos?: { x: number; y: number };
-
-  // flow/flex/grid ordering & display
-  order?: number;
-  display?: "block" | "inline";
-
-  // flex/grid (minimal foundation)
-  flex?: {
-    direction?: "row" | "column";
-    justify?: string;
-    align?: string;
-    gap?: string;
-    wrap?: "nowrap" | "wrap";
-  };
-  grid?: {
-    columns?: string;
-    rows?: string;
-    gap?: string;
-  };
-};
+import { BuilderExporter } from "./builder/exporter";
+import { normalizeOrder, sortedNodes, convertFreeformToOrdered, convertOrderedToFreeform } from "./builder/layout";
+import { componentSyntaxHint, tileGlyph } from "./builder/palette-helpers";
+import { parseBuilderState, serializeBuilderState } from "./builder/state-io";
+import { builderStyles } from "./builder/styles";
+import type { BuilderNode, FlexSettings, GridSettings, LayoutMode } from "./builder/types";
+import { defaultFlexSettings, defaultGridSettings } from "./builder/types";
 
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElement {
@@ -88,6 +67,12 @@ export class WebwriterWebsiteBuilder extends LitElement {
   private layoutMode: LayoutMode = "freeform";
   private nodes: BuilderNode[] = [];
 
+  // container settings (global)
+  private flexSettings: FlexSettings = defaultFlexSettings();
+  private gridSettings: GridSettings = defaultGridSettings();
+
+  private exporter = new BuilderExporter();
+
   private _onFsChange = () => {
     this._isFullscreen = this.ownerDocument.fullscreenElement === this;
   };
@@ -107,439 +92,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
     this._isFullscreen = doc.fullscreenElement === this;
   }
 
-  static styles = css`
-    :host {
-      display: flex;
-      width: 100%;
-      height: 850px;
-      overflow: hidden;
-      background: var(--sl-color-neutral-0);
-      padding: 0;
-      margin: 0;
-      position: relative;
-    }
-
-    /* Make the widget fill the screen in fullscreen */
-    :host(:fullscreen) {
-      width: 100vw;
-      height: 100vh;
-      background: var(--sl-color-neutral-0);
-    }
-
-    .editor {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      height: 100%;
-      min-width: 0;
-    }
-
-    /* Compact palette */
-    .palette {
-      background: var(--sl-color-neutral-0);
-      border-bottom: 1px solid var(--sl-color-neutral-200);
-      padding: 0.5rem 0.75rem 0.55rem 0.75rem;
-      position: relative;
-      z-index: 5;
-    }
-
-    .palette-top {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .palette-search {
-      flex: 1;
-      min-width: 220px;
-    }
-
-    .seg {
-      display: inline-flex;
-      padding: 0.15rem;
-      border: 1px solid var(--sl-color-neutral-200);
-      border-radius: 999px;
-      background: var(--sl-color-neutral-50);
-      gap: 0.15rem;
-    }
-
-    .seg-btn {
-      border: 0;
-      background: transparent;
-      padding: 0.35rem 0.7rem;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      color: var(--sl-color-neutral-700);
-      cursor: pointer;
-      user-select: none;
-      line-height: 1;
-      white-space: nowrap;
-      transition:
-        background 120ms ease,
-        color 120ms ease;
-    }
-
-    .seg-btn:hover {
-      background: var(--sl-color-neutral-100);
-    }
-
-    .seg-btn.active {
-      background: var(--sl-color-neutral-0);
-      color: var(--sl-color-primary-700);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-    }
-
-    .quick-row {
-      margin-top: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      overflow-x: auto;
-      padding-bottom: 0.2rem;
-    }
-
-    .quick-row::-webkit-scrollbar {
-      height: 6px;
-    }
-    .quick-row::-webkit-scrollbar-thumb {
-      background: var(--sl-color-neutral-200);
-      border-radius: 999px;
-    }
-
-    /* Slide-down tray */
-    .tray {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: calc(100% + 1px);
-      background: var(--sl-color-neutral-0);
-      border-bottom: 1px solid var(--sl-color-neutral-200);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      border-radius: 0 0 14px 14px;
-      overflow: hidden;
-      transform-origin: top;
-    }
-
-    .tray-inner {
-      max-height: 220px;
-      overflow: auto;
-      padding: 0.65rem;
-    }
-
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
-      gap: 0.55rem;
-    }
-
-    .tray-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 0.55rem 0.65rem;
-      border-bottom: 1px solid var(--sl-color-neutral-200);
-      background: var(--sl-color-neutral-50);
-    }
-
-    .tray-title {
-      font-size: 0.8rem;
-      color: var(--sl-color-neutral-600);
-    }
-
-    .tray-count {
-      font-size: 0.75rem;
-      color: var(--sl-color-neutral-500);
-    }
-
-    .tray[hidden] {
-      display: none;
-    }
-
-    /* Shoelace-specific small polish */
-    .palette-search sl-input::part(base) {
-      border-radius: 999px;
-      background: var(--sl-color-neutral-0);
-    }
-
-    .tile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.35rem;
-      padding: 0.65rem 0.5rem;
-      border: 1px solid var(--sl-color-neutral-200);
-      border-radius: 12px;
-      background: var(--sl-color-neutral-0);
-      cursor: grab;
-      user-select: none;
-      transition:
-        transform 120ms ease,
-        box-shadow 120ms ease,
-        border-color 120ms ease,
-        background 120ms ease;
-    }
-
-    .tile:hover {
-      border-color: var(--sl-color-primary-200);
-      background: var(--sl-color-primary-50);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-      transform: translateY(-1px);
-    }
-
-    .tile:active {
-      cursor: grabbing;
-      transform: translateY(0px);
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-    }
-
-    .tile-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 10px;
-      border: 1px solid var(--sl-color-neutral-200);
-      background: var(--sl-color-neutral-50);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      color: var(--sl-color-neutral-700);
-    }
-
-    .tile-label {
-      font-size: 0.78rem;
-      color: var(--sl-color-neutral-800);
-      text-align: center;
-      line-height: 1.1;
-    }
-
-    /* ===== Existing UI ===== */
-    .builder-element.selected {
-      outline: 2px solid var(--sl-color-primary-600);
-      outline-offset: 2px;
-    }
-
-    .settings h2 {
-      font-size: var(--sl-button-font-size-medium);
-      line-height: calc(
-        var(--sl-input-height-medium) - var(--sl-input-border-width) * 2
-      );
-      font-weight: 500;
-      margin-top: 0;
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1ch;
-      border-bottom: 2px solid var(--sl-color-gray-600);
-      color: var(--sl-color-gray-600);
-    }
-
-    .settings sl-switch {
-      margin-left: 0.1em;
-    }
-
-    .setting-row {
-      margin-top: 0.75rem;
-    }
-
-    .layout {
-      display: flex;
-      flex: 1;
-      height: 100%;
-      min-width: 0;
-    }
-
-    /* Fullscreen: split canvas + code panel */
-    .layout.fullscreen-split {
-      display: grid;
-      grid-template-columns: minmax(360px, 1fr) minmax(320px, 520px);
-      gap: 0.75rem;
-      padding: 0.75rem;
-      box-sizing: border-box;
-    }
-
-    .canvas {
-      flex: 1;
-      padding: 1rem;
-      background: var(--sl-color-neutral-50);
-      overflow: hidden;
-      position: relative;
-      min-width: 0;
-      border-radius: 12px;
-    }
-
-    :host(:fullscreen) .canvas {
-      background: var(--sl-color-neutral-0);
-      border: 1px solid var(--sl-color-neutral-200);
-    }
-
-    .drop-zone {
-      border: 2px dashed var(--sl-color-neutral-300);
-      text-align: center;
-      color: var(--sl-color-neutral-600);
-      border-radius: 0.5rem;
-      margin: 1rem;
-      height: 95%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .builder-element {
-      user-select: none;
-    }
-
-    .grid-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background-size: var(--grid-size, 20px) var(--grid-size, 20px);
-      background-image:
-        linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-    }
-
-    /* NEW: roots for different layout modes */
-    .freeform-root {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-
-    .flow-root {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      padding: 1rem;
-      background: var(--sl-color-neutral-0);
-      border-radius: 12px;
-      border: 1px solid var(--sl-color-neutral-200);
-    }
-
-    .flow-item[data-display="inline"] {
-      display: inline;
-      margin: 0;
-    }
-
-    .flow-item[data-display="block"] {
-      display: block;
-      margin: 0.5rem 0;
-    }
-
-    .flex-root {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      padding: 1rem;
-      background: var(--sl-color-neutral-0);
-      border-radius: 12px;
-      border: 1px solid var(--sl-color-neutral-200);
-      display: flex;
-    }
-
-    .grid-root {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      padding: 1rem;
-      background: var(--sl-color-neutral-0);
-      border-radius: 12px;
-      border: 1px solid var(--sl-color-neutral-200);
-      display: grid;
-    }
-
-    /* Hovering fullscreen button (bottom-right of canvas) */
-    .fs-btn {
-      position: absolute;
-      right: 14px;
-      bottom: 14px;
-      z-index: 20;
-      border-radius: 999px;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
-    }
-    .fs-btn sl-button::part(base) {
-      border-radius: 999px;
-    }
-
-    /* Code panel (only shown in fullscreen) */
-    .code-panel {
-      background: var(--sl-color-neutral-0);
-      border: 1px solid var(--sl-color-neutral-200);
-      border-radius: 12px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      height: 100%;
-    }
-
-    .code-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      padding: 0.5rem 0.6rem;
-      border-bottom: 1px solid var(--sl-color-neutral-200);
-      background: var(--sl-color-neutral-50);
-    }
-
-    .code-title {
-      font-size: 0.8rem;
-      color: var(--sl-color-neutral-700);
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    .code-body {
-      flex: 1;
-      min-height: 0;
-      overflow: auto;
-      padding: 0.6rem;
-      font-family:
-        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-        "Liberation Mono", "Courier New", monospace;
-      font-size: 12px;
-      line-height: 1.4;
-      white-space: pre;
-      background: var(--sl-color-neutral-0);
-      user-select: text;
-      margin: 0;
-    }
-
-    .code-body code {
-      white-space: pre;
-    }
-
-    .code-tabs {
-      display: flex;
-      gap: 0.35rem;
-      align-items: center;
-      justify-content: flex-end;
-    }
-
-    .code-tab {
-      border: 1px solid var(--sl-color-neutral-200);
-      background: var(--sl-color-neutral-0);
-      border-radius: 999px;
-      padding: 0.2rem 0.55rem;
-      font-size: 0.75rem;
-      color: var(--sl-color-neutral-700);
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .code-tab.active {
-      border-color: var(--sl-color-primary-300);
-      background: var(--sl-color-primary-50);
-      color: var(--sl-color-primary-700);
-    }
-  `;
+  static styles = builderStyles;
 
   render() {
     const showGridOverlay = this.showGrid || this.gridKeyPressed;
@@ -581,8 +134,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
               </sl-button>
             </div>
 
-            ${this._renderLayoutSettings()}
-            ${this._renderSelectedComponentSettings()}
+            ${this._renderLayoutSettings()} ${this._renderSelectedComponentSettings()}
           </div>
         </div>
 
@@ -830,7 +382,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
   }
 
   private _sortedNodes() {
-    return [...this.nodes].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    return sortedNodes(this.nodes);
   }
 
   private _renderNodeFreeform(n: BuilderNode) {
@@ -1019,36 +571,20 @@ export class WebwriterWebsiteBuilder extends LitElement {
   }
 
   private _getFlexSettings() {
-    const anyThis = this as any;
-    anyThis._flexSettings ??= {
-      direction: "row",
-      justify: "flex-start",
-      align: "stretch",
-      gap: "12px",
-      wrap: "nowrap",
-    };
-    return anyThis._flexSettings as NonNullable<BuilderNode["flex"]>;
+    return this.flexSettings;
   }
 
-  private _setFlexSettings(patch: Partial<NonNullable<BuilderNode["flex"]>>) {
-    const anyThis = this as any;
-    anyThis._flexSettings = { ...this._getFlexSettings(), ...patch };
+  private _setFlexSettings(patch: Partial<FlexSettings>) {
+    this.flexSettings = { ...this._getFlexSettings(), ...patch };
     this.requestUpdate();
   }
 
   private _getGridSettings() {
-    const anyThis = this as any;
-    anyThis._gridSettings ??= {
-      columns: "repeat(3, 1fr)",
-      rows: "auto",
-      gap: "12px",
-    };
-    return anyThis._gridSettings as NonNullable<BuilderNode["grid"]>;
+    return this.gridSettings;
   }
 
-  private _setGridSettings(patch: Partial<NonNullable<BuilderNode["grid"]>>) {
-    const anyThis = this as any;
-    anyThis._gridSettings = { ...this._getGridSettings(), ...patch };
+  private _setGridSettings(patch: Partial<GridSettings>) {
+    this.gridSettings = { ...this._getGridSettings(), ...patch };
     this.requestUpdate();
   }
 
@@ -1157,232 +693,41 @@ export class WebwriterWebsiteBuilder extends LitElement {
   /* ===== State persistence ===== */
 
   private _serializeState(): string {
-    const payload = {
+    return serializeBuilderState({
       layoutMode: this.layoutMode,
       nodes: this.nodes,
       showGrid: this.showGrid,
       gridSize: this.gridSize,
       flexSettings: this._getFlexSettings(),
       gridSettings: this._getGridSettings(),
-    };
-    return JSON.stringify(payload);
+    });
   }
 
   private _applyState(serialized: string) {
-    if (!serialized) return;
+    const parsed = parseBuilderState(serialized);
+    if (!parsed) return;
 
-    try {
-      const parsed = JSON.parse(serialized);
+    this.layoutMode = parsed.layoutMode;
+    this.nodes = parsed.nodes;
 
-      const layoutMode = parsed.layoutMode as LayoutMode | undefined;
-      const nodes = Array.isArray(parsed.nodes)
-        ? (parsed.nodes as BuilderNode[])
-        : [];
+    this.showGrid = parsed.showGrid;
+    this.gridSize = parsed.gridSize;
 
-      this.layoutMode = layoutMode ?? "freeform";
-      this.nodes = nodes;
+    this.flexSettings = parsed.flexSettings;
+    this.gridSettings = parsed.gridSettings;
 
-      this.showGrid = Boolean(parsed.showGrid);
-      this.gridSize = Number(parsed.gridSize ?? 20);
-
-      if (parsed.flexSettings && typeof parsed.flexSettings === "object") {
-        (this as any)._flexSettings = {
-          ...this._getFlexSettings(),
-          ...parsed.flexSettings,
-        };
-      }
-
-      if (parsed.gridSettings && typeof parsed.gridSettings === "object") {
-        (this as any)._gridSettings = {
-          ...this._getGridSettings(),
-          ...parsed.gridSettings,
-        };
-      }
-
-      this._clearSelection();
-    } catch {
-      // ignore invalid JSON
-    }
+    this._clearSelection();
   }
 
   /* ===== Code export (first version) ===== */
 
-  private _escapeHtml(s: string) {
-    return s
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;");
-  }
-
-  private _safeAttr(s: unknown) {
-    if (s == null) return "";
-    return String(s).replaceAll('"', "&quot;");
-  }
-
-  private _nodeToHtml(n: BuilderNode): string {
-    const t = n.type;
-    const d = n.data ?? {};
-
-    // First version: map only the common primitives you already have.
-    // Fallback: emit a comment so it's obvious something exists.
-    switch (t) {
-      case "h1": {
-        const text = d.text ?? d.value ?? "Heading";
-        return `<h1>${this._escapeHtml(String(text))}</h1>`;
-      }
-      case "paragraph": {
-        const text = d.text ?? d.value ?? "Text…";
-        return `<p>${this._escapeHtml(String(text))}</p>`;
-      }
-      case "image": {
-        const src = d.src ?? "";
-        const alt = d.alt ?? "";
-        return `<img src="${this._safeAttr(src)}" alt="${this._escapeHtml(
-          String(alt),
-        )}">`;
-      }
-      case "video": {
-        const src = d.src ?? "";
-        return `<video src="${this._safeAttr(src)}" controls></video>`;
-      }
-      case "audio": {
-        const src = d.src ?? "";
-        return `<audio src="${this._safeAttr(src)}" controls></audio>`;
-      }
-      case "divider": {
-        return `<hr>`;
-      }
-      case "link": {
-        const href = d.href ?? "#";
-        const label = d.label ?? "Link";
-        return `<a href="${this._safeAttr(href)}" target="_blank" rel="noopener">${this._escapeHtml(
-          String(label),
-        )}</a>`;
-      }
-      case "button": {
-        const label = d.label ?? "Button";
-        return `<button type="button">${this._escapeHtml(String(label))}</button>`;
-      }
-      case "icon": {
-        const name = d.name ?? "gear";
-        return `<span class="icon" data-icon="${this._safeAttr(name)}"></span>`;
-      }
-      default:
-        return `<!-- unsupported: ${t} -->`;
-    }
-  }
-
-  private _indent(lines: string[], spaces = 2) {
-    const pad = " ".repeat(spaces);
-    return lines.map((l) => (l ? pad + l : l)).join("\n");
-  }
-
   private _generateExport(): { html: string; css: string; combined: string } {
-    const sorted = this._sortedNodes();
-
-    const containerClass =
-      this.layoutMode === "freeform"
-        ? "page page--freeform"
-        : this.layoutMode === "flex"
-          ? "page page--flex"
-          : this.layoutMode === "grid"
-            ? "page page--grid"
-            : "page page--flow";
-
-    let bodyHtml = "";
-
-    if (this.layoutMode === "freeform") {
-      bodyHtml = sorted
-        .map((n) => {
-          const pos = n.pos ?? { x: 0, y: 0 };
-          return `<div class="el" style="left:${Math.round(
-            pos.x,
-          )}px; top:${Math.round(pos.y)}px;">${this._nodeToHtml(n)}</div>`;
-        })
-        .join("\n");
-    } else {
-      bodyHtml = sorted
-        .map((n) => {
-          const display = n.display ?? "block";
-          const cls = display === "inline" ? "el el--inline" : "el";
-          return `<div class="${cls}">${this._nodeToHtml(n)}</div>`;
-        })
-        .join("\n");
-    }
-
-    const htmlLines = [
-      `<!-- Generated by webwriter-website-builder -->`,
-      `<div class="${containerClass}">`,
-      this._indent(bodyHtml.split("\n"), 2),
-      `</div>`,
-    ];
-    const htmlOut = htmlLines.join("\n");
-
-    const flex = this._getFlexSettings();
-    const grid = this._getGridSettings();
-
-    const cssOut = `/* Generated by webwriter-website-builder */
-    .page {
-      box-sizing: border-box;
-      padding: 16px;
-      background: #fff;
-      color: #0f172a;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    .page img, .page video {
-      max-width: 100%;
-      height: auto;
-    }
-
-    .page--freeform {
-      position: relative;
-      min-height: 600px;
-    }
-
-    .page--freeform .el {
-      position: absolute;
-    }
-
-    .page--flow .el--inline {
-      display: inline-block;
-    }
-
-    .page--flex {
-      display: flex;
-      flex-direction: ${flex.direction ?? "row"};
-      justify-content: ${flex.justify ?? "flex-start"};
-      align-items: ${flex.align ?? "stretch"};
-      flex-wrap: ${flex.wrap ?? "nowrap"};
-      gap: ${flex.gap ?? "12px"};
-    }
-
-    .page--grid {
-      display: grid;
-      grid-template-columns: ${grid.columns ?? "repeat(3, 1fr)"};
-      grid-auto-rows: ${grid.rows ?? "auto"};
-      gap: ${grid.gap ?? "12px"};
-    }
-
-    /* Icons: placeholder representation */
-    .page .icon::before {
-      content: attr(data-icon);
-      font-size: 12px;
-      opacity: 0.7;
-      border: 1px solid #e5e7eb;
-      padding: 2px 6px;
-      border-radius: 999px;
-    }
-    `;
-
-    const combined = `<!-- HTML -->
-    ${htmlOut}
-
-    <style>
-    ${cssOut}
-    </style>`;
-
-    return { html: htmlOut, css: cssOut, combined };
+    return this.exporter.generateExport({
+      layoutMode: this.layoutMode,
+      nodes: this.nodes,
+      flexSettings: this._getFlexSettings(),
+      gridSettings: this._getGridSettings(),
+    });
   }
 
   /* ===== Info popup (unchanged) ===== */
@@ -1393,7 +738,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
     const comp = ComponentRegistry[this.infoForType];
     const label = comp?.label ?? this.infoForType;
 
-    const syntax = this._componentSyntaxHint(this.infoForType);
+    const syntax = componentSyntaxHint(this.infoForType);
 
     const insert = () => {
       this._quickAdd(this.infoForType!);
@@ -1456,31 +801,6 @@ ${syntax}</pre
     `;
   }
 
-  private _componentSyntaxHint(type: string): string {
-    switch (type) {
-      case "h1":
-        return `<h1>Heading</h1>`;
-      case "paragraph":
-        return `<p>Text…</p>`;
-      case "image":
-        return `<img src="…" alt="…">`;
-      case "button":
-        return `<button>Button</button>`;
-      case "link":
-        return `<a href="https://…">Link</a>`;
-      case "divider":
-        return `<hr />`;
-      case "video":
-        return `<video src="…" controls></video>`;
-      case "audio":
-        return `<audio src="…" controls></audio>`;
-      case "icon":
-        return `<sl-icon name="alarm"></sl-icon>`;
-      default:
-        return `<!-- ${type} -->`;
-    }
-  }
-
   /* ===== Tiles ===== */
 
   private _tile(type: string, opts: { compact: boolean }) {
@@ -1518,47 +838,10 @@ ${syntax}</pre
         title="Drag to canvas · Click for info"
         style=${opts.compact ? "height: 64px;" : "height: 72px;"}
       >
-        <div class="tile-icon">${this._tileGlyph(type)}</div>
+        <div class="tile-icon">${tileGlyph(type)}</div>
         <div class="tile-label">${msg(label)}</div>
       </div>
     `;
-  }
-
-  private _tileGlyph(type: string): string {
-    switch (type) {
-      case "h1":
-        return "H1";
-      case "h2":
-        return "H2";
-      case "h3":
-        return "H3";
-      case "h4":
-        return "H4";
-      case "h5":
-        return "H5";
-      case "h6":
-        return "H6";
-      case "paragraph":
-        return "¶";
-      case "label":
-        return "T";
-      case "image":
-        return "🖼";
-      case "video":
-        return "▶";
-      case "audio":
-        return "♪";
-      case "icon":
-        return "★";
-      case "button":
-        return "▢";
-      case "link":
-        return "↗";
-      case "divider":
-        return "—";
-      default:
-        return type.slice(0, 2).toUpperCase();
-    }
   }
 
   /* ===== Global listeners ===== */
@@ -1605,10 +888,7 @@ ${syntax}</pre
   }
 
   disconnectedCallback() {
-    this.ownerDocument.removeEventListener(
-      "fullscreenchange",
-      this._onFsChange,
-    );
+    this.ownerDocument.removeEventListener("fullscreenchange", this._onFsChange);
 
     window.removeEventListener("mousedown", this._onGlobalMouseDown);
     window.removeEventListener("keydown", this._onKeyDown);
@@ -1723,7 +1003,7 @@ ${syntax}</pre
   }
 
   private _normalizeOrder() {
-    this.nodes = this.nodes.map((n, i) => ({ ...n, order: i }));
+    this.nodes = normalizeOrder(this.nodes);
   }
 
   private _quickAdd(type: string) {
@@ -1799,9 +1079,7 @@ ${syntax}</pre
     const el = this.renderRoot.querySelector(
       `[data-node-id="${nodeId}"]`,
     ) as HTMLElement | null;
-    const canvas = this.renderRoot.querySelector(
-      ".canvas",
-    ) as HTMLElement | null;
+    const canvas = this.renderRoot.querySelector(".canvas") as HTMLElement | null;
     if (!el || !canvas) return;
 
     const rect = el.getBoundingClientRect();
@@ -1819,10 +1097,7 @@ ${syntax}</pre
       }
 
       newX = Math.max(0, Math.min(newX, containerRect.width - el.offsetWidth));
-      newY = Math.max(
-        0,
-        Math.min(newY, containerRect.height - el.offsetHeight),
-      );
+      newY = Math.max(0, Math.min(newY, containerRect.height - el.offsetHeight));
 
       this.nodes = this.nodes.map((n) =>
         n.id === nodeId ? { ...n, pos: { x: newX, y: newY } } : n,
@@ -1842,8 +1117,7 @@ ${syntax}</pre
   private _onCanvasClick = (e: MouseEvent) => {
     const path = e.composedPath() as EventTarget[];
     const clickedElement = path.find(
-      (p) =>
-        p instanceof HTMLElement && p.classList?.contains("builder-element"),
+      (p) => p instanceof HTMLElement && p.classList?.contains("builder-element"),
     ) as HTMLElement | undefined;
 
     if (!clickedElement) this._clearSelection();
@@ -1855,42 +1129,15 @@ ${syntax}</pre
     if (this.layoutMode === next) return;
 
     if (this.layoutMode === "freeform" && next !== "freeform") {
-      this._convertFreeformToOrdered();
+      this.nodes = convertFreeformToOrdered(this.nodes);
     }
 
     if (this.layoutMode !== "freeform" && next === "freeform") {
-      this._convertOrderedToFreeform();
+      this.nodes = convertOrderedToFreeform(this.nodes);
     }
 
     this.layoutMode = next;
     this.requestUpdate();
-  }
-
-  private _convertFreeformToOrdered() {
-    const withPos = this.nodes.map((n) => ({
-      ...n,
-      pos: n.pos ?? { x: 0, y: 0 },
-      display: n.display ?? "block",
-    }));
-
-    withPos.sort((a, b) => a.pos!.y - b.pos!.y || a.pos!.x - b.pos!.x);
-
-    this.nodes = withPos.map((n, i) => ({ ...n, order: i }));
-    this._clearSelection();
-  }
-
-  private _convertOrderedToFreeform() {
-    const sorted = this._sortedNodes();
-    let y = 32;
-    const x = 32;
-
-    this.nodes = sorted.map((n) => {
-      const pos = n.pos ?? { x, y };
-      y += 80;
-      return { ...n, pos };
-    });
-
-    this._clearSelection();
   }
 
   private _clearSelection() {
