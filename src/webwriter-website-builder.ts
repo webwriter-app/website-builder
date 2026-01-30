@@ -18,13 +18,14 @@ import { defaultFlexSettings, defaultGridSettings } from "./builder/types";
 
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElement {
-  localize = LOCALIZE;
+  localize = LOCALIZE; // automatic translation
   msg = msg;
 
   // persistent state
   @property({ attribute: "ww-state" })
   accessor wwState: string = "";
 
+  // Fullscreen flag
   @state() private _isFullscreen = false;
 
   // internal guard to avoid loops
@@ -32,24 +33,25 @@ export class WebwriterWebsiteBuilder extends LitElement {
   private _lastSerialized = "";
   private _skipNextApplyFromWwState = false;
 
-  // fullscreen + code panel
+  // fullscreen + code panel, "combined" mode at boot
   private _codeTab: "html" | "css" | "combined" = "combined";
 
-  // selection
+  // selection, null at boot
   selectedElement: HTMLElement | null = null;
   private selectedNodeId: string | null = null;
 
   // grid assist for freeform
-  gridSize = 20;
-  showGrid = false;
-  shiftPressed = false;
-  gridKeyPressed = false;
+  gridSize = 20; // in pixels
+  showGrid = false; // grid flag
+  shiftPressed = false; // snapping
+  gridKeyPressed = false; // grid hotkey
 
   // palette
-  private componentQuery = "";
-  private trayOpen = false;
+  private componentQuery = ""; // for search
+  private trayOpen = false; // search tray flag
   private suppressNextClick = false;
 
+  // best-practice often used "favorise" kinda approach
   private oftenUsed: string[] = [
     "h1",
     "paragraph",
@@ -60,6 +62,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
     "icon",
   ];
 
+  // type description, null at boot
   private infoForType: string | null = null;
   private infoAnchorEl: HTMLElement | null = null;
 
@@ -71,18 +74,23 @@ export class WebwriterWebsiteBuilder extends LitElement {
   private flexSettings: FlexSettings = defaultFlexSettings();
   private gridSettings: GridSettings = defaultGridSettings();
 
+  // code generator
   private exporter = new BuilderExporter();
 
+  // set fullscreen on flagchange
   private _onFsChange = () => {
     this._isFullscreen = this.ownerDocument.fullscreenElement === this;
   };
 
+  // constructor, default webwriter documentation
   constructor() {
     super();
   }
 
+  // toggle fullscreen (duh)
   private async _toggleFullscreen() {
     const doc = this.ownerDocument;
+    // if currently in fullscreen
     if (doc.fullscreenElement === this) {
       await doc.exitFullscreen();
     } else {
@@ -92,19 +100,21 @@ export class WebwriterWebsiteBuilder extends LitElement {
     this._isFullscreen = doc.fullscreenElement === this;
   }
 
+  // coming from ./builder/styles
   static styles = builderStyles;
 
   render() {
-    const showGridOverlay = this.showGrid || this.gridKeyPressed;
+    const showGridOverlay = this.showGrid || this.gridKeyPressed; // if either the switch is enabled or the hotkey is pressed
 
     // Only show code panel in fullscreen
     const split = this._isFullscreen;
 
+    // get code corresponding to canvas
     const { html: outHtml, css: outCss, combined } = this._generateExport();
 
+    // main page, in fullscreen settings sidebar becomes the left column wrapper
     return html`
       <div class="layout ${split ? "fullscreen-split" : ""}">
-        <!-- Sidebar (kept as-is; in fullscreen it becomes the left column wrapper) -->
         <div part="options" style=${split ? "display:none;" : ""}>
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
