@@ -45,7 +45,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   // fullscreen + code panel
   private _codeTab: "html" | "css" | "combined" = "html";
 
-  // selection
+  // selection, null at boot
   selectedElement: HTMLElement | null = null;
   private selectedNodeId: string | null = null;
 
@@ -59,8 +59,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   gridKeyPressed = false;
 
   // palette
-  private componentQuery = "";
-  private trayOpen = false;
+  private componentQuery = ""; // for search
+  private trayOpen = false; // search tray flag
   private suppressNextClick = false;
 
   // basically a "favorites" list for quick access in the palette; can be extended in the future to track usage and auto-populate
@@ -86,6 +86,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private flexSettings: FlexSettings = defaultFlexSettings();
   private gridSettings: GridSettings = defaultGridSettings();
 
+  // code generator
   // code generator
   private exporter = new BuilderExporter();
 
@@ -117,6 +118,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     // get code tuple from code builder
     const { html: outHtml, css: outCss, combined } = this._generateExport();
 
+    // main page, in fullscreen settings sidebar becomes the left column wrapper
     return html`
       <div class="layout ${split ? "fullscreen-split" : ""}">
         <!-- Sidebar (in fullscreen it becomes hidden) -->

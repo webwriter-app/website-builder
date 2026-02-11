@@ -5,14 +5,14 @@ export type BuilderNode = {
   type: string;
   data: any;
 
-  // freeform
+  // only needed in freeform
   pos?: { x: number; y: number };
 
   // flow/flex/grid ordering & display
   order?: number;
-  display?: "block" | "inline";
+  display?: "block" | "inline"; // changable in settings
 
-  // flex/grid (minimal foundation)
+  // flex/grid settings
   flex?: {
     direction?: "row" | "column";
     justify?: string;
@@ -27,18 +27,21 @@ export type BuilderNode = {
   };
 };
 
+// settings api
 export type FlexSettings = NonNullable<BuilderNode["flex"]>;
 export type GridSettings = NonNullable<BuilderNode["grid"]>;
 
+// state of the canvas
 export type BuilderStatePayload = {
   layoutMode: LayoutMode;
-  nodes: BuilderNode[];
+  nodes: BuilderNode[]; // components displayed
   showGrid: boolean;
-  gridSize: number;
+  gridSize: number; // in pixels
   flexSettings: FlexSettings;
   gridSettings: GridSettings;
 };
 
+// default options for the flex layout
 export const defaultFlexSettings = (): FlexSettings => ({
   direction: "row",
   justify: "flex-start",
@@ -47,6 +50,7 @@ export const defaultFlexSettings = (): FlexSettings => ({
   wrap: "nowrap",
 });
 
+// default settings for the grid layout
 export const defaultGridSettings = (): GridSettings => ({
   columns: "repeat(3, 1fr)",
   rows: "auto",
