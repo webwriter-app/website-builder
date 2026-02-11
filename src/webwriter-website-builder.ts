@@ -1277,6 +1277,7 @@ ${syntax}</pre
    */
   private _selectNodeFromWrapper(e: MouseEvent, id: string) {
     e.stopPropagation();
+    this._blurActive();
 
     const target = e.target as HTMLElement | null;
     const anchor = target?.closest("a") as HTMLAnchorElement | null;
@@ -1299,6 +1300,36 @@ ${syntax}</pre
     this.requestUpdate();
   }
 
+  /**
+   * Delete selected node (if any) and normalize order
+   * @returns void
+   */
+  private _deleteSelectedNode() {
+    const id = this.selectedNodeId;
+    if (!id) return;
+
+    this.nodes = this.nodes.filter((n) => n.id !== id);
+    this._clearSelection();
+
+    // keep ordering sane for flow/flex/grid (safe for freeform too)
+    this._normalizeOrder();
+
+    this.requestUpdate();
+  }
+
+  /**
+   * Blur any focused control inside this component
+   * @returns void
+   */
+  private _blurActive() {
+    const root = this.renderRoot as ShadowRoot;
+    const ae = root.activeElement as HTMLElement | null;
+    if (ae) ae.blur();
+
+    const dae = this.ownerDocument.activeElement as HTMLElement | null;
+    if (dae && dae !== this) dae.blur();
+  }
+
   /* ===== Freeform drag-move ===== */
 
   /**
@@ -1312,6 +1343,38 @@ ${syntax}</pre
         "a, input, textarea, button, select, sl-range, sl-button, sl-icon-button, audio, video, canvas",
       ),
     );
+  }
+
+  /**
+   *
+   * @returns true if focus is in an editable control inside this component
+   */
+  private _isEditingWithinComponent(): boolean {
+    const root = this.renderRoot as ShadowRoot;
+    const ae =
+      (root.activeElement as HTMLElement | null) ??
+      (this.ownerDocument.activeElement as HTMLElement | null);
+    if (!ae) return false;
+
+    // must be inside this component (shadow or light DOM)
+    const path =
+      typeof (ae as any).getRootNode === "function"
+        ? (ae as any).getRootNode()
+        : null;
+
+    const inside =
+      root.contains(ae) || (this.contains(ae) as boolean) || path === root;
+
+    if (!inside) return false;
+
+    // native + contenteditable
+    if (ae.matches('input, textarea, select, [contenteditable="true"]'))
+      return true;
+
+    // Shoelace: focus may be host, or inside its shadow
+    if (ae.closest("sl-input, sl-textarea, sl-select")) return true;
+
+    return false;
   }
 
   /**
@@ -1373,6 +1436,7 @@ ${syntax}</pre
    * @returns void
    */
   private _onCanvasClick = (e: MouseEvent) => {
+    this._blurActive();
     const path = e.composedPath() as EventTarget[];
     const clickedElement = path.find(
       (p) =>
@@ -1410,6 +1474,7 @@ ${syntax}</pre
   private _clearSelection() {
     this.selectedNodeId = null;
     this.selectedElement = null;
+    this.requestUpdate();
   }
 
   /* ===== Reset ===== */
@@ -1448,7 +1513,16 @@ ${syntax}</pre
         this.requestUpdate();
       }
     }
+
     if (e.key === "Shift") this.shiftPressed = true;
+
+    // delete selected node
+    if (e.key === "Backspace" || e.key === "Delete") {
+      if (this._isEditingWithinComponent()) return; // don’t delete while typing
+      e.preventDefault();
+      this._deleteSelectedNode();
+      return;
+    }
 
     if (this.layoutMode !== "freeform") return;
     const node = this._getSelectedNode();
