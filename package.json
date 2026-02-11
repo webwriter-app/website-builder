@@ -1,6 +1,11 @@
 {
     "name": "@webwriter/website-builder",
     "version": "0.0.1",
+    "keywords": [
+        "webwriter-widget"
+    ],
+    "license": "MIT",
+    "author": "Moritz Langenhan <moritz.langenhan@rwth-aachen.de>",
     "scripts": {
         "prepublishOnly": "npx @webwriter/build",
         "dev": "npx @webwriter/build dev",
@@ -19,10 +24,5 @@
             "source": "./src/webwriter-website-builder.ts",
             "default": "./dist/widgets/webwriter-website-builder.*"
         }
-    },
-    "keywords": [
-        "webwriter-widget"
-    ],
-    "license": "MIT",
-    "author": "Moritz Langenhan <moritz.langenhan@rwth-aachen.de>"
+    }
 }

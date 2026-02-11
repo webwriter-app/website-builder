@@ -1,4 +1,5 @@
 import { html, LitElement } from "lit";
+import { LitElementWw } from "@webwriter/lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import LOCALIZE from "../localization/generated";
@@ -6,26 +7,35 @@ import { msg } from "@lit/localize";
 import { wbGear } from "./assets/icons";
 import { ComponentRegistry } from "./components/registry";
 import type { ComponentBinding } from "./types/BuilderComponent";
-import "./assets/shoelaceImports.ts";
+import { shoelaceScoped } from "./assets/shoelaceImports";
 
 import { BuilderExporter } from "./builder/exporter";
-import { normalizeOrder, sortedNodes, convertFreeformToOrdered, convertOrderedToFreeform } from "./builder/layout";
+import {
+  normalizeOrder,
+  sortedNodes,
+  convertFreeformToOrdered,
+  convertOrderedToFreeform,
+} from "./builder/layout";
 import { componentSyntaxHint, tileGlyph } from "./builder/palette-helpers";
 import { parseBuilderState, serializeBuilderState } from "./builder/state-io";
 import { builderStyles } from "./builder/styles";
-import type { BuilderNode, FlexSettings, GridSettings, LayoutMode } from "./builder/types";
+import type {
+  BuilderNode,
+  FlexSettings,
+  GridSettings,
+  LayoutMode,
+} from "./builder/types";
 import { defaultFlexSettings, defaultGridSettings } from "./builder/types";
 
 @customElement("webwriter-website-builder")
-export class WebwriterWebsiteBuilder extends LitElement {
+export class WebwriterWebsiteBuilder extends LitElementWw {
+  // translation
   localize = LOCALIZE;
   msg = msg;
 
-  // persistent state
+  // reactive propert that is used for state persistence. If this variable changes it re-renders the component
   @property({ attribute: "ww-state" })
   accessor wwState: string = "";
-
-  @state() private _isFullscreen = false;
 
   // internal guard to avoid loops
   private _hydrating = false;
@@ -33,7 +43,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
   private _skipNextApplyFromWwState = false;
 
   // fullscreen + code panel
-  private _codeTab: "html" | "css" | "combined" = "combined";
+  private _codeTab: "html" | "css" | "combined" = "html";
 
   // selection
   selectedElement: HTMLElement | null = null;
@@ -41,7 +51,10 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
   // grid assist for freeform
   gridSize = 20;
+
+  @state()
   showGrid = false;
+
   shiftPressed = false;
   gridKeyPressed = false;
 
@@ -50,6 +63,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
   private trayOpen = false;
   private suppressNextClick = false;
 
+  // basically a "favorites" list for quick access in the palette; can be extended in the future to track usage and auto-populate
   private oftenUsed: string[] = [
     "h1",
     "paragraph",
@@ -60,10 +74,11 @@ export class WebwriterWebsiteBuilder extends LitElement {
     "icon",
   ];
 
+  // info popup
   private infoForType: string | null = null;
   private infoAnchorEl: HTMLElement | null = null;
 
-  // layout mode + nodes model
+  // layout mode + nodes model, default is freeform
   private layoutMode: LayoutMode = "freeform";
   private nodes: BuilderNode[] = [];
 
@@ -71,74 +86,78 @@ export class WebwriterWebsiteBuilder extends LitElement {
   private flexSettings: FlexSettings = defaultFlexSettings();
   private gridSettings: GridSettings = defaultGridSettings();
 
+  // code generator
   private exporter = new BuilderExporter();
 
-  private _onFsChange = () => {
-    this._isFullscreen = this.ownerDocument.fullscreenElement === this;
-  };
+  // LitElementWw scopes to shadowDOM so we have to re-register shoelace's custom elements here
+  static get scopedElements() {
+    return shoelaceScoped;
+  }
 
+  // Fullscreen detection helper
+  get isFullscreen() {
+    return this.ownerDocument.fullscreenElement === this;
+  }
+
+  // Fullscreen listener in constructor
   constructor() {
     super();
   }
 
-  private async _toggleFullscreen() {
-    const doc = this.ownerDocument;
-    if (doc.fullscreenElement === this) {
-      await doc.exitFullscreen();
-    } else {
-      await this.requestFullscreen();
-    }
-    // immediately sync; doc event will also fire
-    this._isFullscreen = doc.fullscreenElement === this;
-  }
-
+  // CSS
   static styles = builderStyles;
 
   render() {
+    // grid overlay only on key or toggle
     const showGridOverlay = this.showGrid || this.gridKeyPressed;
 
     // Only show code panel in fullscreen
-    const split = this._isFullscreen;
+    const split = this.isFullscreen;
 
+    // get code tuple from code builder
     const { html: outHtml, css: outCss, combined } = this._generateExport();
 
     return html`
       <div class="layout ${split ? "fullscreen-split" : ""}">
-        <!-- Sidebar (kept as-is; in fullscreen it becomes the left column wrapper) -->
+        <!-- Sidebar (in fullscreen it becomes hidden) -->
         <div part="options" style=${split ? "display:none;" : ""}>
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
 
-            <div class="settings-row">
+            <!-- <div class="settings-row">
               <sl-switch
-                .checked=${this.showGrid}
+                .checked=${this.showGrid} 
                 @sl-change=${(e: CustomEvent) => {
-                  this.showGrid = (e as any).detail.checked;
-                  this.requestUpdate();
-                }}
-                >Show Grid</sl-switch
+              this.showGrid = e.detail.checked;
+            }}
+                >${msg("Show Grid")}</sl-switch
               >
-            </div>
+            </div> -->
 
-            <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
+            <!-- <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider> -->
 
+            <!-- Reset canvas button -->
             <div class="settings-row">
               <sl-button
                 size="small"
                 variant="default"
                 @click=${this._confirmReset}
-                title=${this.msg("Reset canvas")}
+                title=${msg("Reset canvas")}
                 style="margin-left: auto;"
               >
-                Reset Canvas
+                ${msg("Reset Canvas")}
               </sl-button>
             </div>
 
-            ${this._renderLayoutSettings()} ${this._renderSelectedComponentSettings()}
+            <!-- Layout and component settings (if no component is selected the selected component settings will be empty but layout settings will always be shown)  -->
+            ${this._renderLayoutSettings()}
+            ${this._renderSelectedComponentSettings()}
           </div>
         </div>
 
+        <!-- Main editor area (make it full height if in fullscreen) -->
         <div class="editor" style=${split ? "height:100%;" : ""}>
+          <!-- upper row -->
           ${this._renderPalette()}
 
           <!-- Canvas -->
@@ -149,6 +168,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
             style="--grid-size: ${this.gridSize}px"
             @click=${this._onCanvasClick}
           >
+            <!-- Show grid overlay if enabled, otherwise just the drop zone if there are no nodes -->
             ${showGridOverlay ? html`<div class="grid-overlay"></div>` : null}
             ${this._renderCanvasInner()}
 
@@ -158,10 +178,10 @@ export class WebwriterWebsiteBuilder extends LitElement {
                 size="small"
                 variant="primary"
                 @click=${this._toggleFullscreen}
-                @mousedown=${(e: MouseEvent) => e.preventDefault()}
               >
+                <!-- Icon changes based on fullscreen state -->
                 <sl-icon
-                  name=${this._isFullscreen ? "fullscreen-exit" : "fullscreen"}
+                  name=${this.isFullscreen ? "fullscreen-exit" : "fullscreen"}
                 ></sl-icon>
               </sl-button>
             </div>
@@ -197,6 +217,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
     `;
   }
 
+  // lets you switch code tabs in the code panel (only visible in fullscreen)
   private _codeTabBtn(tab: "html" | "css" | "combined", label: string) {
     const active = this._codeTab === tab;
     return html`
@@ -218,20 +239,21 @@ export class WebwriterWebsiteBuilder extends LitElement {
   /* ===== Palette UI ===== */
 
   private _renderPalette() {
-    const q = this.componentQuery.trim();
-    const searching = q.length > 0;
+    const q = this.componentQuery.trim(); // search query gotten from global value, trim to check if there is any real content
+    const searching = q.length > 0; // query active or not
 
-    const results = searching ? this._getPaletteItems() : [];
-    const quick = this.oftenUsed.filter((t) => ComponentRegistry[t]);
+    const results = searching ? this._getPaletteItems() : []; // get search results based on query, only if searching is active
+    const quick = this.oftenUsed.filter((t) => ComponentRegistry[t]); // sanity check, filter often used list to only include valid components, this is what is shown in the "often used" row in the palette. Can be removed later
 
     return html`
       <div class="palette">
         <div class="palette-top">
           <div class="palette-search">
+            <!-- Search input, updates global query value on input and opens tray if there is any real content, if cleared it also closes the tray. On focus it opens the tray if there is any real content in the query -->
             <sl-input
               size="small"
               clearable
-              placeholder="Search components…"
+              placeholder=${msg("Search components…")}
               .value=${this.componentQuery}
               @sl-input=${(e: any) => {
                 this.componentQuery = String(e.target.value ?? "");
@@ -262,18 +284,21 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
         ${!searching
           ? html`
+              <!-- render tiles for often used components only if there is no active search query, this row is hidden as soon as you start searching -->
               <div class="quick-row" aria-label="Often used components">
                 ${quick.map((t) => this._tile(t, { compact: true }))}
               </div>
             `
           : null}
 
+        <!-- ?hidden makes elements hidden until a certain condition is met, in this case the search query being empty and the tray with the search results is shown, if not it is hidden -->
         <div class="tray" ?hidden=${!(this.trayOpen && searching)}>
           <div class="tray-header">
             <div class="tray-title">Results</div>
             <div class="tray-count">${results.length}</div>
           </div>
 
+          <!-- show reslts grid with their corresponding tiles -->
           <div class="tray-inner">
             <div class="results-grid">
               ${results.map((t) => this._tile(t, { compact: false }))}
@@ -281,11 +306,13 @@ export class WebwriterWebsiteBuilder extends LitElement {
           </div>
         </div>
 
+        <!-- Info popup for components if clicked on -->
         ${this._renderInfoPopup()}
       </div>
     `;
   }
 
+  // highlight currently active layout mode button and set layout mode on click
   private _layoutBtn(mode: LayoutMode, label: string) {
     const active = this.layoutMode === mode;
     return html`
@@ -300,18 +327,21 @@ export class WebwriterWebsiteBuilder extends LitElement {
     `;
   }
 
+  // get tile for component type with click handlers for adding to canvas and showing info popup
   private _getPaletteItems(): string[] {
-    const q = this.componentQuery.trim().toLowerCase();
-    const allTypes = Object.keys(ComponentRegistry);
+    const q = this.componentQuery.trim().toLowerCase(); // query in lowercase for easier matching
+    const allTypes = Object.keys(ComponentRegistry); // returns the strings of all registered component types as an array
 
+    // return the filtered and sorted list of component types based on the search query
     const searched = q
       ? allTypes.filter((t) => {
-          const comp = ComponentRegistry[t];
-          const label = (comp?.label ?? t).toLowerCase();
-          return t.toLowerCase().includes(q) || label.includes(q);
+          const comp = ComponentRegistry[t]; // get component info from registry
+          const label = (comp?.label ?? t).toLowerCase(); // check if it exists and get label in lowercase
+          return t.toLowerCase().includes(q) || label.includes(q); // keep if type or label includes query term
         })
-      : allTypes;
+      : allTypes; // if no query, return all types
 
+    // sorts descending based on label, if no label then type
     return searched.sort((a, b) => {
       const la = (ComponentRegistry[a]?.label ?? a).toLowerCase();
       const lb = (ComponentRegistry[b]?.label ?? b).toLowerCase();
@@ -322,12 +352,14 @@ export class WebwriterWebsiteBuilder extends LitElement {
   /* ===== Canvas rendering per mode ===== */
 
   private _renderCanvasInner() {
-    const empty = this.nodes.length === 0;
+    const empty = this.nodes.length === 0; // if no components have been added to the canvas
 
+    // render a drag and drop zone
     if (empty) {
       return html`<div class="drop-zone">Drag and drop components here</div>`;
     }
 
+    // render all nodes based on selected layout mode, freeform has its own rendering function because of the absolute positioning, the other modes can share a rendering function since they all use the same flow layout and only differ in the container styles
     if (this.layoutMode === "freeform") {
       return html`
         <div class="freeform-root">
@@ -381,17 +413,19 @@ export class WebwriterWebsiteBuilder extends LitElement {
     `;
   }
 
+  // helper
   private _sortedNodes() {
     return sortedNodes(this.nodes);
   }
 
   private _renderNodeFreeform(n: BuilderNode) {
-    const comp = ComponentRegistry[n.type];
-    if (!comp) return null;
+    const comp = ComponentRegistry[n.type]; // get component info from registry based on node type
+    if (!comp) return null; // if component type is not found in registry, return null to avoid errors
 
-    const pos = n.pos ?? { x: 32, y: 32 };
-    const selected = this.selectedNodeId === n.id;
+    const pos = n.pos ?? { x: 32, y: 32 }; // get position or if non-existant set default position
+    const selected = this.selectedNodeId === n.id; // check if node is selected for styling purposes
 
+    // render the component using its render function and pass in the node data, also add click handlers for selection and mouse down for dragging, set styles for absolute positioning and cursor. Use default data if no data exists for the node
     return html`
       <div
         class="builder-element ${selected ? "selected" : ""}"
@@ -411,12 +445,13 @@ export class WebwriterWebsiteBuilder extends LitElement {
     `;
   }
 
+  // render node for flow, flex and grid layout modes since they all share the same flow item styles and only differ in the container styles, also add click handler for selection and set data-display attribute for block or inline display based on node setting, use default data if no data exists for the node
   private _renderNodeFlow(n: BuilderNode) {
     const comp = ComponentRegistry[n.type];
     if (!comp) return null;
 
     const selected = this.selectedNodeId === n.id;
-    const display = n.display ?? "block";
+    const display = n.display ?? "block"; // set display setting to either block or inline based on node setting, default to block if not set ( for some reason? )
 
     return html`
       <div
@@ -435,17 +470,18 @@ export class WebwriterWebsiteBuilder extends LitElement {
 
   private _renderLayoutSettings() {
     if (this.layoutMode === "flex") {
-      const flex = this._getFlexSettings();
+      const flex = this._getFlexSettings(); // get current flex settings to populate the layout settings UI with the current values
       return html`
         <div style="margin-top: 1rem">
-          <h2 style="margin-top: 0">${this.msg("Layout")}</h2>
+          <h2 style="margin-top: 0">Layout</h2>
 
+          <!-- populate flex settings with current values and update settings on change, for select inputs use predefined options based on valid CSS values for the corresponding property, for gap use a text input to allow custom values -->
           <div class="setting-row">
             <sl-select
               label="Direction"
               value=${flex.direction ?? "row"}
               @sl-change=${(e: any) =>
-                this._setFlexSettings({ direction: e.target.value })}
+                this._setFlexSettings({ direction: e.target.value })} 
             >
               <sl-option value="row">row</sl-option>
               <sl-option value="column">column</sl-option>
@@ -512,7 +548,7 @@ export class WebwriterWebsiteBuilder extends LitElement {
       const grid = this._getGridSettings();
       return html`
         <div style="margin-top: 1rem">
-          <h2 style="margin-top: 0">${this.msg("Layout")}</h2>
+          <h2 style="margin-top: 0">Layout</h2>
 
           <div class="setting-row">
             <sl-input
@@ -844,13 +880,38 @@ ${syntax}</pre
     `;
   }
 
+  private _onFsChange = () => {
+    console.warn("[fs] change", {
+      fsEl: document.fullscreenElement?.tagName ?? null,
+      isFs: document.fullscreenElement === this,
+    });
+    this.requestUpdate();
+  };
+
+  private _onFsError = (e: Event) => {
+    console.warn("[fs] error", e);
+  };
+
+  private async _toggleFullscreen() {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        await this.requestFullscreen();
+      }
+    } finally {
+      // ensures UI updates even if the event never shows up
+      this.requestUpdate();
+    }
+  }
+
   /* ===== Global listeners ===== */
 
   connectedCallback() {
     super.connectedCallback();
 
-    this.ownerDocument.addEventListener("fullscreenchange", this._onFsChange);
-    this._isFullscreen = this.ownerDocument.fullscreenElement === this;
+    document.addEventListener("fullscreenchange", this._onFsChange);
+    document.addEventListener("fullscreenerror", this._onFsError);
 
     this._hydrating = true;
     const attr = this.getAttribute("ww-state") || "";
@@ -888,7 +949,8 @@ ${syntax}</pre
   }
 
   disconnectedCallback() {
-    this.ownerDocument.removeEventListener("fullscreenchange", this._onFsChange);
+    document.removeEventListener("fullscreenchange", this._onFsChange);
+    document.removeEventListener("fullscreenerror", this._onFsError);
 
     window.removeEventListener("mousedown", this._onGlobalMouseDown);
     window.removeEventListener("keydown", this._onKeyDown);
@@ -1079,7 +1141,9 @@ ${syntax}</pre
     const el = this.renderRoot.querySelector(
       `[data-node-id="${nodeId}"]`,
     ) as HTMLElement | null;
-    const canvas = this.renderRoot.querySelector(".canvas") as HTMLElement | null;
+    const canvas = this.renderRoot.querySelector(
+      ".canvas",
+    ) as HTMLElement | null;
     if (!el || !canvas) return;
 
     const rect = el.getBoundingClientRect();
@@ -1097,7 +1161,10 @@ ${syntax}</pre
       }
 
       newX = Math.max(0, Math.min(newX, containerRect.width - el.offsetWidth));
-      newY = Math.max(0, Math.min(newY, containerRect.height - el.offsetHeight));
+      newY = Math.max(
+        0,
+        Math.min(newY, containerRect.height - el.offsetHeight),
+      );
 
       this.nodes = this.nodes.map((n) =>
         n.id === nodeId ? { ...n, pos: { x: newX, y: newY } } : n,
@@ -1117,7 +1184,8 @@ ${syntax}</pre
   private _onCanvasClick = (e: MouseEvent) => {
     const path = e.composedPath() as EventTarget[];
     const clickedElement = path.find(
-      (p) => p instanceof HTMLElement && p.classList?.contains("builder-element"),
+      (p) =>
+        p instanceof HTMLElement && p.classList?.contains("builder-element"),
     ) as HTMLElement | undefined;
 
     if (!clickedElement) this._clearSelection();
