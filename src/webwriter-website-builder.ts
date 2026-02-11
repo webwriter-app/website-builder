@@ -95,12 +95,18 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     return shoelaceScoped;
   }
 
-  // Fullscreen detection helper
+  /**
+   * Fullscreen flag for this component
+   * @returns true if this element is the fullscreenElement
+   */
   get isFullscreen() {
     return this.ownerDocument.fullscreenElement === this;
   }
 
-  // Fullscreen listener in constructor
+  /**
+   * Setup instance
+   * @returns void
+   */
   constructor() {
     super();
   }
@@ -108,6 +114,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   // CSS
   static styles = builderStyles;
 
+  /**
+   * Main UI render
+   * @returns Lit template
+   */
   render() {
     // grid overlay only on key or toggle
     const showGridOverlay = this.showGrid || this.gridKeyPressed;
@@ -219,7 +229,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     `;
   }
 
-  // lets you switch code tabs in the code panel (only visible in fullscreen)
+  /**
+   * lets you switch code tabs in the code panel (only visible in fullscreen)
+   * @returns Lit template
+   */
   private _codeTabBtn(tab: "html" | "css" | "combined", label: string) {
     const active = this._codeTab === tab;
     return html`
@@ -240,6 +253,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   /* ===== Palette UI ===== */
 
+  /**
+   * Palette: search + quick row + results tray + info popup
+   * @returns Lit template
+   */
   private _renderPalette() {
     const q = this.componentQuery.trim(); // search query gotten from global value, trim to check if there is any real content
     const searching = q.length > 0; // query active or not
@@ -314,7 +331,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     `;
   }
 
-  // highlight currently active layout mode button and set layout mode on click
+  /**
+   * highlight currently active layout mode button and set layout mode on click
+   * @returns Lit template
+   */
   private _layoutBtn(mode: LayoutMode, label: string) {
     const active = this.layoutMode === mode;
     return html`
@@ -329,7 +349,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     `;
   }
 
-  // get tile for component type with click handlers for adding to canvas and showing info popup
+  /**
+   * get tile for component type with click handlers for adding to canvas and showing info popup
+   * @returns component type ids
+   */
   private _getPaletteItems(): string[] {
     const q = this.componentQuery.trim().toLowerCase(); // query in lowercase for easier matching
     const allTypes = Object.keys(ComponentRegistry); // returns the strings of all registered component types as an array
@@ -353,6 +376,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   /* ===== Canvas rendering per mode ===== */
 
+  /**
+   * Canvas root content for current layout mode
+   * @returns Lit template
+   */
   private _renderCanvasInner() {
     const empty = this.nodes.length === 0; // if no components have been added to the canvas
 
@@ -415,11 +442,18 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     `;
   }
 
-  // helper
+  /**
+   * Sort nodes by order
+   * @returns ordered nodes
+   */
   private _sortedNodes() {
     return sortedNodes(this.nodes);
   }
 
+  /**
+   * Render node wrapper for freeform (absolute positioned)
+   * @returns Lit template | null if type not registered
+   */
   private _renderNodeFreeform(n: BuilderNode) {
     const comp = ComponentRegistry[n.type]; // get component info from registry based on node type
     if (!comp) return null; // if component type is not found in registry, return null to avoid errors
@@ -447,7 +481,11 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     `;
   }
 
-  // render node for flow, flex and grid layout modes since they all share the same flow item styles and only differ in the container styles, also add click handler for selection and set data-display attribute for block or inline display based on node setting, use default data if no data exists for the node
+  /**
+   * render node for flow, flex and grid layout modes since they all share the same flow item styles and only differ in the container styles,
+   * also add click handler for selection and set data-display attribute for block or inline display based on node setting, use default data if no data exists for the node
+   * @returns Lit template | null if type not registered
+   */
   private _renderNodeFlow(n: BuilderNode) {
     const comp = ComponentRegistry[n.type];
     if (!comp) return null;
@@ -470,6 +508,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   /* ===== Layout settings (global) ===== */
 
+  /**
+   * Render global layout settings UI for flex/grid
+   * @returns Lit template | null
+   */
   private _renderLayoutSettings() {
     if (this.layoutMode === "flex") {
       const flex = this._getFlexSettings(); // get current flex settings to populate the layout settings UI with the current values
@@ -483,7 +525,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
               label="Direction"
               value=${flex.direction ?? "row"}
               @sl-change=${(e: any) =>
-                this._setFlexSettings({ direction: e.target.value })} 
+                this._setFlexSettings({ direction: e.target.value })}
             >
               <sl-option value="row">row</sl-option>
               <sl-option value="column">column</sl-option>
@@ -590,6 +632,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     return null;
   }
 
+  /**
+   * Flex container inline style from settings
+   * @returns style string
+   */
   private _flexContainerStyle(): string {
     const f = this._getFlexSettings();
     const direction = f.direction ?? "row";
@@ -600,6 +646,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     return `flex-direction:${direction}; justify-content:${justify}; align-items:${align}; flex-wrap:${wrap}; gap:${gap};`;
   }
 
+  /**
+   * Grid container inline style from settings
+   * @returns style string
+   */
   private _gridContainerStyle(): string {
     const g = this._getGridSettings();
     const cols = g.columns ?? "repeat(3, 1fr)";
@@ -608,19 +658,35 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     return `grid-template-columns:${cols}; grid-auto-rows:${rows}; gap:${gap};`;
   }
 
+  /**
+   * Read flex settings
+   * @returns current flex settings
+   */
   private _getFlexSettings() {
     return this.flexSettings;
   }
 
+  /**
+   * Patch flex settings
+   * @returns void
+   */
   private _setFlexSettings(patch: Partial<FlexSettings>) {
     this.flexSettings = { ...this._getFlexSettings(), ...patch };
     this.requestUpdate();
   }
 
+  /**
+   * Read grid settings
+   * @returns current grid settings
+   */
   private _getGridSettings() {
     return this.gridSettings;
   }
 
+  /**
+   * Patch grid settings
+   * @returns void
+   */
   private _setGridSettings(patch: Partial<GridSettings>) {
     this.gridSettings = { ...this._getGridSettings(), ...patch };
     this.requestUpdate();
@@ -628,6 +694,17 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   /* ===== Selection + per-node settings ===== */
 
+  /**
+   * Selected node settings UI:
+   * - custom settings (component.settings)
+   * - flow display setting (block/inline)
+   * - bindings inputs (component.bindings)
+   * render the settings for the currently selected component, if there is no selected component or the component type is not found in the registry return null to not render anything,
+   * if the component has a custom settings function render its output,
+   * if the layout mode is flow also render display settings for block or inline display,
+   * if the component has bindings render input fields for each binding and update node data on input
+   * @returns Lit template | null
+   */
   private _renderSelectedComponentSettings() {
     const node = this._getSelectedNode();
     if (!node) return null;
@@ -705,21 +782,37 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     `;
   }
 
+  /**
+   * Get selected node by id
+   * @returns node | null
+   */
   private _getSelectedNode(): BuilderNode | null {
     if (!this.selectedNodeId) return null;
     return this.nodes.find((n) => n.id === this.selectedNodeId) ?? null;
   }
 
+  /**
+   * Patch a node by id
+   * @returns void
+   */
   private _updateNode(id: string, patch: Partial<BuilderNode>) {
     this.nodes = this.nodes.map((n) => (n.id === id ? { ...n, ...patch } : n));
     this.requestUpdate();
   }
 
+  /**
+   * Read a binding value from node.data
+   * @returns string (empty if missing)
+   */
   private _readBindingFromNode(node: BuilderNode, b: ComponentBinding): string {
     const v = node.data?.[b.key];
     return v == null ? "" : String(v);
   }
 
+  /**
+   * Write a binding value into node.data
+   * @returns void
+   */
   private _writeBindingToNode(id: string, b: ComponentBinding, value: string) {
     this.nodes = this.nodes.map((n) => {
       if (n.id !== id) return n;
@@ -730,6 +823,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   /* ===== State persistence ===== */
 
+  /**
+   * Serialize current builder state for webwriter-state
+   * @returns serialized string
+   */
   private _serializeState(): string {
     return serializeBuilderState({
       layoutMode: this.layoutMode,
@@ -741,6 +838,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     });
   }
 
+  /**
+   * Apply serialized builder state to fields
+   * @returns void
+   */
   private _applyState(serialized: string) {
     const parsed = parseBuilderState(serialized);
     if (!parsed) return;
@@ -757,8 +858,12 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this._clearSelection();
   }
 
-  /* ===== Code export (first version) ===== */
+  /* ===== Code export ===== */
 
+  /**
+   * Generate export code for current state
+   * @returns { html, css, combined }
+   */
   private _generateExport(): { html: string; css: string; combined: string } {
     return this.exporter.generateExport({
       layoutMode: this.layoutMode,
@@ -768,8 +873,12 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     });
   }
 
-  /* ===== Info popup (unchanged) ===== */
+  /* ===== Info popup ===== */
 
+  /**
+   * Info popup for clicked tile (syntax preview + insert)
+   * @returns Lit template | null
+   */
   private _renderInfoPopup() {
     if (!this.infoForType || !this.infoAnchorEl) return null;
 
@@ -841,6 +950,10 @@ ${syntax}</pre
 
   /* ===== Tiles ===== */
 
+  /**
+   * Palette tile element (drag + click)
+   * @returns Lit template
+   */
   private _tile(type: string, opts: { compact: boolean }) {
     const comp = ComponentRegistry[type];
     const label = comp?.label ?? type;
@@ -882,6 +995,10 @@ ${syntax}</pre
     `;
   }
 
+  /**
+   * Fullscreenchange handler (forces rerender such that the code panel is instantly shown instead of waiting for an additional rerender to happen)
+   * @returns void
+   */
   private _onFsChange = () => {
     console.warn("[fs] change", {
       fsEl: document.fullscreenElement?.tagName ?? null,
@@ -890,10 +1007,18 @@ ${syntax}</pre
     this.requestUpdate();
   };
 
+  /**
+   * Fullscreen error handler
+   * @returns void
+   */
   private _onFsError = (e: Event) => {
     console.warn("[fs] error", e);
   };
 
+  /**
+   * Toggle fullscreen on this element
+   * @returns Promise<void>
+   */
   private async _toggleFullscreen() {
     try {
       if (document.fullscreenElement) {
@@ -909,6 +1034,10 @@ ${syntax}</pre
 
   /* ===== Global listeners ===== */
 
+  /**
+   * Lifecycle: attach listeners + hydrate webwriter-state
+   * @returns void
+   */
   connectedCallback() {
     super.connectedCallback();
 
@@ -925,6 +1054,10 @@ ${syntax}</pre
     window.addEventListener("keyup", this._onKeyUp);
   }
 
+  /**
+   * Lifecycle: sync internal state <-> webwriter-state
+   * @returns void
+   */
   updated(changed: Map<string, unknown>) {
     super.updated(changed);
 
@@ -950,6 +1083,10 @@ ${syntax}</pre
     }
   }
 
+  /**
+   * Lifecycle: remove listeners
+   * @returns void
+   */
   disconnectedCallback() {
     document.removeEventListener("fullscreenchange", this._onFsChange);
     document.removeEventListener("fullscreenerror", this._onFsError);
@@ -961,6 +1098,10 @@ ${syntax}</pre
     super.disconnectedCallback();
   }
 
+  /**
+   * Close tray/popup when clicking outside palette (but inside component)
+   * @returns void
+   */
   private _onGlobalMouseDown = (e: MouseEvent) => {
     const path = e.composedPath();
     const clickedInsideThisComponent = path.includes(this);
@@ -979,16 +1120,28 @@ ${syntax}</pre
 
   /* ===== Drag/drop ===== */
 
+  /**
+   * Start drag: stores component type in dataTransfer
+   * @returns void
+   */
   private _onDragStart(event: DragEvent) {
     const target = event.target as HTMLElement;
     const type = target.getAttribute("data-component-type");
     event.dataTransfer?.setData("component-type", type ?? "");
   }
 
+  /**
+   * Allow drop
+   * @returns void
+   */
   private _onDragOver(event: DragEvent) {
     event.preventDefault();
   }
 
+  /**
+   * Drop handler: routes to freeform or flow-like insertion
+   * @returns void
+   */
   private _onDrop(event: DragEvent) {
     event.preventDefault();
     const type = event.dataTransfer?.getData("component-type");
@@ -1005,6 +1158,10 @@ ${syntax}</pre
     this._dropFlowLike(event, type);
   }
 
+  /**
+   * Drop in freeform: positions node by mouse coords
+   * @returns void
+   */
   private _dropFreeform(event: DragEvent, type: string) {
     const canvasEl = this.shadowRoot!.querySelector(".canvas");
     if (!(canvasEl instanceof HTMLElement)) return;
@@ -1026,6 +1183,10 @@ ${syntax}</pre
     this._selectNodeId(node.id);
   }
 
+  /**
+   * Drop in flow-like modes: insert by vertical position
+   * @returns void
+   */
   private _dropFlowLike(event: DragEvent, type: string) {
     const root = this.renderRoot.querySelector(
       this.layoutMode === "flow"
@@ -1066,10 +1227,18 @@ ${syntax}</pre
     this._selectNodeId(node.id);
   }
 
+  /**
+   * Normalize node.order values
+   * @returns void
+   */
   private _normalizeOrder() {
     this.nodes = normalizeOrder(this.nodes);
   }
 
+  /**
+   * Quick insert (from info popup): append with default position/order
+   * @returns void
+   */
   private _quickAdd(type: string) {
     const component = ComponentRegistry[type];
     if (!component) return;
@@ -1102,6 +1271,10 @@ ${syntax}</pre
 
   /* ===== Selection helpers ===== */
 
+  /**
+   * Select node wrapper; prevent link navigation unless modifier key
+   * @returns void
+   */
   private _selectNodeFromWrapper(e: MouseEvent, id: string) {
     e.stopPropagation();
 
@@ -1114,6 +1287,10 @@ ${syntax}</pre
     this._selectNodeId(id);
   }
 
+  /**
+   * Select node by id and cache wrapper element
+   * @returns void
+   */
   private _selectNodeId(id: string) {
     this.selectedNodeId = id;
     this.selectedElement = this.renderRoot.querySelector(
@@ -1124,6 +1301,10 @@ ${syntax}</pre
 
   /* ===== Freeform drag-move ===== */
 
+  /**
+   * Detect interactive targets (don’t start drag on them)
+   * @returns true if inside interactive element
+   */
   private _isInteractiveTarget(target: EventTarget | null): boolean {
     if (!(target instanceof HTMLElement)) return false;
     return Boolean(
@@ -1133,6 +1314,10 @@ ${syntax}</pre
     );
   }
 
+  /**
+   * Freeform drag handler (mousemove updates node.pos, shift snaps)
+   * @returns void
+   */
   private _freeformMouseDown(e: MouseEvent, nodeId: string) {
     if (this.layoutMode !== "freeform") return;
     if (this._isInteractiveTarget(e.target)) return;
@@ -1183,6 +1368,10 @@ ${syntax}</pre
     window.addEventListener("mouseup", onUp);
   }
 
+  /**
+   * Click canvas background to clear selection
+   * @returns void
+   */
   private _onCanvasClick = (e: MouseEvent) => {
     const path = e.composedPath() as EventTarget[];
     const clickedElement = path.find(
@@ -1195,6 +1384,10 @@ ${syntax}</pre
 
   /* ===== Layout mode switching ===== */
 
+  /**
+   * Switch layout mode; convert node data between freeform and ordered modes
+   * @returns void
+   */
   private _setLayoutMode(next: LayoutMode) {
     if (this.layoutMode === next) return;
 
@@ -1210,6 +1403,10 @@ ${syntax}</pre
     this.requestUpdate();
   }
 
+  /**
+   * Clear selected node state
+   * @returns void
+   */
   private _clearSelection() {
     this.selectedNodeId = null;
     this.selectedElement = null;
@@ -1217,6 +1414,10 @@ ${syntax}</pre
 
   /* ===== Reset ===== */
 
+  /**
+   * Confirm reset dialog.
+   * @returns Promise<void>
+   */
   private async _confirmReset() {
     const confirmed = confirm(
       this.msg("This will remove all elements from the canvas. Continue?"),
@@ -1224,6 +1425,10 @@ ${syntax}</pre
     if (confirmed) this._resetCanvas();
   }
 
+  /**
+   * Reset builder nodes + selection
+   * @returns void
+   */
   private _resetCanvas() {
     this.nodes = [];
     this._clearSelection();
@@ -1232,6 +1437,10 @@ ${syntax}</pre
 
   /* ===== Keyboard ===== */
 
+  /**
+   * Keydown: grid overlay (g), snapping (shift), arrow-move selected node
+   * @returns void
+   */
   private _onKeyDown = (e: KeyboardEvent) => {
     if (e.key === "g" || e.key === "G") {
       if (!this.gridKeyPressed) {
@@ -1273,6 +1482,10 @@ ${syntax}</pre
     this._updateNode(node.id, { pos: { x, y } });
   };
 
+  /**
+   * Keyup: release grid overlay (g) and snapping (shift)
+   * @returns void
+   */
   private _onKeyUp = (e: KeyboardEvent) => {
     if (e.key === "Shift") this.shiftPressed = false;
     if (e.key === "g" || e.key === "G") {
