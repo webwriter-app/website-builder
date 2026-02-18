@@ -1,4 +1,4 @@
-import { html, LitElement } from "lit";
+import { html } from "lit";
 import { LitElementWw } from "@webwriter/lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
@@ -48,6 +48,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   // selection, null at boot
   selectedElement: HTMLElement | null = null;
   private selectedNodeId: string | null = null;
+
+  private interactKeyPressed = false; // TEMP: allow interaction while holding "a"
 
   // grid assist for freeform
   gridSize = 20;
@@ -473,8 +475,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
           top:${pos.y}px;
           cursor:grab;
         "
-        @click=${(e: MouseEvent) => this._selectNodeFromWrapper(e, n.id)}
-        @mousedown=${(e: MouseEvent) => this._freeformMouseDown(e, n.id)}
+        @pointerdown=${(e: PointerEvent) => this._onWrapperPointerDown(e, n.id)}
+        @click=${(e: MouseEvent) => this._onWrapperClick(e, n.id)}
       >
         ${comp.render(n.data ?? comp.defaultData)}
       </div>
@@ -499,11 +501,60 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         data-node-id=${n.id}
         data-component-type=${n.type}
         data-display=${display}
-        @click=${(e: MouseEvent) => this._selectNodeFromWrapper(e, n.id)}
+        @pointerdown=${(e: PointerEvent) => this._onWrapperPointerDown(e, n.id)}
+        @click=${(e: MouseEvent) => this._onWrapperClick(e, n.id)}
       >
         ${comp.render(n.data ?? comp.defaultData)}
       </div>
     `;
+  }
+
+  private _allowInteractEvent(_e: any) {
+    return this.interactKeyPressed;
+  }
+
+  private _onWrapperPointerDown(e: PointerEvent, nodeId: string) {
+    console.log("allowInteract?", this.interactKeyPressed);
+
+    const interactive = this._isInteractiveTarget(e.target);
+    const allowInteract = this._allowInteractEvent(e);
+
+    // If modifier held and user is on interactive control: allow native behavior (video controls, links, etc.)
+    if (interactive && allowInteract) {
+      return;
+    }
+
+    // If interactive but modifier NOT held: block interaction (so controls don't engage)
+    if (interactive && !allowInteract) {
+      e.preventDefault();
+      e.stopPropagation();
+      this._selectNodeId(nodeId);
+
+      // In freeform: start dragging from this pointerdown
+      if (this.layoutMode === "freeform") {
+        this._startFreeformDragFromPointer(e, nodeId);
+      }
+      return;
+    }
+
+    // Non-interactive area:
+    this._selectNodeId(nodeId);
+
+    if (this.layoutMode === "freeform") {
+      this._startFreeformDragFromPointer(e, nodeId);
+    }
+  }
+
+  private _onWrapperClick(e: MouseEvent, nodeId: string) {
+    const interactive = this._isInteractiveTarget(e.target);
+    const allowInteract = this._allowInteractEvent(e);
+
+    if (interactive && allowInteract) return;
+
+    if (interactive && !allowInteract) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   }
 
   /* ===== Layout settings (global) ===== */
@@ -1277,13 +1328,17 @@ ${syntax}</pre
    */
   private _selectNodeFromWrapper(e: MouseEvent, id: string) {
     e.stopPropagation();
+
+    if (this._isInteractiveTarget(e.target) && this._allowInteract(e)) return;
+
     this._blurActive();
 
-    const target = e.target as HTMLElement | null;
-    const anchor = target?.closest("a") as HTMLAnchorElement | null;
-    const allowFollow =
-      e instanceof MouseEvent && (e.metaKey || e.ctrlKey || e.altKey);
-    if (anchor && !allowFollow) e.preventDefault();
+    const allowInteract = this._allowInteract(e);
+
+    // If click originated from an interactive element, block its default action unless modifier pressed
+    if (this._isInteractiveTarget(e.target) && !allowInteract) {
+      e.preventDefault();
+    }
 
     this._selectNodeId(id);
   }
@@ -1340,9 +1395,38 @@ ${syntax}</pre
     if (!(target instanceof HTMLElement)) return false;
     return Boolean(
       target.closest(
-        "a, input, textarea, button, select, sl-range, sl-button, sl-icon-button, audio, video, canvas",
+        [
+          "a",
+          "button",
+          "input",
+          "textarea",
+          "select",
+          "[contenteditable='true']",
+          "audio",
+          "video",
+          "summary",
+          "details",
+          // Shoelace interactive hosts
+          "sl-input",
+          "sl-textarea",
+          "sl-select",
+          "sl-button",
+          "sl-icon-button",
+          "sl-checkbox",
+          "sl-switch",
+          "sl-radio",
+          "sl-range",
+        ].join(", "),
       ),
     );
+  }
+
+  /**
+   * Detect interaction modifier keys (allow interaction if pressed)
+   * @returns true if interaction key is pressed
+   */
+  private _allowInteract(e: MouseEvent): boolean {
+    return e.ctrlKey || e.metaKey;
   }
 
   /**
@@ -1381,13 +1465,7 @@ ${syntax}</pre
    * Freeform drag handler (mousemove updates node.pos, shift snaps)
    * @returns void
    */
-  private _freeformMouseDown(e: MouseEvent, nodeId: string) {
-    if (this.layoutMode !== "freeform") return;
-    if (this._isInteractiveTarget(e.target)) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-
+  private _startFreeformDragFromPointer(e: PointerEvent, nodeId: string) {
     const el = this.renderRoot.querySelector(
       `[data-node-id="${nodeId}"]`,
     ) as HTMLElement | null;
@@ -1396,11 +1474,16 @@ ${syntax}</pre
     ) as HTMLElement | null;
     if (!el || !canvas) return;
 
-    const rect = el.getBoundingClientRect();
-    let offsetX = e.clientX - rect.left;
-    let offsetY = e.clientY - rect.top;
+    // capture pointer so we keep receiving moves
+    try {
+      el.setPointerCapture(e.pointerId);
+    } catch {}
 
-    const onMove = (ev: MouseEvent) => {
+    const rect = el.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
+
+    const onMove = (ev: PointerEvent) => {
       const containerRect = canvas.getBoundingClientRect();
       let newX = ev.clientX - containerRect.left - offsetX;
       let newY = ev.clientY - containerRect.top - offsetY;
@@ -1423,12 +1506,15 @@ ${syntax}</pre
     };
 
     const onUp = () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseup", onUp);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      try {
+        el.releasePointerCapture(e.pointerId);
+      } catch {}
     };
 
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
   }
 
   /**
@@ -1514,6 +1600,13 @@ ${syntax}</pre
       }
     }
 
+    if (e.key === "a" || e.key === "A") {
+      this.interactKeyPressed = true;
+      // optional: avoid typing "a" into inputs when testing interaction
+      // e.preventDefault();
+      return;
+    }
+
     if (e.key === "Shift") this.shiftPressed = true;
 
     // delete selected node
@@ -1562,9 +1655,15 @@ ${syntax}</pre
    */
   private _onKeyUp = (e: KeyboardEvent) => {
     if (e.key === "Shift") this.shiftPressed = false;
+
     if (e.key === "g" || e.key === "G") {
       this.gridKeyPressed = false;
       this.requestUpdate();
+    }
+
+    if (e.key === "a" || e.key === "A") {
+      this.interactKeyPressed = false;
+      return;
     }
   };
 }
