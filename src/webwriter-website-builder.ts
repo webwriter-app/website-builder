@@ -82,15 +82,34 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   // layout mode + nodes model, default is freeform
   private layoutMode: LayoutMode = "freeform";
-  private nodes: BuilderNode[] = [];
+
+  // --- per-layout state ---
+  private freeformNodes: BuilderNode[] = [];
+  private orderedNodes: BuilderNode[] = []; // shared by flow/flex/grid
 
   // container settings (global)
   private flexSettings: FlexSettings = defaultFlexSettings();
   private gridSettings: GridSettings = defaultGridSettings();
 
   // code generator
-  // code generator
   private exporter = new BuilderExporter();
+
+  // --- drag sort state (ordered layouts) ---
+  private _sortDragging = false;
+  private _sortDragId: string | null = null;
+  private _sortPointerId: number | null = null;
+  private _sortStartIndex = -1;
+  private _sortCurrentIndex = -1;
+
+  private _dragEl: HTMLElement | null = null;
+  private _placeholderEl: HTMLElement | null = null;
+
+  private _dragOffsetX = 0;
+  private _dragOffsetY = 0;
+
+  private _rafMovePending = false;
+  private _lastPointerX = 0;
+  private _lastPointerY = 0;
 
   // LitElementWw scopes to shadowDOM so we have to re-register shoelace's custom elements here
   static get scopedElements() {
@@ -383,7 +402,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
    * @returns Lit template
    */
   private _renderCanvasInner() {
-    const empty = this.nodes.length === 0; // if no components have been added to the canvas
+    const nodes = this._activeNodes();
+    const empty = nodes.length === 0; // if no components have been added to the canvas
 
     // render a drag and drop zone
     if (empty) {
@@ -395,7 +415,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       return html`
         <div class="freeform-root">
           ${repeat(
-            this.nodes,
+            nodes,
             (n) => n.id,
             (n) => this._renderNodeFreeform(n),
           )}
@@ -449,7 +469,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
    * @returns ordered nodes
    */
   private _sortedNodes() {
-    return sortedNodes(this.nodes);
+    return sortedNodes(this._activeNodes());
   }
 
   /**
@@ -478,7 +498,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         @pointerdown=${(e: PointerEvent) => this._onWrapperPointerDown(e, n.id)}
         @click=${(e: MouseEvent) => this._onWrapperClick(e, n.id)}
       >
-        ${comp.render(n.data ?? comp.defaultData)}
+        <div class="drag-shell">${comp.render(n.data ?? comp.defaultData)}</div>
       </div>
     `;
   }
@@ -504,7 +524,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         @pointerdown=${(e: PointerEvent) => this._onWrapperPointerDown(e, n.id)}
         @click=${(e: MouseEvent) => this._onWrapperClick(e, n.id)}
       >
-        ${comp.render(n.data ?? comp.defaultData)}
+        <div class="drag-shell">${comp.render(n.data ?? comp.defaultData)}</div>
       </div>
     `;
   }
@@ -542,6 +562,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
     if (this.layoutMode === "freeform") {
       this._startFreeformDragFromPointer(e, nodeId);
+    } else {
+      this._startOrderedSortDrag(e, nodeId);
     }
   }
 
@@ -555,6 +577,321 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       e.preventDefault();
       e.stopPropagation();
     }
+  }
+
+  private _startOrderedSortDrag(e: PointerEvent, nodeId: string) {
+    if (this.layoutMode === "freeform") return;
+
+    const root = this.renderRoot.querySelector(
+      this.layoutMode === "flow"
+        ? ".flow-root"
+        : this.layoutMode === "flex"
+          ? ".flex-root"
+          : ".grid-root",
+    ) as HTMLElement | null;
+    if (!root) return;
+
+    const el = this.renderRoot.querySelector(
+      `[data-node-id="${nodeId}"]`,
+    ) as HTMLElement | null;
+    if (!el) return;
+
+    // Only reorder if pointerdown is not on an interactive control unless user allows interact
+    if (this._isInteractiveTarget(e.target) && this._allowInteractEvent(e))
+      return;
+    if (this._isInteractiveTarget(e.target) && !this._allowInteractEvent(e)) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    // pointer capture
+    try {
+      el.setPointerCapture(e.pointerId);
+    } catch {}
+
+    const ordered = sortedNodes(this.orderedNodes);
+    const startIndex = ordered.findIndex((n) => n.id === nodeId);
+    if (startIndex < 0) return;
+
+    // measure and create placeholder
+    const r = el.getBoundingClientRect();
+    const placeholder = document.createElement("div");
+    placeholder.className = "drag-placeholder";
+    placeholder.style.width = `${r.width}px`;
+    placeholder.style.height = `${r.height}px`;
+
+    // insert placeholder where the element is
+    el.after(placeholder);
+
+    // move dragged element to fixed layer
+    const offsetX = e.clientX - r.left;
+    const offsetY = e.clientY - r.top;
+
+    el.classList.add("dragging");
+    el.style.position = "fixed";
+    el.style.left = `${r.left}px`;
+    el.style.top = `${r.top}px`;
+    el.style.width = `${r.width}px`;
+    el.style.height = `${r.height}px`;
+    el.style.margin = "0";
+    el.style.transform = "translate3d(0,0,0)";
+
+    this._sortDragging = true;
+    this._sortDragId = nodeId;
+    this._sortPointerId = e.pointerId;
+    this._sortStartIndex = startIndex;
+    this._sortCurrentIndex = startIndex;
+
+    this._dragEl = el;
+    this._placeholderEl = placeholder;
+    this._dragOffsetX = offsetX;
+    this._dragOffsetY = offsetY;
+
+    const onMove = (ev: PointerEvent) => this._onOrderedSortMove(ev);
+    const onUp = (ev: PointerEvent) => this._finishOrderedSortDrag(ev);
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp, { once: true });
+
+    // keep references so we can remove move handler
+    (this as any)._orderedMoveHandler = onMove;
+  }
+
+  private _onOrderedSortMove(ev: PointerEvent) {
+    if (!this._sortDragging || !this._dragEl || !this._placeholderEl) return;
+
+    this._lastPointerX = ev.clientX;
+    this._lastPointerY = ev.clientY;
+
+    if (this._rafMovePending) return;
+    this._rafMovePending = true;
+
+    requestAnimationFrame(() => {
+      this._rafMovePending = false;
+      this._orderedSortMoveFrame(this._lastPointerX, this._lastPointerY);
+    });
+  }
+
+  private _orderedSortMoveFrame(clientX: number, clientY: number) {
+    if (!this._sortDragging || !this._dragEl || !this._placeholderEl) return;
+
+    // 1) Move dragged element using left/top only ✅ (fast + stable)
+    const x = clientX - this._dragOffsetX;
+    const y = clientY - this._dragOffsetY;
+    this._dragEl.style.left = `${x}px`;
+    this._dragEl.style.top = `${y}px`;
+
+    const root = this.renderRoot.querySelector(
+      this.layoutMode === "flow"
+        ? ".flow-root"
+        : this.layoutMode === "flex"
+          ? ".flex-root"
+          : ".grid-root",
+    ) as HTMLElement | null;
+    if (!root) return;
+
+    const items = Array.from(
+      root.querySelectorAll(".flow-item"),
+    ) as HTMLElement[];
+
+    // FLIP "first"
+    const first = new Map<HTMLElement, DOMRect>();
+    for (const it of items) first.set(it, it.getBoundingClientRect());
+
+    // 2) Compute insertion index
+    const nextIndex = this._computeInsertionIndex(root, clientX, clientY);
+    if (nextIndex !== this._sortCurrentIndex) {
+      this._sortCurrentIndex = nextIndex;
+
+      // Move placeholder relative to non-drag siblings
+      const siblings = items.filter((it) => it !== this._dragEl);
+      const ref = siblings[nextIndex] ?? null;
+      if (ref) root.insertBefore(this._placeholderEl, ref);
+      else root.appendChild(this._placeholderEl);
+    }
+
+    // FLIP "last"
+    const last = new Map<HTMLElement, DOMRect>();
+    for (const it of items) last.set(it, it.getBoundingClientRect());
+
+    for (const it of items) {
+      if (it === this._dragEl) continue;
+      const a = first.get(it);
+      const b = last.get(it);
+      if (!a || !b) continue;
+
+      const dx = a.left - b.left;
+      const dy = a.top - b.top;
+      if (dx || dy) {
+        it.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+        it.getBoundingClientRect(); // reflow to apply transform
+        it.style.transform = "";
+      }
+    }
+  }
+
+  private _computeInsertionIndex(
+    root: HTMLElement,
+    x: number,
+    y: number,
+  ): number {
+    const items = Array.from(
+      root.querySelectorAll(".flow-item"),
+    ) as HTMLElement[];
+    const candidates = items.filter((el) => el !== this._dragEl);
+
+    if (candidates.length === 0) return 0;
+
+    // FLOW: robust list logic (always allows moving before/after any item)
+    if (this.layoutMode === "flow") {
+      // append if pointer is below last midline
+      for (let i = 0; i < candidates.length; i++) {
+        const r = candidates[i].getBoundingClientRect();
+        if (y < r.top + r.height / 2) return i;
+      }
+      return candidates.length; // append at end ✅
+    }
+
+    // FLEX/GRID: nearest center but allow explicit "append to end"
+    let bestIdx = 0;
+    let bestDist = Infinity;
+
+    for (let i = 0; i < candidates.length; i++) {
+      const r = candidates[i].getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const dx = x - cx;
+      const dy = y - cy;
+      const dist = dx * dx + dy * dy;
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestIdx = i;
+      }
+    }
+
+    // If pointer is "past" the last candidate visually, append.
+    const lastRect = candidates[candidates.length - 1].getBoundingClientRect();
+    if (y > lastRect.bottom + 8 || x > lastRect.right + 8) {
+      return candidates.length; // append ✅
+    }
+
+    const r = candidates[bestIdx].getBoundingClientRect();
+    const after =
+      Math.abs(x - (r.left + r.width / 2)) >
+      Math.abs(y - (r.top + r.height / 2))
+        ? x > r.left + r.width / 2
+        : y > r.top + r.height / 2;
+
+    return after ? bestIdx + 1 : bestIdx;
+  }
+
+  private _finishOrderedSortDrag(ev: PointerEvent) {
+    const moveHandler = (this as any)._orderedMoveHandler as
+      | ((e: PointerEvent) => void)
+      | undefined;
+    if (moveHandler) window.removeEventListener("pointermove", moveHandler);
+
+    if (
+      !this._sortDragging ||
+      !this._dragEl ||
+      !this._placeholderEl ||
+      !this._sortDragId
+    ) {
+      this._resetOrderedDragArtifacts();
+      return;
+    }
+
+    const root = this.renderRoot.querySelector(
+      this.layoutMode === "flow"
+        ? ".flow-root"
+        : this.layoutMode === "flex"
+          ? ".flex-root"
+          : ".grid-root",
+    ) as HTMLElement | null;
+
+    // final index in DOM (placeholder position among non-drag siblings)
+    const siblings = root
+      ? (Array.from(root.querySelectorAll(".flow-item")).filter(
+          (el) => el !== this._dragEl,
+        ) as HTMLElement[])
+      : [];
+
+    let to = this._sortCurrentIndex;
+    if (root && this._placeholderEl.parentElement === root) {
+      to = 0;
+      for (const child of Array.from(root.children)) {
+        if (child === this._placeholderEl) break;
+        const el = child as HTMLElement;
+        if (el.classList.contains("flow-item") && el !== this._dragEl) to++;
+      }
+    }
+
+    // Animate dragged element into placeholder rect
+    const targetRect = this._placeholderEl.getBoundingClientRect();
+    const currentRect = this._dragEl.getBoundingClientRect();
+
+    const dx = targetRect.left - currentRect.left;
+    const dy = targetRect.top - currentRect.top;
+
+    this._dragEl
+      .querySelector(".drag-shell")
+      ?.animate(
+        [
+          { transform: "translateZ(0) scale(1.03)" },
+          { transform: "translateZ(0) scale(1)" },
+        ],
+        { duration: 140, easing: "cubic-bezier(.2,.8,.2,1)" },
+      );
+
+    this._dragEl.animate(
+      [
+        { transform: this._dragEl.style.transform || "translate3d(0,0,0)" },
+        {
+          transform: `translate3d(${(this._dragEl.style.transform ? 0 : 0) + dx}px, ${(this._dragEl.style.transform ? 0 : 0) + dy}px, 0)`,
+        },
+      ],
+      { duration: 160, easing: "cubic-bezier(.2,.8,.2,1)" },
+    ).onfinish = () => {
+      // commit reorder to orderedNodes
+      const ordered = sortedNodes(this.orderedNodes);
+      const from = ordered.findIndex((n) => n.id === this._sortDragId);
+      if (from >= 0) {
+        const [moved] = ordered.splice(from, 1);
+        ordered.splice(to, 0, moved);
+        this.orderedNodes = normalizeOrder(ordered);
+      }
+
+      this._resetOrderedDragArtifacts();
+      this.requestUpdate();
+    };
+
+    try {
+      this._dragEl.releasePointerCapture(this._sortPointerId ?? ev.pointerId);
+    } catch {}
+  }
+
+  private _resetOrderedDragArtifacts() {
+    if (this._dragEl) {
+      this._dragEl.classList.remove("dragging");
+      this._dragEl.style.position = "";
+      this._dragEl.style.left = "";
+      this._dragEl.style.top = "";
+      this._dragEl.style.width = "";
+      this._dragEl.style.height = "";
+      this._dragEl.style.margin = "";
+      this._dragEl.style.transform = "";
+    }
+    if (this._placeholderEl?.parentElement)
+      this._placeholderEl.parentElement.removeChild(this._placeholderEl);
+
+    this._sortDragging = false;
+    this._sortDragId = null;
+    this._sortPointerId = null;
+    this._sortStartIndex = -1;
+    this._sortCurrentIndex = -1;
+
+    this._dragEl = null;
+    this._placeholderEl = null;
   }
 
   /* ===== Layout settings (global) ===== */
@@ -767,10 +1104,12 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       ? component.settings({
           data: node.data ?? {},
           setData: (patch) => {
-            this.nodes = this.nodes.map((n) =>
-              n.id === node.id
-                ? { ...n, data: { ...(n.data ?? {}), ...patch } }
-                : n,
+            this._setActiveNodes(
+              this._activeNodes().map((n) =>
+                n.id === node.id
+                  ? { ...n, data: { ...(n.data ?? {}), ...patch } }
+                  : n,
+              ),
             );
             this.requestUpdate();
           },
@@ -839,7 +1178,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
    */
   private _getSelectedNode(): BuilderNode | null {
     if (!this.selectedNodeId) return null;
-    return this.nodes.find((n) => n.id === this.selectedNodeId) ?? null;
+    const nodes = this._activeNodes();
+    return nodes.find((n) => n.id === this.selectedNodeId) ?? null;
   }
 
   /**
@@ -847,8 +1187,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
    * @returns void
    */
   private _updateNode(id: string, patch: Partial<BuilderNode>) {
-    this.nodes = this.nodes.map((n) => (n.id === id ? { ...n, ...patch } : n));
-    this.requestUpdate();
+    const nodes = this._activeNodes().map((n) =>
+      n.id === id ? { ...n, ...patch } : n,
+    );
+    this._setActiveNodes(nodes);
   }
 
   /**
@@ -865,10 +1207,12 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
    * @returns void
    */
   private _writeBindingToNode(id: string, b: ComponentBinding, value: string) {
-    this.nodes = this.nodes.map((n) => {
-      if (n.id !== id) return n;
-      return { ...n, data: { ...(n.data ?? {}), [b.key]: value } };
-    });
+    this._setActiveNodes(
+      this._activeNodes().map((n) => {
+        if (n.id !== id) return n;
+        return { ...n, data: { ...(n.data ?? {}), [b.key]: value } };
+      }),
+    );
     this.requestUpdate();
   }
 
@@ -881,7 +1225,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _serializeState(): string {
     return serializeBuilderState({
       layoutMode: this.layoutMode,
-      nodes: this.nodes,
+      freeformNodes: this.freeformNodes,
+      orderedNodes: this.orderedNodes,
+
       showGrid: this.showGrid,
       gridSize: this.gridSize,
       flexSettings: this._getFlexSettings(),
@@ -898,7 +1244,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     if (!parsed) return;
 
     this.layoutMode = parsed.layoutMode;
-    this.nodes = parsed.nodes;
+
+    this.freeformNodes = parsed.freeformNodes ?? [];
+    this.orderedNodes = parsed.orderedNodes ?? parsed.nodes ?? []; // backwards compat
 
     this.showGrid = parsed.showGrid;
     this.gridSize = parsed.gridSize;
@@ -918,7 +1266,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _generateExport(): { html: string; css: string; combined: string } {
     return this.exporter.generateExport({
       layoutMode: this.layoutMode,
-      nodes: this.nodes,
+      nodes: this._activeNodes(),
       flexSettings: this._getFlexSettings(),
       gridSettings: this._getGridSettings(),
     });
@@ -1226,11 +1574,11 @@ ${syntax}</pre
       type,
       data: structuredClone(ComponentRegistry[type]?.defaultData ?? {}),
       pos: { x, y },
-      order: this.nodes.length,
+      order: this._activeNodes().length,
       display: "block",
     };
 
-    this.nodes = [...this.nodes, node];
+    this._setActiveNodes([...this._activeNodes(), node]);
     this._selectNodeId(node.id);
   }
 
@@ -1272,7 +1620,7 @@ ${syntax}</pre
 
     const sorted = this._sortedNodes();
     sorted.splice(insertIndex, 0, node);
-    this.nodes = sorted;
+    this._setActiveNodes(sorted);
     this._normalizeOrder();
 
     this._selectNodeId(node.id);
@@ -1283,7 +1631,7 @@ ${syntax}</pre
    * @returns void
    */
   private _normalizeOrder() {
-    this.nodes = normalizeOrder(this.nodes);
+    this._setActiveNodes(normalizeOrder(this._activeNodes()));
   }
 
   /**
@@ -1300,10 +1648,10 @@ ${syntax}</pre
         type,
         data: structuredClone(component.defaultData ?? {}),
         pos: { x: 32, y: 32 },
-        order: this.nodes.length,
+        order: this._activeNodes().length,
         display: "block",
       };
-      this.nodes = [...this.nodes, node];
+      this._setActiveNodes([...this._activeNodes(), node]);
       this._selectNodeId(node.id);
       return;
     }
@@ -1312,10 +1660,10 @@ ${syntax}</pre
       id: crypto.randomUUID(),
       type,
       data: structuredClone(component.defaultData ?? {}),
-      order: this.nodes.length,
+      order: this._activeNodes().length,
       display: "block",
     };
-    this.nodes = [...this.nodes, node];
+    this._setActiveNodes([...this._activeNodes(), node]);
     this._normalizeOrder();
     this._selectNodeId(node.id);
   }
@@ -1363,13 +1711,15 @@ ${syntax}</pre
     const id = this.selectedNodeId;
     if (!id) return;
 
-    this.nodes = this.nodes.filter((n) => n.id !== id);
+    const nodes = this._activeNodes().filter((n) => n.id !== id);
     this._clearSelection();
 
-    // keep ordering sane for flow/flex/grid (safe for freeform too)
-    this._normalizeOrder();
-
-    this.requestUpdate();
+    // keep ordering sane in ordered modes
+    if (this.layoutMode !== "freeform") {
+      this._setActiveNodes(normalizeOrder(nodes));
+    } else {
+      this._setActiveNodes(nodes);
+    }
   }
 
   /**
@@ -1499,8 +1849,10 @@ ${syntax}</pre
         Math.min(newY, containerRect.height - el.offsetHeight),
       );
 
-      this.nodes = this.nodes.map((n) =>
-        n.id === nodeId ? { ...n, pos: { x: newX, y: newY } } : n,
+      this._setActiveNodes(
+        this._activeNodes().map((n) =>
+          n.id === nodeId ? { ...n, pos: { x: newX, y: newY } } : n,
+        ),
       );
       this.requestUpdate();
     };
@@ -1540,16 +1892,23 @@ ${syntax}</pre
    */
   private _setLayoutMode(next: LayoutMode) {
     if (this.layoutMode === next) return;
-
-    if (this.layoutMode === "freeform" && next !== "freeform") {
-      this.nodes = convertFreeformToOrdered(this.nodes);
+    // one-time seed for converting between freeform and ordered modes: if switching to a mode that has no nodes but the other mode has nodes, convert those nodes to the new mode instead of starting with an empty canvas
+    if (
+      next !== "freeform" &&
+      this.orderedNodes.length === 0 &&
+      this.freeformNodes.length
+    ) {
+      this.orderedNodes = convertFreeformToOrdered(this.freeformNodes);
     }
-
-    if (this.layoutMode !== "freeform" && next === "freeform") {
-      this.nodes = convertOrderedToFreeform(this.nodes);
+    if (
+      next === "freeform" &&
+      this.freeformNodes.length === 0 &&
+      this.orderedNodes.length
+    ) {
+      this.freeformNodes = convertOrderedToFreeform(this.orderedNodes);
     }
-
     this.layoutMode = next;
+    this._clearSelection();
     this.requestUpdate();
   }
 
@@ -1581,7 +1940,7 @@ ${syntax}</pre
    * @returns void
    */
   private _resetCanvas() {
-    this.nodes = [];
+    this._setActiveNodes([]);
     this._clearSelection();
     this.requestUpdate();
   }
@@ -1666,4 +2025,16 @@ ${syntax}</pre
       return;
     }
   };
+
+  // (optional helper)
+  private _activeNodes(): BuilderNode[] {
+    return this.layoutMode === "freeform"
+      ? this.freeformNodes
+      : this.orderedNodes;
+  }
+  private _setActiveNodes(next: BuilderNode[]) {
+    if (this.layoutMode === "freeform") this.freeformNodes = next;
+    else this.orderedNodes = next;
+    this.requestUpdate();
+  }
 }

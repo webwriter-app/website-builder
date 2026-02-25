@@ -1,9 +1,17 @@
-import type { BuilderNode, BuilderStatePayload, FlexSettings, GridSettings, LayoutMode } from "./types";
+import type {
+  BuilderNode,
+  BuilderStatePayload,
+  FlexSettings,
+  GridSettings,
+  LayoutMode,
+} from "./types";
 import { defaultFlexSettings, defaultGridSettings } from "./types";
 
 export type ParsedBuilderState = {
   layoutMode: LayoutMode;
-  nodes: BuilderNode[];
+  freeformNodes: BuilderNode[];
+  orderedNodes: BuilderNode[];
+  nodes?: BuilderNode[];
   showGrid: boolean;
   gridSize: number;
   flexSettings: FlexSettings;
@@ -12,15 +20,18 @@ export type ParsedBuilderState = {
 
 export function serializeBuilderState(args: {
   layoutMode: LayoutMode;
-  nodes: BuilderNode[];
+  freeformNodes: BuilderNode[];
+  orderedNodes: BuilderNode[];
   showGrid: boolean;
   gridSize: number;
   flexSettings: FlexSettings;
   gridSettings: GridSettings;
 }): string {
-  const payload: BuilderStatePayload = {
+  const payload: any = {
     layoutMode: args.layoutMode,
-    nodes: args.nodes,
+    freeformNodes: args.freeformNodes,
+    orderedNodes: args.orderedNodes,
+
     showGrid: args.showGrid,
     gridSize: args.gridSize,
     flexSettings: args.flexSettings,
@@ -30,14 +41,26 @@ export function serializeBuilderState(args: {
   return JSON.stringify(payload);
 }
 
-export function parseBuilderState(serialized: string): ParsedBuilderState | null {
+export function parseBuilderState(
+  serialized: string,
+): ParsedBuilderState | null {
   if (!serialized) return null;
 
   try {
     const parsed = JSON.parse(serialized);
 
-    const layoutMode = (parsed.layoutMode as LayoutMode | undefined) ?? "freeform";
-    const nodes = Array.isArray(parsed.nodes) ? (parsed.nodes as BuilderNode[]) : [];
+    const layoutMode =
+      (parsed.layoutMode as LayoutMode | undefined) ?? "freeform";
+
+    const freeformNodes = Array.isArray(parsed.freeformNodes)
+      ? (parsed.freeformNodes as BuilderNode[])
+      : [];
+
+    const orderedNodes = Array.isArray(parsed.orderedNodes)
+      ? (parsed.orderedNodes as BuilderNode[])
+      : Array.isArray(parsed.nodes)
+        ? (parsed.nodes as BuilderNode[])
+        : [];
 
     const flexBase = defaultFlexSettings();
     const gridBase = defaultGridSettings();
@@ -54,7 +77,11 @@ export function parseBuilderState(serialized: string): ParsedBuilderState | null
 
     return {
       layoutMode,
-      nodes,
+      freeformNodes,
+      orderedNodes,
+      nodes: Array.isArray(parsed.nodes)
+        ? (parsed.nodes as BuilderNode[])
+        : undefined,
       showGrid: Boolean(parsed.showGrid),
       gridSize: Number(parsed.gridSize ?? 20),
       flexSettings,
