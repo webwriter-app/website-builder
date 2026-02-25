@@ -27,6 +27,8 @@ import type {
 } from "./builder/types";
 import { defaultFlexSettings, defaultGridSettings } from "./builder/types";
 
+type CodeTab = "html" | "css" | "combined";
+
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElementWw {
   // translation
@@ -43,7 +45,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _skipNextApplyFromWwState = false;
 
   // fullscreen + code panel
-  private _codeTab: "html" | "css" | "combined" = "html";
+  private _codeTab: CodeTab = "html";
 
   // selection, null at boot
   selectedElement: HTMLElement | null = null;
@@ -111,6 +113,21 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _lastPointerX = 0;
   private _lastPointerY = 0;
 
+  private visibleLayoutModes: Record<LayoutMode, boolean> = {
+    freeform: true,
+    flow: true,
+    flex: true,
+    grid: true,
+  };
+
+  private visibleCodeTabs: Record<CodeTab, boolean> = {
+    combined: true,
+    html: true,
+    css: true,
+  };
+
+  private showComponentSettingsInConsumer = false;
+
   // LitElementWw scopes to shadowDOM so we have to re-register shoelace's custom elements here
   static get scopedElements() {
     return shoelaceScoped;
@@ -145,15 +162,19 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
     // Only show code panel in fullscreen
     const split = this.isFullscreen;
+    const isAuthor = !this.isContentEditable; // non-preview
+    const isConsumer = !isAuthor; // preview
 
     // get code tuple from code builder
     const { html: outHtml, css: outCss, combined } = this._generateExport();
+
+    const showSidebar = !split && isAuthor;
 
     // main page, in fullscreen settings sidebar becomes the left column wrapper
     return html`
       <div class="layout ${split ? "fullscreen-split" : ""}">
         <!-- Sidebar (in fullscreen it becomes hidden) -->
-        <div part="options" style=${split ? "display:none;" : ""}>
+        <div part="options" style=${showSidebar ? "display:none;" : ""}>
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
 
@@ -181,6 +202,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                 ${msg("Reset Canvas")}
               </sl-button>
             </div>
+
+            ${this._renderVisibilitySettings()}
 
             <!-- Layout and component settings (if no component is selected the selected component settings will be empty but layout settings will always be shown)  -->
             ${this._renderLayoutSettings()}
@@ -229,9 +252,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                   <div class="code-title">Code</div>
 
                   <div class="code-tabs" role="tablist" aria-label="Code tabs">
-                    ${this._codeTabBtn("combined", "Combined")}
-                    ${this._codeTabBtn("html", "HTML")}
-                    ${this._codeTabBtn("css", "CSS")}
+                    ${this._renderCodeTabs()}
                   </div>
                 </div>
 
@@ -248,6 +269,157 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
           : null}
       </div>
     `;
+  }
+
+  private _renderVisibilitySettings() {
+    if (!this.isContentEditable) return null;
+    const isConsumer = !this.isContentEditable;
+
+    return html`
+      <div style="margin-top: 1rem">
+        <h2 style="margin-top: 0">Visibility</h2>
+
+        <!-- Section 1: Layout mode visibility -->
+        <div class="setting-row">
+          <div style="font-weight:600; margin-bottom: 0.25rem;">
+            Layout modes
+          </div>
+
+          ${this._layoutModeToggle("freeform", "Freeform")}
+          ${this._layoutModeToggle("flow", "Flow")}
+          ${this._layoutModeToggle("flex", "Flex")}
+          ${this._layoutModeToggle("grid", "Grid")}
+        </div>
+
+        <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
+
+        <!-- Section 2: Code tab visibility -->
+        <div class="setting-row">
+          <div style="font-weight:600; margin-bottom: 0.25rem;">Code tabs</div>
+
+          ${this._codeTabToggle("combined", "Combined")}
+          ${this._codeTabToggle("html", "HTML")}
+          ${this._codeTabToggle("css", "CSS")}
+        </div>
+
+        <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
+
+        <!-- Section 3: Consumer settings visibility -->
+        <div class="setting-row">
+          <div style="font-weight:600; margin-bottom: 0.25rem;">
+            Consumer mode
+          </div>
+
+          <sl-switch
+            .checked=${this.showComponentSettingsInConsumer}
+            @sl-change=${(e: CustomEvent) => {
+              this.showComponentSettingsInConsumer = Boolean(e.detail.checked);
+              this.requestUpdate();
+            }}
+          >
+            Show component settings in consumer mode
+          </sl-switch>
+
+          ${isConsumer
+            ? html`<div
+                style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-top: 0.25rem;"
+              >
+                Currently in consumer mode.
+              </div>`
+            : html`<div
+                style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-top: 0.25rem;"
+              >
+                Currently in author mode.
+              </div>`}
+        </div>
+      </div>
+    `;
+  }
+
+  private _layoutModeToggle(mode: LayoutMode, label: string) {
+    const checked = !!this.visibleLayoutModes[mode];
+
+    return html`
+      <sl-switch
+        style="display:block; margin-top: 0.25rem;"
+        .checked=${checked}
+        @sl-change=${(e: CustomEvent) => {
+          const next = Boolean(e.detail.checked);
+          this._setLayoutModeVisible(mode, next);
+        }}
+      >
+        ${label}
+      </sl-switch>
+    `;
+  }
+
+  private _setLayoutModeVisible(mode: LayoutMode, visible: boolean) {
+    const next = { ...this.visibleLayoutModes, [mode]: visible };
+
+    // ensure at least one is visible
+    const anyVisible = Object.values(next).some(Boolean);
+    if (!anyVisible) return;
+
+    this.visibleLayoutModes = next;
+
+    // If current layoutMode became hidden, switch to first visible
+    if (!this.visibleLayoutModes[this.layoutMode]) {
+      const fallback = (
+        Object.keys(this.visibleLayoutModes) as LayoutMode[]
+      ).find((m) => this.visibleLayoutModes[m]);
+      if (fallback) this._setLayoutMode(fallback);
+    }
+
+    this.requestUpdate();
+  }
+
+  private _codeTabToggle(tab: CodeTab, label: string) {
+    const checked = !!this.visibleCodeTabs[tab];
+
+    return html`
+      <sl-switch
+        style="display:block; margin-top: 0.25rem;"
+        .checked=${checked}
+        @sl-change=${(e: CustomEvent) => {
+          const next = Boolean(e.detail.checked);
+          this._setCodeTabVisible(tab, next);
+        }}
+      >
+        ${label}
+      </sl-switch>
+    `;
+  }
+
+  private _setCodeTabVisible(tab: CodeTab, visible: boolean) {
+    const next = { ...this.visibleCodeTabs, [tab]: visible };
+
+    // ensure at least one is visible
+    const anyVisible = Object.values(next).some(Boolean);
+    if (!anyVisible) return;
+
+    this.visibleCodeTabs = next;
+
+    // If current tab became hidden, switch to first visible ✅
+    if (!this.visibleCodeTabs[this._codeTab]) {
+      const fallback = (Object.keys(this.visibleCodeTabs) as CodeTab[]).find(
+        (t) => this.visibleCodeTabs[t],
+      );
+      if (fallback) this._codeTab = fallback;
+    }
+
+    this.requestUpdate();
+  }
+
+  private _renderCodeTabs() {
+    const tabs: Array<[CodeTab, string]> = [
+      ["combined", "Combined"],
+      ["html", "HTML"],
+      ["css", "CSS"],
+    ];
+
+    return tabs
+      .filter(([t]) => this.visibleCodeTabs[t])
+      .map(([t, label]) => this._codeTabBtn(t, label));
   }
 
   /**
@@ -315,10 +487,18 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
           </div>
 
           <div class="seg" aria-label="Layout mode">
-            ${this._layoutBtn("freeform", "Freeform")}
-            ${this._layoutBtn("flow", "Flow")}
-            ${this._layoutBtn("flex", "Flex")}
-            ${this._layoutBtn("grid", "Grid")}
+            ${this.visibleLayoutModes.freeform
+              ? this._layoutBtn("freeform", "Freeform")
+              : null}
+            ${this.visibleLayoutModes.flow
+              ? this._layoutBtn("flow", "Flow")
+              : null}
+            ${this.visibleLayoutModes.flex
+              ? this._layoutBtn("flex", "Flex")
+              : null}
+            ${this.visibleLayoutModes.grid
+              ? this._layoutBtn("grid", "Grid")
+              : null}
           </div>
         </div>
 
@@ -1094,6 +1274,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
    * @returns Lit template | null
    */
   private _renderSelectedComponentSettings() {
+    if (!this.isContentEditable && !this.showComponentSettingsInConsumer) {
+      return null;
+    }
     const node = this._getSelectedNode();
     if (!node) return null;
 
@@ -1892,6 +2075,9 @@ ${syntax}</pre
    */
   private _setLayoutMode(next: LayoutMode) {
     if (this.layoutMode === next) return;
+
+    // don’t allow switching to hidden mode
+    if (!this.visibleLayoutModes[next]) return;
     // one-time seed for converting between freeform and ordered modes: if switching to a mode that has no nodes but the other mode has nodes, convert those nodes to the new mode instead of starting with an empty canvas
     if (
       next !== "freeform" &&
