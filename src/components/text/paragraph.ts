@@ -1,6 +1,6 @@
 import { html } from "lit";
 import type { BuilderComponent } from "../../types/BuilderComponent";
-import { FONT_OPTIONS } from "../../builder/data";
+import { FONT_OPTIONS } from "../../builder/data/data";
 
 const DEFAULT_FONT =
   "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif";
