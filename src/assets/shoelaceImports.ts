@@ -12,6 +12,9 @@ import SlIconButton from "@shoelace-style/shoelace/dist/components/icon-button/i
 import SlRange from "@shoelace-style/shoelace/dist/components/range/range.component.js";
 import SlPopup from "@shoelace-style/shoelace/dist/components/popup/popup.component.js";
 import SlCard from "@shoelace-style/shoelace/dist/components/card/card.component.js";
+import SlDropdown from "@shoelace-style/shoelace/dist/components/dropdown/dropdown.js";
+import SlMenu from "@shoelace-style/shoelace/dist/components/menu/menu.js";
+import SlMenuItem from "@shoelace-style/shoelace/dist/components/menu-item/menu-item.js";
 
 export const shoelaceScoped = {
   "sl-button": SlButton,
@@ -26,6 +29,9 @@ export const shoelaceScoped = {
   "sl-range": SlRange,
   "sl-popup": SlPopup,
   "sl-card": SlCard,
+  "sl-dropdown": SlDropdown,
+  "sl-menu": SlMenu,
+  "sl-menu-item": SlMenuItem,
 };
 import { registerIconLibrary } from "@shoelace-style/shoelace/dist/utilities/icon-library.js";
 registerIconLibrary("default", {
