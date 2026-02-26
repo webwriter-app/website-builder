@@ -80,6 +80,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     "icon",
   ];
 
+  @state() private _allComponentsDialogOpen = false;
+  @state() private _allComponentsQuery = "";
+
   // info popup
   private infoForType: string | null = null;
   private infoAnchorEl: HTMLElement | null = null;
@@ -216,36 +219,35 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
 
-          <sl-details summary="Canvas">
-            <!-- <div class="settings-row">
+            <sl-details summary="Canvas">
+              <!-- <div class="settings-row">
               <sl-switch
                 .checked=${this.showGrid} 
                 @sl-change=${(e: CustomEvent) => {
-              this.showGrid = e.detail.checked;
-            }}
+                this.showGrid = e.detail.checked;
+              }}
                 >${msg("Show Grid")}</sl-switch
               >
             </div> -->
 
-            <!-- <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider> -->
+              <!-- <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider> -->
 
-            <!-- Reset canvas button -->
-            <div class="settings-row">
-              <sl-button
-                size="small"
-                variant="default"
-                @click=${this._confirmReset}
-                title=${msg("Reset canvas")}
-                style="margin-left: auto;"
-              >
-                ${msg("Reset Canvas")}
-              </sl-button>
-            </div>
+              <!-- Reset canvas button -->
+              <div class="settings-row">
+                <sl-button
+                  size="small"
+                  variant="default"
+                  @click=${this._confirmReset}
+                  title=${msg("Reset canvas")}
+                  style="margin-left: auto;"
+                >
+                  ${msg("Reset Canvas")}
+                </sl-button>
+              </div>
             </sl-details>
             ${this._renderVisibilitySettings()}
             <!-- Layout and component settings (if no component is selected the selected component settings will be empty but layout settings will always be shown)  -->
             ${this._renderLayoutSettings()}
-
             ${this._renderSelectedComponentSettings()}
           </div>
         </div>
@@ -324,7 +326,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
               </sl-drawer>
             `
           : null}
-        ${this._renderIconDialog()}
+        ${this._renderIconDialog()} ${this._renderAllComponentsDialog()}
       </div>
     `;
   }
@@ -336,6 +338,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       : SHOELACE_ICON_NAMES;
 
     const selectedName = this._iconDraftName || "gear";
+
+    console.log("icon query", this._iconQuery, "items", items.length);
 
     return html`
       <sl-dialog
@@ -354,15 +358,13 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                 clearable
                 placeholder="Search icons…"
                 .value=${this._iconQuery}
-                @sl-input=${(e: any) => {
-                  const v = (e?.target?.value ??
-                    e?.detail?.value ??
-                    (e?.currentTarget as any)?.value ??
-                    "") as string;
-
-                  this._iconQuery = String(v);
+                @sl-input=${(e: Event) => {
+                  const input = e.currentTarget as any; // sl-input host
+                  const v = String(input.value ?? "");
+                  this._iconQuery = v;
                   this._iconScrollTop = 0;
                   this._iconScroller?.scrollTo({ top: 0 });
+                  this.requestUpdate(); // optional, but makes it immediate
                 }}
                 @sl-clear=${() => (this._iconQuery = "")}
               ></sl-input>
@@ -461,11 +463,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this._iconScrollTop = this._iconScroller.scrollTop;
     this._iconViewportH = this._iconScroller.clientHeight;
 
-    this._iconScroller.addEventListener(
-      "scroll",
-      this._onIconDialogScroll,
-      { passive: true }
-    );
+    this._iconScroller.addEventListener("scroll", this._onIconDialogScroll, {
+      passive: true,
+    });
 
     // Focus search inside dialog DOM
     queueMicrotask(() => {
@@ -492,6 +492,164 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this._iconViewportH = this._iconScroller.clientHeight;
   };
 
+  private _renderAllComponentsDialog() {
+    const q = this._allComponentsQuery.trim().toLowerCase();
+
+    const allTypes = Object.keys(ComponentRegistry);
+
+    const filtered = q
+      ? allTypes.filter((t) => {
+          const comp = ComponentRegistry[t];
+          const label = (comp?.label ?? t).toLowerCase();
+          return t.toLowerCase().includes(q) || label.includes(q);
+        })
+      : allTypes;
+
+    // sort by label/type
+    const types = filtered.sort((a, b) => {
+      const la = (ComponentRegistry[a]?.label ?? a).toLowerCase();
+      const lb = (ComponentRegistry[b]?.label ?? b).toLowerCase();
+      return la.localeCompare(lb);
+    });
+
+    return html`
+      <sl-dialog
+        id="ww-all-components-dialog"
+        label="All components"
+        .open=${this._allComponentsDialogOpen}
+        @sl-after-show=${(e: any) => {
+          const dlg = e.target as HTMLElement;
+          queueMicrotask(() => {
+            const input = dlg.querySelector("#ww-all-components-search") as any;
+            input?.focus?.();
+          });
+        }}
+        @sl-after-hide=${() => {
+          this._allComponentsDialogOpen = false;
+        }}
+      >
+        <div
+          style="display:flex; gap:0.75rem; align-items:flex-end; margin-bottom:0.75rem;"
+        >
+          <sl-input
+            id="ww-all-components-search"
+            size="small"
+            clearable
+            label="Search"
+            placeholder="Search components…"
+            .value=${this._allComponentsQuery}
+            @sl-input=${(e: any) => {
+              const v =
+                e?.currentTarget?.value ??
+                e?.target?.value ??
+                e?.detail?.value ??
+                "";
+              this._allComponentsQuery = String(v);
+              this.requestUpdate();
+            }}
+            @sl-clear=${() => (this._allComponentsQuery = "")}
+            style="flex:1;"
+          ></sl-input>
+
+          <div
+            style="font-size:0.85rem; color: var(--sl-color-neutral-600); padding-bottom:0.25rem;"
+          >
+            ${types.length} item${types.length === 1 ? "" : "s"}
+          </div>
+        </div>
+
+        <div
+          style="
+          max-height: 60vh;
+          overflow: auto;
+          display: grid;
+          gap: 0.75rem;
+        "
+        >
+          ${types.map((type) => {
+            const comp = ComponentRegistry[type];
+            const label = comp?.label ?? type;
+            const syntax = componentSyntaxHint(type);
+
+            return html`
+              <sl-card>
+                <div
+                  style="display:flex; align-items:center; justify-content:space-between; gap:0.75rem;"
+                >
+                  <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <div class="tile-icon" style="width:auto;">
+                      ${tileGlyph(type)}
+                    </div>
+                    <div style="font-weight:600;">${msg(label)}</div>
+                  </div>
+
+                  <sl-button
+                    size="small"
+                    variant="primary"
+                    @click=${() => {
+                      this._quickAdd(type);
+                      // keep dialog open; remove next line if you prefer auto-close
+                      // (this.renderRoot.querySelector("#ww-all-components-dialog") as any)?.hide?.();
+                      this.requestUpdate();
+                    }}
+                  >
+                    Insert
+                  </sl-button>
+                </div>
+
+                <div
+                  style="margin-top:0.35rem; font-size:0.8rem; color: var(--sl-color-neutral-600);"
+                >
+                  Drag tiles from the palette, or insert here at default
+                  position.
+                </div>
+
+                <div style="margin-top:0.6rem;">
+                  <div
+                    style="font-size:0.75rem; color: var(--sl-color-neutral-500); margin-bottom:0.25rem;"
+                  >
+                    Syntax (preview)
+                  </div>
+                  <pre
+                    style="
+                    margin: 0;
+                    padding: 0.6rem;
+                    border-radius: 10px;
+                    background: var(--sl-color-neutral-50);
+                    border: 1px solid var(--sl-color-neutral-200);
+                    font-size: 0.75rem;
+                    overflow: auto;
+                  "
+                  >
+${syntax}</pre
+                  >
+                </div>
+              </sl-card>
+            `;
+          })}
+        </div>
+
+        <div
+          slot="footer"
+          style="display:flex; justify-content:flex-end; gap:0.5rem;"
+        >
+          <sl-button
+            size="small"
+            variant="default"
+            @click=${() => {
+              const dlg = this.renderRoot.querySelector(
+                "#ww-all-components-dialog",
+              ) as any;
+              dlg?.hide?.();
+            }}
+          >
+            Close
+          </sl-button>
+        </div>
+      </sl-dialog>
+    `;
+  }
+
   private _renderIconVirtualGrid(items: string[]) {
     const width = this._iconScroller?.clientWidth ?? 760;
     const minCol = 56;
@@ -500,7 +658,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     const totalRows = Math.ceil(items.length / cols);
     const spacerH = totalRows * this.ICON_ROW_H;
 
-    let startRow = Math.floor(this._iconScrollTop / this.ICON_ROW_H) - this.ICON_OVERSCAN;
+    let startRow =
+      Math.floor(this._iconScrollTop / this.ICON_ROW_H) - this.ICON_OVERSCAN;
     startRow = Math.max(0, Math.min(startRow, totalRows - 1));
     const endRow = Math.min(
       totalRows,
@@ -544,88 +703,89 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     const isStudent = !this.isContentEditable;
 
     return html`
-    <sl-details summary="Visibility">
-      <div style="margin-top: 1rem">
+      <sl-details summary="Visibility">
+        <div style="margin-top: 1rem">
+          <!-- Section 1: Layout mode visibility -->
+          <div class="setting-row">
+            <div style="font-weight:600; margin-bottom: 0.25rem;">
+              Layout modes
+            </div>
 
-        <!-- Section 1: Layout mode visibility -->
-        <div class="setting-row">
-          <div style="font-weight:600; margin-bottom: 0.25rem;">
-            Layout modes
+            ${this._layoutModeToggle("freeform", "Freeform")}
+            ${this._layoutModeToggle("flow", "Flow")}
+            ${this._layoutModeToggle("flex", "Flex")}
+            ${this._layoutModeToggle("grid", "Grid")}
           </div>
 
-          ${this._layoutModeToggle("freeform", "Freeform")}
-          ${this._layoutModeToggle("flow", "Flow")}
-          ${this._layoutModeToggle("flex", "Flex")}
-          ${this._layoutModeToggle("grid", "Grid")}
-        </div>
+          <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
 
-        <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
+          <!-- Section 2: Code tab visibility -->
+          <div class="setting-row">
+            <div style="font-weight:600; margin-bottom: 0.25rem;">
+              Code tabs
+            </div>
 
-        <!-- Section 2: Code tab visibility -->
-        <div class="setting-row">
-          <div style="font-weight:600; margin-bottom: 0.25rem;">Code tabs</div>
-
-          ${this._codeTabToggle("combined", "Combined")}
-          ${this._codeTabToggle("html", "HTML")}
-          ${this._codeTabToggle("css", "CSS")}
-        </div>
-
-        <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
-
-        <!-- Section 3: Student settings visibility -->
-        <div class="setting-row">
-          <div style="font-weight:600; margin-bottom: 0.25rem;">
-            Student mode
+            ${this._codeTabToggle("combined", "Combined")}
+            ${this._codeTabToggle("html", "HTML")}
+            ${this._codeTabToggle("css", "CSS")}
           </div>
 
-          <sl-switch
-            .checked=${this.showComponentSettingsInStudent}
-            @sl-change=${(e: CustomEvent) => {
-              const sw = e.currentTarget as any;
-              const next = Boolean(sw.checked);
-              this.showComponentSettingsInStudent = next;
-              this.requestUpdate();
-            }}
-          >
-            Show component settings in student mode
-          </sl-switch>
+          <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
 
-          <sl-switch
-            .checked=${this.showSidebarInStudent}
-            @sl-change=${(e: CustomEvent) => {
-              const sw = e.currentTarget as any;
-              this.showSidebarInStudent = Boolean(sw.checked);
-              this.requestUpdate();
-            }}
-          >
-            Show sidebar in student mode
-          </sl-switch>
+          <!-- Section 3: Student settings visibility -->
+          <div class="setting-row">
+            <div style="font-weight:600; margin-bottom: 0.25rem;">
+              Student mode
+            </div>
 
-          <sl-switch
-            style="margin-top: 0.5rem;"
-            .checked=${this.allowDeleteInStudent}
-            @sl-change=${(e: CustomEvent) => {
-              const sw = e.currentTarget as any;
-              this.allowDeleteInStudent = Boolean(sw.checked);
-              this.requestUpdate();
-            }}
-          >
-            Allow delete (Backspace/Delete) in student mode
-          </sl-switch>
+            <sl-switch
+              .checked=${this.showComponentSettingsInStudent}
+              @sl-change=${(e: CustomEvent) => {
+                const sw = e.currentTarget as any;
+                const next = Boolean(sw.checked);
+                this.showComponentSettingsInStudent = next;
+                this.requestUpdate();
+              }}
+            >
+              Show component settings in student mode
+            </sl-switch>
 
-          ${isStudent
-            ? html`<div
-                style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-top: 0.25rem;"
-              >
-                Currently in student mode.
-              </div>`
-            : html`<div
-                style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-top: 0.25rem;"
-              >
-                Currently in author mode.
-              </div>`}
+            <sl-switch
+              .checked=${this.showSidebarInStudent}
+              @sl-change=${(e: CustomEvent) => {
+                const sw = e.currentTarget as any;
+                this.showSidebarInStudent = Boolean(sw.checked);
+                this.requestUpdate();
+              }}
+            >
+              Show sidebar in student mode
+            </sl-switch>
+
+            <sl-switch
+              style="margin-top: 0.5rem;"
+              .checked=${this.allowDeleteInStudent}
+              @sl-change=${(e: CustomEvent) => {
+                const sw = e.currentTarget as any;
+                this.allowDeleteInStudent = Boolean(sw.checked);
+                this.requestUpdate();
+              }}
+            >
+              Allow delete (Backspace/Delete) in student mode
+            </sl-switch>
+
+            ${isStudent
+              ? html`<div
+                  style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-top: 0.25rem;"
+                >
+                  Currently in student mode.
+                </div>`
+              : html`<div
+                  style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-top: 0.25rem;"
+                >
+                  Currently in author mode.
+                </div>`}
+          </div>
         </div>
-      </div>
       </sl-details>
     `;
   }
@@ -803,6 +963,17 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
               <!-- render tiles for often used components only if there is no active search query, this row is hidden as soon as you start searching -->
               <div class="quick-row" aria-label="Often used components">
                 ${quick.map((t) => this._tile(t, { compact: true }))}
+
+                <div style="margin-left:auto; display:flex;">
+                  <sl-button
+                    size="small"
+                    variant="default"
+                    class="all-components-btn"
+                    @click=${this._openAllComponentsDialog}
+                  >
+                    <sl-icon name="grid-3x3-gap"></sl-icon>
+                  </sl-button>
+                </div>
               </div>
             `
           : null}
@@ -826,6 +997,17 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         ${this._renderInfoPopup()}
       </div>
     `;
+  }
+
+  private _openAllComponentsDialog() {
+    this._allComponentsQuery = "";
+    this._allComponentsDialogOpen = true;
+    this.updateComplete.then(() => {
+      const dlg = this.renderRoot.querySelector(
+        "#ww-all-components-dialog",
+      ) as any;
+      dlg?.show?.();
+    });
   }
 
   /**
@@ -1381,75 +1563,75 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       const flex = this._getFlexSettings(); // get current flex settings to populate the layout settings UI with the current values
       return html`
         <sl-details summary="Layout">
-        <div style="margin-top: 1rem">
-          <h2 style="margin-top: 0">Layout</h2>
+          <div style="margin-top: 1rem">
+            <h2 style="margin-top: 0">Layout</h2>
 
-          <!-- populate flex settings with current values and update settings on change, for select inputs use predefined options based on valid CSS values for the corresponding property, for gap use a text input to allow custom values -->
-          <div class="setting-row">
-            <sl-select
-              label="Direction"
-              value=${flex.direction ?? "row"}
-              @sl-change=${(e: any) =>
-                this._setFlexSettings({ direction: e.target.value })}
-            >
-              <sl-option value="row">row</sl-option>
-              <sl-option value="column">column</sl-option>
-            </sl-select>
-          </div>
+            <!-- populate flex settings with current values and update settings on change, for select inputs use predefined options based on valid CSS values for the corresponding property, for gap use a text input to allow custom values -->
+            <div class="setting-row">
+              <sl-select
+                label="Direction"
+                value=${flex.direction ?? "row"}
+                @sl-change=${(e: any) =>
+                  this._setFlexSettings({ direction: e.target.value })}
+              >
+                <sl-option value="row">row</sl-option>
+                <sl-option value="column">column</sl-option>
+              </sl-select>
+            </div>
 
-          <div class="setting-row">
-            <sl-select
-              label="Justify content"
-              value=${flex.justify ?? "flex-start"}
-              @sl-change=${(e: any) =>
-                this._setFlexSettings({ justify: e.target.value })}
-            >
-              <sl-option value="flex-start">flex-start</sl-option>
-              <sl-option value="center">center</sl-option>
-              <sl-option value="flex-end">flex-end</sl-option>
-              <sl-option value="space-between">space-between</sl-option>
-              <sl-option value="space-around">space-around</sl-option>
-              <sl-option value="space-evenly">space-evenly</sl-option>
-            </sl-select>
-          </div>
+            <div class="setting-row">
+              <sl-select
+                label="Justify content"
+                value=${flex.justify ?? "flex-start"}
+                @sl-change=${(e: any) =>
+                  this._setFlexSettings({ justify: e.target.value })}
+              >
+                <sl-option value="flex-start">flex-start</sl-option>
+                <sl-option value="center">center</sl-option>
+                <sl-option value="flex-end">flex-end</sl-option>
+                <sl-option value="space-between">space-between</sl-option>
+                <sl-option value="space-around">space-around</sl-option>
+                <sl-option value="space-evenly">space-evenly</sl-option>
+              </sl-select>
+            </div>
 
-          <div class="setting-row">
-            <sl-select
-              label="Align items"
-              value=${flex.align ?? "stretch"}
-              @sl-change=${(e: any) =>
-                this._setFlexSettings({ align: e.target.value })}
-            >
-              <sl-option value="stretch">stretch</sl-option>
-              <sl-option value="flex-start">flex-start</sl-option>
-              <sl-option value="center">center</sl-option>
-              <sl-option value="flex-end">flex-end</sl-option>
-              <sl-option value="baseline">baseline</sl-option>
-            </sl-select>
-          </div>
+            <div class="setting-row">
+              <sl-select
+                label="Align items"
+                value=${flex.align ?? "stretch"}
+                @sl-change=${(e: any) =>
+                  this._setFlexSettings({ align: e.target.value })}
+              >
+                <sl-option value="stretch">stretch</sl-option>
+                <sl-option value="flex-start">flex-start</sl-option>
+                <sl-option value="center">center</sl-option>
+                <sl-option value="flex-end">flex-end</sl-option>
+                <sl-option value="baseline">baseline</sl-option>
+              </sl-select>
+            </div>
 
-          <div class="setting-row">
-            <sl-select
-              label="Wrap"
-              value=${flex.wrap ?? "nowrap"}
-              @sl-change=${(e: any) =>
-                this._setFlexSettings({ wrap: e.target.value })}
-            >
-              <sl-option value="nowrap">nowrap</sl-option>
-              <sl-option value="wrap">wrap</sl-option>
-            </sl-select>
-          </div>
+            <div class="setting-row">
+              <sl-select
+                label="Wrap"
+                value=${flex.wrap ?? "nowrap"}
+                @sl-change=${(e: any) =>
+                  this._setFlexSettings({ wrap: e.target.value })}
+              >
+                <sl-option value="nowrap">nowrap</sl-option>
+                <sl-option value="wrap">wrap</sl-option>
+              </sl-select>
+            </div>
 
-          <div class="setting-row">
-            <sl-input
-              label="Gap"
-              placeholder="e.g. 12px"
-              .value=${flex.gap ?? "12px"}
-              @sl-input=${(e: any) =>
-                this._setFlexSettings({ gap: String(e.target.value ?? "") })}
-            ></sl-input>
+            <div class="setting-row">
+              <sl-input
+                label="Gap"
+                placeholder="e.g. 12px"
+                .value=${flex.gap ?? "12px"}
+                @sl-input=${(e: any) =>
+                  this._setFlexSettings({ gap: String(e.target.value ?? "") })}
+              ></sl-input>
+            </div>
           </div>
-        </div>
         </sl-details>
       `;
     }
@@ -1650,9 +1832,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
     return html`
       <sl-details summary="Component">
-      <div style="margin-top: 1rem">
-        ${custom ?? null} ${flowDisplayUI} ${bindingsUI}
-      </div>
+        <div style="margin-top: 1rem">
+          ${custom ?? null} ${flowDisplayUI} ${bindingsUI}
+        </div>
       </sl-details>
     `;
   }
@@ -1944,6 +2126,12 @@ ${syntax}</pre
     super.connectedCallback();
 
     this.addEventListener("ww-icon-picker-open", (e: any) => {
+      console.log(
+        "[builder] got ww-icon-picker-open",
+        e.detail,
+        "target:",
+        e.target,
+      );
       e.stopPropagation();
       this._iconDialogTarget = e.target;
 
