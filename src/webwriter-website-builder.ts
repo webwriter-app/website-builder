@@ -26,6 +26,8 @@ import type {
   LayoutMode,
 } from "./builder/types";
 import { defaultFlexSettings, defaultGridSettings } from "./builder/types";
+import { WwIconPicker } from "./builder/components/ui/icon-picker";
+import { SHOELACE_ICON_NAMES } from "./builder/data/shoelaceIcons";
 
 type CodeTab = "html" | "css" | "combined";
 
@@ -129,7 +131,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   };
 
   @state()
-  private showComponentSettingsInStudent = false;
+  private showComponentSettingsInStudent = true;
 
   @state()
   private _studentDrawerOpen = false;
@@ -140,9 +142,26 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   @state()
   private allowDeleteInStudent = false;
 
+  @state() private _iconDialogOpen = false;
+  @state() private _iconDraftName = "gear";
+  @state() private _iconDraftColor = "#0f172a";
+  @state() private _iconQuery = "";
+  private _iconDialogTarget: EventTarget | null = null;
+
+  @state() private _iconScrollTop = 0;
+  @state() private _iconViewportH = 520;
+  private _iconScroller: HTMLElement | null = null;
+
+  // virtualization tuning
+  private readonly ICON_ROW_H = 60;
+  private readonly ICON_OVERSCAN = 3;
+
   // LitElementWw scopes to shadowDOM so we have to re-register shoelace's custom elements here
   static get scopedElements() {
-    return shoelaceScoped;
+    return {
+      ...shoelaceScoped,
+      "ww-icon-picker": WwIconPicker,
+    };
   }
 
   /**
@@ -304,6 +323,214 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
               </sl-drawer>
             `
           : null}
+        ${this._renderIconDialog()}
+      </div>
+    `;
+  }
+
+  private _renderIconDialog() {
+    const q = this._iconQuery.trim().toLowerCase();
+    const items = q
+      ? SHOELACE_ICON_NAMES.filter((n) => n.toLowerCase().includes(q))
+      : SHOELACE_ICON_NAMES;
+
+    const selectedName = this._iconDraftName || "gear";
+
+    return html`
+      <sl-dialog
+        id="ww-icon-dialog"
+        label="Choose an icon"
+        @sl-after-show=${this._onIconDialogAfterShow}
+        @sl-after-hide=${this._onIconDialogAfterHide}
+      >
+        <div class="dlg">
+          <div class="topbar">
+            <div class="left">
+              <sl-input
+                id="ww-icon-search"
+                size="small"
+                clearable
+                placeholder="Search icons…"
+                .value=${this._iconQuery}
+                @sl-input=${(e: any) => {
+                  const v = (e?.target?.value ??
+                    e?.detail?.value ??
+                    (e?.currentTarget as any)?.value ??
+                    "") as string;
+
+                  this._iconQuery = String(v);
+                  this._iconScrollTop = 0;
+                  this._iconScroller?.scrollTo({ top: 0 });
+                }}
+                @sl-clear=${() => (this._iconQuery = "")}
+              ></sl-input>
+
+              <div class="meta">
+                <div>
+                  ${items.length} match${items.length === 1 ? "" : "es"}
+                </div>
+                <div>Selected: <strong>${selectedName}</strong></div>
+              </div>
+            </div>
+
+            <div class="right">
+              <div class="previewBox">
+                <sl-icon
+                  name=${selectedName}
+                  style="color:${this._iconDraftColor};"
+                ></sl-icon>
+                <div class="previewText">${selectedName}</div>
+              </div>
+
+              <sl-input
+                size="small"
+                label="Icon color"
+                placeholder="#0f172a"
+                .value=${this._iconDraftColor}
+                @sl-input=${(e: any) => {
+                  const v = (e?.target?.value ??
+                    e?.detail?.value ??
+                    (e?.currentTarget as any)?.value ??
+                    "") as string;
+
+                  this._iconDraftColor = String(v);
+                }}
+              ></sl-input>
+            </div>
+          </div>
+
+          <div class="scroller" id="ww-icon-scroller">
+            ${this._renderIconVirtualGrid(items)}
+          </div>
+
+          <div class="footer">
+            <div class="hint">Tip: search by name, then click an icon.</div>
+            <div style="display:flex; gap:0.5rem;">
+              <sl-button
+                size="small"
+                variant="default"
+                @click=${() => {
+                  const dlg = this.renderRoot.querySelector(
+                    "#ww-icon-dialog",
+                  ) as any;
+                  dlg?.hide?.();
+                }}
+              >
+                Cancel
+              </sl-button>
+
+              <sl-button
+                size="small"
+                variant="primary"
+                @click=${() => {
+                  (this._iconDialogTarget as any)?.dispatchEvent?.(
+                    new CustomEvent("ww-icon-picker-result", {
+                      detail: {
+                        name: this._iconDraftName,
+                        color: this._iconDraftColor,
+                      },
+                      bubbles: false,
+                      composed: false,
+                    }),
+                  );
+                  const dlg = this.renderRoot.querySelector(
+                    "#ww-icon-dialog",
+                  ) as any;
+                  dlg?.hide?.();
+                }}
+              >
+                Use icon
+              </sl-button>
+            </div>
+          </div>
+        </div>
+      </sl-dialog>
+    `;
+  }
+
+  private _onIconDialogAfterShow = () => {
+    this._iconScroller = this.renderRoot.querySelector(
+      "#ww-icon-scroller",
+    ) as HTMLElement | null;
+
+    if (this._iconScroller) {
+      this._iconScrollTop = this._iconScroller.scrollTop;
+      this._iconViewportH = this._iconScroller.clientHeight;
+      this._iconScroller.addEventListener("scroll", this._onIconDialogScroll, {
+        passive: true,
+      });
+    }
+
+    // focus search
+    queueMicrotask(() => {
+      const input = this.renderRoot.querySelector("#ww-icon-search") as any;
+      input?.focus?.();
+    });
+  };
+
+  private _onIconDialogAfterHide = () => {
+    if (this._iconScroller) {
+      this._iconScroller.removeEventListener(
+        "scroll",
+        this._onIconDialogScroll,
+      );
+    }
+    this._iconScroller = null;
+    this._iconDialogTarget = null;
+    this._iconDialogOpen = false;
+  };
+
+  private _onIconDialogScroll = () => {
+    if (!this._iconScroller) return;
+    this._iconScrollTop = this._iconScroller.scrollTop;
+    this._iconViewportH = this._iconScroller.clientHeight;
+  };
+
+  private _renderIconVirtualGrid(items: string[]) {
+    const width = this._iconScroller?.clientWidth ?? 760;
+    const minCol = 56;
+    const cols = Math.max(1, Math.floor((width - 24) / (minCol + 6)));
+
+    const totalRows = Math.ceil(items.length / cols);
+    const spacerH = totalRows * this.ICON_ROW_H;
+
+    const startRow = Math.max(
+      0,
+      Math.floor(this._iconScrollTop / this.ICON_ROW_H) - this.ICON_OVERSCAN,
+    );
+    const endRow = Math.min(
+      totalRows,
+      Math.ceil((this._iconScrollTop + this._iconViewportH) / this.ICON_ROW_H) +
+        this.ICON_OVERSCAN,
+    );
+
+    const startIndex = startRow * cols;
+    const endIndex = Math.min(items.length, endRow * cols);
+    const slice = items.slice(startIndex, endIndex);
+
+    const offsetY = startRow * this.ICON_ROW_H;
+
+    return html`
+      <div class="spacer" style="--spacer-h:${spacerH}px"></div>
+      <div class="grid" style="transform: translateY(${offsetY}px);">
+        ${slice.map((name) => {
+          const selected = name === this._iconDraftName;
+          return html`
+            <button
+              class="tile"
+              data-selected=${selected ? "true" : "false"}
+              type="button"
+              title=${name}
+              @click=${() => (this._iconDraftName = name)}
+            >
+              <sl-icon
+                name=${name}
+                style="color:${this._iconDraftColor};"
+              ></sl-icon>
+              <span class="fallback">${name.slice(0, 2)}</span>
+            </button>
+          `;
+        })}
       </div>
     `;
   }
@@ -1338,7 +1565,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
    * @returns Lit template | null
    */
   private _renderSelectedComponentSettings() {
-    const isAuthor = !this.isContentEditable;
+    const isAuthor = this.isContentEditable;
     const isStudent = !isAuthor;
     if (isStudent && !this.showComponentSettingsInStudent) {
       return null;
@@ -1706,6 +1933,21 @@ ${syntax}</pre
    */
   connectedCallback() {
     super.connectedCallback();
+
+    this.addEventListener("ww-icon-picker-open", (e: any) => {
+      e.stopPropagation();
+      this._iconDialogTarget = e.target;
+
+      this._iconDraftName = e.detail?.name ?? "gear";
+      this._iconDraftColor = e.detail?.color ?? "#0f172a";
+      this._iconQuery = "";
+      this._iconDialogOpen = true;
+
+      this.updateComplete.then(() => {
+        const dlg = this.renderRoot.querySelector("#ww-icon-dialog") as any;
+        dlg?.show?.();
+      });
+    });
 
     document.addEventListener("fullscreenchange", this._onFsChange);
     document.addEventListener("fullscreenerror", this._onFsError);

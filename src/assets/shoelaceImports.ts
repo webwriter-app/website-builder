@@ -16,6 +16,7 @@ import SlDropdown from "@shoelace-style/shoelace/dist/components/dropdown/dropdo
 import SlMenu from "@shoelace-style/shoelace/dist/components/menu/menu.js";
 import SlMenuItem from "@shoelace-style/shoelace/dist/components/menu-item/menu-item.js";
 import SlDialog from "@shoelace-style/shoelace/dist/components/dialog/dialog.js";
+import SlColorPicker from "@shoelace-style/shoelace/dist/components/color-picker/color-picker.component.js";
 
 export const shoelaceScoped = {
   "sl-button": SlButton,
@@ -34,6 +35,7 @@ export const shoelaceScoped = {
   "sl-menu": SlMenu,
   "sl-menu-item": SlMenuItem,
   "sl-dialog": SlDialog,
+  "sl-color-picker": SlColorPicker,
 };
 import { registerIconLibrary } from "@shoelace-style/shoelace/dist/utilities/icon-library.js";
 registerIconLibrary("default", {

@@ -480,4 +480,148 @@ export const builderStyles = css`
   .flow-item {
     contain: layout paint; /* reduces repaint scope */
   }
+
+  .dlg {
+    display: grid;
+    gap: 0.75rem;
+    width: min(820px, 92vw);
+  }
+
+  .topbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .left {
+    flex: 1 1 360px;
+    min-width: 260px;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--sl-color-neutral-600);
+  }
+
+  .right {
+    flex: 0 0 auto;
+    display: grid;
+    gap: 0.5rem;
+    justify-items: end;
+  }
+
+  .previewBox {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.6rem;
+    border-radius: 12px;
+    border: 1px solid var(--sl-color-neutral-200);
+    background: var(--sl-color-neutral-0);
+    max-width: 320px;
+  }
+
+  .previewBox sl-icon {
+    font-size: 22px;
+  }
+
+  .previewText {
+    font-size: 0.85rem;
+    color: var(--sl-color-neutral-700);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .scroller {
+    height: min(520px, 62vh);
+    overflow: auto;
+    border: 1px solid var(--sl-color-neutral-200);
+    border-radius: 14px;
+    background: var(--sl-color-neutral-0);
+    position: relative;
+  }
+
+  .spacer {
+    height: var(--spacer-h, 0px);
+  }
+
+  .grid {
+    position: absolute;
+    inset: 0;
+    padding: 0.6rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+    gap: 0.4rem;
+    align-content: start;
+    will-change: transform;
+  }
+
+  .tile {
+    height: 52px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background: transparent;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+  }
+
+  .tile:hover {
+    background: var(--sl-color-neutral-50);
+    border-color: var(--sl-color-neutral-200);
+  }
+
+  .tile[data-selected="true"] {
+    background: var(--sl-color-primary-50);
+    border-color: var(--sl-color-primary-400);
+  }
+
+  .tile sl-icon {
+    font-size: 22px;
+    pointer-events: none;
+  }
+
+  /* fallback mark when icon fails/empty */
+  .tile .fallback {
+    position: absolute;
+    font-size: 10px;
+    color: var(--sl-color-neutral-500);
+    bottom: 6px;
+    right: 8px;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* Icon dialog sizing */
+  #ww-icon-dialog::part(panel) {
+    width: min(840px, 96vw);
+    max-height: 92vh;
+  }
+
+  #ww-icon-dialog::part(body) {
+    /* let our scroller control the scroll */
+    overflow: hidden;
+  }
+
+  #ww-icon-dialog .scroller {
+    height: min(70vh, 720px);
+  }
+
+  #ww-icon-dialog .grid {
+    grid-auto-rows: 60px; 
+  }
+  #ww-icon-dialog .tile {
+    height: 60px; 
+  }
 `;

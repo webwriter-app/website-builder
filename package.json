@@ -9,8 +9,7 @@
     "scripts": {
         "prepublishOnly": "npx @webwriter/build",
         "dev": "npx @webwriter/build dev",
-        "localize": "lit-localize extract && npx @webwriter/build localize && lit-localize build",
-        "gen:shoelace-icons": "node scripts/generate-shoelace-icons.mjs"
+        "localize": "lit-localize extract && npx @webwriter/build localize && lit-localize build"
     },
     "dependencies": {
         "@shoelace-style/shoelace": "^2.20.1",
