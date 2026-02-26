@@ -18,6 +18,7 @@ export const LabelComponent: BuilderComponent = {
     const font = data?.font ?? DEFAULT_FONT;
     const color = data?.color ?? "#000000";
     const content = data?.content ?? "Label";
+    const fontWeight = data?.["font-weight"] ?? "normal";
 
     return html`
       <label
@@ -26,6 +27,7 @@ export const LabelComponent: BuilderComponent = {
           display: inline-block;
           color: ${color};
           font-family: ${font};
+          font-weight: ${fontWeight};
         "
       >
         ${content}
@@ -48,6 +50,14 @@ export const LabelComponent: BuilderComponent = {
       target: "label",
       name: "color",
       placeholder: "#000000",
+    },
+    {
+      key: "font-weight",
+      label: "Font weight",
+      kind: "style",
+      target: "h1",
+      name: "font-weight",
+      placeholder: "e.g. 400 or bold",
     },
   ],
   settings: ({ data, setData }) => {

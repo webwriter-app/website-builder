@@ -18,6 +18,7 @@ export const Heading6: BuilderComponent = {
     const font = data?.font ?? DEFAULT_FONT;
     const color = data?.color ?? "#000000";
     const content = data?.content ?? "Heading 6";
+    const fontWeight = data?.["font-weight"] ?? "normal";
 
     return html`
       <h6
@@ -26,6 +27,7 @@ export const Heading6: BuilderComponent = {
           display: inline-block;
           color: ${color};
           font-family: ${font};
+          font-weight: ${fontWeight};
         "
       >
         ${content}
@@ -48,6 +50,14 @@ export const Heading6: BuilderComponent = {
       target: "h6",
       name: "color",
       placeholder: "#000000",
+    },
+    {
+      key: "font-weight",
+      label: "Font weight",
+      kind: "style",
+      target: "h1",
+      name: "font-weight",
+      placeholder: "e.g. 400 or bold",
     },
   ],
   settings: ({ data, setData }) => {

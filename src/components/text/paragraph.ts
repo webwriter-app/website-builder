@@ -18,6 +18,7 @@ export const ParagraphComponent: BuilderComponent = {
     const font = data?.font ?? DEFAULT_FONT;
     const color = data?.color ?? "#000000";
     const content = data?.content ?? "Paragraph";
+    const fontWeight = data?.["font-weight"] ?? "normal";
 
     return html`
       <p
@@ -26,6 +27,7 @@ export const ParagraphComponent: BuilderComponent = {
           display: inline-block;
           color: ${color};
           font-family: ${font};
+          font-weight: ${fontWeight};
         "
       >
         ${content}
@@ -48,6 +50,14 @@ export const ParagraphComponent: BuilderComponent = {
       target: "p",
       name: "color",
       placeholder: "#000000",
+    },
+    {
+      key: "font-weight",
+      label: "Font weight",
+      kind: "style",
+      target: "h1",
+      name: "font-weight",
+      placeholder: "e.g. 400 or bold",
     },
   ],
   settings: ({ data, setData }) => {
