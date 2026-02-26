@@ -624,4 +624,34 @@ export const builderStyles = css`
   #ww-icon-dialog .tile {
     height: 60px; 
   }
+
+  .settings {
+  color: var(--sl-color-gray-600);
+  font-size: var(--sl-font-size-medium);
+  line-height: var(--sl-line-height-medium);
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+.settings sl-details {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--sl-color-gray-300);
+}
+
+.settings sl-details::part(base) {
+  background-color: unset;
+  border: none;
+}
+
+.settings sl-details::part(summary) {
+  font-size: var(--sl-button-font-size-medium);
+  font-weight: 500;
+  color: var(--sl-color-gray-700);
+  padding: 0.4rem 0;
+}
+
+.settings sl-details::part(content) {
+  padding: 0.5rem 0 0.75rem 0;
+}
 `;

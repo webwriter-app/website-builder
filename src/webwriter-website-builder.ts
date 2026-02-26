@@ -216,6 +216,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
 
+          <sl-details summary="Canvas">
             <!-- <div class="settings-row">
               <sl-switch
                 .checked=${this.showGrid} 
@@ -240,11 +241,11 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                 ${msg("Reset Canvas")}
               </sl-button>
             </div>
-
+            </sl-details>
             ${this._renderVisibilitySettings()}
-
             <!-- Layout and component settings (if no component is selected the selected component settings will be empty but layout settings will always be shown)  -->
             ${this._renderLayoutSettings()}
+
             ${this._renderSelectedComponentSettings()}
           </div>
         </div>
@@ -340,6 +341,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       <sl-dialog
         id="ww-icon-dialog"
         label="Choose an icon"
+        .open=${this._iconDialogOpen}
         @sl-after-show=${this._onIconDialogAfterShow}
         @sl-after-hide=${this._onIconDialogAfterHide}
       >
@@ -448,22 +450,26 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     `;
   }
 
-  private _onIconDialogAfterShow = () => {
-    this._iconScroller = this.renderRoot.querySelector(
-      "#ww-icon-scroller",
-    ) as HTMLElement | null;
+  private _onIconDialogAfterShow = (e: Event) => {
+    const dlg = e.target as HTMLElement;
 
-    if (this._iconScroller) {
-      this._iconScrollTop = this._iconScroller.scrollTop;
-      this._iconViewportH = this._iconScroller.clientHeight;
-      this._iconScroller.addEventListener("scroll", this._onIconDialogScroll, {
-        passive: true,
-      });
-    }
+    // IMPORTANT: query inside dialog's rendered DOM
+    this._iconScroller = dlg.querySelector("#ww-icon-scroller");
 
-    // focus search
+    if (!this._iconScroller) return;
+
+    this._iconScrollTop = this._iconScroller.scrollTop;
+    this._iconViewportH = this._iconScroller.clientHeight;
+
+    this._iconScroller.addEventListener(
+      "scroll",
+      this._onIconDialogScroll,
+      { passive: true }
+    );
+
+    // Focus search inside dialog DOM
     queueMicrotask(() => {
-      const input = this.renderRoot.querySelector("#ww-icon-search") as any;
+      const input = dlg.querySelector("#ww-icon-search") as any;
       input?.focus?.();
     });
   };
@@ -494,10 +500,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     const totalRows = Math.ceil(items.length / cols);
     const spacerH = totalRows * this.ICON_ROW_H;
 
-    const startRow = Math.max(
-      0,
-      Math.floor(this._iconScrollTop / this.ICON_ROW_H) - this.ICON_OVERSCAN,
-    );
+    let startRow = Math.floor(this._iconScrollTop / this.ICON_ROW_H) - this.ICON_OVERSCAN;
+    startRow = Math.max(0, Math.min(startRow, totalRows - 1));
     const endRow = Math.min(
       totalRows,
       Math.ceil((this._iconScrollTop + this._iconViewportH) / this.ICON_ROW_H) +
@@ -540,8 +544,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     const isStudent = !this.isContentEditable;
 
     return html`
+    <sl-details summary="Visibility">
       <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Visibility</h2>
 
         <!-- Section 1: Layout mode visibility -->
         <div class="setting-row">
@@ -622,6 +626,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
               </div>`}
         </div>
       </div>
+      </sl-details>
     `;
   }
 
@@ -1375,6 +1380,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     if (this.layoutMode === "flex") {
       const flex = this._getFlexSettings(); // get current flex settings to populate the layout settings UI with the current values
       return html`
+        <sl-details summary="Layout">
         <div style="margin-top: 1rem">
           <h2 style="margin-top: 0">Layout</h2>
 
@@ -1444,6 +1450,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
             ></sl-input>
           </div>
         </div>
+        </sl-details>
       `;
     }
 
@@ -1642,9 +1649,11 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       : null;
 
     return html`
+      <sl-details summary="Component">
       <div style="margin-top: 1rem">
         ${custom ?? null} ${flowDisplayUI} ${bindingsUI}
       </div>
+      </sl-details>
     `;
   }
 
