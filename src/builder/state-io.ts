@@ -16,6 +16,11 @@ export type ParsedBuilderState = {
   gridSize: number;
   flexSettings: FlexSettings;
   gridSettings: GridSettings;
+  visibleLayoutModes?: Record<LayoutMode, boolean>;
+  visibleCodeTabs?: Record<"html" | "css" | "combined", boolean>;
+  showComponentSettingsInStudent?: boolean;
+  showSidebarInStudent?: boolean;
+  allowDeleteInStudent?: boolean;
 };
 
 export function serializeBuilderState(args: {
@@ -26,6 +31,11 @@ export function serializeBuilderState(args: {
   gridSize: number;
   flexSettings: FlexSettings;
   gridSettings: GridSettings;
+  visibleLayoutModes: Record<LayoutMode, boolean>;
+  visibleCodeTabs: Record<"html" | "css" | "combined", boolean>;
+  showComponentSettingsInStudent: boolean;
+  showSidebarInStudent: boolean;
+  allowDeleteInStudent: boolean;
 }): string {
   const payload: any = {
     layoutMode: args.layoutMode,
@@ -36,6 +46,11 @@ export function serializeBuilderState(args: {
     gridSize: args.gridSize,
     flexSettings: args.flexSettings,
     gridSettings: args.gridSettings,
+    visibleLayoutModes: args.visibleLayoutModes,
+    visibleCodeTabs: args.visibleCodeTabs,
+    showComponentSettingsInStudent: args.showComponentSettingsInStudent,
+    showSidebarInStudent: args.showSidebarInStudent,
+    allowDeleteInStudent: args.allowDeleteInStudent,
   };
 
   return JSON.stringify(payload);
@@ -75,6 +90,34 @@ export function parseBuilderState(
         ? { ...gridBase, ...parsed.gridSettings }
         : gridBase;
 
+    const visibleLayoutModes =
+      parsed.visibleLayoutModes && typeof parsed.visibleLayoutModes === "object"
+        ? (parsed.visibleLayoutModes as Record<LayoutMode, boolean>)
+        : undefined;
+
+    const visibleCodeTabs =
+      parsed.visibleCodeTabs && typeof parsed.visibleCodeTabs === "object"
+        ? (parsed.visibleCodeTabs as Record<
+            "html" | "css" | "combined",
+            boolean
+          >)
+        : undefined;
+
+    const showComponentSettingsInStudent =
+      parsed.showComponentSettingsInStudent == null
+        ? undefined
+        : Boolean(parsed.showComponentSettingsInStudent);
+
+    const showSidebarInStudent =
+      parsed.showSidebarInStudent == null
+        ? undefined
+        : Boolean(parsed.showSidebarInStudent);
+
+    const allowDeleteInStudent =
+      parsed.allowDeleteInStudent == null
+        ? undefined
+        : Boolean(parsed.allowDeleteInStudent);
+
     return {
       layoutMode,
       freeformNodes,
@@ -86,6 +129,11 @@ export function parseBuilderState(
       gridSize: Number(parsed.gridSize ?? 20),
       flexSettings,
       gridSettings,
+      visibleLayoutModes,
+      visibleCodeTabs,
+      showComponentSettingsInStudent,
+      showSidebarInStudent,
+      allowDeleteInStudent,
     };
   } catch {
     return null;

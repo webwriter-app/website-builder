@@ -7,7 +7,12 @@ export const LabelComponent: BuilderComponent = {
   group: "text",
 
   render: (data) => html`
-    <label style="margin: 0.5rem 0; display: inline-block">${data.content ?? "Label"}</label>
+    <label
+      style="margin: 0.5rem 0; display: inline-block; color: ${data.color ??
+      "#000000"}"
+    >
+      ${data.content ?? "Label"}
+    </label>
   `,
   bindings: [
     {
@@ -16,6 +21,14 @@ export const LabelComponent: BuilderComponent = {
       kind: "text",
       target: "label",
       placeholder: "Enter label text…",
+    },
+    {
+      key: "color",
+      label: "Text color",
+      kind: "style",
+      target: "label",
+      name: "color",
+      placeholder: "#000000",
     },
   ],
 };

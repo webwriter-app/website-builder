@@ -7,7 +7,7 @@ export const Heading6: BuilderComponent = {
   group: "text",
 
   render: (data) => html`
-    <h6 style="margin: 0.5rem 0; display: inline-block">
+    <h6 style="margin: 0.5rem 0; display: inline-block; color: ${data.color ?? "#000000"}">
       ${data.content ?? "Heading 6"}
     </h6>
   `,
@@ -18,6 +18,14 @@ export const Heading6: BuilderComponent = {
       kind: "text",
       target: "h6",
       placeholder: "Enter heading…",
+    },
+    {
+      key: "color",
+      label: "Text color",
+      kind: "style",
+      target: "h6",
+      name: "color",
+      placeholder: "#000000",
     },
   ],
 };

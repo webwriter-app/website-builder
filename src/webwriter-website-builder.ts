@@ -113,6 +113,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _lastPointerX = 0;
   private _lastPointerY = 0;
 
+  @state()
   private visibleLayoutModes: Record<LayoutMode, boolean> = {
     freeform: true,
     flow: true,
@@ -120,13 +121,24 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     grid: true,
   };
 
+  @state()
   private visibleCodeTabs: Record<CodeTab, boolean> = {
     combined: true,
     html: true,
     css: true,
   };
 
-  private showComponentSettingsInConsumer = false;
+  @state()
+  private showComponentSettingsInStudent = false;
+
+  @state()
+  private _studentDrawerOpen = false;
+
+  @state()
+  private showSidebarInStudent = false;
+
+  @state()
+  private allowDeleteInStudent = false;
 
   // LitElementWw scopes to shadowDOM so we have to re-register shoelace's custom elements here
   static get scopedElements() {
@@ -162,19 +174,26 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
     // Only show code panel in fullscreen
     const split = this.isFullscreen;
-    const isAuthor = !this.isContentEditable; // non-preview
-    const isConsumer = !isAuthor; // preview
+    const isAuthor = this.isContentEditable; // non-preview
+    const isStudent = !isAuthor; // preview
+
+    const canShowStudentDrawer =
+      isStudent && this.showComponentSettingsInStudent;
+    const hasSelection = Boolean(this.selectedNodeId);
+
+    const showDrawer =
+      canShowStudentDrawer && hasSelection && this._studentDrawerOpen;
 
     // get code tuple from code builder
     const { html: outHtml, css: outCss, combined } = this._generateExport();
 
-    const showSidebar = !split && isAuthor;
+    const hideSidebar = split || (isStudent && !this.showSidebarInStudent);
 
     // main page, in fullscreen settings sidebar becomes the left column wrapper
     return html`
       <div class="layout ${split ? "fullscreen-split" : ""}">
         <!-- Sidebar (in fullscreen it becomes hidden) -->
-        <div part="options" style=${showSidebar ? "display:none;" : ""}>
+        <div part="options" style=${hideSidebar ? "display:none;" : ""}>
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
 
@@ -267,13 +286,31 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
               </div>
             `
           : null}
+        ${showDrawer
+          ? html`
+              <sl-drawer
+                label="Component settings"
+                placement="end"
+                .open=${true}
+                @sl-after-hide=${this._closeStudentDrawer}
+                @sl-request-close=${(e: CustomEvent) => {
+                  e.preventDefault();
+                  this._closeStudentDrawer();
+                }}
+              >
+                <div class="settings">
+                  ${this._renderSelectedComponentSettings()}
+                </div>
+              </sl-drawer>
+            `
+          : null}
       </div>
     `;
   }
 
   private _renderVisibilitySettings() {
     if (!this.isContentEditable) return null;
-    const isConsumer = !this.isContentEditable;
+    const isStudent = !this.isContentEditable;
 
     return html`
       <div style="margin-top: 1rem">
@@ -304,27 +341,52 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
         <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
 
-        <!-- Section 3: Consumer settings visibility -->
+        <!-- Section 3: Student settings visibility -->
         <div class="setting-row">
           <div style="font-weight:600; margin-bottom: 0.25rem;">
-            Consumer mode
+            Student mode
           </div>
 
           <sl-switch
-            .checked=${this.showComponentSettingsInConsumer}
+            .checked=${this.showComponentSettingsInStudent}
             @sl-change=${(e: CustomEvent) => {
-              this.showComponentSettingsInConsumer = Boolean(e.detail.checked);
+              const sw = e.currentTarget as any;
+              const next = Boolean(sw.checked);
+              this.showComponentSettingsInStudent = next;
               this.requestUpdate();
             }}
           >
-            Show component settings in consumer mode
+            Show component settings in student mode
           </sl-switch>
 
-          ${isConsumer
+          <sl-switch
+            .checked=${this.showSidebarInStudent}
+            @sl-change=${(e: CustomEvent) => {
+              const sw = e.currentTarget as any;
+              this.showSidebarInStudent = Boolean(sw.checked);
+              this.requestUpdate();
+            }}
+          >
+            Show sidebar in student mode
+          </sl-switch>
+
+          <sl-switch
+            style="margin-top: 0.5rem;"
+            .checked=${this.allowDeleteInStudent}
+            @sl-change=${(e: CustomEvent) => {
+              const sw = e.currentTarget as any;
+              this.allowDeleteInStudent = Boolean(sw.checked);
+              this.requestUpdate();
+            }}
+          >
+            Allow delete (Backspace/Delete) in student mode
+          </sl-switch>
+
+          ${isStudent
             ? html`<div
                 style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-top: 0.25rem;"
               >
-                Currently in consumer mode.
+                Currently in student mode.
               </div>`
             : html`<div
                 style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-top: 0.25rem;"
@@ -344,7 +406,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         style="display:block; margin-top: 0.25rem;"
         .checked=${checked}
         @sl-change=${(e: CustomEvent) => {
-          const next = Boolean(e.detail.checked);
+          const sw = e.currentTarget as any;
+          const next = Boolean(sw.checked);
           this._setLayoutModeVisible(mode, next);
         }}
       >
@@ -381,7 +444,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         style="display:block; margin-top: 0.25rem;"
         .checked=${checked}
         @sl-change=${(e: CustomEvent) => {
-          const next = Boolean(e.detail.checked);
+          const sw = e.currentTarget as any;
+          const next = Boolean(sw.checked);
           this._setCodeTabVisible(tab, next);
         }}
       >
@@ -1274,7 +1338,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
    * @returns Lit template | null
    */
   private _renderSelectedComponentSettings() {
-    if (!this.isContentEditable && !this.showComponentSettingsInConsumer) {
+    const isAuthor = !this.isContentEditable;
+    const isStudent = !isAuthor;
+    if (isStudent && !this.showComponentSettingsInStudent) {
       return null;
     }
     const node = this._getSelectedNode();
@@ -1407,9 +1473,14 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
    */
   private _serializeState(): string {
     return serializeBuilderState({
+      visibleLayoutModes: this.visibleLayoutModes,
+      visibleCodeTabs: this.visibleCodeTabs,
+      showComponentSettingsInStudent: this.showComponentSettingsInStudent,
       layoutMode: this.layoutMode,
       freeformNodes: this.freeformNodes,
       orderedNodes: this.orderedNodes,
+      showSidebarInStudent: this.showSidebarInStudent,
+      allowDeleteInStudent: this.allowDeleteInStudent,
 
       showGrid: this.showGrid,
       gridSize: this.gridSize,
@@ -1427,6 +1498,19 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     if (!parsed) return;
 
     this.layoutMode = parsed.layoutMode;
+
+    this.visibleLayoutModes =
+      parsed.visibleLayoutModes ?? this.visibleLayoutModes;
+    this.visibleCodeTabs = parsed.visibleCodeTabs ?? this.visibleCodeTabs;
+    this.showComponentSettingsInStudent =
+      parsed.showComponentSettingsInStudent ??
+      this.showComponentSettingsInStudent;
+
+    this.showSidebarInStudent =
+      parsed.showSidebarInStudent ?? this.showSidebarInStudent;
+
+    this.allowDeleteInStudent =
+      parsed.allowDeleteInStudent ?? this.allowDeleteInStudent;
 
     this.freeformNodes = parsed.freeformNodes ?? [];
     this.orderedNodes = parsed.orderedNodes ?? parsed.nodes ?? []; // backwards compat
@@ -1883,6 +1967,7 @@ ${syntax}</pre
     this.selectedElement = this.renderRoot.querySelector(
       `[data-node-id="${id}"]`,
     ) as HTMLElement | null;
+    this._maybeOpenStudentDrawerOnSelect();
     this.requestUpdate();
   }
 
@@ -2105,6 +2190,9 @@ ${syntax}</pre
   private _clearSelection() {
     this.selectedNodeId = null;
     this.selectedElement = null;
+    if (this._isStudentMode()) {
+      this._studentDrawerOpen = false;
+    }
     this.requestUpdate();
   }
 
@@ -2157,6 +2245,8 @@ ${syntax}</pre
     // delete selected node
     if (e.key === "Backspace" || e.key === "Delete") {
       if (this._isEditingWithinComponent()) return; // don’t delete while typing
+      // student mode delete permission
+      if (this._isStudentMode() && !this.allowDeleteInStudent) return;
       e.preventDefault();
       this._deleteSelectedNode();
       return;
@@ -2212,7 +2302,6 @@ ${syntax}</pre
     }
   };
 
-  // (optional helper)
   private _activeNodes(): BuilderNode[] {
     return this.layoutMode === "freeform"
       ? this.freeformNodes
@@ -2222,5 +2311,25 @@ ${syntax}</pre
     if (this.layoutMode === "freeform") this.freeformNodes = next;
     else this.orderedNodes = next;
     this.requestUpdate();
+  }
+
+  private _isAuthorMode(): boolean {
+    return !!this.isContentEditable;
+  }
+
+  private _isStudentMode(): boolean {
+    return !this.isContentEditable;
+  }
+
+  private _closeStudentDrawer() {
+    this._studentDrawerOpen = false;
+    this.requestUpdate();
+  }
+
+  private _maybeOpenStudentDrawerOnSelect() {
+    // Only open in student mode, and only if author enabled the permission flag
+    if (this._isStudentMode() && this.showComponentSettingsInStudent) {
+      this._studentDrawerOpen = true;
+    }
   }
 }

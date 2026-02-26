@@ -2,6 +2,7 @@ import { html } from "lit";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 
 const DEFAULT_WIDTH = "300px";
+const DEFAULT_HEIGHT = "1px";
 
 export const DividerComponent: BuilderComponent = {
   type: "divider",
@@ -10,10 +11,12 @@ export const DividerComponent: BuilderComponent = {
 
   defaultData: {
     width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT,
   },
 
   render(data) {
     const width = data?.width || DEFAULT_WIDTH;
+    const height = data?.height || DEFAULT_HEIGHT;
 
     return html`
       <style>
@@ -27,7 +30,7 @@ export const DividerComponent: BuilderComponent = {
           margin: 0;
           width: ${width};
           border: none;
-          border-top: 1px solid #ccc;
+          border-top: ${height} solid #ccc;
         }
       </style>
 
@@ -41,16 +44,24 @@ export const DividerComponent: BuilderComponent = {
   bindings: [
     {
       key: "width",
-      label: "Width (e.g. 300px, 60%, 20rem)",
+      label: "Width (e.g. 300px, 20rem)",
       kind: "style",
       target: "hr",
       name: "width",
       placeholder: DEFAULT_WIDTH,
     },
+    {
+      key: "height",
+      label: "Height (e.g. 10px, 0.5rem)",
+      kind: "style",
+      target: "hr",
+      name: "height",
+      placeholder: DEFAULT_HEIGHT,
+    }
   ],
 
   settings: ({ setData }) => {
-    const reset = () => setData({ width: DEFAULT_WIDTH });
+    const reset = () => setData({ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT });
 
     return html`
       <div style="margin-top: 1rem">
@@ -58,7 +69,7 @@ export const DividerComponent: BuilderComponent = {
 
         <div class="setting-row">
           <sl-button size="small" variant="default" @click=${reset}>
-            Reset width
+            Reset width and height
           </sl-button>
         </div>
       </div>
