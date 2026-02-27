@@ -1390,20 +1390,75 @@ ${syntax}</pre
 
     if (candidates.length === 0) return 0;
 
-    // FLOW: robust list logic (always allows moving before/after any item)
+    // FLOW:
     if (this.layoutMode === "flow") {
-      // append if pointer is below last midline
       for (let i = 0; i < candidates.length; i++) {
         const r = candidates[i].getBoundingClientRect();
         if (y < r.top + r.height / 2) return i;
       }
-      return candidates.length; // append at end ✅
+      return candidates.length;
     }
 
-    // FLEX/GRID: nearest center but allow explicit "append to end"
+    // GRID: compute by cell position (stable with incomplete rows)
+    if (this.layoutMode === "grid") {
+      const rootRect = root.getBoundingClientRect();
+
+      // column count from computed style
+      const cs = getComputedStyle(root);
+      const cols =
+        cs.gridTemplateColumns.split(" ").filter((t) => t.trim().length > 0)
+          .length || 1;
+
+      // use first candidate as size reference (good enough if items are uniform)
+      const refRect = candidates[0].getBoundingClientRect();
+      const cellW = Math.max(1, refRect.width);
+      const cellH = Math.max(1, refRect.height);
+
+      // gap (optional; improves accuracy if you use gaps)
+      const gapX = parseFloat(cs.columnGap || "0") || 0;
+      const gapY = parseFloat(cs.rowGap || "0") || 0;
+
+      // pointer inside root
+      const relX = x - rootRect.left;
+      const relY = y - rootRect.top;
+
+      // compute col/row by stepping cell + gap
+      const stepX = cellW + gapX;
+      const stepY = cellH + gapY;
+
+      let col = Math.floor(relX / stepX);
+      let row = Math.floor(relY / stepY);
+
+      col = Math.max(0, Math.min(col, cols - 1));
+      row = Math.max(0, row); // allow dragging below; we'll clamp index later
+
+      // base index for the cell
+      let idx = row * cols + col;
+
+      // clamp into candidate-range (append allowed)
+      idx = Math.max(0, Math.min(idx, candidates.length));
+
+      // refine "before/after" if we're over an existing candidate cell
+      const over = candidates[Math.min(idx, candidates.length - 1)];
+      if (over) {
+        const r = over.getBoundingClientRect();
+        const after =
+          x > r.left + r.width / 2 ||
+          (y > r.top + r.height / 2 &&
+            Math.abs(y - (r.top + r.height / 2)) >
+              Math.abs(x - (r.left + r.width / 2)));
+
+        // if we’re clearly in the “after” half, bump by 1
+        if (after) idx = Math.min(idx + 1, candidates.length);
+      }
+
+      return idx;
+    }
+
+    // FLEX: keep your previous nearest-center logic (or switch to axis-based)
+    // (Leaving your original flex behavior here)
     let bestIdx = 0;
     let bestDist = Infinity;
-
     for (let i = 0; i < candidates.length; i++) {
       const r = candidates[i].getBoundingClientRect();
       const cx = r.left + r.width / 2;
@@ -1417,11 +1472,9 @@ ${syntax}</pre
       }
     }
 
-    // If pointer is "past" the last candidate visually, append.
     const lastRect = candidates[candidates.length - 1].getBoundingClientRect();
-    if (y > lastRect.bottom + 8 || x > lastRect.right + 8) {
-      return candidates.length; // append ✅
-    }
+    if (y > lastRect.bottom + 8 || x > lastRect.right + 8)
+      return candidates.length;
 
     const r = candidates[bestIdx].getBoundingClientRect();
     const after =
