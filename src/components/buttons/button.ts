@@ -3,7 +3,8 @@ import type { BuilderComponent } from "../../types/BuilderComponent";
 import "../../assets/shoelaceImports";
 
 const DEFAULT_LABEL = "Button";
-const DEFAULT_ICON = "";
+const DEFAULT_ICON = ""; // empty = no icon
+const DEFAULT_ICON_COLOR = "#0f172a";
 
 export const ButtonComponent: BuilderComponent = {
   type: "button",
@@ -13,11 +14,18 @@ export const ButtonComponent: BuilderComponent = {
   defaultData: {
     label: DEFAULT_LABEL,
     icon: DEFAULT_ICON,
+    iconColor: DEFAULT_ICON_COLOR,
   },
 
   render(data) {
-    const label = data?.label || DEFAULT_LABEL;
-    const icon = data?.icon || "";
+    const labelRaw = data?.label ?? DEFAULT_LABEL;
+    const label = String(labelRaw); // ensure string
+    const hasLabel = label.trim().length > 0;
+
+    const icon = data?.icon ?? DEFAULT_ICON;
+    const hasIcon = !!icon;
+
+    const iconColor = data?.iconColor ?? DEFAULT_ICON_COLOR;
 
     return html`
       <style>
@@ -25,7 +33,6 @@ export const ButtonComponent: BuilderComponent = {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 0.5rem;
           padding: 0.5rem 1rem;
           border: 1px solid #ccc;
           border-radius: 6px;
@@ -34,23 +41,33 @@ export const ButtonComponent: BuilderComponent = {
           user-select: none;
         }
 
+        /* gap only when we have both */
+        .btn-wrap.has-both {
+          gap: 0.5rem;
+        }
+
         .btn-wrap:hover {
           background: #f5f5f5;
         }
 
-        sl-icon {
+        .btn-wrap sl-icon {
           font-size: 1.1em;
           pointer-events: none;
+          color: var(--btn-icon-color, ${DEFAULT_ICON_COLOR});
         }
 
-        span {
+        .btn-wrap span {
           pointer-events: none;
         }
       </style>
 
-      <button class="btn-wrap" type="button">
-        ${icon ? html`<sl-icon name=${icon}></sl-icon>` : null}
-        <span>${label}</span>
+      <button
+        class="btn-wrap ${hasIcon && hasLabel ? "has-both" : ""}"
+        type="button"
+        style="--btn-icon-color:${iconColor};"
+      >
+        ${hasIcon ? html`<sl-icon name=${icon}></sl-icon>` : null}
+        ${hasLabel ? html`<span>${label}</span>` : null}
       </button>
     `;
   },
@@ -63,33 +80,42 @@ export const ButtonComponent: BuilderComponent = {
       target: "span",
       placeholder: "Button label",
     },
-    {
-      key: "icon",
-      label: "Icon name (optional)",
-      kind: "attr",
-      target: "sl-icon",
-      name: "name",
-      placeholder: "alarm, heart, star…",
-    },
   ],
 
-  settings: ({ setData }) => {
+  settings: ({ data, setData }) => {
+    const icon = data?.icon ?? DEFAULT_ICON;
+    const iconColor = data?.iconColor ?? DEFAULT_ICON_COLOR;
+
     const reset = () => {
-      setData({ label: DEFAULT_LABEL, icon: DEFAULT_ICON });
+      setData({
+        label: DEFAULT_LABEL,
+        icon: DEFAULT_ICON,
+        iconColor: DEFAULT_ICON_COLOR,
+      });
     };
 
     return html`
       <div style="margin-top: 1rem">
         <h2 style="margin-top: 0">Button</h2>
 
-        <div class="setting-row">
+        <div
+          class="setting-row"
+          style="display:flex; gap:0.5rem; align-items:center;"
+        >
+          <ww-icon-picker
+            .value=${icon}
+            .color=${iconColor}
+            button-label="Pick icon…"
+            @ww-change=${(e: CustomEvent) =>
+              setData({
+                icon: e.detail?.name ?? "",
+                iconColor: e.detail?.color ?? DEFAULT_ICON_COLOR,
+              })}
+          ></ww-icon-picker>
+
           <sl-button size="small" variant="default" @click=${reset}>
             Reset button
           </sl-button>
-        </div>
-
-        <div class="setting-row" style="font-size: 0.8rem; color: #666;">
-          Icons use Shoelace (Bootstrap Icons)
         </div>
       </div>
     `;
