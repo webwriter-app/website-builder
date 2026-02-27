@@ -23,6 +23,26 @@
         "./widgets/webwriter-website-builder.*": {
             "source": "./src/webwriter-website-builder.ts",
             "default": "./dist/widgets/webwriter-website-builder.*"
-        }
+        },
+        "./snippets/flex-starter.html": "./snippets/flex/example-flex-starter.html",
+        "./snippets/flex-advanced.html": "./snippets/flex/example-flex-advanced.html",
+        "./snippets/grid-starter.html": "./snippets/grid/example-grid-starter.html",
+        "./snippets/grid-advanced.html": "./snippets/grid/example-grid-advanced.html",
+        "./snippets/freeform-starter.html": "./snippets/freeform/example-freeform-starter.html",
+        "./snippets/freeform-advanced.html": "./snippets/freeform/example-freeform-advanced.html",
+        "./snippets/flow-starter.html": "./snippets/flow/example-flow-starter.html",
+        "./snippets/flow-advanced.html": "./snippets/flow/example-flow-advanced.html"
+    },
+    "editingConfig": {
+    ".": {},
+    "./widgets/webwriter-website-builder": {},
+    "./snippets/flex-starter": {},
+    "./snippets/flex-advanced": {},
+    "./snippets/grid-starter": {},
+    "./snippets/grid-advanced": {},
+    "./snippets/freeform-starter": {},
+    "./snippets/freeform-advanced": {},
+    "./snippets/flow-starter": {},
+    "./snippets/flow-advanced": {}
     }
 }

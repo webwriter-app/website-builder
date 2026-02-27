@@ -1161,7 +1161,9 @@ ${syntax}</pre
     if (!comp) return null;
 
     const selected = this.selectedNodeId === n.id;
-    const display = n.display ?? "block"; // set display setting to either block or inline based on node setting, default to block if not set ( for some reason? )
+    const display = n.display ?? "block";
+
+    const style = this.layoutMode === "grid" ? this._gridItemStyle(n) : "";
 
     return html`
       <div
@@ -1169,6 +1171,7 @@ ${syntax}</pre
         data-node-id=${n.id}
         data-component-type=${n.type}
         data-display=${display}
+        style=${style}
         @pointerdown=${(e: PointerEvent) => this._onWrapperPointerDown(e, n.id)}
         @click=${(e: MouseEvent) => this._onWrapperClick(e, n.id)}
       >
@@ -1716,6 +1719,62 @@ ${syntax}</pre
                 this._setGridSettings({ gap: String(e.target.value ?? "") })}
             ></sl-input>
           </div>
+          <div class="setting-row">
+            <sl-textarea
+              label="Template areas (optional)"
+              placeholder=${`"nav1 nav2 nav3 nav4"
+"hero hero hero side"
+"hero hero hero side2"
+"f1 f2 f3 f4"`}
+              .value=${grid.templateAreas ?? ""}
+              @sl-input=${(e: any) =>
+                this._setGridSettings({
+                  templateAreas: String(e.target.value ?? ""),
+                })}
+            ></sl-textarea>
+          </div>
+
+          <div class="setting-row">
+            <sl-select
+              label="Auto flow"
+              value=${grid.autoFlow ?? "row"}
+              @sl-change=${(e: any) =>
+                this._setGridSettings({ autoFlow: e.target.value })}
+            >
+              <sl-option value="row">row</sl-option>
+              <sl-option value="row dense">row dense</sl-option>
+              <sl-option value="column">column</sl-option>
+              <sl-option value="column dense">column dense</sl-option>
+            </sl-select>
+          </div>
+
+          <div class="setting-row">
+            <sl-select
+              label="Justify items"
+              value=${grid.justifyItems ?? "stretch"}
+              @sl-change=${(e: any) =>
+                this._setGridSettings({ justifyItems: e.target.value })}
+            >
+              <sl-option value="stretch">stretch</sl-option>
+              <sl-option value="start">start</sl-option>
+              <sl-option value="center">center</sl-option>
+              <sl-option value="end">end</sl-option>
+            </sl-select>
+          </div>
+
+          <div class="setting-row">
+            <sl-select
+              label="Align items"
+              value=${grid.alignItems ?? "start"}
+              @sl-change=${(e: any) =>
+                this._setGridSettings({ alignItems: e.target.value })}
+            >
+              <sl-option value="start">start</sl-option>
+              <sl-option value="center">center</sl-option>
+              <sl-option value="end">end</sl-option>
+              <sl-option value="stretch">stretch</sl-option>
+            </sl-select>
+          </div>
         </div>
       `;
     }
@@ -1746,7 +1805,53 @@ ${syntax}</pre
     const cols = g.columns ?? "repeat(3, 1fr)";
     const rows = g.rows ?? "auto";
     const gap = g.gap ?? "12px";
-    return `grid-template-columns:${cols}; grid-auto-rows:${rows}; gap:${gap};`;
+
+    const autoFlow = g.autoFlow ?? "row";
+    const justifyItems = g.justifyItems ?? "stretch";
+    const alignItems = g.alignItems ?? "start";
+
+    const areas = (g.templateAreas ?? "").trim();
+    const areasCss = areas ? `grid-template-areas:${areas};` : "";
+
+    return `
+    grid-template-columns:${cols};
+    grid-auto-rows:${rows};
+    gap:${gap};
+    grid-auto-flow:${autoFlow};
+    justify-items:${justifyItems};
+    align-items:${alignItems};
+    ${areasCss}
+  `;
+  }
+
+  private _gridItemStyle(n: BuilderNode): string {
+    if (this.layoutMode !== "grid") return "";
+    const g = n.grid ?? {};
+    const css: string[] = [];
+
+    const area = (g.area ?? "").trim();
+    if (area) {
+      css.push(`grid-area:${area};`);
+    } else {
+      if (typeof g.colStart === "number") {
+        const span = Math.max(1, Number(g.colSpan ?? 1));
+        css.push(`grid-column:${g.colStart} / span ${span};`);
+      } else if (typeof g.colSpan === "number") {
+        css.push(`grid-column: span ${Math.max(1, g.colSpan)};`);
+      }
+
+      if (typeof g.rowStart === "number") {
+        const span = Math.max(1, Number(g.rowSpan ?? 1));
+        css.push(`grid-row:${g.rowStart} / span ${span};`);
+      } else if (typeof g.rowSpan === "number") {
+        css.push(`grid-row: span ${Math.max(1, g.rowSpan)};`);
+      }
+    }
+
+    if (g.justifySelf) css.push(`justify-self:${g.justifySelf};`);
+    if (g.alignSelf) css.push(`align-self:${g.alignSelf};`);
+
+    return css.join(" ");
   }
 
   /**
@@ -1846,6 +1951,109 @@ ${syntax}</pre
           `
         : null;
 
+    const gridPlacementUI =
+      this.layoutMode === "grid"
+        ? html`
+            <div style="margin-top: 1rem">
+              <h2 style="margin-top: 0">Grid</h2>
+
+              <div class="setting-row">
+                <sl-input
+                  label="Area (optional)"
+                  placeholder="e.g. hero, nav1, side"
+                  .value=${String(node.grid?.area ?? "")}
+                  @sl-input=${(e: any) => {
+                    const v = String(e.target.value ?? "");
+                    this._updateNode(node.id, {
+                      grid: { ...(node.grid ?? {}), area: v },
+                    });
+                  }}
+                ></sl-input>
+              </div>
+
+              <div class="setting-row">
+                <sl-input
+                  label="Column start (1-based)"
+                  placeholder="1"
+                  .value=${node.grid?.colStart != null
+                    ? String(node.grid.colStart)
+                    : ""}
+                  @sl-input=${(e: any) => {
+                    const v = Number(e.target.value);
+                    this._updateNode(node.id, {
+                      grid: {
+                        ...(node.grid ?? {}),
+                        colStart: Number.isFinite(v) ? v : undefined,
+                      },
+                    });
+                  }}
+                ></sl-input>
+              </div>
+
+              <div class="setting-row">
+                <sl-input
+                  label="Column span"
+                  placeholder="1"
+                  .value=${node.grid?.colSpan != null
+                    ? String(node.grid.colSpan)
+                    : ""}
+                  @sl-input=${(e: any) => {
+                    const v = Number(e.target.value);
+                    this._updateNode(node.id, {
+                      grid: {
+                        ...(node.grid ?? {}),
+                        colSpan: Number.isFinite(v)
+                          ? Math.max(1, v)
+                          : undefined,
+                      },
+                    });
+                  }}
+                ></sl-input>
+              </div>
+
+              <div class="setting-row">
+                <sl-input
+                  label="Row start (1-based)"
+                  placeholder="1"
+                  .value=${node.grid?.rowStart != null
+                    ? String(node.grid.rowStart)
+                    : ""}
+                  @sl-input=${(e: any) => {
+                    const v = Number(e.target.value);
+                    this._updateNode(node.id, {
+                      grid: {
+                        ...(node.grid ?? {}),
+                        rowStart: Number.isFinite(v) ? v : undefined,
+                      },
+                    });
+                  }}
+                ></sl-input>
+              </div>
+
+              <div class="setting-row">
+                <sl-input
+                  label="Row span"
+                  placeholder="1"
+                  .value=${node.grid?.rowSpan != null
+                    ? String(node.grid.rowSpan)
+                    : ""}
+                  @sl-input=${(e: any) => {
+                    const v = Number(e.target.value);
+                    this._updateNode(node.id, {
+                      grid: {
+                        ...(node.grid ?? {}),
+                        rowSpan: Number.isFinite(v)
+                          ? Math.max(1, v)
+                          : undefined,
+                      },
+                    });
+                  }}
+                ></sl-input>
+              </div>
+            </div>
+          `
+        : null;
+
     const bindingsUI = component.bindings?.length
       ? html`
           <div style="margin-top: 1rem">
@@ -1876,7 +2084,7 @@ ${syntax}</pre
     return html`
       <sl-details summary="Component">
         <div style="margin-top: 1rem">
-          ${custom ?? null} ${flowDisplayUI} ${bindingsUI}
+          ${custom ?? null} ${flowDisplayUI} ${gridPlacementUI} ${bindingsUI}
         </div>
       </sl-details>
     `;
@@ -2343,6 +2551,28 @@ ${syntax}</pre
           ? ".flex-root"
           : ".grid-root",
     ) as HTMLElement | null;
+
+    if (this.layoutMode === "grid" && root) {
+      const placement = this._gridPlacementFromPointer(
+        root,
+        event.clientX,
+        event.clientY,
+      );
+
+      const node: BuilderNode = {
+        id: crypto.randomUUID(),
+        type,
+        data: structuredClone(ComponentRegistry[type]?.defaultData ?? {}),
+        order: this._activeNodes().length,
+        display: "block",
+        grid: placement,
+      };
+
+      this._setActiveNodes([...this._activeNodes(), node]);
+      this._normalizeOrder();
+      this._selectNodeId(node.id);
+      return;
+    }
 
     const items = root
       ? (Array.from(root.querySelectorAll(".flow-item")) as HTMLElement[])
@@ -2813,5 +3043,34 @@ ${syntax}</pre
     if (this._isStudentMode() && this.showComponentSettingsInStudent) {
       this._studentDrawerOpen = true;
     }
+  }
+
+  private _gridPlacementFromPointer(
+    root: HTMLElement,
+    clientX: number,
+    clientY: number,
+  ) {
+    const cs = getComputedStyle(root);
+    const cols =
+      cs.gridTemplateColumns.split(" ").filter((t) => t.trim().length > 0)
+        .length || 1;
+
+    const r = root.getBoundingClientRect();
+
+    const relX = Math.max(0, Math.min(clientX - r.left, r.width - 1));
+    const relY = Math.max(0, clientY - r.top);
+
+    // coarse col based on container width (stable)
+    const colW = r.width / cols;
+    const colStart = Math.max(1, Math.min(cols, Math.floor(relX / colW) + 1));
+
+    // row estimation: use grid-auto-rows if it's a px value, else fallback
+    const autoRows = cs.gridAutoRows;
+    const px = autoRows.endsWith("px") ? parseFloat(autoRows) : NaN;
+    const rowH = Number.isFinite(px) && px > 0 ? px : 160;
+
+    const rowStart = Math.max(1, Math.floor(relY / rowH) + 1);
+
+    return { colStart, rowStart, colSpan: 1, rowSpan: 1 };
   }
 }

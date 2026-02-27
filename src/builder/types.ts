@@ -1,5 +1,20 @@
 export type LayoutMode = "freeform" | "flow" | "flex" | "grid";
 
+/** Per-node placement INSIDE a grid container */
+export type GridPlacement = {
+  /** If set, uses grid-area */
+  area?: string;
+
+  /** If area is not set, use explicit line placement */
+  colStart?: number; // 1-based
+  colSpan?: number; // >= 1
+  rowStart?: number; // 1-based
+  rowSpan?: number; // >= 1
+
+  justifySelf?: "start" | "center" | "end" | "stretch";
+  alignSelf?: "start" | "center" | "end" | "stretch";
+};
+
 export type BuilderNode = {
   id: string;
   type: string;
@@ -10,9 +25,8 @@ export type BuilderNode = {
 
   // flow/flex/grid ordering & display
   order?: number;
-  display?: "block" | "inline"; // changable in settings
+  display?: "block" | "inline";
 
-  // flex/grid settings
   flex?: {
     direction?: "row" | "column";
     justify?: string;
@@ -20,28 +34,42 @@ export type BuilderNode = {
     gap?: string;
     wrap?: "nowrap" | "wrap";
   };
-  grid?: {
-    columns?: string;
-    rows?: string;
-    gap?: string;
-  };
+
+  /** NEW: per-item grid placement */
+  grid?: GridPlacement;
 };
 
-// settings api
-export type FlexSettings = NonNullable<BuilderNode["flex"]>;
-export type GridSettings = NonNullable<BuilderNode["grid"]>;
+/** container settings (global) */
+export type FlexSettings = {
+  direction?: "row" | "column";
+  justify?: string;
+  align?: string;
+  gap?: string;
+  wrap?: "nowrap" | "wrap";
+};
+
+export type GridSettings = {
+  columns?: string;
+  rows?: string;
+  gap?: string;
+
+  /** optional advanced grid architecture */
+  templateAreas?: string; // e.g. `"nav nav"\n"hero side"`
+  autoFlow?: "row" | "column" | "row dense" | "column dense";
+  justifyItems?: "start" | "center" | "end" | "stretch";
+  alignItems?: "start" | "center" | "end" | "stretch";
+};
 
 // state of the canvas
 export type BuilderStatePayload = {
   layoutMode: LayoutMode;
-  nodes: BuilderNode[]; // components displayed
+  nodes: BuilderNode[];
   showGrid: boolean;
-  gridSize: number; // in pixels
+  gridSize: number;
   flexSettings: FlexSettings;
   gridSettings: GridSettings;
 };
 
-// default options for the flex layout
 export const defaultFlexSettings = (): FlexSettings => ({
   direction: "row",
   justify: "flex-start",
@@ -50,9 +78,13 @@ export const defaultFlexSettings = (): FlexSettings => ({
   wrap: "nowrap",
 });
 
-// default settings for the grid layout
 export const defaultGridSettings = (): GridSettings => ({
   columns: "repeat(3, 1fr)",
   rows: "auto",
   gap: "12px",
+
+  templateAreas: "",
+  autoFlow: "row",
+  justifyItems: "stretch",
+  alignItems: "start",
 });

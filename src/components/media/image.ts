@@ -17,6 +17,11 @@ export const ImageComponent: BuilderComponent = {
   render(data) {
     const src = data?.src || PLACEHOLDER_SRC;
     const alt = data?.alt ?? "";
+    const width = data?.width ?? "auto";
+    const height = data?.height ?? "auto";
+    const objectFit = data?.["object-fit"] ?? "contain";
+    const opacity = data?.opacity ?? 1;
+    const borderRadius = data?.["border-radius"] ?? "0";
 
     return html`
       <img
@@ -24,10 +29,13 @@ export const ImageComponent: BuilderComponent = {
         alt=${alt}
         style="
           display: block;
-          width: 100%;
-          height: 100%;
+          width: ${width};
+          height: ${height};
           object-fit: contain;
           pointer-events: none;
+          object-fit: ${objectFit};
+          opacity: ${opacity};
+          border-radius: ${borderRadius};
         "
       />
     `;
@@ -51,6 +59,46 @@ export const ImageComponent: BuilderComponent = {
       name: "alt",
       placeholder: "Describe the image (accessibility)",
     },
+    {
+      key: "width",
+      label: "Width",
+      kind: "style", 
+      target: "img",
+      name: "width",
+      placeholder: "e.g. 300px",
+    },
+    {
+      key: "height",
+      label: "Height",
+      kind: "style",
+      target: "img",
+      name: "height",
+      placeholder: "e.g. 200px",
+    },
+    {
+      key: "object-fit",
+      label: "Object Fit",
+      kind: "style",
+      target: "img",
+      name: "object-fit",
+      placeholder: "e.g. contain, cover, fill",
+    },
+    {
+      key: "opacity",
+      label: "Opacity",
+      kind: "style",
+      target: "img",
+      name: "opacity",
+      placeholder: "e.g. 0.5",
+    },
+    {
+      key: "border-radius",
+      label: "Border Radius",
+      kind: "style",
+      target: "img",
+      name: "border-radius",
+      placeholder: "e.g. 8px",
+    }
   ],
 
   // Upload is now grouped with the other image-related controls

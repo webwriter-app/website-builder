@@ -7,6 +7,21 @@ import type {
 } from "./types";
 import { defaultFlexSettings, defaultGridSettings } from "./types";
 
+function migrateNodeGrid(n: any): any {
+  // If old schema stored container settings on node.grid, drop them.
+  // New schema expects placement fields only.
+  const g = n?.grid;
+  if (!g || typeof g !== "object") return n;
+
+  const hasOldContainerKeys = "columns" in g || "rows" in g || "gap" in g;
+
+  if (!hasOldContainerKeys) return n;
+
+  // Remove old node.grid (container settings never belonged on node)
+  const { grid, ...rest } = n;
+  return rest;
+}
+
 export type ParsedBuilderState = {
   layoutMode: LayoutMode;
   freeformNodes: BuilderNode[];
@@ -67,15 +82,18 @@ export function parseBuilderState(
     const layoutMode =
       (parsed.layoutMode as LayoutMode | undefined) ?? "freeform";
 
-    const freeformNodes = Array.isArray(parsed.freeformNodes)
+    const freeformNodesRaw = Array.isArray(parsed.freeformNodes)
       ? (parsed.freeformNodes as BuilderNode[])
       : [];
 
-    const orderedNodes = Array.isArray(parsed.orderedNodes)
+    const orderedNodesRaw = Array.isArray(parsed.orderedNodes)
       ? (parsed.orderedNodes as BuilderNode[])
       : Array.isArray(parsed.nodes)
         ? (parsed.nodes as BuilderNode[])
         : [];
+
+    const freeformNodes = freeformNodesRaw.map(migrateNodeGrid);
+    const orderedNodes = orderedNodesRaw.map(migrateNodeGrid);
 
     const flexBase = defaultFlexSettings();
     const gridBase = defaultGridSettings();

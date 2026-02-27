@@ -28,6 +28,7 @@ export function convertOrderedToFreeform(nodes: BuilderNode[]): BuilderNode[] {
   return sorted.map((n) => {
     const pos = n.pos ?? { x, y };
     y += 80;
-    return { ...n, pos };
+    const { grid, ...rest } = n as any;
+    return { ...rest, pos };
   });
 }

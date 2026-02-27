@@ -19,6 +19,8 @@ export const ParagraphComponent: BuilderComponent = {
     const color = data?.color ?? "#000000";
     const content = data?.content ?? "Paragraph";
     const fontWeight = data?.["font-weight"] ?? "normal";
+    const width = data?.width ?? "auto";
+    const height = data?.height ?? "auto";
 
     return html`
       <p
@@ -28,6 +30,8 @@ export const ParagraphComponent: BuilderComponent = {
           color: ${color};
           font-family: ${font};
           font-weight: ${fontWeight};
+          width: ${width};
+          height: ${height};
         "
       >
         ${content}
@@ -44,6 +48,22 @@ export const ParagraphComponent: BuilderComponent = {
       placeholder: "Enter paragraph…",
     },
     {
+      key: "width",
+      label: "Width",
+      kind: "style",
+      target: "p",
+      name: "width",
+      placeholder: "e.g. 300px",
+    },
+    {
+      key: "height",
+      label: "Height",
+      kind: "style",
+      target: "p",
+      name: "height",
+      placeholder: "e.g. 100px",
+    },
+    {
       key: "color",
       label: "Text color",
       kind: "style",
@@ -55,7 +75,7 @@ export const ParagraphComponent: BuilderComponent = {
       key: "font-weight",
       label: "Font weight",
       kind: "style",
-      target: "h1",
+      target: "p",
       name: "font-weight",
       placeholder: "e.g. 400 or bold",
     },

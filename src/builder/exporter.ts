@@ -1,9 +1,13 @@
-import type { BuilderNode, FlexSettings, GridSettings, LayoutMode } from "./types";
+import type {
+  BuilderNode,
+  FlexSettings,
+  GridSettings,
+  LayoutMode,
+} from "./types";
 import { sortedNodes } from "./layout";
 
 // code generator
 export class BuilderExporter {
-
   // get rid of ugly artifacts
   private escapeHtml(s: string) {
     return s
@@ -86,6 +90,35 @@ export class BuilderExporter {
     return lines.map((l) => (l ? pad + l : l)).join("\n");
   }
 
+  private gridItemStyle(n: BuilderNode): string {
+    const g: any = (n as any).grid ?? {};
+    const css: string[] = [];
+
+    const area = String(g.area ?? "").trim();
+    if (area) {
+      css.push(`grid-area:${area};`);
+    } else {
+      if (typeof g.colStart === "number") {
+        const span = Math.max(1, Number(g.colSpan ?? 1));
+        css.push(`grid-column:${g.colStart} / span ${span};`);
+      } else if (typeof g.colSpan === "number") {
+        css.push(`grid-column: span ${Math.max(1, g.colSpan)};`);
+      }
+
+      if (typeof g.rowStart === "number") {
+        const span = Math.max(1, Number(g.rowSpan ?? 1));
+        css.push(`grid-row:${g.rowStart} / span ${span};`);
+      } else if (typeof g.rowSpan === "number") {
+        css.push(`grid-row: span ${Math.max(1, g.rowSpan)};`);
+      }
+    }
+
+    if (g.justifySelf) css.push(`justify-self:${g.justifySelf};`);
+    if (g.alignSelf) css.push(`align-self:${g.alignSelf};`);
+
+    return css.join(" ");
+  }
+
   // export code string(s)
   generateExport(args: {
     layoutMode: LayoutMode;
@@ -116,12 +149,15 @@ export class BuilderExporter {
           )}px; top:${Math.round(pos.y)}px;">${this.nodeToHtml(n)}</div>`;
         })
         .join("\n"); // newline
-    } else { // if not freeform, we dont need placement values
+    } else {
+      // if not freeform, we dont need placement values
       bodyHtml = sorted
         .map((n) => {
           const display = n.display ?? "block"; // block as default fallback
           const cls = display === "inline" ? "el el--inline" : "el"; // TODO: do I need such many divs with all having class "el"?
-          return `<div class="${cls}">${this.nodeToHtml(n)}</div>`; // wrap everything in divs for clarity
+          const style = args.layoutMode === "grid" ? this.gridItemStyle(n) : "";
+          const styleAttr = style ? ` style="${this.safeAttr(style)}"` : "";
+          return `<div class="${cls}"${styleAttr}>${this.nodeToHtml(n)}</div>`; // wrap everything in divs for clarity
         })
         .join("\n");
     }
@@ -179,6 +215,14 @@ export class BuilderExporter {
       grid-template-columns: ${grid.columns ?? "repeat(3, 1fr)"};
       grid-auto-rows: ${grid.rows ?? "auto"};
       gap: ${grid.gap ?? "12px"};
+      grid-auto-flow: ${grid.autoFlow ?? "row"};
+      justify-items: ${grid.justifyItems ?? "stretch"};
+      align-items: ${grid.alignItems ?? "start"};
+      ${
+        grid.templateAreas && grid.templateAreas.trim()
+          ? `grid-template-areas: ${grid.templateAreas};`
+          : ""
+      }
     }
 
     /* Icons: placeholder representation */
