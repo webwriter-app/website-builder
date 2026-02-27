@@ -427,20 +427,23 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                 size="small"
                 variant="primary"
                 @click=${() => {
-                  (this._iconDialogTarget as any)?.dispatchEvent?.(
+                  const detail = {
+                    name: this._iconDraftName,
+                    color: this._iconDraftColor,
+                  };
+
+                  // Dispatch on the picker instance that opened the dialog
+                  (this._iconDialogTarget as HTMLElement | null)?.dispatchEvent(
                     new CustomEvent("ww-icon-picker-result", {
-                      detail: {
-                        name: this._iconDraftName,
-                        color: this._iconDraftColor,
-                      },
-                      bubbles: false,
-                      composed: false,
+                      detail,
+                      bubbles: true,
+                      composed: true,
                     }),
                   );
-                  const dlg = this.renderRoot.querySelector(
-                    "#ww-icon-dialog",
-                  ) as any;
-                  dlg?.hide?.();
+
+                  (
+                    this.renderRoot.querySelector("#ww-icon-dialog") as any
+                  )?.hide?.();
                 }}
               >
                 Use icon
@@ -490,6 +493,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     if (!this._iconScroller) return;
     this._iconScrollTop = this._iconScroller.scrollTop;
     this._iconViewportH = this._iconScroller.clientHeight;
+    this.requestUpdate();
   };
 
   private _renderAllComponentsDialog() {
@@ -684,7 +688,10 @@ ${syntax}</pre
               data-selected=${selected ? "true" : "false"}
               type="button"
               title=${name}
-              @click=${() => (this._iconDraftName = name)}
+              @click=${() => {
+                this._iconDraftName = name;
+                this.requestUpdate();
+              }}
             >
               <sl-icon
                 name=${name}
@@ -2126,14 +2133,15 @@ ${syntax}</pre
     super.connectedCallback();
 
     this.addEventListener("ww-icon-picker-open", (e: any) => {
-      console.log(
-        "[builder] got ww-icon-picker-open",
-        e.detail,
-        "target:",
-        e.target,
-      );
       e.stopPropagation();
-      this._iconDialogTarget = e.target;
+
+      const picker = e
+        .composedPath()
+        .find((n: any) => n?.tagName?.toLowerCase?.() === "ww-icon-picker") as
+        | HTMLElement
+        | undefined;
+
+      this._iconDialogTarget = picker ?? e.target;
 
       this._iconDraftName = e.detail?.name ?? "gear";
       this._iconDraftColor = e.detail?.color ?? "#0f172a";
@@ -2141,8 +2149,7 @@ ${syntax}</pre
       this._iconDialogOpen = true;
 
       this.updateComplete.then(() => {
-        const dlg = this.renderRoot.querySelector("#ww-icon-dialog") as any;
-        dlg?.show?.();
+        (this.renderRoot.querySelector("#ww-icon-dialog") as any)?.show?.();
       });
     });
 

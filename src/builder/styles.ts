@@ -667,4 +667,125 @@ export const builderStyles = css`
   .all-components-btn sl-icon {
     font-size: 1.1rem;
   }
+
+  // Add to builderStyles (or inject <style> in _renderIconDialog)
+  .dlg {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .topbar .left {
+    flex: 1;
+    min-width: 320px;
+  }
+
+  .topbar .meta {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--sl-color-neutral-600);
+    display: flex;
+    gap: 1rem;
+  }
+
+  .topbar .right {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-end;
+  }
+
+  .previewBox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 10px;
+    border: 1px solid var(--sl-color-neutral-200);
+    background: var(--sl-color-neutral-0);
+  }
+
+  .previewText {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    color: var(--sl-color-neutral-700);
+  }
+
+  /* ✅ Virtualization container must be positioning context */
+  .scroller {
+    position: relative; /* critical */
+    height: 520px; /* or whatever you want */
+    overflow: auto;
+    border: 1px solid var(--sl-color-neutral-200);
+    border-radius: 12px;
+    padding: 10px;
+    background: var(--sl-color-neutral-0);
+  }
+
+  /* Spacer only provides scroll height */
+  .spacer {
+    height: var(--spacer-h);
+  }
+
+  /* Grid must be absolutely positioned on top of spacer */
+  .grid {
+    position: absolute; /* critical */
+    top: 10px; /* match scroller padding */
+    left: 10px;
+    right: 10px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+    gap: 6px;
+    align-content: start;
+  }
+
+  .tile {
+    height: 54px;
+    border-radius: 10px;
+    border: 1px solid var(--sl-color-neutral-200);
+    background: var(--sl-color-neutral-0);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .tile:hover {
+    border-color: var(--sl-color-primary-400);
+  }
+
+  .tile[data-selected="true"] {
+    border-color: var(--sl-color-primary-600);
+    box-shadow: 0 0 0 2px var(--sl-color-primary-200);
+  }
+
+  .tile sl-icon {
+    font-size: 20px;
+  }
+
+  .fallback {
+    display: none;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hint {
+    font-size: 0.85rem;
+    color: var(--sl-color-neutral-600);
+  }
 `;
