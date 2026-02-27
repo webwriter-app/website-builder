@@ -15,17 +15,19 @@ export const ButtonComponent: BuilderComponent = {
     label: DEFAULT_LABEL,
     icon: DEFAULT_ICON,
     iconColor: DEFAULT_ICON_COLOR,
+    borderless: false,
   },
 
   render(data) {
     const labelRaw = data?.label ?? DEFAULT_LABEL;
-    const label = String(labelRaw); // ensure string
+    const label = String(labelRaw);
     const hasLabel = label.trim().length > 0;
 
     const icon = data?.icon ?? DEFAULT_ICON;
     const hasIcon = !!icon;
 
     const iconColor = data?.iconColor ?? DEFAULT_ICON_COLOR;
+    const borderless = !!data?.borderless;
 
     return html`
       <style>
@@ -41,7 +43,6 @@ export const ButtonComponent: BuilderComponent = {
           user-select: none;
         }
 
-        /* gap only when we have both */
         .btn-wrap.has-both {
           gap: 0.5rem;
         }
@@ -50,19 +51,28 @@ export const ButtonComponent: BuilderComponent = {
           background: #f5f5f5;
         }
 
+        /* ✅ Borderless / icon-only mode */
+        .btn-wrap.borderless {
+          padding: 0;
+          border: none;
+          background: transparent;
+        }
+
+        .btn-wrap.borderless:hover {
+          background: transparent;
+        }
+
         .btn-wrap sl-icon {
           font-size: 1.1em;
           pointer-events: none;
           color: var(--btn-icon-color, ${DEFAULT_ICON_COLOR});
         }
-
-        .btn-wrap span {
-          pointer-events: none;
-        }
       </style>
 
       <button
-        class="btn-wrap ${hasIcon && hasLabel ? "has-both" : ""}"
+        class="btn-wrap
+        ${hasIcon && hasLabel ? "has-both" : ""}
+        ${borderless ? "borderless" : ""}"
         type="button"
         style="--btn-icon-color:${iconColor};"
       >
@@ -85,6 +95,7 @@ export const ButtonComponent: BuilderComponent = {
   settings: ({ data, setData }) => {
     const icon = data?.icon ?? DEFAULT_ICON;
     const iconColor = data?.iconColor ?? DEFAULT_ICON_COLOR;
+    const borderless = !!data?.borderless;
 
     const reset = () => {
       setData({
@@ -116,6 +127,15 @@ export const ButtonComponent: BuilderComponent = {
           <sl-button size="small" variant="default" @click=${reset}>
             Reset button
           </sl-button>
+        </div>
+        <div class="setting-row">
+          <sl-switch
+            .checked=${borderless}
+            @sl-change=${(e: any) =>
+              setData({ borderless: Boolean(e.target.checked) })}
+          >
+            hide border
+          </sl-switch>
         </div>
       </div>
     `;
