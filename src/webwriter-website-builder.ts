@@ -18,7 +18,7 @@ import {
 } from "./builder/layout";
 import { componentSyntaxHint, tileGlyph } from "./builder/palette-helpers";
 import { parseBuilderState, serializeBuilderState } from "./builder/state-io";
-import { builderStyles } from "./builder/styles";
+import { builderStyles } from "./builder/styles/index";
 import type {
   BuilderNode,
   FlexSettings,
@@ -351,56 +351,40 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       >
         <div class="dlg">
           <div class="topbar">
-            <div class="left">
-              <sl-input
-                id="ww-icon-search"
-                size="small"
-                clearable
-                placeholder="Search icons…"
-                .value=${this._iconQuery}
-                @sl-input=${(e: Event) => {
-                  const input = e.currentTarget as any; // sl-input host
-                  const v = String(input.value ?? "");
-                  this._iconQuery = v;
-                  this._iconScrollTop = 0;
-                  this._iconScroller?.scrollTo({ top: 0 });
-                  this.requestUpdate(); // optional, but makes it immediate
-                }}
-                @sl-clear=${() => (this._iconQuery = "")}
-              ></sl-input>
+            <sl-input
+              id="ww-icon-search"
+              class="icon-search"
+              size="small"
+              clearable
+              placeholder="Search icons…"
+              .value=${this._iconQuery}
+              @sl-input=${(e: Event) => {
+                const input = e.currentTarget as any;
+                const v = String(input.value ?? "");
+                this._iconQuery = v;
+                this._iconScrollTop = 0;
+                this._iconScroller?.scrollTo({ top: 0 });
+                this.requestUpdate();
+              }}
+              @sl-clear=${() => (this._iconQuery = "")}
+            ></sl-input>
 
-              <div class="meta">
-                <div>
-                  ${items.length} match${items.length === 1 ? "" : "es"}
-                </div>
-                <div>Selected: <strong>${selectedName}</strong></div>
-              </div>
-            </div>
-
-            <div class="right">
-              <div class="previewBox">
-                <sl-icon
-                  name=${selectedName}
-                  style="color:${this._iconDraftColor};"
-                ></sl-icon>
-                <div class="previewText">${selectedName}</div>
-              </div>
-
-              <sl-input
-                size="small"
-                label="Icon color"
-                placeholder="#0f172a"
-                .value=${this._iconDraftColor}
-                @sl-input=${(e: any) => {
-                  const v = (e?.target?.value ??
-                    e?.detail?.value ??
-                    (e?.currentTarget as any)?.value ??
-                    "") as string;
-
-                  this._iconDraftColor = String(v);
-                }}
-              ></sl-input>
-            </div>
+            <sl-input
+              class="icon-color"
+              size="small"
+              label="Icon color"
+              placeholder="#0f172a"
+              .value=${this._iconDraftColor}
+              @sl-input=${(e: any) => {
+                const v =
+                  e?.target?.value ??
+                  e?.detail?.value ??
+                  (e?.currentTarget as any)?.value ??
+                  "";
+                this._iconDraftColor = String(v);
+                this.requestUpdate();
+              }}
+            ></sl-input>
           </div>
 
           <div class="scroller" id="ww-icon-scroller">
@@ -408,7 +392,6 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
           </div>
 
           <div class="footer">
-            <div class="hint">Tip: search by name, then click an icon.</div>
             <div style="display:flex; gap:0.5rem;">
               <sl-button
                 size="small"
@@ -684,7 +667,7 @@ ${syntax}</pre
           const selected = name === this._iconDraftName;
           return html`
             <button
-              class="tile"
+              class="icon-tile"
               data-selected=${selected ? "true" : "false"}
               type="button"
               title=${name}
