@@ -31,16 +31,23 @@ export const IconComponent: BuilderComponent = {
           padding: 0.25rem;
           border-radius: 6px;
           user-select: none;
+
+          /* per-instance values */
+          --icon-size: 32px;
+          --icon-color: #0f172a;
         }
 
-        sl-icon {
-          font-size: ${size};
-          color: ${color};
+        .icon-wrap sl-icon {
+          font-size: var(--icon-size);
+          color: var(--icon-color);
           pointer-events: none;
         }
       </style>
 
-      <div class="icon-wrap">
+      <div
+        class="icon-wrap"
+        style="--icon-size:${size}; --icon-color:${color};"
+      >
         <sl-icon name=${name}></sl-icon>
       </div>
     `;
