@@ -11,7 +11,7 @@ export const floatingToolbarStyles = css`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 6px;
+    gap: 13px;
     transition: opacity 120ms ease;
   }
 

@@ -6,243 +6,461 @@ import type {
 } from "./types";
 import { sortedNodes } from "./layout";
 
-// code generator
+// ---------------------------------------------------------------------------
+// HTML tree types
+// ---------------------------------------------------------------------------
+
+type HtmlText = { kind: "text"; value: string };
+
+type HtmlElement = {
+  kind: "element";
+  tag: string;
+  attrs: Record<string, string | null>; // null = boolean attribute (no value)
+  children: HtmlNode[];
+  selfClosing?: boolean; // <img>, <hr>, etc.
+};
+
+type HtmlComment = { kind: "comment"; value: string };
+
+type HtmlNode = HtmlElement | HtmlText | HtmlComment;
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function escapeHtml(s: string): string {
+  return s
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function escapeAttr(s: unknown): string {
+  if (s == null) return "";
+  return String(s).replaceAll('"', "&quot;");
+}
+
+/** Detect base64 blob / object-URL src values that are unusable outside the builder */
+function isBlobSrc(src: unknown): boolean {
+  if (typeof src !== "string") return true; // missing is also unusable
+  const s = src.trim();
+  return (
+    s === "" ||
+    s.startsWith("blob:") ||
+    // extremely long data URIs are technically valid but bloat the export
+    (s.startsWith("data:") && s.length > 8192)
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Tree builder
+// ---------------------------------------------------------------------------
+
+function el(
+  tag: string,
+  attrs: Record<string, string | null>,
+  ...children: HtmlNode[]
+): HtmlElement {
+  return { kind: "element", tag, attrs, children };
+}
+
+function selfClose(
+  tag: string,
+  attrs: Record<string, string | null>,
+): HtmlElement {
+  return { kind: "element", tag, attrs, children: [], selfClosing: true };
+}
+
+function text(value: string): HtmlText {
+  return { kind: "text", value };
+}
+
+function comment(value: string): HtmlComment {
+  return { kind: "comment", value };
+}
+
+// ---------------------------------------------------------------------------
+// Serialiser (prettier-style recursive, 2-space indent)
+// ---------------------------------------------------------------------------
+
+const VOID_TAGS = new Set([
+  "area", "base", "br", "col", "embed", "hr", "img",
+  "input", "link", "meta", "param", "source", "track", "wbr",
+]);
+
+/**
+ * Serialize an HtmlNode tree to a string.
+ * Block-level elements get their own line + indent; inline/text stays on one line.
+ */
+function serialize(node: HtmlNode, depth = 0): string {
+  const pad = "  ".repeat(depth);
+
+  if (node.kind === "text") {
+    return pad + escapeHtml(node.value);
+  }
+
+  if (node.kind === "comment") {
+    return `${pad}<!-- ${node.value} -->`;
+  }
+
+  // element
+  const attrStr = Object.entries(node.attrs)
+    .filter(([, v]) => v !== undefined)
+    .map(([k, v]) => (v === null ? ` ${k}` : ` ${k}="${escapeAttr(v)}"`))
+    .join("");
+
+  const isVoid = VOID_TAGS.has(node.tag) || node.selfClosing;
+
+  if (isVoid) {
+    return `${pad}<${node.tag}${attrStr}>`;
+  }
+
+  if (node.children.length === 0) {
+    return `${pad}<${node.tag}${attrStr}></${node.tag}>`;
+  }
+
+  // Single text child → keep on one line for readability
+  if (
+    node.children.length === 1 &&
+    node.children[0].kind === "text"
+  ) {
+    const inner = escapeHtml((node.children[0] as HtmlText).value);
+    return `${pad}<${node.tag}${attrStr}>${inner}</${node.tag}>`;
+  }
+
+  // Multiple / complex children → each on its own indented line
+  const inner = node.children
+    .map((c) => serialize(c, depth + 1))
+    .join("\n");
+
+  return `${pad}<${node.tag}${attrStr}>\n${inner}\n${pad}</${node.tag}>`;
+}
+
+// ---------------------------------------------------------------------------
+// Component → HtmlNode
+// ---------------------------------------------------------------------------
+
+function componentToNode(n: BuilderNode): HtmlNode {
+  const t = n.type;
+  const d = n.data ?? {};
+
+  switch (t) {
+    // ── Text ────────────────────────────────────────────────────────────────
+    case "h1":
+      return el("h1", {}, text(String(d.text ?? d.value ?? "Heading")));
+
+    case "h2":
+      return el("h2", {}, text(String(d.text ?? d.value ?? "Heading")));
+
+    case "h3":
+      return el("h3", {}, text(String(d.text ?? d.value ?? "Heading")));
+
+    case "paragraph":
+      return el("p", {}, text(String(d.text ?? d.value ?? "Text…")));
+
+    case "blockquote":
+      return el("blockquote", {}, text(String(d.text ?? d.value ?? "")));
+
+    case "code": {
+      const lang = d.language ? { "data-lang": String(d.language) } : {};
+      return el("pre", {}, el("code", lang, text(String(d.text ?? d.value ?? ""))));
+    }
+
+    // ── Media ────────────────────────────────────────────────────────────────
+    case "image": {
+      const src = d.src ?? "";
+      if (isBlobSrc(src)) {
+        return el(
+          "figure",
+          { class: "media-placeholder" },
+          comment("image: replace src with a real URL"),
+          selfClose("img", { src: "", alt: escapeAttr(d.alt ?? ""), width: d.width ? String(d.width) : null }),
+        );
+      }
+      const attrs: Record<string, string | null> = {
+        src: escapeAttr(src),
+        alt: escapeAttr(d.alt ?? ""),
+      };
+      if (d.width) attrs.width = String(d.width);
+      if (d.height) attrs.height = String(d.height);
+      return selfClose("img", attrs);
+    }
+
+    case "video": {
+      const src = d.src ?? "";
+      if (isBlobSrc(src)) {
+        return el(
+          "figure",
+          { class: "media-placeholder" },
+          comment("video: replace src with a real URL"),
+          el("video", { src: "", controls: null }),
+        );
+      }
+      return el("video", { src: escapeAttr(src), controls: null });
+    }
+
+    case "audio": {
+      const src = d.src ?? "";
+      if (isBlobSrc(src)) {
+        return el(
+          "figure",
+          { class: "media-placeholder" },
+          comment("audio: replace src with a real URL"),
+          el("audio", { src: "", controls: null }),
+        );
+      }
+      return el("audio", { src: escapeAttr(src), controls: null });
+    }
+
+    // ── Interactive ──────────────────────────────────────────────────────────
+    case "button":
+      return el(
+        "button",
+        { type: "button" },
+        text(String(d.label ?? "Button")),
+      );
+
+    case "link": {
+      const href = d.href ?? "#";
+      const label = String(d.label ?? "Link");
+      return el(
+        "a",
+        { href: escapeAttr(href), target: "_blank", rel: "noopener noreferrer" },
+        text(label),
+      );
+    }
+
+    // ── Icon (Shoelace) ──────────────────────────────────────────────────────
+    case "icon": {
+      const name = String(d.name ?? "gear");
+      const attrs: Record<string, string | null> = { name };
+      if (d.color) attrs.style = `color:${escapeAttr(d.color)};`;
+      // sl-icon is a void-ish custom element with no children needed
+      return el("sl-icon", attrs);
+    }
+
+    // ── Structure ────────────────────────────────────────────────────────────
+    case "divider":
+      return selfClose("hr", {});
+
+    case "spacer": {
+      const size = d.size ? `height:${escapeAttr(d.size)};` : "height:1rem;";
+      return el("div", { class: "spacer", style: size });
+    }
+
+    case "list": {
+      const items: string[] = Array.isArray(d.items)
+        ? d.items.map(String)
+        : [String(d.text ?? "")];
+      const tag = d.ordered ? "ol" : "ul";
+      return el(tag, {}, ...items.map((i) => el("li", {}, text(i))));
+    }
+
+    case "table": {
+      const rows: string[][] = Array.isArray(d.rows) ? d.rows : [["Cell"]];
+      const hasHead = Boolean(d.header);
+      const tableRows = rows.map((row, ri) => {
+        const cellTag = hasHead && ri === 0 ? "th" : "td";
+        const cells = Array.isArray(row)
+          ? row.map((c) => el(cellTag, {}, text(String(c))))
+          : [el(cellTag, {}, text(String(row)))];
+        return el("tr", {}, ...cells);
+      });
+      return el("table", {}, ...tableRows);
+    }
+
+    default:
+      return comment(`unsupported component: ${t}`);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Grid item wrapper style
+// ---------------------------------------------------------------------------
+
+function gridItemStyle(n: BuilderNode): string {
+  const g: any = (n as any).grid ?? {};
+  const css: string[] = [];
+
+  const area = String(g.area ?? "").trim();
+  if (area) {
+    css.push(`grid-area:${area}`);
+  } else {
+    if (typeof g.colStart === "number") {
+      const span = Math.max(1, Number(g.colSpan ?? 1));
+      css.push(`grid-column:${g.colStart} / span ${span}`);
+    } else if (typeof g.colSpan === "number") {
+      css.push(`grid-column:span ${Math.max(1, g.colSpan)}`);
+    }
+    if (typeof g.rowStart === "number") {
+      const span = Math.max(1, Number(g.rowSpan ?? 1));
+      css.push(`grid-row:${g.rowStart} / span ${span}`);
+    } else if (typeof g.rowSpan === "number") {
+      css.push(`grid-row:span ${Math.max(1, g.rowSpan)}`);
+    }
+  }
+
+  if (g.justifySelf) css.push(`justify-self:${g.justifySelf}`);
+  if (g.alignSelf) css.push(`align-self:${g.alignSelf}`);
+
+  return css.join(";");
+}
+
+// ---------------------------------------------------------------------------
+// Main exporter class
+// ---------------------------------------------------------------------------
+
 export class BuilderExporter {
-  // get rid of ugly artifacts
-  private escapeHtml(s: string) {
-    return s
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;");
-  }
-
-  // helper, makes the attribute name safe to use
-  private safeAttr(s: unknown) {
-    if (s == null) return "";
-    return String(s).replaceAll('"', "&quot;");
-  }
-
-  // real code generation
-  private nodeToHtml(n: BuilderNode): string {
-    const t = n.type; // get type
-    const d = n.data ?? {}; // get payload
-
-    // depending on component-type...
-    switch (t) {
-      case "h1": {
-        const text = d.text ?? d.value ?? "Heading";
-        return `<h1>${this.escapeHtml(String(text))}</h1>`;
-      }
-      case "paragraph": {
-        const text = d.text ?? d.value ?? "Text…";
-        return `<p>${this.escapeHtml(String(text))}</p>`;
-      }
-      // TODO: make src more approachable, right now its URL64 blob
-      case "image": {
-        const src = d.src ?? "";
-        const alt = d.alt ?? "";
-        return `<img src="${this.safeAttr(src)}" alt="${this.escapeHtml(
-          String(alt),
-        )}">`;
-      }
-      // TODO: make src more approachable, right now its URL64 blob
-      case "video": {
-        const src = d.src ?? "";
-        return `<video src="${this.safeAttr(src)}" controls></video>`;
-      }
-      // TODO: make src more approachable, right now its URL64 blob
-      case "audio": {
-        const src = d.src ?? "";
-        return `<audio src="${this.safeAttr(src)}" controls></audio>`;
-      }
-      case "divider": {
-        return `<hr>`;
-      }
-      // TODO: think about better target and rel
-      case "link": {
-        const href = d.href ?? "#";
-        const label = d.label ?? "Link";
-        return `<a href="${this.safeAttr(
-          href,
-        )}" target="_blank" rel="noopener">${this.escapeHtml(
-          String(label),
-        )}</a>`;
-      }
-      case "button": {
-        const label = d.label ?? "Button";
-        return `<button type="button">${this.escapeHtml(
-          String(label),
-        )}</button>`;
-      }
-      // TODO: how to display icons without relying on third party api?
-      case "icon": {
-        const name = d.name ?? "gear";
-        return `<span class="icon" data-icon="${this.safeAttr(name)}"></span>`;
-      }
-      default:
-        return `<!-- unsupported: ${t} -->`; // fallback
-    }
-  }
-
-  // proper indentation, every new recursive div should be indented 2 spaces more
-  private indent(lines: string[], spaces = 2) {
-    const pad = " ".repeat(spaces);
-    return lines.map((l) => (l ? pad + l : l)).join("\n");
-  }
-
-  private gridItemStyle(n: BuilderNode): string {
-    const g: any = (n as any).grid ?? {};
-    const css: string[] = [];
-
-    const area = String(g.area ?? "").trim();
-    if (area) {
-      css.push(`grid-area:${area};`);
-    } else {
-      if (typeof g.colStart === "number") {
-        const span = Math.max(1, Number(g.colSpan ?? 1));
-        css.push(`grid-column:${g.colStart} / span ${span};`);
-      } else if (typeof g.colSpan === "number") {
-        css.push(`grid-column: span ${Math.max(1, g.colSpan)};`);
-      }
-
-      if (typeof g.rowStart === "number") {
-        const span = Math.max(1, Number(g.rowSpan ?? 1));
-        css.push(`grid-row:${g.rowStart} / span ${span};`);
-      } else if (typeof g.rowSpan === "number") {
-        css.push(`grid-row: span ${Math.max(1, g.rowSpan)};`);
-      }
-    }
-
-    if (g.justifySelf) css.push(`justify-self:${g.justifySelf};`);
-    if (g.alignSelf) css.push(`align-self:${g.alignSelf};`);
-
-    return css.join(" ");
-  }
-
-  // export code string(s)
   generateExport(args: {
     layoutMode: LayoutMode;
     nodes: BuilderNode[];
     flexSettings: FlexSettings;
     gridSettings: GridSettings;
   }): { html: string; css: string; combined: string } {
-    const sorted = sortedNodes(args.nodes); // sort the components
+    const sorted = sortedNodes(args.nodes);
 
-    // decypher current layout mode and print it
-    const containerClass =
-      args.layoutMode === "freeform"
-        ? "page page--freeform"
-        : args.layoutMode === "flex"
-          ? "page page--flex"
-          : args.layoutMode === "grid"
-            ? "page page--grid"
-            : "page page--flow";
+    // ── Container class ──────────────────────────────────────────────────────
+    const containerClass = {
+      freeform: "page page--freeform",
+      flow:     "page page--flow",
+      flex:     "page page--flex",
+      grid:     "page page--grid",
+    }[args.layoutMode];
 
-    let bodyHtml = "";
+    // ── Build wrapper nodes ──────────────────────────────────────────────────
+    const wrapperNodes: HtmlNode[] = sorted.map((n): HtmlNode => {
+      const inner = componentToNode(n);
 
-    if (args.layoutMode === "freeform") {
-      bodyHtml = sorted
-        .map((n) => {
-          const pos = n.pos ?? { x: 0, y: 0 }; // append absolute positioning
-          return `<div class="el" style="left:${Math.round(
-            pos.x,
-          )}px; top:${Math.round(pos.y)}px;">${this.nodeToHtml(n)}</div>`;
-        })
-        .join("\n"); // newline
-    } else {
-      // if not freeform, we dont need placement values
-      bodyHtml = sorted
-        .map((n) => {
-          const display = n.display ?? "block"; // block as default fallback
-          const cls = display === "inline" ? "el el--inline" : "el"; // TODO: do I need such many divs with all having class "el"?
-          const style = args.layoutMode === "grid" ? this.gridItemStyle(n) : "";
-          const styleAttr = style ? ` style="${this.safeAttr(style)}"` : "";
-          return `<div class="${cls}"${styleAttr}>${this.nodeToHtml(n)}</div>`; // wrap everything in divs for clarity
-        })
-        .join("\n");
-    }
-
-    const htmlLines = [
-      `<!-- Generated by webwriter-website-builder -->`, // disclaimer
-      `<div class="${containerClass}">`, // root div
-      this.indent(bodyHtml.split("\n"), 2), // indent the newly generated html body by 2 spaces recursively
-      `</div>`,
-    ];
-    const htmlOut = htmlLines.join("\n");
-
-    const flex = args.flexSettings;
-    const grid = args.gridSettings;
-
-    // always the same since its the default styling of the canvas, also appending flex/ grid settings TODO: really needed?
-    const cssOut = `/* Generated by webwriter-website-builder */
-    .page {
-      box-sizing: border-box;
-      padding: 16px;
-      background: #fff;
-      color: #0f172a;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    .page img, .page video {
-      max-width: 100%;
-      height: auto;
-    }
-
-    .page--freeform {
-      position: relative;
-      min-height: 600px;
-    }
-
-    .page--freeform .el {
-      position: absolute;
-    }
-
-    .page--flow .el--inline {
-      display: inline-block;
-    }
-
-    .page--flex {
-      display: flex;
-      flex-direction: ${flex.direction ?? "row"};
-      justify-content: ${flex.justify ?? "flex-start"};
-      align-items: ${flex.align ?? "stretch"};
-      flex-wrap: ${flex.wrap ?? "nowrap"};
-      gap: ${flex.gap ?? "12px"};
-    }
-
-    .page--grid {
-      display: grid;
-      grid-template-columns: ${grid.columns ?? "repeat(3, 1fr)"};
-      grid-auto-rows: ${grid.rows ?? "auto"};
-      gap: ${grid.gap ?? "12px"};
-      grid-auto-flow: ${grid.autoFlow ?? "row"};
-      justify-items: ${grid.justifyItems ?? "stretch"};
-      align-items: ${grid.alignItems ?? "start"};
-      ${
-        grid.templateAreas && grid.templateAreas.trim()
-          ? `grid-template-areas: ${grid.templateAreas};`
-          : ""
+      if (args.layoutMode === "freeform") {
+        const pos = n.pos ?? { x: 0, y: 0 };
+        return el(
+          "div",
+          {
+            class: "el",
+            style: `left:${Math.round(pos.x)}px;top:${Math.round(pos.y)}px`,
+          },
+          inner,
+        );
       }
-    }
 
-    /* Icons: placeholder representation */
-    .page .icon::before {
-      content: attr(data-icon);
-      font-size: 12px;
-      opacity: 0.7;
-      border: 1px solid #e5e7eb;
-      padding: 2px 6px;
-      border-radius: 999px;
-    }
-    `;
+      const display = n.display ?? "block";
+      const cls = display === "inline" ? "el el--inline" : "el";
+      const style =
+        args.layoutMode === "grid" ? gridItemStyle(n) : null;
 
-    // combine generated html and css
-    const combined = `<!-- HTML -->
-    ${htmlOut}
+      return el(
+        "div",
+        { class: cls, ...(style ? { style } : {}) },
+        inner,
+      );
+    });
 
-    <style>
-    ${cssOut}
-    </style>`;
+    // ── Root tree ────────────────────────────────────────────────────────────
+    const root = el(
+      "div",
+      { class: containerClass },
+      ...wrapperNodes,
+    );
+
+    const topLevel: HtmlNode[] = [
+      comment("Generated by webwriter-website-builder"),
+      root,
+    ];
+
+    const htmlOut = topLevel.map((n) => serialize(n, 0)).join("\n");
+
+    // ── CSS ──────────────────────────────────────────────────────────────────
+    const { flex, grid } = { flex: args.flexSettings, grid: args.gridSettings };
+    const gridAreas =
+      grid.templateAreas?.trim()
+        ? `  grid-template-areas: ${grid.templateAreas};`
+        : "";
+
+    const cssOut = `/* Generated by webwriter-website-builder */
+
+/* ── Reset / base ─────────────────────────────────────────────────── */
+.page {
+  box-sizing: border-box;
+  padding: 16px;
+  background: #fff;
+  color: #0f172a;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: inherit;
+}
+
+.page img,
+.page video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Freeform ──────────────────────────────────────────────────────── */
+.page--freeform {
+  position: relative;
+  min-height: 600px;
+}
+
+.page--freeform .el {
+  position: absolute;
+}
+
+/* ── Flow ──────────────────────────────────────────────────────────── */
+.page--flow .el--inline {
+  display: inline-block;
+}
+
+/* ── Flex ──────────────────────────────────────────────────────────── */
+.page--flex {
+  display: flex;
+  flex-direction: ${flex.direction ?? "row"};
+  justify-content: ${flex.justify ?? "flex-start"};
+  align-items: ${flex.align ?? "stretch"};
+  flex-wrap: ${flex.wrap ?? "nowrap"};
+  gap: ${flex.gap ?? "12px"};
+}
+
+/* ── Grid ──────────────────────────────────────────────────────────── */
+.page--grid {
+  display: grid;
+  grid-template-columns: ${grid.columns ?? "repeat(3, 1fr)"};
+  grid-auto-rows: ${grid.rows ?? "auto"};
+  gap: ${grid.gap ?? "12px"};
+  grid-auto-flow: ${grid.autoFlow ?? "row"};
+  justify-items: ${grid.justifyItems ?? "stretch"};
+  align-items: ${grid.alignItems ?? "start"};
+${gridAreas}
+}
+
+/* ── Media placeholder ─────────────────────────────────────────────── */
+.media-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  min-height: 120px;
+  margin: 0;
+}
+
+/* ── Spacer ────────────────────────────────────────────────────────── */
+.spacer {
+  display: block;
+}
+`;
+
+    const combined = `<!-- HTML -->\n${htmlOut}\n\n<style>\n${cssOut}\n</style>`;
 
     return { html: htmlOut, css: cssOut, combined };
   }
