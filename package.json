@@ -1,8 +1,19 @@
 {
     "name": "@webwriter/website-builder",
     "version": "0.0.1",
+    "description": "Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).",
     "keywords": [
-        "webwriter-widget"
+        "webwriter-widget",
+        "widget-conceptual",
+        "widget-lang-en",
+        "iscedf2013-06",
+        "isced2011-3",
+        "isced2011-6",
+        "Drag-and-Drop",
+        "Freeform",
+        "Flow",
+        "Flex",
+        "Grid"
     ],
     "license": "MIT",
     "author": "Moritz Langenhan <moritz.langenhan@rwth-aachen.de>",

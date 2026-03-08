@@ -25,11 +25,9 @@ import type {
   GridSettings,
   LayoutMode,
 } from "./builder/types";
-import { defaultFlexSettings, defaultGridSettings } from "./builder/types";
+import { defaultFlexSettings, defaultGridSettings, CodeTab } from "./builder/types";
 import { WwIconPicker } from "./builder/components/ui/icon-picker";
 import { SHOELACE_ICON_NAMES } from "./builder/data/shoelaceIcons";
-
-type CodeTab = "html" | "css" | "combined";
 
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElementWw {
@@ -42,18 +40,18 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   accessor wwState: string = "";
 
   // internal guard to avoid loops
-  private _hydrating = false;
+  private _hydrating = false; // currently hydrating the page?
   private _lastSerialized = "";
-  private _skipNextApplyFromWwState = false;
+  private _skipNextApplyFromWwState = false; // if skip of state applying is needed
 
-  // fullscreen + code panel
+  // fullscreen + code panel with code panel defaulting to html
   private _codeTab: CodeTab = "html";
 
   // selection, null at boot
   selectedElement: HTMLElement | null = null;
   private selectedNodeId: string | null = null;
 
-  private interactKeyPressed = false; // TEMP: allow interaction while holding "a"
+  private interactKeyPressed = false; // allow interaction while holding "a"
 
   // grid assist for freeform
   gridSize = 20;
@@ -80,17 +78,18 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     "icon",
   ];
 
+  // "all-components" button states
   @state() private _allComponentsDialogOpen = false;
-  @state() private _allComponentsQuery = "";
+  @state() private _allComponentsQuery = ""; // search within the dialog
 
-  // info popup
-  private infoForType: string | null = null;
-  private infoAnchorEl: HTMLElement | null = null;
+  // info popup when pressing on a component tile
+  private infoForType: string | null = null; // default is null
+  private infoAnchorEl: HTMLElement | null = null; // default is null
 
   // layout mode + nodes model, default is freeform
   private layoutMode: LayoutMode = "freeform";
 
-  // --- per-layout state ---
+  // per-layout state
   private freeformNodes: BuilderNode[] = [];
   private orderedNodes: BuilderNode[] = []; // shared by flow/flex/grid
 
@@ -118,6 +117,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _lastPointerX = 0;
   private _lastPointerY = 0;
 
+  // --- state of layout visibility settings ---
   @state()
   private visibleLayoutModes: Record<LayoutMode, boolean> = {
     freeform: true,
@@ -126,6 +126,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     grid: true,
   };
 
+  // --- state of code tabs visibility settings ---
   @state()
   private visibleCodeTabs: Record<CodeTab, boolean> = {
     combined: true,
@@ -133,37 +134,43 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     css: true,
   };
 
+  // --- determines whether the student working on the paper has access to the component settings or not ---
   @state()
   private showComponentSettingsInStudent = true;
 
+  // --- state of component settings drawer being open or not in student mode --- 
   @state()
   private _studentDrawerOpen = false;
 
+  // --- determines whether the settings should be visible to the student or not ---
   @state()
   private showSidebarInStudent = false;
 
+  // --- determines whether the student should be able to delete components form the canvas or not ---
   @state()
   private allowDeleteInStudent = false;
 
+ // --- Icon Dialog states ---
   @state() private _iconDialogOpen = false;
-  @state() private _iconDraftName = "gear";
-  @state() private _iconDraftColor = "#0f172a";
-  @state() private _iconQuery = "";
-  private _iconDialogTarget: EventTarget | null = null;
+  @state() private _iconDraftName = "gear"; // default
+  @state() private _iconDraftColor = "#0f172a"; // default
+  @state() private _iconQuery = ""; // search term
+  private _iconDialogTarget: EventTarget | null = null; // to create a custom event that can be listened to to get the data from shadow dom to host dom
 
-  @state() private _iconScrollTop = 0;
-  @state() private _iconViewportH = 520;
-  private _iconScroller: HTMLElement | null = null;
+  // --- virtual icon loading ---
+  @state() private _iconScrollTop = 0; // 
+  @state() private _iconViewportH = 520; // for lazy loading, determines until where the icons are being loaded before scrolling
+  private _iconScroller: HTMLElement | null = null; // custom HTMLElement
 
   // virtualization tuning
-  private readonly ICON_ROW_H = 60;
-  private readonly ICON_OVERSCAN = 3;
+  private readonly ICON_ROW_H = 60; // 60px per row of icons
+  private readonly ICON_OVERSCAN = 3; // 3 more rows to mask icon loading process while scrolling
 
   // LitElementWw scopes to shadowDOM so we have to re-register shoelace's custom elements here
   static get scopedElements() {
     return {
       ...shoelaceScoped,
-      "ww-icon-picker": WwIconPicker,
+      "ww-icon-picker": WwIconPicker, // custom icon picker component
     };
   }
 
@@ -194,27 +201,29 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     // grid overlay only on key or toggle
     const showGridOverlay = this.showGrid || this.gridKeyPressed;
 
-    // Only show code panel in fullscreen
-    const split = this.isFullscreen;
+    const split = this.isFullscreen; // Only show code panel in fullscreen
     const isAuthor = this.isContentEditable; // non-preview
     const isStudent = !isAuthor; // preview
 
+    // only show the component settings in student mode if we are in non-preview mode and the showComponentSettingsInStudent is enabled
     const canShowStudentDrawer =
       isStudent && this.showComponentSettingsInStudent;
-    const hasSelection = Boolean(this.selectedNodeId);
+    const hasSelection = Boolean(this.selectedNodeId); // if a component is selected
 
+    // only show drawer if settings is enabled and a component is selected (student drawer open is a fail-safe)
     const showDrawer =
       canShowStudentDrawer && hasSelection && this._studentDrawerOpen;
 
     // get code tuple from code builder
     const { html: outHtml, css: outCss, combined } = this._generateExport();
 
+    // hide the sidebar if settings is disabled or were in fullscreen mode
     const hideSidebar = split || (isStudent && !this.showSidebarInStudent);
 
-    // main page, in fullscreen settings sidebar becomes the left column wrapper
+    // ------------------------------------ MAIN PAGE -------------------------------------------
     return html`
       <div class="layout ${split ? "fullscreen-split" : ""}">
-        <!-- Sidebar (in fullscreen it becomes hidden) -->
+        <!-- Sidebar (in fullscreen or with settings enabled it becomes hidden) -->
         <div part="options" style=${hideSidebar ? "display:none;" : ""}>
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
@@ -245,6 +254,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                 </sl-button>
               </div>
             </sl-details>
+            <!-- Visibility Settings -->
             ${this._renderVisibilitySettings()}
             <!-- Layout and component settings (if no component is selected the selected component settings will be empty but layout settings will always be shown)  -->
             ${this._renderLayoutSettings()}
@@ -252,7 +262,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
           </div>
         </div>
 
-        <!-- Main editor area (make it full height if in fullscreen) -->
+        <!-- Main editor area (full height if in fullscreen) -->
         <div class="editor" style=${split ? "height:100%;" : ""}>
           <!-- upper row -->
           ${this._renderPalette()}

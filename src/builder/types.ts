@@ -39,6 +39,8 @@ export type BuilderNode = {
   grid?: GridPlacement;
 };
 
+export type CodeTab = "html" | "css" | "combined";
+
 /** container settings (global) */
 export type FlexSettings = {
   direction?: "row" | "column";
