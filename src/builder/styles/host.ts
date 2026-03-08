@@ -10,6 +10,7 @@ export const hostStyles = css`
     padding: 0;
     margin: 0;
     position: relative;
+    font-family: 'Geist', 'Geist Sans', ui-sans-serif, system-ui, sans-serif;
   }
 
   /* Make the widget fill the screen in fullscreen */

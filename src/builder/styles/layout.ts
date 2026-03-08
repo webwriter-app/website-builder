@@ -16,7 +16,6 @@ export const layoutStyles = css`
     min-width: 0;
   }
 
-  /* Fullscreen: split canvas + code panel */
   .layout.fullscreen-split {
     display: grid;
     grid-template-columns: minmax(360px, 1fr) minmax(320px, 520px);
@@ -25,31 +24,50 @@ export const layoutStyles = css`
     box-sizing: border-box;
   }
 
+  /*
+   * Canvas: dashed border only when empty; overflow:visible so the
+   * floating toolbar pill can extend outside without being clipped.
+   */
   .canvas {
     flex: 1;
     padding: 1rem;
-    background: var(--sl-color-neutral-50);
-    overflow: hidden;
+    background: #fff;
+    overflow: visible;
     position: relative;
     min-width: 0;
-    border-radius: 12px;
+    border-radius: 24px;
+    border: 2px dashed var(--sl-color-neutral-300);
+    box-sizing: border-box;
+    transition: border-color 200ms ease;
+  }
+
+  /* Hide dashed border once any component is placed */
+  .canvas.has-nodes {
+    border-color: transparent;
   }
 
   :host(:fullscreen) .canvas {
+    overflow: hidden;
     background: var(--sl-color-neutral-0);
     border: 1px solid var(--sl-color-neutral-200);
+    border-radius: 12px;
+  }
+
+  :host(:fullscreen) .canvas.has-nodes {
+    border-color: var(--sl-color-neutral-200);
   }
 
   .drop-zone {
-    border: 2px dashed var(--sl-color-neutral-300);
-    text-align: center;
-    color: var(--sl-color-neutral-600);
-    border-radius: 0.5rem;
-    margin: 1rem;
-    height: 95%;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 13px;
+    color: #9ca3af;
+    letter-spacing: 0.01em;
+    pointer-events: none;
+    user-select: none;
   }
 
   .builder-element {
@@ -74,7 +92,6 @@ export const layoutStyles = css`
       linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
   }
 
-  /* NEW: roots for different layout modes */
   .freeform-root {
     position: relative;
     width: 100%;
@@ -126,7 +143,6 @@ export const layoutStyles = css`
     display: grid;
   }
 
-  /* Hovering fullscreen button (bottom-right of canvas) */
   .fs-btn {
     position: absolute;
     right: 14px;

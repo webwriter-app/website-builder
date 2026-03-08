@@ -25,6 +25,7 @@
     "dependencies": {
         "@shoelace-style/shoelace": "^2.20.1",
         "@webwriter/lit": "^2",
+        "geist": "^1.7.0",
         "lit": "^3.3.2"
     },
     "devDependencies": {
@@ -45,15 +46,15 @@
         "./snippets/flow-advanced.html": "./snippets/flow/example-flow-advanced.html"
     },
     "editingConfig": {
-    ".": {},
-    "./widgets/webwriter-website-builder": {},
-    "./snippets/flex-starter": {},
-    "./snippets/flex-advanced": {},
-    "./snippets/grid-starter": {},
-    "./snippets/grid-advanced": {},
-    "./snippets/freeform-starter": {},
-    "./snippets/freeform-advanced": {},
-    "./snippets/flow-starter": {},
-    "./snippets/flow-advanced": {}
+        ".": {},
+        "./widgets/webwriter-website-builder": {},
+        "./snippets/flex-starter": {},
+        "./snippets/flex-advanced": {},
+        "./snippets/grid-starter": {},
+        "./snippets/grid-advanced": {},
+        "./snippets/freeform-starter": {},
+        "./snippets/freeform-advanced": {},
+        "./snippets/flow-starter": {},
+        "./snippets/flow-advanced": {}
     }
 }

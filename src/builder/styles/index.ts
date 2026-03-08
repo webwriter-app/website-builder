@@ -8,6 +8,7 @@ import { draggingStyles } from "./dragging";
 import { settingsStyles } from "./settings";
 import { iconDialogStyles } from "./dialogs/icon-dialog";
 import { allComponentsStyles } from "./dialogs/all-components";
+import { floatingToolbarStyles } from "./floating-toolbar";
 
 export const builderStyles = css`
   ${hostStyles}
@@ -18,4 +19,5 @@ export const builderStyles = css`
   ${settingsStyles}
   ${iconDialogStyles}
   ${allComponentsStyles}
+  ${floatingToolbarStyles}
 `;

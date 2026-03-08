@@ -36,6 +36,9 @@ export type ParsedBuilderState = {
   showComponentSettingsInStudent?: boolean;
   showSidebarInStudent?: boolean;
   allowDeleteInStudent?: boolean;
+  showToolbarInStudent?: boolean;
+  showAddButton?: boolean;
+  showLayoutDropdown?: boolean;
 };
 
 export function serializeBuilderState(args: {
@@ -51,6 +54,9 @@ export function serializeBuilderState(args: {
   showComponentSettingsInStudent: boolean;
   showSidebarInStudent: boolean;
   allowDeleteInStudent: boolean;
+  showToolbarInStudent: boolean;
+  showAddButton: boolean;
+  showLayoutDropdown: boolean;
 }): string {
   const payload: any = {
     layoutMode: args.layoutMode,
@@ -66,6 +72,9 @@ export function serializeBuilderState(args: {
     showComponentSettingsInStudent: args.showComponentSettingsInStudent,
     showSidebarInStudent: args.showSidebarInStudent,
     allowDeleteInStudent: args.allowDeleteInStudent,
+    showToolbarInStudent: args.showToolbarInStudent,
+    showAddButton: args.showAddButton,
+    showLayoutDropdown: args.showLayoutDropdown,
   };
 
   return JSON.stringify(payload);
@@ -136,6 +145,19 @@ export function parseBuilderState(
         ? undefined
         : Boolean(parsed.allowDeleteInStudent);
 
+    const showToolbarInStudent =
+      parsed.showToolbarInStudent == null
+        ? undefined
+        : Boolean(parsed.showToolbarInStudent);
+
+    const showAddButton =
+      parsed.showAddButton == null ? undefined : Boolean(parsed.showAddButton);
+
+    const showLayoutDropdown =
+      parsed.showLayoutDropdown == null
+        ? undefined
+        : Boolean(parsed.showLayoutDropdown);
+
     return {
       layoutMode,
       freeformNodes,
@@ -152,6 +174,9 @@ export function parseBuilderState(
       showComponentSettingsInStudent,
       showSidebarInStudent,
       allowDeleteInStudent,
+      showAddButton,
+      showLayoutDropdown,
+      showToolbarInStudent,
     };
   } catch {
     return null;

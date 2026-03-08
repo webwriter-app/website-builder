@@ -25,7 +25,11 @@ import type {
   GridSettings,
   LayoutMode,
 } from "./builder/types";
-import { defaultFlexSettings, defaultGridSettings, CodeTab } from "./builder/types";
+import {
+  defaultFlexSettings,
+  defaultGridSettings,
+  CodeTab,
+} from "./builder/types";
 import { WwIconPicker } from "./builder/components/ui/icon-picker";
 import { SHOELACE_ICON_NAMES } from "./builder/data/shoelaceIcons";
 
@@ -81,6 +85,22 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   // "all-components" button states
   @state() private _allComponentsDialogOpen = false;
   @state() private _allComponentsQuery = ""; // search within the dialog
+
+  // toolbar + layout dropdown states
+  @state() private _toolbarOpen = false;
+  @state() private _layoutDropdownOpen = false;
+
+  /** Author toggle: show/hide the + button */
+  @state() private showAddButton = true;
+
+  /** Author toggle: show/hide the layout dropdown */
+  @state() private showLayoutDropdown = true;
+
+  /** Whether to show toolbar elements in student mode */
+  @state() private showToolbarInStudent = true;
+
+  /** True while the T key is held — hides the toolbar overlay temporarily */
+  @state() private toolbarKeyHidden = false;
 
   // info popup when pressing on a component tile
   private infoForType: string | null = null; // default is null
@@ -138,7 +158,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   @state()
   private showComponentSettingsInStudent = true;
 
-  // --- state of component settings drawer being open or not in student mode --- 
+  // --- state of component settings drawer being open or not in student mode ---
   @state()
   private _studentDrawerOpen = false;
 
@@ -150,7 +170,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   @state()
   private allowDeleteInStudent = false;
 
- // --- Icon Dialog states ---
+  // --- Icon Dialog states ---
   @state() private _iconDialogOpen = false;
   @state() private _iconDraftName = "gear"; // default
   @state() private _iconDraftColor = "#0f172a"; // default
@@ -158,7 +178,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _iconDialogTarget: EventTarget | null = null; // to create a custom event that can be listened to to get the data from shadow dom to host dom
 
   // --- virtual icon loading ---
-  @state() private _iconScrollTop = 0; // 
+  @state() private _iconScrollTop = 0; //
   @state() private _iconViewportH = 520; // for lazy loading, determines until where the icons are being loaded before scrolling
   private _iconScroller: HTMLElement | null = null; // custom HTMLElement
 
@@ -253,6 +273,32 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                   ${msg("Reset Canvas")}
                 </sl-button>
               </div>
+
+              <div
+                style="
+       margin-top: 0.5rem;
+       font-size: 0.78rem;
+       color: var(--sl-color-neutral-600);
+       padding: 0.4rem 0.6rem;
+       background: var(--sl-color-neutral-50);
+       border-radius: 8px;
+       border: 1px solid var(--sl-color-neutral-200);
+     "
+              >
+                Hold
+                <kbd
+                  style="
+         font-family: monospace;
+         background: var(--sl-color-neutral-100);
+         border: 1px solid var(--sl-color-neutral-300);
+         border-radius: 4px;
+         padding: 1px 5px;
+         font-size: 0.75rem;
+       "
+                  >T</kbd
+                >
+                to temporarily hide the toolbar overlay.
+              </div>
             </sl-details>
             <!-- Visibility Settings -->
             ${this._renderVisibilitySettings()}
@@ -264,12 +310,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
         <!-- Main editor area (full height if in fullscreen) -->
         <div class="editor" style=${split ? "height:100%;" : ""}>
-          <!-- upper row -->
-          ${this._renderPalette()}
-
           <!-- Canvas -->
           <div
-            class="canvas"
+            class="canvas ${this._activeNodes().length > 0 ? "has-nodes" : ""}"
             @dragover=${this._onDragOver}
             @drop=${this._onDrop}
             style="--grid-size: ${this.gridSize}px"
@@ -277,8 +320,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
           >
             <!-- Show grid overlay if enabled, otherwise just the drop zone if there are no nodes -->
             ${showGridOverlay ? html`<div class="grid-overlay"></div>` : null}
-            ${this._renderCanvasInner()}
-
+            ${this._renderCanvasInner()} ${this._renderFloatingToolbar()}
             <!-- Hovering fullscreen button -->
             <div class="fs-btn">
               <sl-button
@@ -704,107 +746,114 @@ ${syntax}</pre
 
     return html`
       <sl-details summary="Visibility">
-        <div style="margin-top: 1rem">
-          <!-- Section 1: Layout mode visibility -->
-          <div class="setting-row">
-            <div style="font-weight:600; margin-bottom: 0.25rem;">
-              Layout modes
-            </div>
+        <!-- Layout modes -->
+        <div class="vis-section">
+          <div class="vis-section-label">
+            <sl-icon name="layout-three-columns"></sl-icon>
+            Layout modes
+          </div>
+          <div class="vis-chips">
+            ${this._layoutModeChip("freeform", "Freeform", "arrows-move")}
+            ${this._layoutModeChip("flow", "Flow", "arrow-down")}
+            ${this._layoutModeChip("flex", "Flex", "distribute-horizontal")}
+            ${this._layoutModeChip("grid", "Grid", "grid")}
+          </div>
+        </div>
 
-            ${this._layoutModeToggle("freeform", "Freeform")}
-            ${this._layoutModeToggle("flow", "Flow")}
-            ${this._layoutModeToggle("flex", "Flex")}
-            ${this._layoutModeToggle("grid", "Grid")}
+        <!-- Code tabs -->
+        <div class="vis-section">
+          <div class="vis-section-label">
+            <sl-icon name="code-slash"></sl-icon>
+            Code tabs
+          </div>
+          <div class="vis-chips">
+            ${this._codeTabChip("combined", "Combined")}
+            ${this._codeTabChip("html", "HTML")}
+            ${this._codeTabChip("css", "CSS")}
+          </div>
+        </div>
+
+        <!-- Student mode -->
+        <div class="vis-section">
+          <div class="vis-section-label">
+            <sl-icon name="person"></sl-icon>
+            Student mode
           </div>
 
-          <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
-
-          <!-- Section 2: Code tab visibility -->
-          <div class="setting-row">
-            <div style="font-weight:600; margin-bottom: 0.25rem;">
-              Code tabs
-            </div>
-
-            ${this._codeTabToggle("combined", "Combined")}
-            ${this._codeTabToggle("html", "HTML")}
-            ${this._codeTabToggle("css", "CSS")}
-          </div>
-
-          <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider>
-
-          <!-- Section 3: Student settings visibility -->
-          <div class="setting-row">
-            <div style="font-weight:600; margin-bottom: 0.25rem;">
-              Student mode
-            </div>
-
+          <div class="vis-switch-row">
+            <span class="vis-switch-label">Show component settings</span>
             <sl-switch
+              size="small"
               .checked=${this.showComponentSettingsInStudent}
               @sl-change=${(e: CustomEvent) => {
                 const sw = e.currentTarget as any;
-                const next = Boolean(sw.checked);
-                this.showComponentSettingsInStudent = next;
+                this.showComponentSettingsInStudent = Boolean(sw.checked);
                 this.requestUpdate();
               }}
-            >
-              Show component settings in student mode
-            </sl-switch>
+            ></sl-switch>
+          </div>
 
+          <div class="vis-switch-row">
+            <span class="vis-switch-label">Show sidebar</span>
             <sl-switch
+              size="small"
               .checked=${this.showSidebarInStudent}
               @sl-change=${(e: CustomEvent) => {
                 const sw = e.currentTarget as any;
                 this.showSidebarInStudent = Boolean(sw.checked);
                 this.requestUpdate();
               }}
-            >
-              Show sidebar in student mode
-            </sl-switch>
+            ></sl-switch>
+          </div>
 
+          <div class="vis-switch-row">
+            <span class="vis-switch-label">Show toolbar</span>
             <sl-switch
-              style="margin-top: 0.5rem;"
+              size="small"
+              .checked=${this.showToolbarInStudent}
+              @sl-change=${(e: CustomEvent) => {
+                const sw = e.currentTarget as any;
+                this.showToolbarInStudent = Boolean(sw.checked);
+                this.requestUpdate();
+              }}
+            ></sl-switch>
+          </div>
+
+          <div class="vis-switch-row">
+            <span class="vis-switch-label">Allow delete</span>
+            <sl-switch
+              size="small"
               .checked=${this.allowDeleteInStudent}
               @sl-change=${(e: CustomEvent) => {
                 const sw = e.currentTarget as any;
                 this.allowDeleteInStudent = Boolean(sw.checked);
                 this.requestUpdate();
               }}
-            >
-              Allow delete (Backspace/Delete) in student mode
-            </sl-switch>
+            ></sl-switch>
+          </div>
 
-            ${isStudent
-              ? html`<div
-                  style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-top: 0.25rem;"
-                >
-                  Currently in student mode.
-                </div>`
-              : html`<div
-                  style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-top: 0.25rem;"
-                >
-                  Currently in author mode.
-                </div>`}
+          <div class="vis-mode-badge">
+            <sl-icon name=${isStudent ? "mortarboard" : "pencil"}></sl-icon>
+            ${isStudent ? "Student mode" : "Author mode"}
           </div>
         </div>
       </sl-details>
     `;
   }
 
-  private _layoutModeToggle(mode: LayoutMode, label: string) {
-    const checked = !!this.visibleLayoutModes[mode];
-
+  private _layoutModeChip(mode: LayoutMode, label: string, icon: string) {
+    const active = !!this.visibleLayoutModes[mode];
     return html`
-      <sl-switch
-        style="display:block; margin-top: 0.25rem;"
-        .checked=${checked}
-        @sl-change=${(e: CustomEvent) => {
-          const sw = e.currentTarget as any;
-          const next = Boolean(sw.checked);
-          this._setLayoutModeVisible(mode, next);
-        }}
+      <button
+        class="vis-chip"
+        data-active=${active ? "true" : "false"}
+        type="button"
+        @click=${() => this._setLayoutModeVisible(mode, !active)}
       >
+        <sl-icon name=${icon} style="font-size:10px; flex-shrink:0;"></sl-icon>
         ${label}
-      </sl-switch>
+        <span class="vis-chip-dot"></span>
+      </button>
     `;
   }
 
@@ -828,21 +877,18 @@ ${syntax}</pre
     this.requestUpdate();
   }
 
-  private _codeTabToggle(tab: CodeTab, label: string) {
-    const checked = !!this.visibleCodeTabs[tab];
-
+  private _codeTabChip(tab: CodeTab, label: string) {
+    const active = !!this.visibleCodeTabs[tab];
     return html`
-      <sl-switch
-        style="display:block; margin-top: 0.25rem;"
-        .checked=${checked}
-        @sl-change=${(e: CustomEvent) => {
-          const sw = e.currentTarget as any;
-          const next = Boolean(sw.checked);
-          this._setCodeTabVisible(tab, next);
-        }}
+      <button
+        class="vis-chip"
+        data-active=${active ? "true" : "false"}
+        type="button"
+        @click=${() => this._setCodeTabVisible(tab, !active)}
       >
         ${label}
-      </sl-switch>
+        <span class="vis-chip-dot"></span>
+      </button>
     `;
   }
 
@@ -900,101 +946,153 @@ ${syntax}</pre
     `;
   }
 
-  /* ===== Palette UI ===== */
+  // Quick items in the toolbar pill
+  private readonly _toolbarQuickItems = [
+    { type: "h1", glyph: "H1", label: "H1" },
+    { type: "paragraph", glyph: "¶", label: "Text" },
+    { type: "image", glyph: "🖼", label: "Img" },
+    { type: "icon", glyph: "★", label: "Icon" },
+    { type: "button", glyph: "▢", label: "Btn" },
+    { type: "divider", glyph: "—", label: "Hr" },
+  ];
 
-  /**
-   * Palette: search + quick row + results tray + info popup
-   * @returns Lit template
-   */
-  private _renderPalette() {
-    const q = this.componentQuery.trim(); // search query gotten from global value, trim to check if there is any real content
-    const searching = q.length > 0; // query active or not
+  private _renderFloatingToolbar() {
+    const isAuthor = this.isContentEditable;
 
-    const results = searching ? this._getPaletteItems() : []; // get search results based on query, only if searching is active
-    const quick = this.oftenUsed.filter((t) => ComponentRegistry[t]); // sanity check, filter often used list to only include valid components, this is what is shown in the "often used" row in the palette. Can be removed later
+    // Determine what's visible in current mode
+    const showAdd = isAuthor ? this.showAddButton : this.showToolbarInStudent;
+
+    const showLayout = isAuthor
+      ? this.showLayoutDropdown
+      : this.showToolbarInStudent;
+
+    // Nothing to render at all
+    if (!showAdd && !showLayout) return null;
+
+    const hidden = this.toolbarKeyHidden;
+
+    const layoutLabels: Record<LayoutMode, string> = {
+      freeform: "Freeform",
+      flow: "Flow",
+      flex: "Flex",
+      grid: "Grid",
+    };
+
+    const visibleModes = (
+      Object.keys(this.visibleLayoutModes) as LayoutMode[]
+    ).filter((m) => this.visibleLayoutModes[m]);
 
     return html`
-      <div class="palette">
-        <div class="palette-top">
-          <div class="palette-search">
-            <!-- Search input, updates global query value on input and opens tray if there is any real content, if cleared it also closes the tray. On focus it opens the tray if there is any real content in the query -->
-            <sl-input
-              size="small"
-              clearable
-              placeholder=${msg("Search components…")}
-              .value=${this.componentQuery}
-              @sl-input=${(e: any) => {
-                this.componentQuery = String(e.target.value ?? "");
-                this.trayOpen = this.componentQuery.trim().length > 0;
-                this.requestUpdate();
-              }}
-              @sl-clear=${() => {
-                this.componentQuery = "";
-                this.trayOpen = false;
-                this.requestUpdate();
-              }}
-              @focus=${() => {
-                if (this.componentQuery.trim().length > 0) {
-                  this.trayOpen = true;
-                  this.requestUpdate();
-                }
-              }}
-            ></sl-input>
-          </div>
-
-          <div class="seg" aria-label="Layout mode">
-            ${this.visibleLayoutModes.freeform
-              ? this._layoutBtn("freeform", "Freeform")
-              : null}
-            ${this.visibleLayoutModes.flow
-              ? this._layoutBtn("flow", "Flow")
-              : null}
-            ${this.visibleLayoutModes.flex
-              ? this._layoutBtn("flex", "Flex")
-              : null}
-            ${this.visibleLayoutModes.grid
-              ? this._layoutBtn("grid", "Grid")
-              : null}
-          </div>
-        </div>
-
-        ${!searching
+      <div
+        class="floating-toolbar-wrap ${hidden ? "toolbar-hidden" : ""}"
+        @click=${(e: MouseEvent) => e.stopPropagation()}
+      >
+        <!-- Row 1: pill (left) + toggle (right) -->
+        ${showAdd
           ? html`
-              <!-- render tiles for often used components only if there is no active search query, this row is hidden as soon as you start searching -->
-              <div class="quick-row" aria-label="Often used components">
-                ${quick.map((t) => this._tile(t, { compact: true }))}
+              <div class="toolbar-top-row">
+                ${this._toolbarOpen
+                  ? html`
+                      <div class="toolbar-pill">
+                        <button
+                          class="toolbar-icon-btn search-btn"
+                          title="Browse all components"
+                          @click=${() => {
+                            this._openAllComponentsDialog();
+                            this._toolbarOpen = false;
+                          }}
+                        >
+                          <span class="tb-glyph">🔍</span>
+                        </button>
 
-                <div style="margin-left:auto; display:flex;">
-                  <sl-button
-                    size="small"
-                    variant="default"
-                    class="all-components-btn"
-                    @click=${this._openAllComponentsDialog}
-                  >
-                    <sl-icon name="grid-3x3-gap"></sl-icon>
-                  </sl-button>
-                </div>
+                        <div class="toolbar-divider"></div>
+
+                        ${this._toolbarQuickItems.map(
+                          (item) => html`
+                            <button
+                              class="toolbar-icon-btn"
+                              title=${item.type}
+                              draggable="true"
+                              data-component-type=${item.type}
+                              @dragstart=${(e: DragEvent) => {
+                                this._onDragStart(e);
+                                this._toolbarOpen = false;
+                              }}
+                              @click=${() => {
+                                this._quickAdd(item.type);
+                                this._toolbarOpen = false;
+                                this.requestUpdate();
+                              }}
+                            >
+                              <span class="tb-glyph">${item.glyph}</span>
+                              <span class="tb-label">${item.label}</span>
+                            </button>
+                          `,
+                        )}
+                      </div>
+                    `
+                  : null}
+
+                <button
+                  class="toolbar-toggle ${this._toolbarOpen ? "open" : ""}"
+                  title=${this._toolbarOpen ? "Close" : "Add component"}
+                  @click=${() => {
+                    this._toolbarOpen = !this._toolbarOpen;
+                    if (!this._toolbarOpen) this._layoutDropdownOpen = false;
+                    this.requestUpdate();
+                  }}
+                >
+                  +
+                </button>
               </div>
             `
           : null}
 
-        <!-- ?hidden makes elements hidden until a certain condition is met, in this case the search query being empty and the tray with the search results is shown, if not it is hidden -->
-        <div class="tray" ?hidden=${!(this.trayOpen && searching)}>
-          <div class="tray-header">
-            <div class="tray-title">Results</div>
-            <div class="tray-count">${results.length}</div>
-          </div>
+        <!-- Row 2: layout dropdown — always visible when showLayout is true -->
+        ${showLayout
+          ? html`
+              <div class="layout-dropdown-wrap">
+                <button
+                  class="layout-dropdown-btn"
+                  @click=${(e: MouseEvent) => {
+                    e.stopPropagation();
+                    this._layoutDropdownOpen = !this._layoutDropdownOpen;
+                    this.requestUpdate();
+                  }}
+                >
+                  ${layoutLabels[this.layoutMode]}
+                  ${html`<span
+                    class="dd-arrow ${this._layoutDropdownOpen ? "up" : ""}"
+                    >▼</span
+                  >`}
+                </button>
 
-          <!-- show reslts grid with their corresponding tiles -->
-          <div class="tray-inner">
-            <div class="results-grid">
-              ${results.map((t) => this._tile(t, { compact: false }))}
-            </div>
-          </div>
-        </div>
-
-        <!-- Info popup for components if clicked on -->
-        ${this._renderInfoPopup()}
+                ${this._layoutDropdownOpen
+                  ? html`
+                      <div class="layout-dropdown-list">
+                        ${visibleModes.map(
+                          (mode) => html`
+                            <button
+                              class="layout-dropdown-item ${this.layoutMode ===
+                              mode
+                                ? "active"
+                                : ""}"
+                              @click=${() => {
+                                this._setLayoutMode(mode);
+                                this._layoutDropdownOpen = false;
+                                this.requestUpdate();
+                              }}
+                            >
+                              ${layoutLabels[mode]}
+                            </button>
+                          `,
+                        )}
+                      </div>
+                    `
+                  : null}
+              </div>
+            `
+          : null}
       </div>
     `;
   }
@@ -1065,7 +1163,7 @@ ${syntax}</pre
 
     // render a drag and drop zone
     if (empty) {
-      return html`<div class="drop-zone">Drag and drop components here</div>`;
+      return html`<div class="drop-zone">drop components here</div>`;
     }
 
     // render all nodes based on selected layout mode, freeform has its own rendering function because of the absolute positioning, the other modes can share a rendering function since they all use the same flow layout and only differ in the container styles
@@ -2160,6 +2258,9 @@ ${syntax}</pre
       orderedNodes: this.orderedNodes,
       showSidebarInStudent: this.showSidebarInStudent,
       allowDeleteInStudent: this.allowDeleteInStudent,
+      showAddButton: this.showAddButton,
+      showLayoutDropdown: this.showLayoutDropdown,
+      showToolbarInStudent: this.showToolbarInStudent,
 
       showGrid: this.showGrid,
       gridSize: this.gridSize,
@@ -2190,6 +2291,12 @@ ${syntax}</pre
 
     this.allowDeleteInStudent =
       parsed.allowDeleteInStudent ?? this.allowDeleteInStudent;
+
+    this.showAddButton = parsed.showAddButton ?? this.showAddButton;
+    this.showLayoutDropdown =
+      parsed.showLayoutDropdown ?? this.showLayoutDropdown;
+    this.showToolbarInStudent =
+      parsed.showToolbarInStudent ?? this.showToolbarInStudent;
 
     this.freeformNodes = parsed.freeformNodes ?? [];
     this.orderedNodes = parsed.orderedNodes ?? parsed.nodes ?? []; // backwards compat
@@ -2864,6 +2971,7 @@ ${syntax}</pre
    * @returns void
    */
   private _onCanvasClick = (e: MouseEvent) => {
+    this._layoutDropdownOpen = false; // close dropdown when clicking canvas background
     this._blurActive();
     const path = e.composedPath() as EventTarget[];
     const clickedElement = path.find(
@@ -2955,6 +3063,13 @@ ${syntax}</pre
       }
     }
 
+    if (e.key === "t" || e.key === "T") {
+      if (!this.toolbarKeyHidden) {
+        this.toolbarKeyHidden = true;
+        this.requestUpdate();
+      }
+    }
+
     if (e.key === "a" || e.key === "A") {
       this.interactKeyPressed = true;
       // optional: avoid typing "a" into inputs when testing interaction
@@ -3015,6 +3130,11 @@ ${syntax}</pre
 
     if (e.key === "g" || e.key === "G") {
       this.gridKeyPressed = false;
+      this.requestUpdate();
+    }
+
+    if (e.key === "t" || e.key === "T") {
+      this.toolbarKeyHidden = false;
       this.requestUpdate();
     }
 
