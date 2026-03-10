@@ -19,6 +19,7 @@ export const Heading1: BuilderComponent = {
     const color = data?.color ?? "#000000";
     const content = data?.content ?? "Heading 1";
     const fontWeight = data?.["font-weight"] ?? "normal";
+    const fontSize = data?.["font-size"] ?? "2em";
 
     return html`
       <h1
@@ -28,6 +29,7 @@ export const Heading1: BuilderComponent = {
           color: ${color};
           font-family: ${font};
           font-weight: ${fontWeight};
+          font-size: ${fontSize};
         "
       >
         ${content}
@@ -58,6 +60,14 @@ export const Heading1: BuilderComponent = {
       target: "h1",
       name: "font-weight",
       placeholder: "e.g. 400 or bold",
+    },
+    {
+      key: "font-size",
+      label: "Font size",
+      kind: "style",
+      target: "h1",
+      name: "font-size",
+      placeholder: "e.g. 32px or 2em",
     }
   ],
   settings: ({ data, setData }) => {

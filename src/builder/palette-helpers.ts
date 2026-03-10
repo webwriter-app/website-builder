@@ -1,37 +1,41 @@
 import type { LayoutMode } from "./types";
+import { wbAudioIcon, wbButtonIcon, wbDividerIcon, wbH1Icon, wbH2Icon, wbH4Icon, wbH3Icon, wbIconIcon, wbImageIcon, wbTextIcon, wbH6Icon, wbH5Icon, wbLabelIcon, wbVideoIcon, wbLinkIcon, wbTextareaIcon } from "../assets/icons";
+import { TemplateResult } from "lit";
 
-export function tileGlyph(type: string): string {
+export function tileGlyph(type: string): TemplateResult | string {
   switch (type) {
     case "h1":
-      return "H1";
+      return wbH1Icon;
     case "h2":
-      return "H2";
+      return wbH2Icon;
     case "h3":
-      return "H3";
+      return wbH3Icon;
     case "h4":
-      return "H4";
+      return wbH4Icon;
     case "h5":
-      return "H5";
+      return wbH5Icon;
     case "h6":
-      return "H6";
+      return wbH6Icon;
     case "paragraph":
-      return "¶";
+      return wbTextIcon;
     case "label":
-      return "T";
+      return wbLabelIcon;
     case "image":
-      return "🖼";
+      return wbImageIcon;
     case "video":
-      return "▶";
+      return wbVideoIcon;
     case "audio":
-      return "♪";
+      return wbAudioIcon;
     case "icon":
-      return "★";
+      return wbIconIcon;
     case "button":
-      return "▢";
+      return wbButtonIcon;
     case "link":
-      return "↗";
+      return wbLinkIcon;
     case "divider":
-      return "—";
+      return wbDividerIcon;
+    case "textarea":
+      return wbTextareaIcon;
     case "container":
       return "⬚";
     default:

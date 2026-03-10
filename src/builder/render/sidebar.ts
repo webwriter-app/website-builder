@@ -31,9 +31,9 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
         </div>
         <div class="vis-chips">
           ${layoutModeChip(host, "freeform", "Freeform", "arrows-move")}
-          ${layoutModeChip(host, "flow",     "Flow",     "arrow-down")}
-          ${layoutModeChip(host, "flex",     "Flex",     "distribute-horizontal")}
-          ${layoutModeChip(host, "grid",     "Grid",     "grid")}
+          ${layoutModeChip(host, "flow", "Flow", "arrow-down")}
+          ${layoutModeChip(host, "flex", "Flex", "distribute-horizontal")}
+          ${layoutModeChip(host, "grid", "Grid", "grid")}
         </div>
       </div>
 
@@ -44,8 +44,8 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
         </div>
         <div class="vis-chips">
           ${codeTabChip(host, "combined", "Combined")}
-          ${codeTabChip(host, "html",     "HTML")}
-          ${codeTabChip(host, "css",      "CSS")}
+          ${codeTabChip(host, "html", "HTML")}
+          ${codeTabChip(host, "css", "CSS")}
         </div>
       </div>
 
@@ -61,7 +61,9 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
             size="small"
             .checked=${host.showComponentSettingsInStudent}
             @sl-change=${(e: CustomEvent) => {
-              host.showComponentSettingsInStudent = Boolean((e.currentTarget as any).checked);
+              host.showComponentSettingsInStudent = Boolean(
+                (e.currentTarget as any).checked,
+              );
               host.requestUpdate();
             }}
           ></sl-switch>
@@ -73,7 +75,9 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
             size="small"
             .checked=${host.showSidebarInStudent}
             @sl-change=${(e: CustomEvent) => {
-              host.showSidebarInStudent = Boolean((e.currentTarget as any).checked);
+              host.showSidebarInStudent = Boolean(
+                (e.currentTarget as any).checked,
+              );
               host.requestUpdate();
             }}
           ></sl-switch>
@@ -85,7 +89,9 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
             size="small"
             .checked=${host.showToolbarInStudent}
             @sl-change=${(e: CustomEvent) => {
-              host.showToolbarInStudent = Boolean((e.currentTarget as any).checked);
+              host.showToolbarInStudent = Boolean(
+                (e.currentTarget as any).checked,
+              );
               host.requestUpdate();
             }}
           ></sl-switch>
@@ -97,7 +103,9 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
             size="small"
             .checked=${host.allowDeleteInStudent}
             @sl-change=${(e: CustomEvent) => {
-              host.allowDeleteInStudent = Boolean((e.currentTarget as any).checked);
+              host.allowDeleteInStudent = Boolean(
+                (e.currentTarget as any).checked,
+              );
               host.requestUpdate();
             }}
           ></sl-switch>
@@ -128,12 +136,15 @@ function layoutModeChip(
     >
       <sl-icon name=${icon} style="font-size:10px;flex-shrink:0;"></sl-icon>
       ${label}
-      <span class="vis-chip-dot"></span>
     </button>
   `;
 }
 
-function codeTabChip(host: WebwriterWebsiteBuilder, tab: CodeTab, label: string) {
+function codeTabChip(
+  host: WebwriterWebsiteBuilder,
+  tab: CodeTab,
+  label: string,
+) {
   const active = !!host.visibleCodeTabs[tab];
   return html`
     <button
@@ -143,174 +154,192 @@ function codeTabChip(host: WebwriterWebsiteBuilder, tab: CodeTab, label: string)
       @click=${() => host.setCodeTabVisible(tab, !active)}
     >
       ${label}
-      <span class="vis-chip-dot"></span>
     </button>
   `;
 }
 
 // ─── Layout Settings ─────────────────────────────────────────────────────────
-// Matches original _renderLayoutSettings exactly:
-// - flex → wrapped in <sl-details summary="Layout">
-// - grid → bare <div> (NO sl-details wrapper)
 
 export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
   if (host.layoutMode === "flex") {
     const flex = host.flexSettings;
-    return keyed("layout-flex", html`
-      <sl-details summary="Layout">
-        <div style="margin-top: 1rem">
-          <h2 style="margin-top: 0">Layout</h2>
+    return keyed(
+      "layout-flex",
+      html`
+        <sl-details summary="Layout">
+          <div style="margin-top: 1rem">
+            <div class="setting-row">
+              <sl-select
+                label="Direction"
+                value=${flex.direction ?? "row"}
+                @sl-change=${(e: any) =>
+                  host.layout.setFlexSettings({
+                    direction: e.target.value as FlexSettings["direction"],
+                  })}
+              >
+                <sl-option value="row">row</sl-option>
+                <sl-option value="column">column</sl-option>
+              </sl-select>
+            </div>
 
-          <div class="setting-row">
-            <sl-select
-              label="Direction"
-              value=${flex.direction ?? "row"}
-              @sl-change=${(e: any) =>
-                host.layout.setFlexSettings({ direction: e.target.value as FlexSettings["direction"] })}
-            >
-              <sl-option value="row">row</sl-option>
-              <sl-option value="column">column</sl-option>
-            </sl-select>
-          </div>
+            <div class="setting-row">
+              <sl-select
+                label="Justify content"
+                value=${flex.justify ?? "flex-start"}
+                @sl-change=${(e: any) =>
+                  host.layout.setFlexSettings({ justify: e.target.value })}
+              >
+                <sl-option value="flex-start">flex-start</sl-option>
+                <sl-option value="center">center</sl-option>
+                <sl-option value="flex-end">flex-end</sl-option>
+                <sl-option value="space-between">space-between</sl-option>
+                <sl-option value="space-around">space-around</sl-option>
+                <sl-option value="space-evenly">space-evenly</sl-option>
+              </sl-select>
+            </div>
 
-          <div class="setting-row">
-            <sl-select
-              label="Justify content"
-              value=${flex.justify ?? "flex-start"}
-              @sl-change=${(e: any) =>
-                host.layout.setFlexSettings({ justify: e.target.value })}
-            >
-              <sl-option value="flex-start">flex-start</sl-option>
-              <sl-option value="center">center</sl-option>
-              <sl-option value="flex-end">flex-end</sl-option>
-              <sl-option value="space-between">space-between</sl-option>
-              <sl-option value="space-around">space-around</sl-option>
-              <sl-option value="space-evenly">space-evenly</sl-option>
-            </sl-select>
-          </div>
+            <div class="setting-row">
+              <sl-select
+                label="Align items"
+                value=${flex.align ?? "stretch"}
+                @sl-change=${(e: any) =>
+                  host.layout.setFlexSettings({ align: e.target.value })}
+              >
+                <sl-option value="stretch">stretch</sl-option>
+                <sl-option value="flex-start">flex-start</sl-option>
+                <sl-option value="center">center</sl-option>
+                <sl-option value="flex-end">flex-end</sl-option>
+                <sl-option value="baseline">baseline</sl-option>
+              </sl-select>
+            </div>
 
-          <div class="setting-row">
-            <sl-select
-              label="Align items"
-              value=${flex.align ?? "stretch"}
-              @sl-change=${(e: any) =>
-                host.layout.setFlexSettings({ align: e.target.value })}
-            >
-              <sl-option value="stretch">stretch</sl-option>
-              <sl-option value="flex-start">flex-start</sl-option>
-              <sl-option value="center">center</sl-option>
-              <sl-option value="flex-end">flex-end</sl-option>
-              <sl-option value="baseline">baseline</sl-option>
-            </sl-select>
-          </div>
+            <div class="setting-row">
+              <sl-select
+                label="Wrap"
+                value=${flex.wrap ?? "nowrap"}
+                @sl-change=${(e: any) =>
+                  host.layout.setFlexSettings({
+                    wrap: e.target.value as FlexSettings["wrap"],
+                  })}
+              >
+                <sl-option value="nowrap">nowrap</sl-option>
+                <sl-option value="wrap">wrap</sl-option>
+              </sl-select>
+            </div>
 
-          <div class="setting-row">
-            <sl-select
-              label="Wrap"
-              value=${flex.wrap ?? "nowrap"}
-              @sl-change=${(e: any) =>
-                host.layout.setFlexSettings({ wrap: e.target.value as FlexSettings["wrap"] })}
-            >
-              <sl-option value="nowrap">nowrap</sl-option>
-              <sl-option value="wrap">wrap</sl-option>
-            </sl-select>
+            <div class="setting-row">
+              <sl-input
+                label="Gap"
+                placeholder="e.g. 12px"
+                .value=${flex.gap ?? "12px"}
+                @sl-input=${(e: any) =>
+                  host.layout.setFlexSettings({
+                    gap: String(e.target.value ?? ""),
+                  })}
+              ></sl-input>
+            </div>
           </div>
-
-          <div class="setting-row">
-            <sl-input
-              label="Gap"
-              placeholder="e.g. 12px"
-              .value=${flex.gap ?? "12px"}
-              @sl-input=${(e: any) =>
-                host.layout.setFlexSettings({ gap: String(e.target.value ?? "") })}
-            ></sl-input>
-          </div>
-        </div>
-      </sl-details>
-    `);
+        </sl-details>
+      `,
+    );
   }
 
   if (host.layoutMode === "grid") {
     const grid = host.gridSettings;
-    // NOTE: grid mode renders a bare <div>, NOT sl-details — matches original exactly
-    // keyed() ensures Lit tears down the flex <sl-details> and creates a fresh <div>
-    return keyed("layout-grid", html`
-      <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Layout</h2>
+    return keyed(
+      "layout-grid",
+      html`
+        <sl-details summary="Layout">
+          <div style="margin-top: 1rem">
 
-        <div class="setting-row">
-          <sl-input
-            label="Columns"
-            placeholder="e.g. repeat(3, 1fr)"
-            .value=${grid.columns ?? "repeat(3, 1fr)"}
-            @sl-input=${(e: any) =>
-              host.layout.setGridSettings({ columns: String(e.target.value ?? "") })}
-          ></sl-input>
-        </div>
+            <div class="setting-row">
+              <sl-input
+                label="Columns"
+                placeholder="e.g. repeat(3, 1fr)"
+                .value=${grid.columns ?? "repeat(3, 1fr)"}
+                @sl-input=${(e: any) =>
+                  host.layout.setGridSettings({
+                    columns: String(e.target.value ?? ""),
+                  })}
+              ></sl-input>
+            </div>
 
-        <div class="setting-row">
-          <sl-input
-            label="Rows"
-            placeholder="e.g. auto"
-            .value=${grid.rows ?? "auto"}
-            @sl-input=${(e: any) =>
-              host.layout.setGridSettings({ rows: String(e.target.value ?? "") })}
-          ></sl-input>
-        </div>
+            <div class="setting-row">
+              <sl-input
+                label="Rows"
+                placeholder="e.g. auto"
+                .value=${grid.rows ?? "auto"}
+                @sl-input=${(e: any) =>
+                  host.layout.setGridSettings({
+                    rows: String(e.target.value ?? ""),
+                  })}
+              ></sl-input>
+            </div>
 
-        <div class="setting-row">
-          <sl-input
-            label="Gap"
-            placeholder="e.g. 12px"
-            .value=${grid.gap ?? "12px"}
-            @sl-input=${(e: any) =>
-              host.layout.setGridSettings({ gap: String(e.target.value ?? "") })}
-          ></sl-input>
-        </div>
+            <div class="setting-row">
+              <sl-input
+                label="Gap"
+                placeholder="e.g. 12px"
+                .value=${grid.gap ?? "12px"}
+                @sl-input=${(e: any) =>
+                  host.layout.setGridSettings({
+                    gap: String(e.target.value ?? ""),
+                  })}
+              ></sl-input>
+            </div>
 
-        <div class="setting-row">
-          <sl-select
-            label="Auto flow"
-            value=${grid.autoFlow ?? "row"}
-            @sl-change=${(e: any) =>
-              host.layout.setGridSettings({ autoFlow: e.target.value as GridSettings["autoFlow"] })}
-          >
-            <sl-option value="row">row</sl-option>
-            <sl-option value="row dense">row dense</sl-option>
-            <sl-option value="column">column</sl-option>
-            <sl-option value="column dense">column dense</sl-option>
-          </sl-select>
-        </div>
+            <div class="setting-row">
+              <sl-select
+                label="Auto flow"
+                value=${grid.autoFlow ?? "row"}
+                @sl-change=${(e: any) =>
+                  host.layout.setGridSettings({
+                    autoFlow: e.target.value as GridSettings["autoFlow"],
+                  })}
+              >
+                <sl-option value="row">row</sl-option>
+                <sl-option value="row dense">row dense</sl-option>
+                <sl-option value="column">column</sl-option>
+                <sl-option value="column dense">column dense</sl-option>
+              </sl-select>
+            </div>
 
-        <div class="setting-row">
-          <sl-select
-            label="Justify items"
-            value=${grid.justifyItems ?? "stretch"}
-            @sl-change=${(e: any) =>
-              host.layout.setGridSettings({ justifyItems: e.target.value as GridSettings["justifyItems"] })}
-          >
-            <sl-option value="stretch">stretch</sl-option>
-            <sl-option value="start">start</sl-option>
-            <sl-option value="center">center</sl-option>
-            <sl-option value="end">end</sl-option>
-          </sl-select>
-        </div>
+            <div class="setting-row">
+              <sl-select
+                label="Justify items"
+                value=${grid.justifyItems ?? "stretch"}
+                @sl-change=${(e: any) =>
+                  host.layout.setGridSettings({
+                    justifyItems: e.target
+                      .value as GridSettings["justifyItems"],
+                  })}
+              >
+                <sl-option value="stretch">stretch</sl-option>
+                <sl-option value="start">start</sl-option>
+                <sl-option value="center">center</sl-option>
+                <sl-option value="end">end</sl-option>
+              </sl-select>
+            </div>
 
-        <div class="setting-row">
-          <sl-select
-            label="Align items"
-            value=${grid.alignItems ?? "start"}
-            @sl-change=${(e: any) =>
-              host.layout.setGridSettings({ alignItems: e.target.value as GridSettings["alignItems"] })}
-          >
-            <sl-option value="start">start</sl-option>
-            <sl-option value="center">center</sl-option>
-            <sl-option value="end">end</sl-option>
-            <sl-option value="stretch">stretch</sl-option>
-          </sl-select>
-        </div>
-      </div>
-    `);
+            <div class="setting-row">
+              <sl-select
+                label="Align items"
+                value=${grid.alignItems ?? "start"}
+                @sl-change=${(e: any) =>
+                  host.layout.setGridSettings({
+                    alignItems: e.target.value as GridSettings["alignItems"],
+                  })}
+              >
+                <sl-option value="start">start</sl-option>
+                <sl-option value="center">center</sl-option>
+                <sl-option value="end">end</sl-option>
+                <sl-option value="stretch">stretch</sl-option>
+              </sl-select>
+            </div>
+          </div>
+        </sl-details>
+      `,
+    );
   }
 
   return null;
@@ -363,7 +392,9 @@ export function renderSelectedComponentSettings(host: WebwriterWebsiteBuilder) {
                 label="Display"
                 value=${node.display ?? "block"}
                 @sl-change=${(e: any) =>
-                  host.updateNode(node.id, { display: e.target.value as "block" | "inline" })}
+                  host.updateNode(node.id, {
+                    display: e.target.value as "block" | "inline",
+                  })}
               >
                 <sl-option value="block">block</sl-option>
                 <sl-option value="inline">inline</sl-option>
@@ -398,7 +429,8 @@ export function renderSelectedComponentSettings(host: WebwriterWebsiteBuilder) {
           <h2 style="margin-top:0">${msg("Content")}</h2>
           ${component.bindings.map((b) => {
             // _readBindingFromNode: reads node.data[b.key], returns "" if null
-            const current = node.data?.[b.key] == null ? "" : String(node.data[b.key]);
+            const current =
+              node.data?.[b.key] == null ? "" : String(node.data[b.key]);
             return html`
               <div class="setting-row">
                 <sl-input
@@ -411,7 +443,10 @@ export function renderSelectedComponentSettings(host: WebwriterWebsiteBuilder) {
                     host.setActiveNodes(
                       host.activeNodes.map((n) => {
                         if (n.id !== node.id) return n;
-                        return { ...n, data: { ...(n.data ?? {}), [b.key]: value } };
+                        return {
+                          ...n,
+                          data: { ...(n.data ?? {}), [b.key]: value },
+                        };
                       }),
                     );
                     host.requestUpdate();
@@ -427,12 +462,8 @@ export function renderSelectedComponentSettings(host: WebwriterWebsiteBuilder) {
   return html`
     <sl-details summary="Component">
       <div style="margin-top:1rem">
-        ${custom ?? null}
-        ${flowDisplayUI}
-        ${rootGridUI}
-        ${flexItemUI}
-        ${containerGridUI}
-        ${bindingsUI}
+        ${custom ?? null} ${flowDisplayUI} ${rootGridUI} ${flexItemUI}
+        ${containerGridUI} ${bindingsUI}
       </div>
     </sl-details>
   `;
@@ -440,7 +471,10 @@ export function renderSelectedComponentSettings(host: WebwriterWebsiteBuilder) {
 
 // ─── Container Settings ───────────────────────────────────────────────────────
 
-function renderContainerSettings(host: WebwriterWebsiteBuilder, node: BuilderNode) {
+function renderContainerSettings(
+  host: WebwriterWebsiteBuilder,
+  node: BuilderNode,
+) {
   const layout = node.containerLayout ?? "flex";
   return html`
     <sl-details summary="Container" open>
@@ -454,7 +488,8 @@ function renderContainerSettings(host: WebwriterWebsiteBuilder, node: BuilderNod
             variant="danger"
             outline
             @click=${() => host.ungroupContainer(node.id)}
-          >Ungroup</sl-button>
+            >Ungroup</sl-button
+          >
         </div>
 
         <div class="setting-row">
@@ -462,7 +497,9 @@ function renderContainerSettings(host: WebwriterWebsiteBuilder, node: BuilderNod
             label="Container layout"
             value=${layout}
             @sl-change=${(e: any) =>
-              host.updateNode(node.id, { containerLayout: e.target.value as LayoutMode })}
+              host.updateNode(node.id, {
+                containerLayout: e.target.value as LayoutMode,
+              })}
           >
             <sl-option value="flow">Flow</sl-option>
             <sl-option value="flex">Flex</sl-option>
@@ -477,7 +514,10 @@ function renderContainerSettings(host: WebwriterWebsiteBuilder, node: BuilderNod
   `;
 }
 
-function renderContainerFlexSettings(host: WebwriterWebsiteBuilder, node: BuilderNode) {
+function renderContainerFlexSettings(
+  host: WebwriterWebsiteBuilder,
+  node: BuilderNode,
+) {
   const f = node.containerFlexSettings ?? defaultFlexSettings();
   const set = (patch: Partial<FlexSettings>) =>
     host.updateNode(node.id, { containerFlexSettings: { ...f, ...patch } });
@@ -487,7 +527,8 @@ function renderContainerFlexSettings(host: WebwriterWebsiteBuilder, node: Builde
       <sl-select
         label="Direction"
         value=${f.direction ?? "row"}
-        @sl-change=${(e: any) => set({ direction: e.target.value as FlexSettings["direction"] })}
+        @sl-change=${(e: any) =>
+          set({ direction: e.target.value as FlexSettings["direction"] })}
       >
         <sl-option value="row">row</sl-option>
         <sl-option value="column">column</sl-option>
@@ -527,7 +568,8 @@ function renderContainerFlexSettings(host: WebwriterWebsiteBuilder, node: Builde
       <sl-select
         label="Wrap"
         value=${f.wrap ?? "nowrap"}
-        @sl-change=${(e: any) => set({ wrap: e.target.value as FlexSettings["wrap"] })}
+        @sl-change=${(e: any) =>
+          set({ wrap: e.target.value as FlexSettings["wrap"] })}
       >
         <sl-option value="nowrap">nowrap</sl-option>
         <sl-option value="wrap">wrap</sl-option>
@@ -545,7 +587,10 @@ function renderContainerFlexSettings(host: WebwriterWebsiteBuilder, node: Builde
   `;
 }
 
-function renderContainerGridSettings(host: WebwriterWebsiteBuilder, node: BuilderNode) {
+function renderContainerGridSettings(
+  host: WebwriterWebsiteBuilder,
+  node: BuilderNode,
+) {
   const g = node.containerGridSettings ?? defaultGridSettings();
   const set = (patch: Partial<GridSettings>) =>
     host.updateNode(node.id, { containerGridSettings: { ...g, ...patch } });
@@ -624,7 +669,10 @@ function renderContainerGridSettings(host: WebwriterWebsiteBuilder, node: Builde
 
 // ─── Grid Placement UI ────────────────────────────────────────────────────────
 
-function renderGridPlacementUI(host: WebwriterWebsiteBuilder, node: BuilderNode) {
+function renderGridPlacementUI(
+  host: WebwriterWebsiteBuilder,
+  node: BuilderNode,
+) {
   const g = node.grid ?? {};
   const update = (patch: Partial<typeof g>) =>
     host.updateNode(node.id, { grid: { ...g, ...patch } });
@@ -637,13 +685,20 @@ function renderGridPlacementUI(host: WebwriterWebsiteBuilder, node: BuilderNode)
           label="Area (optional)"
           placeholder="e.g. hero"
           .value=${String(g.area ?? "")}
-          @sl-input=${(e: any) => update({ area: String(e.target.value ?? "") })}
+          @sl-input=${(e: any) =>
+            update({ area: String(e.target.value ?? "") })}
         ></sl-input>
       </div>
-      ${gridNumberInput("Column start", g.colStart, (v) => update({ colStart: v }))}
-      ${gridNumberInput("Column span",  g.colSpan,  (v) => update({ colSpan: v }))}
-      ${gridNumberInput("Row start",    g.rowStart, (v) => update({ rowStart: v }))}
-      ${gridNumberInput("Row span",     g.rowSpan,  (v) => update({ rowSpan: v }))}
+      ${gridNumberInput("Column start", g.colStart, (v) =>
+        update({ colStart: v }),
+      )}
+      ${gridNumberInput("Column span", g.colSpan, (v) =>
+        update({ colSpan: v }),
+      )}
+      ${gridNumberInput("Row start", g.rowStart, (v) =>
+        update({ rowStart: v }),
+      )}
+      ${gridNumberInput("Row span", g.rowSpan, (v) => update({ rowSpan: v }))}
     </div>
   `;
 }
@@ -682,8 +737,11 @@ function renderFlexItemSettings(
   return html`
     <div style="margin-top:1rem">
       <h2 style="margin-top:0">Flex item</h2>
-      <div style="font-size:0.78rem;color:var(--sl-color-neutral-500);margin-bottom:0.5rem;">
-        Parent direction: <strong>${parent.containerFlexSettings?.direction ?? "row"}</strong>
+      <div
+        style="font-size:0.78rem;color:var(--sl-color-neutral-500);margin-bottom:0.5rem;"
+      >
+        Parent direction:
+        <strong>${parent.containerFlexSettings?.direction ?? "row"}</strong>
       </div>
 
       <div class="setting-row">
@@ -702,8 +760,12 @@ function renderFlexItemSettings(
         </sl-select>
       </div>
 
-      ${flexNumberInput("Flex grow",   fi.flexGrow,   "0", (v) => set({ flexGrow: v }))}
-      ${flexNumberInput("Flex shrink", fi.flexShrink, "1", (v) => set({ flexShrink: v }))}
+      ${flexNumberInput("Flex grow", fi.flexGrow, "0", (v) =>
+        set({ flexGrow: v }),
+      )}
+      ${flexNumberInput("Flex shrink", fi.flexShrink, "1", (v) =>
+        set({ flexShrink: v }),
+      )}
 
       <div class="setting-row">
         <sl-input
@@ -748,12 +810,16 @@ export function renderLayersPanel(host: WebwriterWebsiteBuilder) {
   if (host.layoutMode !== "freeform" || !host.isContentEditable) return null;
 
   // Sort descending by zIndex (highest z = front = top of list)
-  const nodes = [...host.freeformNodes].sort((a, b) => (b.zIndex ?? 0) - (a.zIndex ?? 0));
+  const nodes = [...host.freeformNodes].sort(
+    (a, b) => (b.zIndex ?? 0) - (a.zIndex ?? 0),
+  );
 
   return html`
     <sl-details summary="Layers">
-      <div style="font-size:0.78rem;color:var(--sl-color-neutral-600);margin-bottom:0.5rem;">
-        Drag to reorder. Higher = in front. Click to select.
+      <div
+        style="font-size:0.78rem;color:var(--sl-color-neutral-600);margin-bottom:0.5rem;"
+      >
+        Higher = in front. Click to select.
       </div>
       ${nodes.map((n) => {
         const comp = n.isContainer ? null : ComponentRegistry[n.type];
@@ -776,7 +842,9 @@ export function renderLayersPanel(host: WebwriterWebsiteBuilder) {
                   e.stopPropagation();
                   host.updateNode(n.id, { zIndex: zIdx + 1 });
                 }}
-              >▲</button>
+              >
+                ▲
+              </button>
               <span class="layer-z-val">${zIdx}</span>
               <button
                 class="layer-z-btn"
@@ -785,7 +853,9 @@ export function renderLayersPanel(host: WebwriterWebsiteBuilder) {
                   e.stopPropagation();
                   host.updateNode(n.id, { zIndex: Math.max(0, zIdx - 1) });
                 }}
-              >▼</button>
+              >
+                ▼
+              </button>
             </div>
           </div>
         `;
@@ -800,8 +870,14 @@ export function renderLayersPanel(host: WebwriterWebsiteBuilder) {
  * Walk the active node tree to find the direct parent container of a given node id.
  * Matches original _findParentContainer — recursive depth-first search.
  */
-function findParentContainer(host: WebwriterWebsiteBuilder, nodeId: string): BuilderNode | null {
-  const search = (nodes: BuilderNode[], targetId: string): BuilderNode | null => {
+function findParentContainer(
+  host: WebwriterWebsiteBuilder,
+  nodeId: string,
+): BuilderNode | null {
+  const search = (
+    nodes: BuilderNode[],
+    targetId: string,
+  ): BuilderNode | null => {
     for (const n of nodes) {
       if (n.children?.some((c) => c.id === targetId)) return n;
       if (n.children?.length) {

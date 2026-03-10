@@ -90,13 +90,13 @@ export const settingsStyles = css`
     font-weight: 600;
     letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: var(--sl-color-neutral-400);
+    color: #4ba3eb;
     margin-bottom: 0.5rem;
   }
 
   .vis-section-label sl-icon {
     font-size: 0.8rem;
-    color: var(--sl-color-neutral-400);
+    color: #4ba3eb;
   }
 
   /* Chip row — wraps naturally, no clipping */
@@ -113,7 +113,7 @@ export const settingsStyles = css`
     padding: 0.25rem 0.6rem 0.25rem 0.5rem;
     border-radius: 999px;
     border: 1px solid var(--sl-color-neutral-200);
-    background: var(--sl-color-neutral-0);
+    background: #2196f3;
     cursor: pointer;
     font-size: 0.75rem;
     font-weight: 500;
@@ -133,9 +133,9 @@ export const settingsStyles = css`
   }
 
   .vis-chip[data-active="true"] {
-    background: var(--sl-color-primary-50);
+    background: #2196f3;
     border-color: var(--sl-color-primary-200);
-    color: var(--sl-color-primary-700);
+    color: var(--sl-color-neutral-200);
   }
 
   .vis-chip[data-active="false"] {

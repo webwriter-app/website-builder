@@ -4,6 +4,16 @@ import type { WebwriterWebsiteBuilder } from "../../webwriter-website-builder";
 import { CONTAINER_TEMPLATES, type LayoutMode } from "../types";
 import { tileGlyph, componentSyntaxHint } from "../palette-helpers";
 import { ComponentRegistry } from "../../components/registry";
+import {
+  wbH1Icon,
+  wbTextIcon,
+  wbImageIcon,
+  wbIconIcon,
+  wbButtonIcon,
+  wbCloseIcon,
+  wbDividerIcon,
+  wbSearchIcon,
+} from "../../assets/icons";
 
 const LAYOUT_LABELS: Record<LayoutMode, string> = {
   freeform: "Freeform",
@@ -13,24 +23,26 @@ const LAYOUT_LABELS: Record<LayoutMode, string> = {
 };
 
 const TOOLBAR_QUICK_ITEMS = [
-  { type: "h1",        glyph: "H1", label: "H1"   },
-  { type: "paragraph", glyph: "¶",  label: "Text" },
-  { type: "image",     glyph: "🖼", label: "Img"  },
-  { type: "icon",      glyph: "★",  label: "Icon" },
-  { type: "button",    glyph: "▢",  label: "Btn"  },
-  { type: "divider",   glyph: "—",  label: "Hr"   },
+  { type: "h1", glyph: wbH1Icon, label: "H1" },
+  { type: "paragraph", glyph: wbTextIcon, label: "Text" },
+  { type: "image", glyph: wbImageIcon, label: "Image" },
+  { type: "icon", glyph: wbIconIcon, label: "Icon" },
+  { type: "button", glyph: wbButtonIcon, label: "Button" },
+  { type: "divider", glyph: wbDividerIcon, label: "Divider" },
 ];
 
 export function renderFloatingToolbar(host: WebwriterWebsiteBuilder) {
   const isAuthor = host.isContentEditable;
   const showAdd = isAuthor ? host.showAddButton : host.showToolbarInStudent;
-  const showLayout = isAuthor ? host.showLayoutDropdown : host.showToolbarInStudent;
+  const showLayout = isAuthor
+    ? host.showLayoutDropdown
+    : host.showToolbarInStudent;
   if (!showAdd && !showLayout) return null;
 
   const hidden = host.toolbarKeyHidden;
-  const visibleModes = (Object.keys(host.visibleLayoutModes) as LayoutMode[]).filter(
-    (m) => host.visibleLayoutModes[m],
-  );
+  const visibleModes = (
+    Object.keys(host.visibleLayoutModes) as LayoutMode[]
+  ).filter((m) => host.visibleLayoutModes[m]);
 
   return html`
     <div
@@ -58,7 +70,7 @@ function renderAddRow(host: WebwriterWebsiteBuilder) {
                   host.toolbarOpen = false;
                 }}
               >
-                <span class="tb-glyph">🔍</span>
+                <span class="tb-glyph">${wbSearchIcon}</span>
               </button>
               <div class="toolbar-divider"></div>
               ${TOOLBAR_QUICK_ITEMS.map(
@@ -78,7 +90,7 @@ function renderAddRow(host: WebwriterWebsiteBuilder) {
                       host.requestUpdate();
                     }}
                   >
-                    <span class="tb-glyph">${item.glyph}</span>
+                    <span class="tb-glyph-icon">${item.glyph}</span>
                     <span class="tb-label">${item.label}</span>
                   </button>
                 `,
@@ -101,7 +113,10 @@ function renderAddRow(host: WebwriterWebsiteBuilder) {
   `;
 }
 
-function renderLayoutDropdown(host: WebwriterWebsiteBuilder, visibleModes: LayoutMode[]) {
+function renderLayoutDropdown(
+  host: WebwriterWebsiteBuilder,
+  visibleModes: LayoutMode[],
+) {
   return html`
     <div class="layout-dropdown-wrap">
       <button
@@ -121,7 +136,9 @@ function renderLayoutDropdown(host: WebwriterWebsiteBuilder, visibleModes: Layou
               ${visibleModes.map(
                 (mode) => html`
                   <button
-                    class="layout-dropdown-item ${host.layoutMode === mode ? "active" : ""}"
+                    class="layout-dropdown-item ${host.layoutMode === mode
+                      ? "active"
+                      : ""}"
                     @click=${() => {
                       host.layout.setLayoutMode(mode);
                       host.layoutDropdownOpen = false;
@@ -155,7 +172,10 @@ export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
         }}
       >
         ${CONTAINER_TEMPLATES.map(
-          (t) => html`<option value=${t.id} title=${t.description}>${t.label}</option>`,
+          (t) =>
+            html`<option value=${t.id} title=${t.description}>
+              ${t.label}
+            </option>`,
         )}
       </select>
 
@@ -164,7 +184,7 @@ export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
         @click=${() => host.groupSelected()}
         title="Wrap selected nodes in a container"
       >
-        ⬚ Group
+        Group
       </button>
 
       <button
@@ -172,7 +192,7 @@ export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
         @click=${() => host.clearSelection()}
         title="Clear selection"
       >
-        ✕
+        ${wbCloseIcon}
       </button>
     </div>
   `;
@@ -180,7 +200,11 @@ export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
 
 // ─── Layout button (segmented control) ───────────────────────────────────────
 
-export function renderLayoutBtn(host: WebwriterWebsiteBuilder, mode: LayoutMode, label: string) {
+export function renderLayoutBtn(
+  host: WebwriterWebsiteBuilder,
+  mode: LayoutMode,
+  label: string,
+) {
   const active = host.layoutMode === mode;
   return html`
     <button
@@ -266,22 +290,31 @@ export function renderInfoPopup(host: WebwriterWebsiteBuilder) {
         style="width: 320px;"
         @mousedown=${(e: MouseEvent) => e.stopPropagation()}
       >
-        <div style="display:flex; align-items:center; justify-content:space-between; gap: 0.75rem;">
+        <div
+          style="display:flex; align-items:center; justify-content:space-between; gap: 0.75rem;"
+        >
           <div style="font-weight: 600; color: var(--sl-color-neutral-900);">
             ${msg(label)}
           </div>
-          <sl-button size="small" variant="primary" @click=${insert}>Insert</sl-button>
+          <sl-button size="small" variant="primary" @click=${insert}
+            >Insert</sl-button
+          >
         </div>
 
-        <div style="margin-top: 0.4rem; font-size: 0.8rem; color: var(--sl-color-neutral-600);">
+        <div
+          style="margin-top: 0.4rem; font-size: 0.8rem; color: var(--sl-color-neutral-600);"
+        >
           Drag to place on canvas. Click Insert to add at default position.
         </div>
 
         <div style="margin-top: 0.6rem;">
-          <div style="font-size: 0.75rem; color: var(--sl-color-neutral-500); margin-bottom: 0.25rem;">
+          <div
+            style="font-size: 0.75rem; color: var(--sl-color-neutral-500); margin-bottom: 0.25rem;"
+          >
             Syntax (preview)
           </div>
-          <pre style="
+          <pre
+            style="
             margin: 0;
             padding: 0.6rem;
             border-radius: 10px;
@@ -289,7 +322,10 @@ export function renderInfoPopup(host: WebwriterWebsiteBuilder) {
             border: 1px solid var(--sl-color-neutral-200);
             font-size: 0.75rem;
             overflow: auto;
-          ">${syntax}</pre>
+          "
+          >
+${syntax}</pre
+          >
         </div>
       </sl-card>
     </sl-popup>

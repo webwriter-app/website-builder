@@ -68,7 +68,7 @@ export const floatingToolbarStyles = css`
     display: flex;
     align-items: center;
     gap: 1px;
-    height: 36px;
+    height: 45px;
     box-sizing: border-box;
     background: #fff;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -93,8 +93,8 @@ export const floatingToolbarStyles = css`
   }
 
   .toolbar-icon-btn {
-    width: 32px;
-    height: 28px;
+    width: 40px;
+    height: 38px;
     border-radius: 999px;
     border: none;
     background: transparent;
@@ -120,13 +120,25 @@ export const floatingToolbarStyles = css`
   }
   .toolbar-icon-btn.search-btn:hover {
     background: #e3f2fd;
-    color: #1565c0;
+    color: #2196f3;
   }
 
-  .toolbar-icon-btn .tb-glyph {
+  .toolbar-icon-btn  {
     font-size: 13px;
     font-weight: 700;
     line-height: 1;
+  }
+
+  .tb-glyph {
+    font-size: 26px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+    .tb-glyph-icon {
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 700;
   }
 
   .toolbar-icon-btn .tb-label {

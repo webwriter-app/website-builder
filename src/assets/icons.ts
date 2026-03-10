@@ -60,3 +60,273 @@ export const wbPlaceholderIMG =
     Image
   </text>
 </svg>`);
+
+export const wbCloseIcon = html` <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">close</title>
+  <path
+    fill="currentColor"
+    d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"
+  />
+</svg>`;
+
+export const wbSearchIcon = html` <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">search</title>
+  <path
+    fill="currentColor"
+    d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.398 0-4.064-1.666Q3.808 11.898 3.808 9.5t1.666-4.064t4.064-1.667t4.065 1.667T15.269 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"
+  />
+</svg>`;
+
+export const wbH1Icon = html`<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title>h1</title>
+  <path
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.5"
+    d="M2.243 4.493v7.5m0 0v7.502m0-7.501h10.5m0-7.5v7.5m0 0v7.501m4.501-8.627l2.25-1.5v10.126m0 0h-2.25m2.25 0h2.25"
+  />
+</svg>`;
+
+export const wbH2Icon = html` <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">h2</title>
+  <path
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.5"
+    d="M21.75 19.5H16.5v-1.609a2.25 2.25 0 0 1 1.244-2.012l2.89-1.445c.651-.326 1.116-.955 1.116-1.683q0-.748-.118-1.463c-.135-.825-.835-1.422-1.668-1.489a15.2 15.2 0 0 0-3.464.12M2.243 4.492v7.5m0 0v7.502m0-7.501h10.5m0-7.5v7.5m0 0v7.501"
+  />
+</svg>`;
+
+export const wbH3Icon = html`<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">h3</title>
+  <path
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.5"
+    d="M20.906 14.626a4.52 4.52 0 0 1 .738 3.603c-.155.695-.795 1.143-1.505 1.208a15.2 15.2 0 0 1-3.639-.104m4.406-4.707a4.52 4.52 0 0 0 .738-3.603c-.155-.696-.795-1.144-1.505-1.209a15.2 15.2 0 0 0-3.639.104m4.406 4.708H18M2.243 4.493v7.5m0 0v7.502m0-7.501h10.5m0-7.5v7.5m0 0v7.501"
+  />
+</svg>`;
+
+export const wbH4Icon = html`<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">h4</title>
+  <path
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.5"
+    d="M21 19.5V9.75l-4.5 7h5.75M2.247 4.496v7.5m0 0v7.502m0-7.5h10.5m0-7.5v7.5m0 0v7.5"
+  />
+</svg> `;
+
+export const wbH5Icon = html`<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">h5</title>
+  <path
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.5"
+    d="M21.5 9.752L17 9.75l-.25 4.75h2.5c1.75 0 2.25 1 2.25 2.25c0 1 0 2.5-1.536 2.702a13 13 0 0 1-3.214-.12M2.247 4.496v7.5m0 0v7.502m0-7.5h10.5m0-7.5v7.5m0 0v7.5"
+  />
+</svg> `;
+
+export const wbH6Icon = html`<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">h6</title>
+  <path
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.5"
+    d="M16.5 16.5c0-1.5 1.25-2 2.75-2s2.5.75 2.5 2.5s-1 2.5-2.5 2.5s-2.75-.75-2.75-2.5v-3.25c0-3.25 1.5-4.5 4.75-3.75M2.247 4.496v7.5m0 0v7.502m0-7.5h10.5m0-7.5v7.5m0 0v7.5"
+  />
+</svg>`;
+
+export const wbTextIcon = html`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1em"
+    height="1em"
+    viewBox="0 0 24 24"
+  >
+    <title xmlns="">text</title>
+    <path fill="currentColor" d="M21 6v2H3V6zM3 18h9v-2H3zm0-5h18v-2H3z" />
+  </svg>
+`;
+
+export const wbImageIcon = html` <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">image</title>
+  <path
+    fill="currentColor"
+    d="M5 3h13a3 3 0 0 1 3 3v13a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3m0 1a2 2 0 0 0-2 2v11.59l4.29-4.3l2.5 2.5l5-5L20 16V6a2 2 0 0 0-2-2zm4.79 13.21l-2.5-2.5L3 19a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-1.59l-5.21-5.2zM7.5 6A2.5 2.5 0 0 1 10 8.5A2.5 2.5 0 0 1 7.5 11A2.5 2.5 0 0 1 5 8.5A2.5 2.5 0 0 1 7.5 6m0 1A1.5 1.5 0 0 0 6 8.5A1.5 1.5 0 0 0 7.5 10A1.5 1.5 0 0 0 9 8.5A1.5 1.5 0 0 0 7.5 7"
+  />
+</svg>`;
+
+export const wbIconIcon = html` <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 48 48"
+>
+  <title xmlns="">any-icon</title>
+  <path
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    d="M13.722 5.5a8.226 8.226 0 0 1 8.222 8.222v8.222h-8.222A8.226 8.226 0 0 1 5.5 13.722h0A8.226 8.226 0 0 1 13.722 5.5m20.556 0a8.226 8.226 0 0 1 8.222 8.222h0a8.226 8.226 0 0 1-8.222 8.222h-8.222v-8.222A8.226 8.226 0 0 1 34.278 5.5M13.722 26.056h8.222v8.222a8.226 8.226 0 0 1-8.222 8.222h0A8.226 8.226 0 0 1 5.5 34.278h0a8.226 8.226 0 0 1 8.222-8.222m12.334 0h8.222a8.226 8.226 0 0 1 8.222 8.222h0a8.226 8.226 0 0 1-8.222 8.222h0a8.226 8.226 0 0 1-8.222-8.222z"
+  />
+</svg>`;
+
+export const wbButtonIcon = html` <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">button</title>
+  <path
+    fill="currentColor"
+    d="M8 12.5h8V11H8zm11-6H5a2 2 0 0 0-2 2V15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a2 2 0 0 0-2-2M5 8h14a.5.5 0 0 1 .5.5V15a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V8.5A.5.5 0 0 1 5 8"
+  />
+</svg>`;
+
+export const wbDividerIcon = html` <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 15 15"
+>
+  <title xmlns="">divider-horizontal</title>
+  <path fill="currentColor" d="M12.5 7a.5.5 0 0 1 0 1h-10a.5.5 0 0 1 0-1z" />
+</svg>`;
+
+export const wbAudioIcon = html` <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">audio</title>
+  <path
+    fill="currentColor"
+    d="M8 4v10.184A3 3 0 0 0 7 14a3 3 0 1 0 3 3V7h7v4.184A3 3 0 0 0 16 11a3 3 0 1 0 3 3V4z"
+  />
+</svg>`;
+
+export const wbLabelIcon = html`<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">label-outline-sharp</title>
+  <path
+    fill="currentColor"
+    d="M3 19V5h12.635L21 12l-5.365 7zm1-1h11.135l4.615-6l-4.615-6H4zm7.885-6"
+  />
+</svg>`;
+
+export const wbVideoIcon = html` <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">video-line</title>
+  <g fill="none" fill-rule="evenodd">
+    <path
+      d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"
+    />
+    <path
+      fill="currentColor"
+      d="M20 3a2 2 0 0 1 1.995 1.85L22 5v14a2 2 0 0 1-1.85 1.995L20 21H4a2 2 0 0 1-1.995-1.85L2 19V5a2 2 0 0 1 1.85-1.995L4 3zm0 2H4v14h16zm-9.66 2.638l.518.23l.338.16l.387.19l.43.218l.47.25l.507.28l.266.152l.518.305l.474.292l.43.273l.38.253l.48.33l.364.263l.095.07a1.234 1.234 0 0 1 0 1.98l-.323.235l-.44.308l-.356.239l-.405.263l-.453.283l-.499.3l-.534.309l-.509.282l-.471.25l-.43.22l-.386.188l-.622.288l-.23.1a1.234 1.234 0 0 1-1.714-.99l-.058-.565l-.032-.374l-.042-.664l-.023-.508l-.015-.555l-.004-.294l-.002-.305q0-.31.006-.6l.015-.555l.023-.507l.027-.457l.03-.401l.075-.744a1.235 1.235 0 0 1 1.715-.992m.611 2.501l-.436-.218l-.029.487l-.022.551l-.013.61l-.002.325l.002.325l.013.609l.01.283l.026.52l.015.235l.434-.218l.487-.256l.535-.294l.284-.162l.551-.326l.494-.306l.436-.28l.196-.13l-.407-.27l-.466-.294a30 30 0 0 0-.803-.48l-.283-.161l-.534-.294z"
+    />
+  </g>
+</svg>`;
+
+export const wbLinkIcon = html`<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1em"
+  height="1em"
+  viewBox="0 0 24 24"
+>
+  <title xmlns="">link</title>
+  <path
+    fill="currentColor"
+    d="M11 17H7q-2.075 0-3.537-1.463T2 12t1.463-3.537T7 7h4v2H7q-1.25 0-2.125.875T4 12t.875 2.125T7 15h4zm-3-4v-2h8v2zm5 4v-2h4q1.25 0 2.125-.875T20 12t-.875-2.125T17 9h-4V7h4q2.075 0 3.538 1.463T22 12t-1.463 3.538T17 17z"
+  />
+</svg>`;
+
+export const wbTextareaIcon = html`<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="0.94em"
+  height="1em"
+  viewBox="0 0 15 16"
+>
+  <title xmlns="">textarea</title>
+  <path
+    fill="currentColor"
+    d="M12.5 2h-10v4.5h-1V2c0-.55.45-1 1-1h10c.55 0 1 .45 1 1v4.5h-1zm-10 12h10V9.5h1V14c0 .55-.45 1-1 1h-10c-.55 0-1-.45-1-1V9.5h1z"
+  />
+  <path
+    fill="currentColor"
+    d="M10.5 5h-6c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h6c.28 0 .5.22.5.5s-.22.5-.5.5"
+  />
+  <path
+    fill="currentColor"
+    d="M7.5 12c-.28 0-.5-.22-.5-.5v-7c0-.28.22-.5.5-.5s.5.22.5.5v7c0 .28-.22.5-.5.5M2 10c-1.1 0-2-.9-2-2s.9-2 2-2s2 .9 2 2s-.9 2-2 2m0-3c-.55 0-1 .45-1 1s.45 1 1 1s1-.45 1-1s-.45-1-1-1m11 3c-1.1 0-2-.9-2-2s.9-2 2-2s2 .9 2 2s-.9 2-2 2m0-3c-.55 0-1 .45-1 1s.45 1 1 1s1-.45 1-1s-.45-1-1-1"
+  />
+</svg>`;
