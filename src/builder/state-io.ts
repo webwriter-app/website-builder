@@ -11,15 +11,24 @@ function migrateNodeGrid(n: any): any {
   // If old schema stored container settings on node.grid, drop them.
   // New schema expects placement fields only.
   const g = n?.grid;
-  if (!g || typeof g !== "object") return n;
+  if (!g || typeof g !== "object") return migrateNodeChildren(n);
 
   const hasOldContainerKeys = "columns" in g || "rows" in g || "gap" in g;
 
-  if (!hasOldContainerKeys) return n;
+  const migrated = hasOldContainerKeys
+    ? (() => {
+        const { grid, ...rest } = n;
+        return rest;
+      })()
+    : n;
 
-  // Remove old node.grid (container settings never belonged on node)
-  const { grid, ...rest } = n;
-  return rest;
+  return migrateNodeChildren(migrated);
+}
+
+/** Recursively migrate children arrays */
+function migrateNodeChildren(n: any): any {
+  if (!Array.isArray(n?.children) || n.children.length === 0) return n;
+  return { ...n, children: n.children.map(migrateNodeGrid) };
 }
 
 export type ParsedBuilderState = {
@@ -101,6 +110,7 @@ export function parseBuilderState(
         ? (parsed.nodes as BuilderNode[])
         : [];
 
+    // Recursively migrate nodes (handles nested children too)
     const freeformNodes = freeformNodesRaw.map(migrateNodeGrid);
     const orderedNodes = orderedNodesRaw.map(migrateNodeGrid);
 

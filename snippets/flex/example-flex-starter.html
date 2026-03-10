@@ -1,19 +1,69 @@
 <webwriter-website-builder
-ww-state='{
-"layoutMode":"flex",
-"orderedNodes":[
-
-{"id":"fs1","type":"h1","data":{"content":"Flex Starter","font-weight":"800"},"order":0,"display":"block"},
-
-{"id":"fs2","type":"icon","data":{"name":"pie-chart","size":"28px"},"order":1,"display":"inline"},
-{"id":"fs3","type":"label","data":{"content":"Analytics","font-weight":"700"},"order":2,"display":"inline"},
-{"id":"fs4","type":"paragraph","data":{"content":"Measure what matters.","width":"220px"},"order":3,"display":"block"},
-
-{"id":"fs5","type":"icon","data":{"name":"globe","size":"28px"},"order":4,"display":"inline"},
-{"id":"fs6","type":"label","data":{"content":"Marketing","font-weight":"700"},"order":5,"display":"inline"},
-{"id":"fs7","type":"paragraph","data":{"content":"Grow reach efficiently.","width":"220px"},"order":6,"display":"block"}
-
-],
-"flexSettings":{"direction":"row","wrap":"wrap","gap":"24px"}
-}'
+  ww-state='{
+    "layoutMode": "flex",
+    "freeformNodes": [],
+    "orderedNodes": [
+      {
+        "id": "fl-s-01",
+        "type": "image",
+        "data": {
+          "src": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&q=80",
+          "alt": "Hero image",
+          "width": "280px",
+          "height": "180px",
+          "object-fit": "cover",
+          "border-radius": "10px"
+        },
+        "order": 0,
+        "display": "block"
+      },
+      {
+        "id": "fl-s-02",
+        "type": "h2",
+        "data": { "content": "Welcome to FlexLayout", "color": "#111827", "font-weight": "700" },
+        "order": 1,
+        "display": "block"
+      },
+      {
+        "id": "fl-s-03",
+        "type": "p",
+        "data": {
+          "content": "This is a simple flex row. Items are placed side-by-side and wrap on smaller screens.",
+          "color": "#374151",
+          "width": "240px"
+        },
+        "order": 2,
+        "display": "block"
+      },
+      {
+        "id": "fl-s-04",
+        "type": "button",
+        "data": { "label": "Get Started", "icon": "", "iconColor": "#0f172a", "borderless": false },
+        "order": 3,
+        "display": "block"
+      }
+    ],
+    "showGrid": false,
+    "gridSize": 20,
+    "flexSettings": {
+      "direction": "row",
+      "justify": "flex-start",
+      "align": "center",
+      "wrap": "wrap",
+      "gap": "24px"
+    },
+    "gridSettings": {
+      "columns": "repeat(3, 1fr)",
+      "rows": "auto",
+      "gap": "16px",
+      "autoFlow": "row",
+      "justifyItems": "stretch",
+      "alignItems": "start"
+    },
+    "visibleLayoutModes": { "freeform": true, "flow": true, "flex": true, "grid": true },
+    "visibleCodeTabs": { "combined": true, "html": true, "css": true },
+    "showComponentSettingsInStudent": true,
+    "showSidebarInStudent": false,
+    "allowDeleteInStudent": false
+  }'
 ></webwriter-website-builder>

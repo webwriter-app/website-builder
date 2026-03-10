@@ -21,6 +21,7 @@ import { parseBuilderState, serializeBuilderState } from "./builder/state-io";
 import { builderStyles } from "./builder/styles/index";
 import type {
   BuilderNode,
+  FlexItemSettings,
   FlexSettings,
   GridSettings,
   LayoutMode,
@@ -29,7 +30,15 @@ import {
   defaultFlexSettings,
   defaultGridSettings,
   CodeTab,
+  CONTAINER_TEMPLATES,
 } from "./builder/types";
+import {
+  groupNodes,
+  ungroupNodes,
+  updateNodeById,
+  deleteNodeById,
+  findNodeById,
+} from "./builder/layout";
 import { WwIconPicker } from "./builder/components/ui/icon-picker";
 import { SHOELACE_ICON_NAMES } from "./builder/data/shoelaceIcons";
 
@@ -50,6 +59,27 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   // fullscreen + code panel with code panel defaulting to html
   private _codeTab: CodeTab = "html";
+
+  private readonly DRAG_THRESHOLD = 6;
+
+  // Pending-drag state for freeform (replaces immediate drag start)
+  private _pendingFreeformDrag: {
+    pointerId: number;
+    nodeId: string;
+    startX: number;
+    startY: number;
+    onMove: (e: PointerEvent) => void;
+    onUp: (e: PointerEvent) => void;
+  } | null = null;
+
+  // Pending-drag state for ordered sort (replaces immediate sort start)
+  private _pendingOrderedDrag: {
+    pointerId: number;
+    nodeId: string;
+    startX: number;
+    startY: number;
+    event: PointerEvent; // original pointerdown event, replayed if threshold crossed
+  } | null = null;
 
   // selection, null at boot
   selectedElement: HTMLElement | null = null;
@@ -101,6 +131,22 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   /** True while the T key is held — hides the toolbar overlay temporarily */
   @state() private toolbarKeyHidden = false;
+
+  // Multi-select: set of selected node ids
+  @state() private _selectedIds: Set<string> = new Set();
+
+  // Group/container dialog
+  @state() private _groupDialogOpen = false;
+  @state() private _groupTemplateId: string = "two-column";
+
+  // Container settings panel: which container node is being edited
+  @state() private _containerSettingsId: string | null = null;
+
+  // Layers panel (freeform z-index)
+  @state() private _layersPanelOpen = false;
+
+  /** Container currently "drilled into" — children become directly clickable */
+  @state() private _focusedContainerId: string | null = null;
 
   // info popup when pressing on a component tile
   private infoForType: string | null = null; // default is null
@@ -260,7 +306,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
             </div> -->
 
               <!-- <sl-divider style="--color: var(--sl-color-gray-600);"></sl-divider> -->
-
+              ${this._renderLayersPanel()}
               <!-- Reset canvas button -->
               <div class="settings-row">
                 <sl-button
@@ -958,26 +1004,19 @@ ${syntax}</pre
 
   private _renderFloatingToolbar() {
     const isAuthor = this.isContentEditable;
-
-    // Determine what's visible in current mode
     const showAdd = isAuthor ? this.showAddButton : this.showToolbarInStudent;
-
     const showLayout = isAuthor
       ? this.showLayoutDropdown
       : this.showToolbarInStudent;
-
-    // Nothing to render at all
     if (!showAdd && !showLayout) return null;
 
     const hidden = this.toolbarKeyHidden;
-
     const layoutLabels: Record<LayoutMode, string> = {
       freeform: "Freeform",
       flow: "Flow",
       flex: "Flex",
       grid: "Grid",
     };
-
     const visibleModes = (
       Object.keys(this.visibleLayoutModes) as LayoutMode[]
     ).filter((m) => this.visibleLayoutModes[m]);
@@ -987,7 +1026,7 @@ ${syntax}</pre
         class="floating-toolbar-wrap ${hidden ? "toolbar-hidden" : ""}"
         @click=${(e: MouseEvent) => e.stopPropagation()}
       >
-        <!-- Row 1: pill (left) + toggle (right) -->
+        <!-- Row 1: component pill + toggle -->
         ${showAdd
           ? html`
               <div class="toolbar-top-row">
@@ -1004,9 +1043,7 @@ ${syntax}</pre
                         >
                           <span class="tb-glyph">🔍</span>
                         </button>
-
                         <div class="toolbar-divider"></div>
-
                         ${this._toolbarQuickItems.map(
                           (item) => html`
                             <button
@@ -1032,7 +1069,6 @@ ${syntax}</pre
                       </div>
                     `
                   : null}
-
                 <button
                   class="toolbar-toggle ${this._toolbarOpen ? "open" : ""}"
                   title=${this._toolbarOpen ? "Close" : "Add component"}
@@ -1048,7 +1084,7 @@ ${syntax}</pre
             `
           : null}
 
-        <!-- Row 2: layout dropdown — always visible when showLayout is true -->
+        <!-- Row 2: layout dropdown -->
         ${showLayout
           ? html`
               <div class="layout-dropdown-wrap">
@@ -1061,12 +1097,10 @@ ${syntax}</pre
                   }}
                 >
                   ${layoutLabels[this.layoutMode]}
-                  ${html`<span
-                    class="dd-arrow ${this._layoutDropdownOpen ? "up" : ""}"
+                  <span class="dd-arrow ${this._layoutDropdownOpen ? "up" : ""}"
                     >▼</span
-                  >`}
+                  >
                 </button>
-
                 ${this._layoutDropdownOpen
                   ? html`
                       <div class="layout-dropdown-list">
@@ -1093,6 +1127,9 @@ ${syntax}</pre
               </div>
             `
           : null}
+
+        <!-- Row 3: group toolbar — ALWAYS LAST so rows above never shift -->
+        ${this._renderGroupToolbar()}
       </div>
     `;
   }
@@ -1233,16 +1270,19 @@ ${syntax}</pre
    * @returns Lit template | null if type not registered
    */
   private _renderNodeFreeform(n: BuilderNode) {
-    const comp = ComponentRegistry[n.type]; // get component info from registry based on node type
-    if (!comp) return null; // if component type is not found in registry, return null to avoid errors
+    const comp = n.isContainer ? null : ComponentRegistry[n.type];
+    if (!comp && !n.isContainer) return null;
 
-    const pos = n.pos ?? { x: 32, y: 32 }; // get position or if non-existant set default position
-    const selected = this.selectedNodeId === n.id; // check if node is selected for styling purposes
+    const pos = n.pos ?? { x: 32, y: 32 };
+    const selected =
+      this.selectedNodeId === n.id || this._selectedIds.has(n.id);
+    const zIdx = n.zIndex ?? 0;
 
-    // render the component using its render function and pass in the node data, also add click handlers for selection and mouse down for dragging, set styles for absolute positioning and cursor. Use default data if no data exists for the node
     return html`
       <div
-        class="builder-element ${selected ? "selected" : ""}"
+        class="builder-element ${selected ? "selected" : ""} ${n.isContainer
+          ? "is-container"
+          : ""}"
         data-node-id=${n.id}
         data-component-type=${n.type}
         style="
@@ -1250,11 +1290,17 @@ ${syntax}</pre
           left:${pos.x}px;
           top:${pos.y}px;
           cursor:grab;
+          z-index:${zIdx};
         "
         @pointerdown=${(e: PointerEvent) => this._onWrapperPointerDown(e, n.id)}
         @click=${(e: MouseEvent) => this._onWrapperClick(e, n.id)}
+        @dblclick=${(e: MouseEvent) => this._handleNodeDblClick(e, n.id)}
       >
-        <div class="drag-shell">${comp.render(n.data ?? comp.defaultData)}</div>
+        <div class="drag-shell">
+          ${n.isContainer
+            ? this._renderContainerContent(n)
+            : comp!.render(n.data ?? comp!.defaultData)}
+        </div>
       </div>
     `;
   }
@@ -1265,25 +1311,226 @@ ${syntax}</pre
    * @returns Lit template | null if type not registered
    */
   private _renderNodeFlow(n: BuilderNode) {
-    const comp = ComponentRegistry[n.type];
-    if (!comp) return null;
+    const comp = n.isContainer ? null : ComponentRegistry[n.type];
+    if (!comp && !n.isContainer) return null;
 
-    const selected = this.selectedNodeId === n.id;
+    const selected =
+      this.selectedNodeId === n.id || this._selectedIds.has(n.id);
     const display = n.display ?? "block";
-
     const style = this.layoutMode === "grid" ? this._gridItemStyle(n) : "";
 
     return html`
       <div
-        class="builder-element flow-item ${selected ? "selected" : ""}"
+        class="builder-element flow-item ${selected
+          ? "selected"
+          : ""} ${n.isContainer ? "is-container" : ""}"
         data-node-id=${n.id}
         data-component-type=${n.type}
         data-display=${display}
         style=${style}
         @pointerdown=${(e: PointerEvent) => this._onWrapperPointerDown(e, n.id)}
         @click=${(e: MouseEvent) => this._onWrapperClick(e, n.id)}
+        @dblclick=${(e: MouseEvent) => this._handleNodeDblClick(e, n.id)}
       >
-        <div class="drag-shell">${comp.render(n.data ?? comp.defaultData)}</div>
+        <div class="drag-shell">
+          ${n.isContainer
+            ? this._renderContainerContent(n)
+            : comp!.render(n.data ?? comp!.defaultData)}
+        </div>
+      </div>
+    `;
+  }
+
+  private _renderContainerContent(n: BuilderNode) {
+    const children = sortedNodes(n.children ?? []);
+    const style = this._containerInlineStyle(n);
+    const isEmpty = children.length === 0;
+
+    return html`
+      <div class="nested-container" style=${style}>
+        ${isEmpty
+          ? html`<div class="container-empty-hint">
+              Empty container — add items via the sidebar
+            </div>`
+          : repeat(
+              children,
+              (c) => c.id,
+              (c) => this._renderNestedNode(c, n),
+            )}
+      </div>
+    `;
+  }
+
+  /**
+   * Render a child node inside a container. Clicking selects via the normal path;
+   * nested containers recurse.
+   */
+  private _renderNestedNode(n: BuilderNode, parent: BuilderNode) {
+    const comp = n.isContainer ? null : ComponentRegistry[n.type];
+    if (!comp && !n.isContainer) return null;
+
+    const selected = this.selectedNodeId === n.id;
+    const parentIsFocused = this._focusedContainerId === parent.id;
+    const display = n.display ?? "block";
+
+    const gridStyle =
+      parent.containerLayout === "grid" ? this._gridItemStyle(n) : "";
+    const flexStyle = this._flexItemInlineStyle(n, parent);
+    const combinedStyle = [gridStyle, flexStyle].filter(Boolean).join(";");
+
+    return html`
+      <div
+        class="builder-element nested-item
+          ${selected ? "selected" : ""}
+          ${n.isContainer ? "is-container" : ""}
+          ${parentIsFocused ? "drillable" : ""}"
+        data-node-id=${n.id}
+        data-component-type=${n.type}
+        data-display=${display}
+        style=${combinedStyle}
+        @pointerdown=${(e: PointerEvent) => {
+          if (parentIsFocused) {
+            e.stopPropagation();
+            this._onWrapperPointerDown(e, n.id);
+          }
+          // else: let event bubble up to parent container's handler
+        }}
+        @click=${(e: MouseEvent) => {
+          if (parentIsFocused) {
+            e.stopPropagation();
+            this._onWrapperClick(e, n.id);
+          }
+        }}
+        @dblclick=${(e: MouseEvent) => {
+          // Allow drilling into nested containers too
+          if (n.isContainer) {
+            this._handleNodeDblClick(e, n.id);
+          }
+        }}
+      >
+        <div class="drag-shell">
+          ${n.isContainer
+            ? this._renderContainerContent(n)
+            : comp!.render(n.data ?? comp!.defaultData)}
+        </div>
+      </div>
+    `;
+  }
+
+  private _flexItemInlineStyle(n: BuilderNode, parent: BuilderNode): string {
+    if (parent.containerLayout !== "flex") return "";
+    const fi = n.flexItem;
+    if (!fi) return "";
+    const parts: string[] = [];
+    if (fi.flexGrow != null) parts.push(`flex-grow:${fi.flexGrow}`);
+    if (fi.flexShrink != null) parts.push(`flex-shrink:${fi.flexShrink}`);
+    if (fi.flexBasis) parts.push(`flex-basis:${fi.flexBasis}`);
+    if (fi.alignSelf) parts.push(`align-self:${fi.alignSelf}`);
+    return parts.join(";");
+  }
+
+  private _containerInlineStyle(n: BuilderNode): string {
+    const layout = n.containerLayout ?? "flex";
+    const parts: string[] = [];
+
+    if (layout === "flex") {
+      const f = n.containerFlexSettings ?? defaultFlexSettings();
+      parts.push(
+        `display:flex`,
+        `flex-direction:${f.direction ?? "row"}`,
+        `justify-content:${f.justify ?? "flex-start"}`,
+        `align-items:${f.align ?? "stretch"}`,
+        `flex-wrap:${f.wrap ?? "nowrap"}`,
+        `gap:${f.gap ?? "12px"}`,
+      );
+    } else if (layout === "grid") {
+      const g = n.containerGridSettings ?? defaultGridSettings();
+      parts.push(
+        `display:grid`,
+        `grid-template-columns:${g.columns ?? "repeat(3,1fr)"}`,
+        `grid-auto-rows:${g.rows ?? "auto"}`,
+        `gap:${g.gap ?? "12px"}`,
+        `grid-auto-flow:${g.autoFlow ?? "row"}`,
+        `justify-items:${g.justifyItems ?? "stretch"}`,
+        `align-items:${g.alignItems ?? "start"}`,
+      );
+    }
+    // flow: no extra style needed
+    return parts.join(";");
+  }
+
+  private _groupSelected() {
+    if (this._selectedIds.size < 2) return;
+
+    const template =
+      CONTAINER_TEMPLATES.find((t) => t.id === this._groupTemplateId) ??
+      CONTAINER_TEMPLATES[0];
+
+    const { nodes: next, containerId } = groupNodes(
+      this._activeNodes(),
+      [...this._selectedIds],
+      {
+        containerLayout: template.containerLayout,
+        containerFlexSettings: template.containerFlexSettings,
+        containerGridSettings: template.containerGridSettings,
+      },
+    );
+
+    this._setActiveNodes(next);
+    this._clearSelection();
+    this._selectNodeId(containerId);
+    this._containerSettingsId = containerId;
+    this.requestUpdate();
+  }
+
+  private _ungroupContainer(containerId: string) {
+    const next = ungroupNodes(this._activeNodes(), containerId);
+    this._clearSelection();
+    this._setActiveNodes(next);
+    this.requestUpdate();
+  }
+
+  private _renderGroupToolbar() {
+    if (this._selectedIds.size < 2) return null;
+    if (!this.isContentEditable) return null;
+
+    return html`
+      <div
+        class="group-toolbar"
+        @click=${(e: MouseEvent) => e.stopPropagation()}
+      >
+        <span class="group-count">${this._selectedIds.size} selected</span>
+
+        <select
+          class="group-template-select"
+          .value=${this._groupTemplateId}
+          @change=${(e: Event) => {
+            this._groupTemplateId = (e.target as HTMLSelectElement).value;
+          }}
+        >
+          ${CONTAINER_TEMPLATES.map(
+            (t) =>
+              html`<option value=${t.id} title=${t.description}>
+                ${t.label}
+              </option>`,
+          )}
+        </select>
+
+        <button
+          class="group-btn"
+          @click=${() => this._groupSelected()}
+          title="Wrap selected nodes in a container"
+        >
+          ⬚ Group
+        </button>
+
+        <button
+          class="group-btn group-btn--cancel"
+          @click=${() => this._clearSelection()}
+          title="Clear selection"
+        >
+          ✕
+        </button>
       </div>
     `;
   }
@@ -1293,37 +1540,83 @@ ${syntax}</pre
   }
 
   private _onWrapperPointerDown(e: PointerEvent, nodeId: string) {
-    console.log("allowInteract?", this.interactKeyPressed);
-
     const interactive = this._isInteractiveTarget(e.target);
     const allowInteract = this._allowInteractEvent(e);
 
-    // If modifier held and user is on interactive control: allow native behavior (video controls, links, etc.)
-    if (interactive && allowInteract) {
-      return;
-    }
+    if (interactive && allowInteract) return;
 
-    // If interactive but modifier NOT held: block interaction (so controls don't engage)
     if (interactive && !allowInteract) {
       e.preventDefault();
       e.stopPropagation();
-      this._selectNodeId(nodeId);
+    }
 
-      // In freeform: start dragging from this pointerdown
-      if (this.layoutMode === "freeform") {
-        this._startFreeformDragFromPointer(e, nodeId);
+    // Always select on pointerdown so the selection feels instant.
+    this._handleNodeSelect(e, nodeId);
+
+    if (this.layoutMode === "freeform") {
+      this._beginPendingFreeformDrag(e, nodeId);
+    } else {
+      this._beginPendingOrderedDrag(e, nodeId);
+    }
+  }
+
+  private _handleNodeSelect(e: PointerEvent | MouseEvent, nodeId: string) {
+    if (this.shiftPressed) {
+      // Multi-select: root-level nodes only
+      const rootIds = new Set(this._activeNodes().map((n) => n.id));
+      if (!rootIds.has(nodeId)) return;
+
+      const next = new Set(this._selectedIds);
+      if (next.has(nodeId)) {
+        next.delete(nodeId);
+      } else {
+        next.add(nodeId);
       }
+      this.selectedNodeId = next.size > 0 ? nodeId : null;
+      this._selectedIds = next;
+      this._focusedContainerId = null;
+      this.requestUpdate();
       return;
     }
 
-    // Non-interactive area:
+    // Normal single-click: always selects the node; no automatic drill-in.
+    // If we are already drilled into a container, clicking a child inside it
+    // selects that child (propagation is already stopped in _renderNestedNode).
+    this._selectedIds = new Set([nodeId]);
     this._selectNodeId(nodeId);
 
-    if (this.layoutMode === "freeform") {
-      this._startFreeformDragFromPointer(e, nodeId);
-    } else {
-      this._startOrderedSortDrag(e, nodeId);
+    // If we click something that is NOT inside the focused container,
+    // exit the drill scope.
+    const focusedContainer = this._focusedContainerId
+      ? findNodeById(this._activeNodes(), this._focusedContainerId)
+      : null;
+    const isChildOfFocused =
+      focusedContainer?.children?.some((c) => c.id === nodeId) ?? false;
+    const isFocusedContainer = nodeId === this._focusedContainerId;
+
+    if (!isChildOfFocused && !isFocusedContainer) {
+      this._focusedContainerId = null;
     }
+    this.requestUpdate();
+  }
+
+  /**
+   * Double-click on a container enters the drill-in scope so that subsequent
+   * single clicks select children rather than the container as a whole.
+   * Attach this to the same wrapper elements that have _onWrapperPointerDown.
+   *
+   * Usage in _renderNodeFreeform / _renderNodeFlow:
+   *   @dblclick=${(e: MouseEvent) => this._handleNodeDblClick(e, n.id)}
+   */
+  private _handleNodeDblClick(e: MouseEvent, nodeId: string) {
+    e.stopPropagation();
+    const node = findNodeById(this._activeNodes(), nodeId);
+    if (!node?.isContainer) return; // only containers can be drilled into
+
+    this._focusedContainerId = nodeId;
+    this._selectedIds = new Set([nodeId]);
+    this._selectNodeId(nodeId);
+    this.requestUpdate();
   }
 
   private _onWrapperClick(e: MouseEvent, nodeId: string) {
@@ -1598,6 +1891,7 @@ ${syntax}</pre
   }
 
   private _finishOrderedSortDrag(ev: PointerEvent) {
+    this._cancelPendingOrderedDrag();
     const moveHandler = (this as any)._orderedMoveHandler as
       | ((e: PointerEvent) => void)
       | undefined;
@@ -1683,6 +1977,7 @@ ${syntax}</pre
   }
 
   private _resetOrderedDragArtifacts() {
+    this._cancelPendingOrderedDrag();
     if (this._dragEl) {
       this._dragEl.classList.remove("dragging");
       this._dragEl.style.position = "";
@@ -1827,20 +2122,6 @@ ${syntax}</pre
                 this._setGridSettings({ gap: String(e.target.value ?? "") })}
             ></sl-input>
           </div>
-          <div class="setting-row">
-            <sl-textarea
-              label="Template areas (optional)"
-              placeholder=${`"nav1 nav2 nav3 nav4"
-"hero hero hero side"
-"hero hero hero side2"
-"f1 f2 f3 f4"`}
-              .value=${grid.templateAreas ?? ""}
-              @sl-input=${(e: any) =>
-                this._setGridSettings({
-                  templateAreas: String(e.target.value ?? ""),
-                })}
-            ></sl-textarea>
-          </div>
 
           <div class="setting-row">
             <sl-select
@@ -1918,9 +2199,6 @@ ${syntax}</pre
     const justifyItems = g.justifyItems ?? "stretch";
     const alignItems = g.alignItems ?? "start";
 
-    const areas = (g.templateAreas ?? "").trim();
-    const areasCss = areas ? `grid-template-areas:${areas};` : "";
-
     return `
     grid-template-columns:${cols};
     grid-auto-rows:${rows};
@@ -1928,7 +2206,6 @@ ${syntax}</pre
     grid-auto-flow:${autoFlow};
     justify-items:${justifyItems};
     align-items:${alignItems};
-    ${areasCss}
   `;
   }
 
@@ -2012,44 +2289,90 @@ ${syntax}</pre
   private _renderSelectedComponentSettings() {
     const isAuthor = this.isContentEditable;
     const isStudent = !isAuthor;
-    if (isStudent && !this.showComponentSettingsInStudent) {
-      return null;
-    }
+    if (isStudent && !this.showComponentSettingsInStudent) return null;
+
     const node = this._getSelectedNode();
     if (!node) return null;
 
+    // ── Container node: show container settings panel ─────────────────────
+    if (node.isContainer) {
+      const layout = node.containerLayout ?? "flex";
+      return html`
+        <sl-details summary="Container" open>
+          <div style="margin-top:1rem">
+            <div
+              style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;"
+            >
+              <h2 style="margin:0; font-size:0.95rem;">Container</h2>
+              <sl-button
+                size="small"
+                variant="danger"
+                outline
+                @click=${() => this._ungroupContainer(node.id)}
+                >Ungroup</sl-button
+              >
+            </div>
+
+            <div class="setting-row">
+              <sl-select
+                label="Container layout"
+                value=${layout}
+                @sl-change=${(e: any) =>
+                  this._updateNode(node.id, {
+                    containerLayout: e.target.value,
+                  })}
+              >
+                <sl-option value="flow">Flow</sl-option>
+                <sl-option value="flex">Flex</sl-option>
+                <sl-option value="grid">Grid</sl-option>
+              </sl-select>
+            </div>
+
+            ${layout === "flex"
+              ? this._renderContainerFlexSettings(node)
+              : null}
+            ${layout === "grid"
+              ? this._renderContainerGridSettings(node)
+              : null}
+          </div>
+        </sl-details>
+      `;
+    }
+
+    // ── Regular node ──────────────────────────────────────────────────────
     const component = ComponentRegistry[node.type];
     if (!component) return null;
+
+    const parentContainer = this._findParentContainer(node.id);
 
     const custom = component.settings
       ? component.settings({
           data: node.data ?? {},
           setData: (patch) => {
             this._setActiveNodes(
-              this._activeNodes().map((n) =>
-                n.id === node.id
-                  ? { ...n, data: { ...(n.data ?? {}), ...patch } }
-                  : n,
-              ),
+              updateNodeById(this._activeNodes(), node.id, {
+                data: { ...(node.data ?? {}), ...patch },
+              }),
             );
             this.requestUpdate();
           },
         })
       : null;
 
+    // Flow display: only at root in flow mode
     const flowDisplayUI =
-      this.layoutMode === "flow"
+      this.layoutMode === "flow" && !parentContainer
         ? html`
-            <div style="margin-top: 1rem">
-              <h2 style="margin-top: 0">${this.msg("Flow")}</h2>
+            <div style="margin-top:1rem">
+              <h2 style="margin-top:0">${this.msg("Flow")}</h2>
               <div class="setting-row">
                 <sl-select
                   label="Display"
                   value=${node.display ?? "block"}
-                  @sl-change=${(e: any) => {
-                    const v = e.target.value as "block" | "inline";
-                    this._updateNode(node.id, { display: v });
-                  }}
+                  @sl-change=${(e: any) =>
+                    this._updateNode(node.id, {
+                      display: e.target.value as "block" | "inline",
+                    })}
                 >
                   <sl-option value="block">block</sl-option>
                   <sl-option value="inline">inline</sl-option>
@@ -2059,117 +2382,30 @@ ${syntax}</pre
           `
         : null;
 
-    const gridPlacementUI =
-      this.layoutMode === "grid"
-        ? html`
-            <div style="margin-top: 1rem">
-              <h2 style="margin-top: 0">Grid</h2>
+    // Root-level grid placement (existing, unchanged)
+    const rootGridUI =
+      this.layoutMode === "grid" && !parentContainer
+        ? this._renderGridPlacementUI(node)
+        : null;
 
-              <div class="setting-row">
-                <sl-input
-                  label="Area (optional)"
-                  placeholder="e.g. hero, nav1, side"
-                  .value=${String(node.grid?.area ?? "")}
-                  @sl-input=${(e: any) => {
-                    const v = String(e.target.value ?? "");
-                    this._updateNode(node.id, {
-                      grid: { ...(node.grid ?? {}), area: v },
-                    });
-                  }}
-                ></sl-input>
-              </div>
+    // Child-in-flex: flex item settings
+    const flexItemUI =
+      parentContainer?.containerLayout === "flex"
+        ? this._renderFlexItemSettings(node, parentContainer)
+        : null;
 
-              <div class="setting-row">
-                <sl-input
-                  label="Column start (1-based)"
-                  placeholder="1"
-                  .value=${node.grid?.colStart != null
-                    ? String(node.grid.colStart)
-                    : ""}
-                  @sl-input=${(e: any) => {
-                    const v = Number(e.target.value);
-                    this._updateNode(node.id, {
-                      grid: {
-                        ...(node.grid ?? {}),
-                        colStart: Number.isFinite(v) ? v : undefined,
-                      },
-                    });
-                  }}
-                ></sl-input>
-              </div>
-
-              <div class="setting-row">
-                <sl-input
-                  label="Column span"
-                  placeholder="1"
-                  .value=${node.grid?.colSpan != null
-                    ? String(node.grid.colSpan)
-                    : ""}
-                  @sl-input=${(e: any) => {
-                    const v = Number(e.target.value);
-                    this._updateNode(node.id, {
-                      grid: {
-                        ...(node.grid ?? {}),
-                        colSpan: Number.isFinite(v)
-                          ? Math.max(1, v)
-                          : undefined,
-                      },
-                    });
-                  }}
-                ></sl-input>
-              </div>
-
-              <div class="setting-row">
-                <sl-input
-                  label="Row start (1-based)"
-                  placeholder="1"
-                  .value=${node.grid?.rowStart != null
-                    ? String(node.grid.rowStart)
-                    : ""}
-                  @sl-input=${(e: any) => {
-                    const v = Number(e.target.value);
-                    this._updateNode(node.id, {
-                      grid: {
-                        ...(node.grid ?? {}),
-                        rowStart: Number.isFinite(v) ? v : undefined,
-                      },
-                    });
-                  }}
-                ></sl-input>
-              </div>
-
-              <div class="setting-row">
-                <sl-input
-                  label="Row span"
-                  placeholder="1"
-                  .value=${node.grid?.rowSpan != null
-                    ? String(node.grid.rowSpan)
-                    : ""}
-                  @sl-input=${(e: any) => {
-                    const v = Number(e.target.value);
-                    this._updateNode(node.id, {
-                      grid: {
-                        ...(node.grid ?? {}),
-                        rowSpan: Number.isFinite(v)
-                          ? Math.max(1, v)
-                          : undefined,
-                      },
-                    });
-                  }}
-                ></sl-input>
-              </div>
-            </div>
-          `
+    // Child-in-grid: grid placement inside a container
+    const containerGridUI =
+      parentContainer?.containerLayout === "grid"
+        ? this._renderGridPlacementUI(node)
         : null;
 
     const bindingsUI = component.bindings?.length
       ? html`
-          <div style="margin-top: 1rem">
-            <h2 style="margin-top: 0">${this.msg("Content")}</h2>
-
+          <div style="margin-top:1rem">
+            <h2 style="margin-top:0">${this.msg("Content")}</h2>
             ${component.bindings.map((b) => {
               const current = this._readBindingFromNode(node, b);
-
               return html`
                 <div class="setting-row">
                   <sl-input
@@ -2177,8 +2413,7 @@ ${syntax}</pre
                     .value=${current}
                     placeholder=${b.placeholder ?? ""}
                     @sl-input=${(e: CustomEvent) => {
-                      const input = e.target as any;
-                      const value = String(input.value ?? "");
+                      const value = String((e.target as any).value ?? "");
                       this._writeBindingToNode(node.id, b, value);
                     }}
                   ></sl-input>
@@ -2191,8 +2426,9 @@ ${syntax}</pre
 
     return html`
       <sl-details summary="Component">
-        <div style="margin-top: 1rem">
-          ${custom ?? null} ${flowDisplayUI} ${gridPlacementUI} ${bindingsUI}
+        <div style="margin-top:1rem">
+          ${custom ?? null} ${flowDisplayUI} ${rootGridUI} ${flexItemUI}
+          ${containerGridUI} ${bindingsUI}
         </div>
       </sl-details>
     `;
@@ -2204,8 +2440,7 @@ ${syntax}</pre
    */
   private _getSelectedNode(): BuilderNode | null {
     if (!this.selectedNodeId) return null;
-    const nodes = this._activeNodes();
-    return nodes.find((n) => n.id === this.selectedNodeId) ?? null;
+    return findNodeById(this._activeNodes(), this.selectedNodeId) ?? null;
   }
 
   /**
@@ -2213,10 +2448,7 @@ ${syntax}</pre
    * @returns void
    */
   private _updateNode(id: string, patch: Partial<BuilderNode>) {
-    const nodes = this._activeNodes().map((n) =>
-      n.id === id ? { ...n, ...patch } : n,
-    );
-    this._setActiveNodes(nodes);
+    this._setActiveNodes(updateNodeById(this._activeNodes(), id, patch));
   }
 
   /**
@@ -2808,14 +3040,13 @@ ${syntax}</pre
     const id = this.selectedNodeId;
     if (!id) return;
 
-    const nodes = this._activeNodes().filter((n) => n.id !== id);
+    const next = deleteNodeById(this._activeNodes(), id);
     this._clearSelection();
 
-    // keep ordering sane in ordered modes
     if (this.layoutMode !== "freeform") {
-      this._setActiveNodes(normalizeOrder(nodes));
+      this._setActiveNodes(normalizeOrder(next));
     } else {
-      this._setActiveNodes(nodes);
+      this._setActiveNodes(next);
     }
   }
 
@@ -2912,23 +3143,22 @@ ${syntax}</pre
    * Freeform drag handler (mousemove updates node.pos, shift snaps)
    * @returns void
    */
-  private _startFreeformDragFromPointer(e: PointerEvent, nodeId: string) {
-    const el = this.renderRoot.querySelector(
-      `[data-node-id="${nodeId}"]`,
-    ) as HTMLElement | null;
-    const canvas = this.renderRoot.querySelector(
-      ".canvas",
-    ) as HTMLElement | null;
-    if (!el || !canvas) return;
-
-    // capture pointer so we keep receiving moves
+  private _commitFreeformDrag(
+    e: PointerEvent,
+    nodeId: string,
+    el: HTMLElement,
+    canvas: HTMLElement,
+    initialClientX: number,
+    initialClientY: number,
+  ) {
     try {
       el.setPointerCapture(e.pointerId);
     } catch {}
 
     const rect = el.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
+    // Use the original pointerdown position for stable offset calculation
+    const offsetX = initialClientX - rect.left;
+    const offsetY = initialClientY - rect.top;
 
     const onMove = (ev: PointerEvent) => {
       const containerRect = canvas.getBoundingClientRect();
@@ -2971,7 +3201,7 @@ ${syntax}</pre
    * @returns void
    */
   private _onCanvasClick = (e: MouseEvent) => {
-    this._layoutDropdownOpen = false; // close dropdown when clicking canvas background
+    this._layoutDropdownOpen = false;
     this._blurActive();
     const path = e.composedPath() as EventTarget[];
     const clickedElement = path.find(
@@ -2979,7 +3209,9 @@ ${syntax}</pre
         p instanceof HTMLElement && p.classList?.contains("builder-element"),
     ) as HTMLElement | undefined;
 
-    if (!clickedElement) this._clearSelection();
+    if (!clickedElement) {
+      this._clearSelection(); // resets _focusedContainerId too
+    }
   };
 
   /* ===== Layout mode switching ===== */
@@ -3020,6 +3252,9 @@ ${syntax}</pre
   private _clearSelection() {
     this.selectedNodeId = null;
     this.selectedElement = null;
+    this._selectedIds = new Set();
+    this._containerSettingsId = null;
+    this._focusedContainerId = null;
     if (this._isStudentMode()) {
       this._studentDrawerOpen = false;
     }
@@ -3056,6 +3291,15 @@ ${syntax}</pre
    * @returns void
    */
   private _onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      if (this._focusedContainerId) {
+        this._focusedContainerId = null;
+        this.requestUpdate();
+        return;
+      }
+      this._clearSelection();
+      return;
+    }
     if (e.key === "g" || e.key === "G") {
       if (!this.gridKeyPressed) {
         this.gridKeyPressed = true;
@@ -3202,5 +3446,517 @@ ${syntax}</pre
     const rowStart = Math.max(1, Math.floor(relY / rowH) + 1);
 
     return { colStart, rowStart, colSpan: 1, rowSpan: 1 };
+  }
+
+  private _renderContainerFlexSettings(node: BuilderNode) {
+    const f = node.containerFlexSettings ?? defaultFlexSettings();
+    const set = (patch: Partial<typeof f>) =>
+      this._updateNode(node.id, {
+        containerFlexSettings: { ...f, ...patch },
+      });
+
+    return html`
+      <div class="setting-row">
+        <sl-select
+          label="Direction"
+          value=${f.direction ?? "row"}
+          @sl-change=${(e: any) => set({ direction: e.target.value })}
+        >
+          <sl-option value="row">row</sl-option>
+          <sl-option value="column">column</sl-option>
+        </sl-select>
+      </div>
+      <div class="setting-row">
+        <sl-select
+          label="Justify content"
+          value=${f.justify ?? "flex-start"}
+          @sl-change=${(e: any) => set({ justify: e.target.value })}
+        >
+          <sl-option value="flex-start">flex-start</sl-option>
+          <sl-option value="center">center</sl-option>
+          <sl-option value="flex-end">flex-end</sl-option>
+          <sl-option value="space-between">space-between</sl-option>
+          <sl-option value="space-around">space-around</sl-option>
+          <sl-option value="space-evenly">space-evenly</sl-option>
+        </sl-select>
+      </div>
+      <div class="setting-row">
+        <sl-select
+          label="Align items"
+          value=${f.align ?? "stretch"}
+          @sl-change=${(e: any) => set({ align: e.target.value })}
+        >
+          <sl-option value="stretch">stretch</sl-option>
+          <sl-option value="flex-start">flex-start</sl-option>
+          <sl-option value="center">center</sl-option>
+          <sl-option value="flex-end">flex-end</sl-option>
+          <sl-option value="baseline">baseline</sl-option>
+        </sl-select>
+      </div>
+      <div class="setting-row">
+        <sl-select
+          label="Wrap"
+          value=${f.wrap ?? "nowrap"}
+          @sl-change=${(e: any) => set({ wrap: e.target.value })}
+        >
+          <sl-option value="nowrap">nowrap</sl-option>
+          <sl-option value="wrap">wrap</sl-option>
+        </sl-select>
+      </div>
+      <div class="setting-row">
+        <sl-input
+          label="Gap"
+          placeholder="e.g. 12px"
+          .value=${f.gap ?? "12px"}
+          @sl-input=${(e: any) => set({ gap: String(e.target.value ?? "") })}
+        >
+        </sl-input>
+      </div>
+    `;
+  }
+
+  private _renderContainerGridSettings(node: BuilderNode) {
+    const g = node.containerGridSettings ?? defaultGridSettings();
+    const set = (patch: Partial<typeof g>) =>
+      this._updateNode(node.id, {
+        containerGridSettings: { ...g, ...patch },
+      });
+
+    return html`
+      <div class="setting-row">
+        <sl-input
+          label="Columns"
+          placeholder="e.g. repeat(3, 1fr)"
+          .value=${g.columns ?? "repeat(3, 1fr)"}
+          @sl-input=${(e: any) =>
+            set({ columns: String(e.target.value ?? "") })}
+        >
+        </sl-input>
+      </div>
+      <div class="setting-row">
+        <sl-input
+          label="Rows"
+          placeholder="e.g. auto"
+          .value=${g.rows ?? "auto"}
+          @sl-input=${(e: any) => set({ rows: String(e.target.value ?? "") })}
+        >
+        </sl-input>
+      </div>
+      <div class="setting-row">
+        <sl-input
+          label="Gap"
+          placeholder="e.g. 12px"
+          .value=${g.gap ?? "12px"}
+          @sl-input=${(e: any) => set({ gap: String(e.target.value ?? "") })}
+        >
+        </sl-input>
+      </div>
+      <div class="setting-row">
+        <sl-select
+          label="Auto flow"
+          value=${g.autoFlow ?? "row"}
+          @sl-change=${(e: any) => set({ autoFlow: e.target.value })}
+        >
+          <sl-option value="row">row</sl-option>
+          <sl-option value="row dense">row dense</sl-option>
+          <sl-option value="column">column</sl-option>
+          <sl-option value="column dense">column dense</sl-option>
+        </sl-select>
+      </div>
+      <div class="setting-row">
+        <sl-select
+          label="Justify items"
+          value=${g.justifyItems ?? "stretch"}
+          @sl-change=${(e: any) => set({ justifyItems: e.target.value })}
+        >
+          <sl-option value="stretch">stretch</sl-option>
+          <sl-option value="start">start</sl-option>
+          <sl-option value="center">center</sl-option>
+          <sl-option value="end">end</sl-option>
+        </sl-select>
+      </div>
+      <div class="setting-row">
+        <sl-select
+          label="Align items"
+          value=${g.alignItems ?? "start"}
+          @sl-change=${(e: any) => set({ alignItems: e.target.value })}
+        >
+          <sl-option value="start">start</sl-option>
+          <sl-option value="center">center</sl-option>
+          <sl-option value="end">end</sl-option>
+          <sl-option value="stretch">stretch</sl-option>
+        </sl-select>
+      </div>
+    `;
+  }
+
+  private _renderLayersPanel() {
+    if (this.layoutMode !== "freeform") return null;
+    const isAuthor = this.isContentEditable;
+    if (!isAuthor) return null;
+
+    const nodes = [...this.freeformNodes].sort(
+      (a, b) => (b.zIndex ?? 0) - (a.zIndex ?? 0),
+    );
+
+    return html`
+      <sl-details summary="Layers">
+        <div
+          style="font-size:0.78rem; color:var(--sl-color-neutral-600); margin-bottom:0.5rem;"
+        >
+          Drag to reorder. Higher = in front. Click to select.
+        </div>
+        ${nodes.map((n, i) => {
+          const comp = n.isContainer ? null : ComponentRegistry[n.type];
+          const label = comp?.label ?? n.type;
+          const selected = this.selectedNodeId === n.id;
+          const zIdx = n.zIndex ?? 0;
+
+          return html`
+            <div
+              class="layer-row ${selected ? "layer-row--selected" : ""}"
+              @click=${() => this._selectNodeId(n.id)}
+            >
+              <span class="layer-glyph">${tileGlyph(n.type)}</span>
+              <span class="layer-label">${label}</span>
+              <div class="layer-z-controls">
+                <button
+                  class="layer-z-btn"
+                  title="Bring forward"
+                  @click=${(e: MouseEvent) => {
+                    e.stopPropagation();
+                    this._updateNode(n.id, { zIndex: zIdx + 1 });
+                  }}
+                >
+                  ▲
+                </button>
+                <span class="layer-z-val">${zIdx}</span>
+                <button
+                  class="layer-z-btn"
+                  title="Send back"
+                  @click=${(e: MouseEvent) => {
+                    e.stopPropagation();
+                    this._updateNode(n.id, { zIndex: Math.max(0, zIdx - 1) });
+                  }}
+                >
+                  ▼
+                </button>
+              </div>
+            </div>
+          `;
+        })}
+      </sl-details>
+    `;
+  }
+
+  private _findParentContainer(nodeId: string): BuilderNode | null {
+    const search = (
+      nodes: BuilderNode[],
+      targetId: string,
+    ): BuilderNode | null => {
+      for (const n of nodes) {
+        if (n.children?.some((c) => c.id === targetId)) return n;
+        if (n.children?.length) {
+          const found = search(n.children, targetId);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+    return search(this._activeNodes(), nodeId);
+  }
+
+  private _renderGridPlacementUI(node: BuilderNode) {
+    return html`
+      <div style="margin-top:1rem">
+        <h2 style="margin-top:0">Grid placement</h2>
+        <div class="setting-row">
+          <sl-input
+            label="Area (optional)"
+            placeholder="e.g. hero, nav1"
+            .value=${String(node.grid?.area ?? "")}
+            @sl-input=${(e: any) =>
+              this._updateNode(node.id, {
+                grid: {
+                  ...(node.grid ?? {}),
+                  area: String(e.target.value ?? ""),
+                },
+              })}
+          ></sl-input>
+        </div>
+        <div class="setting-row">
+          <sl-input
+            label="Column start"
+            placeholder="1"
+            .value=${node.grid?.colStart != null
+              ? String(node.grid.colStart)
+              : ""}
+            @sl-input=${(e: any) => {
+              const v = Number(e.target.value);
+              this._updateNode(node.id, {
+                grid: {
+                  ...(node.grid ?? {}),
+                  colStart: Number.isFinite(v) ? v : undefined,
+                },
+              });
+            }}
+          ></sl-input>
+        </div>
+        <div class="setting-row">
+          <sl-input
+            label="Column span"
+            placeholder="1"
+            .value=${node.grid?.colSpan != null
+              ? String(node.grid.colSpan)
+              : ""}
+            @sl-input=${(e: any) => {
+              const v = Number(e.target.value);
+              this._updateNode(node.id, {
+                grid: {
+                  ...(node.grid ?? {}),
+                  colSpan: Number.isFinite(v) ? Math.max(1, v) : undefined,
+                },
+              });
+            }}
+          ></sl-input>
+        </div>
+        <div class="setting-row">
+          <sl-input
+            label="Row start"
+            placeholder="1"
+            .value=${node.grid?.rowStart != null
+              ? String(node.grid.rowStart)
+              : ""}
+            @sl-input=${(e: any) => {
+              const v = Number(e.target.value);
+              this._updateNode(node.id, {
+                grid: {
+                  ...(node.grid ?? {}),
+                  rowStart: Number.isFinite(v) ? v : undefined,
+                },
+              });
+            }}
+          ></sl-input>
+        </div>
+        <div class="setting-row">
+          <sl-input
+            label="Row span"
+            placeholder="1"
+            .value=${node.grid?.rowSpan != null
+              ? String(node.grid.rowSpan)
+              : ""}
+            @sl-input=${(e: any) => {
+              const v = Number(e.target.value);
+              this._updateNode(node.id, {
+                grid: {
+                  ...(node.grid ?? {}),
+                  rowSpan: Number.isFinite(v) ? Math.max(1, v) : undefined,
+                },
+              });
+            }}
+          ></sl-input>
+        </div>
+      </div>
+    `;
+  }
+
+  private _renderFlexItemSettings(node: BuilderNode, parent: BuilderNode) {
+    const fi = node.flexItem ?? {};
+    const set = (patch: Partial<FlexItemSettings>) =>
+      this._updateNode(node.id, { flexItem: { ...fi, ...patch } });
+
+    return html`
+      <div style="margin-top:1rem">
+        <h2 style="margin-top:0">Flex item</h2>
+        <div
+          style="font-size:0.78rem; color:var(--sl-color-neutral-500); margin-bottom:0.5rem;"
+        >
+          Parent direction:
+          <strong>${parent.containerFlexSettings?.direction ?? "row"}</strong>
+        </div>
+
+        <div class="setting-row">
+          <sl-select
+            label="Align self"
+            value=${fi.alignSelf ?? "auto"}
+            @sl-change=${(e: any) => set({ alignSelf: e.target.value })}
+          >
+            <sl-option value="auto">auto (inherit parent)</sl-option>
+            <sl-option value="flex-start">flex-start</sl-option>
+            <sl-option value="center">center</sl-option>
+            <sl-option value="flex-end">flex-end</sl-option>
+            <sl-option value="stretch">stretch</sl-option>
+            <sl-option value="baseline">baseline</sl-option>
+          </sl-select>
+        </div>
+
+        <div class="setting-row">
+          <sl-input
+            label="Flex grow"
+            type="number"
+            placeholder="0"
+            min="0"
+            .value=${fi.flexGrow != null ? String(fi.flexGrow) : ""}
+            @sl-input=${(e: any) => {
+              const v = Number(e.target.value);
+              set({
+                flexGrow: Number.isFinite(v) ? Math.max(0, v) : undefined,
+              });
+            }}
+          ></sl-input>
+        </div>
+
+        <div class="setting-row">
+          <sl-input
+            label="Flex shrink"
+            type="number"
+            placeholder="1"
+            min="0"
+            .value=${fi.flexShrink != null ? String(fi.flexShrink) : ""}
+            @sl-input=${(e: any) => {
+              const v = Number(e.target.value);
+              set({
+                flexShrink: Number.isFinite(v) ? Math.max(0, v) : undefined,
+              });
+            }}
+          ></sl-input>
+        </div>
+
+        <div class="setting-row">
+          <sl-input
+            label="Flex basis"
+            placeholder="auto"
+            .value=${fi.flexBasis ?? ""}
+            @sl-input=${(e: any) =>
+              set({ flexBasis: String(e.target.value ?? "") || undefined })}
+          ></sl-input>
+        </div>
+      </div>
+    `;
+  }
+
+  // Watches for movement; commits to a real drag only after threshold is crossed.
+
+  private _beginPendingFreeformDrag(e: PointerEvent, nodeId: string) {
+    // Cancel any existing pending drag
+    this._cancelPendingFreeformDrag();
+
+    const startX = e.clientX;
+    const startY = e.clientY;
+
+    const el = this.renderRoot.querySelector(
+      `[data-node-id="${nodeId}"]`,
+    ) as HTMLElement | null;
+    const canvas = this.renderRoot.querySelector(
+      ".canvas",
+    ) as HTMLElement | null;
+    if (!el || !canvas) return;
+
+    try {
+      el.setPointerCapture(e.pointerId);
+    } catch {}
+
+    const onMove = (ev: PointerEvent) => {
+      const dx = ev.clientX - startX;
+      const dy = ev.clientY - startY;
+
+      if (Math.sqrt(dx * dx + dy * dy) >= this.DRAG_THRESHOLD) {
+        // Threshold crossed — commit to real freeform drag
+        this._cancelPendingFreeformDrag();
+        this._commitFreeformDrag(
+          ev,
+          nodeId,
+          el,
+          canvas,
+          ev.clientX,
+          ev.clientY,
+        );
+      }
+    };
+
+    const onUp = (_ev: PointerEvent) => {
+      // Released before threshold — treat as click, no drag
+      this._cancelPendingFreeformDrag();
+    };
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp, { once: true });
+
+    this._pendingFreeformDrag = {
+      pointerId: e.pointerId,
+      nodeId,
+      startX,
+      startY,
+      onMove,
+      onUp,
+    };
+  }
+
+  private _cancelPendingFreeformDrag() {
+    if (!this._pendingFreeformDrag) return;
+    window.removeEventListener("pointermove", this._pendingFreeformDrag.onMove);
+    window.removeEventListener("pointerup", this._pendingFreeformDrag.onUp);
+    this._pendingFreeformDrag = null;
+  }
+
+  private _beginPendingOrderedDrag(e: PointerEvent, nodeId: string) {
+    this._cancelPendingOrderedDrag();
+
+    const startX = e.clientX;
+    const startY = e.clientY;
+
+    // Capture pointer on the element so we keep receiving moves
+    const el = this.renderRoot.querySelector(
+      `[data-node-id="${nodeId}"]`,
+    ) as HTMLElement | null;
+    if (el) {
+      try {
+        el.setPointerCapture(e.pointerId);
+      } catch {}
+    }
+
+    const onMove = (ev: PointerEvent) => {
+      const dx = ev.clientX - startX;
+      const dy = ev.clientY - startY;
+
+      if (Math.sqrt(dx * dx + dy * dy) >= this.DRAG_THRESHOLD) {
+        this._cancelPendingOrderedDrag();
+        // Re-fire the real sort drag with the original pointerdown event
+        // (start index calculation needs the original event's target context,
+        //  but clientX/Y from that event is fine since we've already moved)
+        this._startOrderedSortDrag(
+          { ...e, clientX: ev.clientX, clientY: ev.clientY } as PointerEvent,
+          nodeId,
+        );
+      }
+    };
+
+    const onUp = () => {
+      this._cancelPendingOrderedDrag();
+    };
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp, { once: true });
+
+    this._pendingOrderedDrag = {
+      pointerId: e.pointerId,
+      nodeId,
+      startX,
+      startY,
+      event: e,
+    };
+    (this as any)._pendingOrderedMoveHandler = onMove;
+    (this as any)._pendingOrderedUpHandler = onUp;
+  }
+
+  private _cancelPendingOrderedDrag() {
+    if (!this._pendingOrderedDrag) return;
+    const move = (this as any)._pendingOrderedMoveHandler;
+    const up = (this as any)._pendingOrderedUpHandler;
+    if (move) window.removeEventListener("pointermove", move);
+    if (up) window.removeEventListener("pointerup", up);
+    this._pendingOrderedDrag = null;
+    (this as any)._pendingOrderedMoveHandler = null;
+    (this as any)._pendingOrderedUpHandler = null;
   }
 }

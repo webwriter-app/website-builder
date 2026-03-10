@@ -1,18 +1,21 @@
 export type LayoutMode = "freeform" | "flow" | "flex" | "grid";
 
-/** Per-node placement INSIDE a grid container */
 export type GridPlacement = {
-  /** If set, uses grid-area */
   area?: string;
-
-  /** If area is not set, use explicit line placement */
-  colStart?: number; // 1-based
-  colSpan?: number; // >= 1
-  rowStart?: number; // 1-based
-  rowSpan?: number; // >= 1
-
+  colStart?: number;
+  colSpan?: number;
+  rowStart?: number;
+  rowSpan?: number;
   justifySelf?: "start" | "center" | "end" | "stretch";
   alignSelf?: "start" | "center" | "end" | "stretch";
+};
+
+/** Per-child overrides when the parent container is flex */
+export type FlexItemSettings = {
+  flexGrow?: number;
+  flexShrink?: number;
+  flexBasis?: string;
+  alignSelf?: "auto" | "flex-start" | "center" | "flex-end" | "stretch" | "baseline";
 };
 
 export type BuilderNode = {
@@ -20,28 +23,25 @@ export type BuilderNode = {
   type: string;
   data: any;
 
-  // only needed in freeform
   pos?: { x: number; y: number };
+  zIndex?: number;
 
-  // flow/flex/grid ordering & display
   order?: number;
   display?: "block" | "inline";
 
-  flex?: {
-    direction?: "row" | "column";
-    justify?: string;
-    align?: string;
-    gap?: string;
-    wrap?: "nowrap" | "wrap";
-  };
-
-  /** NEW: per-item grid placement */
+  flexItem?: FlexItemSettings;
   grid?: GridPlacement;
+
+  children?: BuilderNode[];
+  isContainer?: boolean;
+  containerLayout?: LayoutMode;
+  containerFlexSettings?: FlexSettings;
+  containerGridSettings?: GridSettings;
+  // breakpoints removed
 };
 
 export type CodeTab = "html" | "css" | "combined";
 
-/** container settings (global) */
 export type FlexSettings = {
   direction?: "row" | "column";
   justify?: string;
@@ -54,15 +54,11 @@ export type GridSettings = {
   columns?: string;
   rows?: string;
   gap?: string;
-
-  /** optional advanced grid architecture */
-  templateAreas?: string; // e.g. `"nav nav"\n"hero side"`
   autoFlow?: "row" | "column" | "row dense" | "column dense";
   justifyItems?: "start" | "center" | "end" | "stretch";
   alignItems?: "start" | "center" | "end" | "stretch";
 };
 
-// state of the canvas
 export type BuilderStatePayload = {
   layoutMode: LayoutMode;
   nodes: BuilderNode[];
@@ -84,9 +80,49 @@ export const defaultGridSettings = (): GridSettings => ({
   columns: "repeat(3, 1fr)",
   rows: "auto",
   gap: "12px",
-
-  templateAreas: "",
   autoFlow: "row",
   justifyItems: "stretch",
   alignItems: "start",
 });
+
+// ── Container templates — only surfaced inside the group toolbar ──────────────
+
+export type ContainerTemplate = {
+  id: string;
+  label: string;
+  description: string;
+  containerLayout: LayoutMode;
+  containerFlexSettings?: FlexSettings;
+  containerGridSettings?: GridSettings;
+};
+
+export const CONTAINER_TEMPLATES: ContainerTemplate[] = [
+  {
+    id: "two-column",
+    label: "Two Columns",
+    description: "Equal-width side-by-side columns",
+    containerLayout: "flex",
+    containerFlexSettings: { direction: "row", justify: "flex-start", align: "stretch", gap: "16px", wrap: "wrap" },
+  },
+  {
+    id: "hero-sidebar",
+    label: "Hero + Sidebar",
+    description: "Wide main area with a narrow sidebar",
+    containerLayout: "grid",
+    containerGridSettings: { columns: "1fr 280px", rows: "auto", gap: "16px", autoFlow: "row", justifyItems: "stretch", alignItems: "start" },
+  },
+  {
+    id: "card-grid",
+    label: "Card Grid",
+    description: "Responsive 3-column card layout",
+    containerLayout: "grid",
+    containerGridSettings: { columns: "repeat(3, 1fr)", rows: "auto", gap: "16px", autoFlow: "row", justifyItems: "stretch", alignItems: "start" },
+  },
+  {
+    id: "centered-stack",
+    label: "Centered Stack",
+    description: "Vertically stacked, centered items",
+    containerLayout: "flex",
+    containerFlexSettings: { direction: "column", justify: "flex-start", align: "center", gap: "12px", wrap: "nowrap" },
+  },
+];

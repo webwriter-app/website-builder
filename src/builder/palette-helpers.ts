@@ -32,6 +32,8 @@ export function tileGlyph(type: string): string {
       return "↗";
     case "divider":
       return "—";
+    case "container":
+      return "⬚";
     default:
       return type.slice(0, 2).toUpperCase();
   }
@@ -96,6 +98,14 @@ export function componentSyntaxHint(type: string): string {
     // ── Structure ─────────────────────────────────────────────────────────────
     case "divider":
       return `<hr>`;
+
+    // ── Container ─────────────────────────────────────────────────────────────
+    case "container":
+      return (
+        `<div class="container" style="display:flex; gap:12px;">\n` +
+        `  <!-- nested components go here -->\n` +
+        `</div>`
+      );
 
     default:
       return `<!-- ${type} -->`;
