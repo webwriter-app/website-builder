@@ -58,7 +58,6 @@ export const LinkComponent: BuilderComponent = {
     `;
   },
 
-  // Sidebar → Content
   bindings: [
     {
       key: "label",
@@ -101,7 +100,7 @@ export const LinkComponent: BuilderComponent = {
         </div>
 
         <div class="setting-row" style="font-size: 0.8rem; color: #666;">
-          Opens in new tab. Icons use Shoelace (Bootstrap Icons).
+          Press "A" while clicking to follow the link.
         </div>
       </div>
     `;

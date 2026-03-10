@@ -18,6 +18,12 @@ export const VideoComponent: BuilderComponent = {
 
   render(data) {
     const src = data?.src || PLACEHOLDER_VIDEO;
+    const alt = data?.alt ?? "";
+    const width = data?.width ?? "auto";
+    const height = data?.height ?? "auto";
+    const objectFit = data?.["object-fit"] ?? "contain";
+    const opacity = data?.opacity ?? 1;
+    const borderRadius = data?.["border-radius"] ?? "0";
 
     return html`
       <style>
@@ -42,12 +48,25 @@ export const VideoComponent: BuilderComponent = {
       </style>
 
       <div class="resizable">
-        <video src=${src} controls></video>
+        <video
+          src=${src}
+          controls
+          alt=${alt}
+          style="
+          display: block;
+          width: ${width};
+          height: ${height};
+          object-fit: contain;
+          pointer-events: none;
+          object-fit: ${objectFit};
+          opacity: ${opacity};
+          border-radius: ${borderRadius};
+        "
+        ></video>
       </div>
     `;
   },
 
-  // Generic editable fields (shown in "Content")
   bindings: [
     {
       key: "src",
@@ -56,6 +75,54 @@ export const VideoComponent: BuilderComponent = {
       target: "video",
       name: "src",
       placeholder: "https://… or data:video/…",
+    },
+    {
+      key: "alt",
+      label: "Alt Text",
+      kind: "attr",
+      target: "video",
+      name: "alt",
+      placeholder: "Describe the video (accessibility)",
+    },
+    {
+      key: "width",
+      label: "Width",
+      kind: "style",
+      target: "video",
+      name: "width",
+      placeholder: "e.g. 300px",
+    },
+    {
+      key: "height",
+      label: "Height",
+      kind: "style",
+      target: "video",
+      name: "height",
+      placeholder: "e.g. 200px",
+    },
+    {
+      key: "object-fit",
+      label: "Object Fit",
+      kind: "style",
+      target: "video",
+      name: "object-fit",
+      placeholder: "e.g. contain, cover, fill",
+    },
+    {
+      key: "opacity",
+      label: "Opacity",
+      kind: "style",
+      target: "video",
+      name: "opacity",
+      placeholder: "e.g. 0.5",
+    },
+    {
+      key: "border-radius",
+      label: "Border Radius",
+      kind: "style",
+      target: "video",
+      name: "border-radius",
+      placeholder: "e.g. 8px",
     },
   ],
 
