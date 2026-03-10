@@ -57,7 +57,7 @@ export const Heading5: BuilderComponent = {
       key: "font-weight",
       label: "Font weight",
       kind: "style",
-      target: "h1",
+      target: "h5",
       name: "font-weight",
       placeholder: "e.g. 400 or bold",
     },
@@ -65,7 +65,7 @@ export const Heading5: BuilderComponent = {
       key: "font-size",
       label: "Font size",
       kind: "style",
-      target: "h1",
+      target: "h5",
       name: "font-size",
       placeholder: "e.g. 32px or 2em",
     }

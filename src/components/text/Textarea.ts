@@ -20,6 +20,7 @@ export const TextareaComponent: BuilderComponent = {
     "font-weight": "normal",
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,
+    "font-size": "1em",
   },
 
   render: (data) => {
@@ -33,6 +34,7 @@ export const TextareaComponent: BuilderComponent = {
     const fontWeight = data?.["font-weight"] ?? "normal";
     const width = data?.width ?? DEFAULT_WIDTH;
     const height = data?.height ?? DEFAULT_HEIGHT;
+    const fontSize = data?.["font-size"] ?? "1em";
 
     return html`
       <style>
@@ -60,6 +62,7 @@ export const TextareaComponent: BuilderComponent = {
       color: ${color};
       font-family: ${font};
       font-weight: ${fontWeight};
+      font-size: ${fontSize};
     "
       ></sl-textarea>
     `;
@@ -105,6 +108,14 @@ export const TextareaComponent: BuilderComponent = {
       name: "height",
       placeholder: DEFAULT_HEIGHT,
     },
+    {
+      key: "font-size",
+      label: "Font size",
+      kind: "style",
+      target: "sl-textarea",
+      name: "font-size",
+      placeholder: "e.g. 32px or 2em",
+    }
   ],
 
   settings: ({ data, setData }) => {

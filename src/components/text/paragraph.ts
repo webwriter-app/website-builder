@@ -21,6 +21,7 @@ export const ParagraphComponent: BuilderComponent = {
     const fontWeight = data?.["font-weight"] ?? "normal";
     const width = data?.width ?? "auto";
     const height = data?.height ?? "auto";
+    const fontSize = data?.["font-size"] ?? "1em";
 
     return html`
       <p
@@ -32,6 +33,7 @@ export const ParagraphComponent: BuilderComponent = {
           font-weight: ${fontWeight};
           width: ${width};
           height: ${height};
+          font-size: ${fontSize};
         "
       >
         ${content}
@@ -79,6 +81,14 @@ export const ParagraphComponent: BuilderComponent = {
       name: "font-weight",
       placeholder: "e.g. 400 or bold",
     },
+    {
+      key: "font-size",
+      label: "Font size",
+      kind: "style",
+      target: "p",
+      name: "font-size",
+      placeholder: "e.g. 32px or 2em",
+    }
   ],
   settings: ({ data, setData }) => {
     const current = (data?.font as string) ?? DEFAULT_FONT;

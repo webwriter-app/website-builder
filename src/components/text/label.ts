@@ -19,6 +19,7 @@ export const LabelComponent: BuilderComponent = {
     const color = data?.color ?? "#000000";
     const content = data?.content ?? "Label";
     const fontWeight = data?.["font-weight"] ?? "normal";
+    const fontSize = data?.["font-size"] ?? "1em";
 
     return html`
       <label
@@ -28,6 +29,7 @@ export const LabelComponent: BuilderComponent = {
           color: ${color};
           font-family: ${font};
           font-weight: ${fontWeight};
+          font-size: ${fontSize};
         "
       >
         ${content}
@@ -59,6 +61,14 @@ export const LabelComponent: BuilderComponent = {
       name: "font-weight",
       placeholder: "e.g. 400 or bold",
     },
+    {
+      key: "font-size",
+      label: "Font size",
+      kind: "style",
+      target: "label",
+      name: "font-size",
+      placeholder: "e.g. 32px or 2em",
+    }
   ],
   settings: ({ data, setData }) => {
     const current = (data?.font as string) ?? DEFAULT_FONT;
