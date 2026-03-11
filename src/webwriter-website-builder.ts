@@ -9,24 +9,49 @@ import { shoelaceScoped } from "./assets/shoelaceImports";
 import { builderStyles } from "./builder/styles/index";
 import { BuilderExporter } from "./builder/exporter";
 import { parseBuilderState, serializeBuilderState } from "./builder/state-io";
-import { normalizeOrder, updateNodeById, deleteNodeById, findNodeById } from "./builder/layout";
+import {
+  normalizeOrder,
+  updateNodeById,
+  deleteNodeById,
+  findNodeById,
+} from "./builder/layout";
 import { groupNodes, ungroupNodes } from "./builder/layout";
-import { CONTAINER_TEMPLATES, defaultFlexSettings, defaultGridSettings } from "./builder/types";
-import type { BuilderNode, FlexSettings, GridSettings, LayoutMode, CodeTab } from "./builder/types";
+import {
+  CONTAINER_TEMPLATES,
+  defaultFlexSettings,
+  defaultGridSettings,
+} from "./builder/types";
+import type {
+  BuilderNode,
+  FlexSettings,
+  GridSettings,
+  LayoutMode,
+  CodeTab,
+} from "./builder/types";
 
 // Controllers
-import { DragController }      from "./builder/controllers/drag-controller";
+import { DragController } from "./builder/controllers/drag-controller";
 import { SelectionController } from "./builder/controllers/selection-controller";
-import { KeyboardController }  from "./builder/controllers/keyboard-controller";
-import { LayoutController }    from "./builder/controllers/layout-controller";
+import { KeyboardController } from "./builder/controllers/keyboard-controller";
+import { LayoutController } from "./builder/controllers/layout-controller";
 
-import { renderCanvasInner }                                     from "./builder/render/canvas";
-import { renderFloatingToolbar, renderInfoPopup }               from "./builder/render/toolbar";
-import { renderLayersPanel, renderVisibilitySettings,
-         renderLayoutSettings, renderSelectedComponentSettings } from "./builder/render/sidebar";
-import { renderIconDialog, renderAllComponentsDialog }          from "./builder/render/dialogs";
+import { renderCanvasInner } from "./builder/render/canvas";
+import {
+  renderFloatingToolbar,
+  renderInfoPopup,
+} from "./builder/render/toolbar";
+import {
+  renderLayersPanel,
+  renderVisibilitySettings,
+  renderLayoutSettings,
+  renderSelectedComponentSettings,
+} from "./builder/render/sidebar";
+import {
+  renderIconDialog,
+  renderAllComponentsDialog,
+} from "./builder/render/dialogs";
 
-import { WwIconPicker }    from "./builder/components/ui/icon-picker";
+import { WwIconPicker } from "./builder/components/ui/icon-picker";
 import { ComponentRegistry } from "./components/registry";
 import type { ComponentBinding } from "./types/BuilderComponent";
 
@@ -37,10 +62,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   msg = msg;
 
   // ─── Controllers ─────────────────────────────────────────────────────────
-  drag      = new DragController(this);
+  drag = new DragController(this);
   selection = new SelectionController(this);
-  keyboard  = new KeyboardController(this);
-  layout    = new LayoutController(this);
+  keyboard = new KeyboardController(this);
+  layout = new LayoutController(this);
 
   // ─── State persistence ───────────────────────────────────────────────────
   @property({ attribute: "ww-state" })
@@ -53,9 +78,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   // ─── Layout ──────────────────────────────────────────────────────────────
   layoutMode: LayoutMode = "freeform";
   freeformNodes: BuilderNode[] = [];
-  orderedNodes:  BuilderNode[] = [];
-  flexSettings:  FlexSettings  = defaultFlexSettings();
-  gridSettings:  GridSettings  = defaultGridSettings();
+  orderedNodes: BuilderNode[] = [];
+  flexSettings: FlexSettings = defaultFlexSettings();
+  gridSettings: GridSettings = defaultGridSettings();
 
   canvasBackground: string = "#ffffff";
 
@@ -66,45 +91,58 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   @state() focusedContainerId: string | null = null;
 
   // ─── Interaction keys ────────────────────────────────────────────────────
-  shiftPressed       = false;
+  shiftPressed = false;
   interactKeyPressed = false;
-  @state() gridKeyPressed    = false;
-  @state() toolbarKeyHidden  = false;
-  @state() showGrid          = false;
+  @state() gridKeyPressed = false;
+  @state() toolbarKeyHidden = false;
+  @state() showGrid = false;
   gridSize = 20;
 
   // ─── Toolbar / palette UI state ──────────────────────────────────────────
-  @state() toolbarOpen        = false;
+  @state() toolbarOpen = false;
   @state() layoutDropdownOpen = false;
-  showAddButton      = true;
+  showAddButton = true;
   showLayoutDropdown = true;
-  groupTemplateId    = "two-column";
+  groupTemplateId = "two-column";
 
   // Palette state: tray, info popup, search, suppress-click guard, favourites
-  trayOpen          = false;
-  infoForType: string | null    = null;
+  trayOpen = false;
+  infoForType: string | null = null;
   infoAnchorEl: HTMLElement | null = null;
   suppressNextClick = false;
   private componentQuery = "";
-  private oftenUsed: string[] = ["h1", "paragraph", "image", "button", "link", "divider", "icon"];
+  private oftenUsed: string[] = [
+    "h1",
+    "paragraph",
+    "image",
+    "button",
+    "link",
+    "divider",
+    "icon",
+  ];
 
   // ─── Author visibility toggles ───────────────────────────────────────────
   @state() visibleLayoutModes: Record<LayoutMode, boolean> = {
-    freeform: true, flow: true, flex: true, grid: true,
+    freeform: true,
+    flow: true,
+    flex: true,
+    grid: true,
   };
   @state() visibleCodeTabs: Record<CodeTab, boolean> = {
-    combined: true, html: true, css: true,
+    combined: true,
+    html: true,
+    css: true,
   };
 
   // ─── Student mode toggles ────────────────────────────────────────────────
   @state() showComponentSettingsInStudent = true;
-  @state() showSidebarInStudent           = false;
-  @state() showToolbarInStudent           = true;
-  @state() allowDeleteInStudent           = false;
+  @state() showSidebarInStudent = false;
+  @state() showToolbarInStudent = true;
+  @state() allowDeleteInStudent = false;
 
   // ─── All-components dialog ───────────────────────────────────────────────
   @state() allComponentsDialogOpen = false;
-  @state() allComponentsQuery      = "";
+  @state() allComponentsQuery = "";
 
   // ─── Student drawer ───────────────────────────────────────────────────────
   @state() private _studentDrawerOpen = false;
@@ -113,12 +151,12 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _codeTab: CodeTab = "html";
 
   // ─── Icon dialog ─────────────────────────────────────────────────────────
-  @state() iconDialogOpen  = false;
-  @state() iconDraftName   = "gear";
-  @state() iconDraftColor  = "#0f172a";
-  @state() iconQuery       = "";
-  @state() iconScrollTop   = 0;
-  @state() iconViewportH   = 520;
+  @state() iconDialogOpen = false;
+  @state() iconDraftName = "gear";
+  @state() iconDraftColor = "#0f172a";
+  @state() iconQuery = "";
+  @state() iconScrollTop = 0;
+  @state() iconViewportH = 520;
   iconScroller: HTMLElement | null = null;
   iconDialogTarget: EventTarget | null = null;
 
@@ -135,7 +173,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   // ─── Public node accessors (used by controllers) ─────────────────────────
 
   get activeNodes(): BuilderNode[] {
-    return this.layoutMode === "freeform" ? this.freeformNodes : this.orderedNodes;
+    return this.layoutMode === "freeform"
+      ? this.freeformNodes
+      : this.orderedNodes;
   }
 
   setActiveNodes(next: BuilderNode[]) {
@@ -163,7 +203,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this.selectedNodeId = null;
     this.selectedElement = null;
     this.selectedIds = new Set();
-    this._containerSettingsId = null;  // must be reset on clear
+    this._containerSettingsId = null; // must be reset on clear
     this.focusedContainerId = null;
     if (this.isStudentMode()) this._studentDrawerOpen = false;
     this.requestUpdate();
@@ -201,9 +241,13 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       (root.activeElement as HTMLElement | null) ??
       (this.ownerDocument.activeElement as HTMLElement | null);
     if (!ae) return false;
-    const inside = root.contains(ae) || this.contains(ae) || (ae as any).getRootNode?.() === root;
+    const inside =
+      root.contains(ae) ||
+      this.contains(ae) ||
+      (ae as any).getRootNode?.() === root;
     if (!inside) return false;
-    if (ae.matches('input, textarea, select, [contenteditable="true"]')) return true;
+    if (ae.matches('input, textarea, select, [contenteditable="true"]'))
+      return true;
     if (ae.closest("sl-input, sl-textarea, sl-select")) return true;
     return false;
   }
@@ -213,10 +257,25 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     return Boolean(
       target.closest(
         [
-          "a", "button", "input", "textarea", "select",
-          "[contenteditable='true']", "audio", "video", "summary", "details",
-          "sl-input", "sl-textarea", "sl-select", "sl-button", "sl-icon-button",
-          "sl-checkbox", "sl-switch", "sl-radio", "sl-range",
+          "a",
+          "button",
+          "input",
+          "textarea",
+          "select",
+          "[contenteditable='true']",
+          "audio",
+          "video",
+          "summary",
+          "details",
+          "sl-input",
+          "sl-textarea",
+          "sl-select",
+          "sl-button",
+          "sl-icon-button",
+          "sl-checkbox",
+          "sl-switch",
+          "sl-radio",
+          "sl-range",
         ].join(", "),
       ),
     );
@@ -252,12 +311,20 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this.selectNodeId(id);
   }
 
-  isAuthorMode()  { return !!this.isContentEditable; }
-  isStudentMode() { return !this.isContentEditable; }
+  isAuthorMode() {
+    return !!this.isContentEditable;
+  }
+  isStudentMode() {
+    return !this.isContentEditable;
+  }
 
   // ─── Grid helpers (used by DragController) ───────────────────────────────
 
-  gridPlacementFromPointer(root: HTMLElement, clientX: number, clientY: number) {
+  gridPlacementFromPointer(
+    root: HTMLElement,
+    clientX: number,
+    clientY: number,
+  ) {
     return this.layout.gridPlacementFromPointer(root, clientX, clientY);
   }
 
@@ -317,16 +384,21 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   groupSelected() {
     if (this.selectedIds.size < 2) return;
     const template =
-      CONTAINER_TEMPLATES.find((t) => t.id === this.groupTemplateId) ?? CONTAINER_TEMPLATES[0];
-    const { nodes: next, containerId } = groupNodes(this.activeNodes, [...this.selectedIds], {
-      containerLayout: template.containerLayout,
-      containerFlexSettings: template.containerFlexSettings,
-      containerGridSettings: template.containerGridSettings,
-    });
+      CONTAINER_TEMPLATES.find((t) => t.id === this.groupTemplateId) ??
+      CONTAINER_TEMPLATES[0];
+    const { nodes: next, containerId } = groupNodes(
+      this.activeNodes,
+      [...this.selectedIds],
+      {
+        containerLayout: template.containerLayout,
+        containerFlexSettings: template.containerFlexSettings,
+        containerGridSettings: template.containerGridSettings,
+      },
+    );
     this.setActiveNodes(next);
     this.clearSelection();
     this.selectNodeId(containerId);
-    this._containerSettingsId = containerId;  // must be set after grouping
+    this._containerSettingsId = containerId; // must be set after grouping
     this.requestUpdate();
   }
 
@@ -357,7 +429,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this.allComponentsQuery = "";
     this.allComponentsDialogOpen = true;
     this.updateComplete.then(() => {
-      (this.renderRoot.querySelector("#ww-all-components-dialog") as any)?.show?.();
+      (
+        this.renderRoot.querySelector("#ww-all-components-dialog") as any
+      )?.show?.();
     });
   }
 
@@ -367,10 +441,14 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     const dlg = e.target as HTMLElement;
     this.iconScroller = dlg.querySelector("#ww-icon-scroller");
     if (!this.iconScroller) return;
-    this.iconScrollTop  = this.iconScroller.scrollTop;
-    this.iconViewportH  = this.iconScroller.clientHeight;
-    this.iconScroller.addEventListener("scroll", this._onIconDialogScroll, { passive: true });
-    queueMicrotask(() => (dlg.querySelector("#ww-icon-search") as any)?.focus?.());
+    this.iconScrollTop = this.iconScroller.scrollTop;
+    this.iconViewportH = this.iconScroller.clientHeight;
+    this.iconScroller.addEventListener("scroll", this._onIconDialogScroll, {
+      passive: true,
+    });
+    queueMicrotask(() =>
+      (dlg.querySelector("#ww-icon-search") as any)?.focus?.(),
+    );
   };
 
   onIconDialogAfterHide = () => {
@@ -400,7 +478,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     });
     this.requestUpdate();
   };
-  private _onFsError  = (e: Event) => console.warn("[fs] error", e);
+  private _onFsError = (e: Event) => console.warn("[fs] error", e);
 
   private async _toggleFullscreen() {
     try {
@@ -414,7 +492,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   // ─── Canvas reset ────────────────────────────────────────────────────────
 
   private async _confirmReset() {
-    const confirmed = confirm(this.msg("This will remove all elements from the canvas. Continue?"));
+    const confirmed = confirm(
+      this.msg("This will remove all elements from the canvas. Continue?"),
+    );
     if (confirmed) this._resetCanvas();
   }
 
@@ -465,22 +545,29 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     const parsed = parseBuilderState(serialized);
     if (!parsed) return;
 
-    this.layoutMode                     = parsed.layoutMode;
-    this.visibleLayoutModes             = parsed.visibleLayoutModes ?? this.visibleLayoutModes;
-    this.visibleCodeTabs                = parsed.visibleCodeTabs    ?? this.visibleCodeTabs;
-    this.showComponentSettingsInStudent = parsed.showComponentSettingsInStudent ?? this.showComponentSettingsInStudent;
-    this.showSidebarInStudent           = parsed.showSidebarInStudent   ?? this.showSidebarInStudent;
-    this.allowDeleteInStudent           = parsed.allowDeleteInStudent   ?? this.allowDeleteInStudent;
-    this.showAddButton                  = parsed.showAddButton          ?? this.showAddButton;
-    this.showLayoutDropdown             = parsed.showLayoutDropdown     ?? this.showLayoutDropdown;
-    this.showToolbarInStudent           = parsed.showToolbarInStudent   ?? this.showToolbarInStudent;
-    this.freeformNodes                  = parsed.freeformNodes          ?? [];
-    this.orderedNodes                   = parsed.orderedNodes ?? parsed.nodes ?? [];
-    this.showGrid                       = parsed.showGrid;
-    this.gridSize                       = parsed.gridSize;
-    this.flexSettings                   = parsed.flexSettings;
-    this.gridSettings                   = parsed.gridSettings;
-    this.canvasBackground               = parsed.canvasBackground       ?? "#ffffff";
+    this.layoutMode = parsed.layoutMode;
+    this.visibleLayoutModes =
+      parsed.visibleLayoutModes ?? this.visibleLayoutModes;
+    this.visibleCodeTabs = parsed.visibleCodeTabs ?? this.visibleCodeTabs;
+    this.showComponentSettingsInStudent =
+      parsed.showComponentSettingsInStudent ??
+      this.showComponentSettingsInStudent;
+    this.showSidebarInStudent =
+      parsed.showSidebarInStudent ?? this.showSidebarInStudent;
+    this.allowDeleteInStudent =
+      parsed.allowDeleteInStudent ?? this.allowDeleteInStudent;
+    this.showAddButton = parsed.showAddButton ?? this.showAddButton;
+    this.showLayoutDropdown =
+      parsed.showLayoutDropdown ?? this.showLayoutDropdown;
+    this.showToolbarInStudent =
+      parsed.showToolbarInStudent ?? this.showToolbarInStudent;
+    this.freeformNodes = parsed.freeformNodes ?? [];
+    this.orderedNodes = parsed.orderedNodes ?? parsed.nodes ?? [];
+    this.showGrid = parsed.showGrid;
+    this.gridSize = parsed.gridSize;
+    this.flexSettings = parsed.flexSettings;
+    this.gridSettings = parsed.gridSettings;
+    this.canvasBackground = parsed.canvasBackground ?? "#ffffff";
     this.clearSelection();
   }
 
@@ -509,10 +596,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         | undefined;
 
       this.iconDialogTarget = picker ?? e.target;
-      this.iconDraftName    = e.detail?.name  ?? "gear";
-      this.iconDraftColor   = e.detail?.color ?? "#0f172a";
-      this.iconQuery        = "";
-      this.iconDialogOpen   = true;
+      this.iconDraftName = e.detail?.name ?? "gear";
+      this.iconDraftColor = e.detail?.color ?? "#0f172a";
+      this.iconQuery = "";
+      this.iconDialogOpen = true;
 
       this.updateComplete.then(() => {
         (this.renderRoot.querySelector("#ww-icon-dialog") as any)?.show?.();
@@ -520,10 +607,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     });
 
     document.addEventListener("fullscreenchange", this._onFsChange);
-    document.addEventListener("fullscreenerror",  this._onFsError);
+    document.addEventListener("fullscreenerror", this._onFsError);
     window.addEventListener("mousedown", this._onGlobalMouseDown);
-    window.addEventListener("keydown",   this.keyboard.onKeyDown);
-    window.addEventListener("keyup",     this.keyboard.onKeyUp);
+    window.addEventListener("keydown", this.keyboard.onKeyDown);
+    window.addEventListener("keyup", this.keyboard.onKeyUp);
 
     this._hydrating = true;
     this._applyState(this.getAttribute("ww-state") || "");
@@ -556,10 +643,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   disconnectedCallback() {
     document.removeEventListener("fullscreenchange", this._onFsChange);
-    document.removeEventListener("fullscreenerror",  this._onFsError);
+    document.removeEventListener("fullscreenerror", this._onFsError);
     window.removeEventListener("mousedown", this._onGlobalMouseDown);
-    window.removeEventListener("keydown",   this.keyboard.onKeyDown);
-    window.removeEventListener("keyup",     this.keyboard.onKeyUp);
+    window.removeEventListener("keydown", this.keyboard.onKeyDown);
+    window.removeEventListener("keyup", this.keyboard.onKeyUp);
     super.disconnectedCallback();
   }
 
@@ -583,13 +670,15 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   render() {
     const showGridOverlay = this.showGrid || this.gridKeyPressed;
-    const split    = this.isFullscreen;
+    const split = this.isFullscreen;
     const isAuthor = this.isContentEditable;
     const isStudent = !isAuthor;
 
-    const canShowStudentDrawer = isStudent && this.showComponentSettingsInStudent;
+    const canShowStudentDrawer =
+      isStudent && this.showComponentSettingsInStudent;
     const hasSelection = Boolean(this.selectedNodeId);
-    const showDrawer = canShowStudentDrawer && hasSelection && this._studentDrawerOpen;
+    const showDrawer =
+      canShowStudentDrawer && hasSelection && this._studentDrawerOpen;
 
     const { html: outHtml, css: outCss, combined } = this._generateExport();
     const hideSidebar = split || (isStudent && !this.showSidebarInStudent);
@@ -615,18 +704,23 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                 </sl-button>
               </div>
 
-              <div style="margin-top:0.5rem;font-size:0.78rem;color:var(--sl-color-neutral-600);
+              <div
+                style="margin-top:0.5rem;font-size:0.78rem;color:var(--sl-color-neutral-600);
                           padding:0.4rem 0.6rem;background:var(--sl-color-neutral-50);
-                          border-radius:8px;border:1px solid var(--sl-color-neutral-200);">
-                Hold <kbd style="font-family:monospace;background:var(--sl-color-neutral-100);
+                          border-radius:8px;border:1px solid var(--sl-color-neutral-200);"
+              >
+                Hold
+                <kbd
+                  style="font-family:monospace;background:var(--sl-color-neutral-100);
                                border:1px solid var(--sl-color-neutral-300);border-radius:4px;
-                               padding:1px 5px;font-size:0.75rem;">T</kbd>
+                               padding:1px 5px;font-size:0.75rem;"
+                  >T</kbd
+                >
                 to temporarily hide the toolbar overlay.
               </div>
             </sl-details>
 
-            ${renderVisibilitySettings(this)}
-            ${renderLayoutSettings(this)}
+            ${renderVisibilitySettings(this)} ${renderLayoutSettings(this)}
             ${renderSelectedComponentSettings(this)}
           </div>
         </div>
@@ -637,17 +731,23 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
             class="canvas ${this.activeNodes.length > 0 ? "has-nodes" : ""}"
             @dragover=${this.drag.onDragOver.bind(this.drag)}
             @drop=${this.drag.onDrop.bind(this.drag)}
-            style="--grid-size:${this.gridSize}px"
+            style="--grid-size:${this.gridSize}px; background:${this
+              .canvasBackground};"
             @click=${(e: MouseEvent) => this.selection.onCanvasClick(e)}
           >
             ${showGridOverlay ? html`<div class="grid-overlay"></div>` : null}
-            ${renderCanvasInner(this)}
-            ${renderFloatingToolbar(this)}
+            ${renderCanvasInner(this)} ${renderFloatingToolbar(this)}
             ${renderInfoPopup(this)}
 
             <div class="fs-btn">
-              <sl-button size="small" variant="primary" @click=${this._toggleFullscreen}>
-                <sl-icon name=${this.isFullscreen ? "fullscreen-exit" : "fullscreen"}></sl-icon>
+              <sl-button
+                size="small"
+                variant="primary"
+                @click=${this._toggleFullscreen}
+              >
+                <sl-icon
+                  name=${this.isFullscreen ? "fullscreen-exit" : "fullscreen"}
+                ></sl-icon>
               </sl-button>
             </div>
           </div>
@@ -666,8 +766,11 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                 <pre class="code-body" tabindex="0">
                   ${this._codeTab === "combined"
                     ? combined
-                    : this._codeTab === "html" ? outHtml : outCss}
-                </pre>
+                    : this._codeTab === "html"
+                      ? outHtml
+                      : outCss}
+                </pre
+                >
               </div>
             `
           : null}
@@ -685,13 +788,13 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                   this._closeStudentDrawer();
                 }}
               >
-                <div class="settings">${renderSelectedComponentSettings(this)}</div>
+                <div class="settings">
+                  ${renderSelectedComponentSettings(this)}
+                </div>
               </sl-drawer>
             `
           : null}
-
-        ${renderIconDialog(this)}
-        ${renderAllComponentsDialog(this)}
+        ${renderIconDialog(this)} ${renderAllComponentsDialog(this)}
       </div>
     `;
   }
@@ -699,8 +802,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _renderCodeTabs() {
     const tabs: Array<[CodeTab, string]> = [
       ["combined", "Combined"],
-      ["html",     "HTML"],
-      ["css",      "CSS"],
+      ["html", "HTML"],
+      ["css", "CSS"],
     ];
     return tabs
       .filter(([t]) => this.visibleCodeTabs[t])
@@ -708,11 +811,16 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         ([t, label]) => html`
           <button
             class="code-tab ${this._codeTab === t ? "active" : ""}"
-            @click=${() => { this._codeTab = t; this.requestUpdate(); }}
+            @click=${() => {
+              this._codeTab = t;
+              this.requestUpdate();
+            }}
             type="button"
             role="tab"
             aria-selected=${this._codeTab === t ? "true" : "false"}
-          >${label}</button>
+          >
+            ${label}
+          </button>
         `,
       );
   }

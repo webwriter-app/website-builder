@@ -27,7 +27,6 @@ export const layoutStyles = css`
   .canvas {
     flex: 1;
     padding: 1rem;
-    background: #fff;
     overflow: visible;
     position: relative;
     min-width: 0;
@@ -91,9 +90,6 @@ export const layoutStyles = css`
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background: var(--sl-color-neutral-0);
-    border: 1px solid var(--sl-color-neutral-200);
   }
 
   .flow-root {
@@ -101,8 +97,6 @@ export const layoutStyles = css`
     width: 100%;
     height: 100%;
     overflow: auto;
-    background: var(--sl-color-neutral-0);
-    border: 1px solid var(--sl-color-neutral-200);
   }
 
   .flow-item[data-display="inline"] {
@@ -120,8 +114,6 @@ export const layoutStyles = css`
     width: 100%;
     height: 100%;
     overflow: auto;
-    background: var(--sl-color-neutral-0);
-    border: 1px solid var(--sl-color-neutral-200);
     display: flex;
   }
 
@@ -130,8 +122,6 @@ export const layoutStyles = css`
     width: 100%;
     height: 100%;
     overflow: auto;
-    background: var(--sl-color-neutral-0);
-    border: 1px solid var(--sl-color-neutral-200);
     display: grid;
   }
 

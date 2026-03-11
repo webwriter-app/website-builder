@@ -19,7 +19,7 @@ export function renderCanvasInner(host: WebwriterWebsiteBuilder) {
 
   if (host.layoutMode === "freeform") {
     return html`
-      <div class="freeform-root" style="background:${bg};">
+      <div class="freeform-root">
         ${repeat(nodes, (n) => n.id, (n) => renderNodeFreeform(host, n))}
       </div>
     `;
@@ -27,7 +27,7 @@ export function renderCanvasInner(host: WebwriterWebsiteBuilder) {
 
   if (host.layoutMode === "flow") {
     return html`
-      <div class="flow-root" style="background:${bg};">
+      <div class="flow-root">
         ${repeat(sortedNodes(nodes), (n) => n.id, (n) => renderNodeFlow(host, n))}
       </div>
     `;
@@ -35,7 +35,7 @@ export function renderCanvasInner(host: WebwriterWebsiteBuilder) {
 
   if (host.layoutMode === "flex") {
     return html`
-      <div class="flex-root" style="${host.layout.flexContainerStyle()};background:${bg};">
+      <div class="flex-root" style="${host.layout.flexContainerStyle()};">
         ${repeat(sortedNodes(nodes), (n) => n.id, (n) => renderNodeFlow(host, n))}
       </div>
     `;
@@ -43,7 +43,7 @@ export function renderCanvasInner(host: WebwriterWebsiteBuilder) {
 
   // Grid
   return html`
-    <div class="grid-root" style="${host.layout.gridContainerStyle()};background:${bg};">
+    <div class="grid-root" style="${host.layout.gridContainerStyle()};">
       ${repeat(sortedNodes(nodes), (n) => n.id, (n) => renderNodeFlow(host, n))}
     </div>
   `;
