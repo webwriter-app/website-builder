@@ -14,7 +14,7 @@
         "justify": "flex-start",
         "align": "flex-start",
         "wrap": "nowrap",
-        "gap": "4px"
+        "gap": "2px"
       },
       "children": [
         {
@@ -24,7 +24,7 @@
             "content": "♫ Spotify",
             "color": "#1db954",
             "font-weight": "800",
-            "font-size": "1.4rem"
+            "font-size": "1.3rem"
           },
           "order": 0,
           "display": "block"
@@ -45,7 +45,7 @@
           "data": {
             "label": "Home",
             "icon": "house-fill",
-            "iconColor": "#ffffff",
+            "iconColor": "#1db954",
             "borderless": true
           },
           "order": 2,
@@ -57,7 +57,7 @@
           "data": {
             "label": "Search",
             "icon": "search",
-            "iconColor": "#b3b3b3",
+            "iconColor": "#6b7280",
             "borderless": true
           },
           "order": 3,
@@ -69,7 +69,7 @@
           "data": {
             "label": "Your Library",
             "icon": "collection-fill",
-            "iconColor": "#b3b3b3",
+            "iconColor": "#6b7280",
             "borderless": true
           },
           "order": 4,
@@ -90,7 +90,7 @@
           "type": "label",
           "data": {
             "content": "PLAYLISTS",
-            "color": "#b3b3b3",
+            "color": "#9ca3af",
             "font-weight": "700",
             "font-size": "0.7rem"
           },
@@ -173,7 +173,7 @@
         "justify": "flex-start",
         "align": "stretch",
         "wrap": "nowrap",
-        "gap": "16px"
+        "gap": "12px"
       },
       "children": [
         {
@@ -191,27 +191,45 @@
           },
           "children": [
             {
-              "id": "sp-tb-1",
-              "type": "button",
-              "data": {
-                "label": "",
-                "icon": "chevron-left",
-                "iconColor": "#b3b3b3",
-                "borderless": true
+              "id": "sp-tb-arrows",
+              "type": "container",
+              "data": {},
+              "isContainer": true,
+              "containerLayout": "flex",
+              "containerFlexSettings": {
+                "direction": "row",
+                "justify": "flex-start",
+                "align": "center",
+                "wrap": "nowrap",
+                "gap": "2px"
               },
+              "children": [
+                {
+                  "id": "sp-tb-1",
+                  "type": "button",
+                  "data": {
+                    "label": "",
+                    "icon": "chevron-left",
+                    "iconColor": "#b3b3b3",
+                    "borderless": true
+                  },
+                  "order": 0,
+                  "display": "inline"
+                },
+                {
+                  "id": "sp-tb-2",
+                  "type": "button",
+                  "data": {
+                    "label": "",
+                    "icon": "chevron-right",
+                    "iconColor": "#b3b3b3",
+                    "borderless": true
+                  },
+                  "order": 1,
+                  "display": "inline"
+                }
+              ],
               "order": 0,
-              "display": "inline"
-            },
-            {
-              "id": "sp-tb-2",
-              "type": "button",
-              "data": {
-                "label": "",
-                "icon": "chevron-right",
-                "iconColor": "#b3b3b3",
-                "borderless": true
-              },
-              "order": 1,
               "display": "inline"
             },
             {
@@ -223,7 +241,7 @@
                 "iconColor": "#b3b3b3",
                 "borderless": false
               },
-              "order": 2,
+              "order": 1,
               "display": "inline"
             }
           ],
@@ -235,9 +253,9 @@
           "type": "h2",
           "data": {
             "content": "Good afternoon",
-            "color": "#ffffff",
+            "color": "#111827",
             "font-weight": "800",
-            "font-size": "1.6rem"
+            "font-size": "1.4rem"
           },
           "order": 1,
           "display": "block"
@@ -277,8 +295,8 @@
                   "data": {
                     "src": "https://picsum.photos/seed/sp1/48/48",
                     "alt": "Liked Songs",
-                    "width": "48px",
-                    "height": "48px",
+                    "width": "40px",
+                    "height": "40px",
                     "object-fit": "cover",
                     "border-radius": "4px"
                   },
@@ -289,10 +307,10 @@
                   "id": "sp-qp1l",
                   "type": "label",
                   "data": {
-                    "content": "Liked Songs",
-                    "color": "#ffffff",
+                    "content": "♫ Liked Songs",
+                    "color": "#1db954",
                     "font-weight": "700",
-                    "font-size": "0.85rem"
+                    "font-size": "0.82rem"
                   },
                   "order": 1,
                   "display": "inline"
@@ -321,8 +339,8 @@
                   "data": {
                     "src": "https://picsum.photos/seed/sp2/48/48",
                     "alt": "Chill Vibes",
-                    "width": "48px",
-                    "height": "48px",
+                    "width": "40px",
+                    "height": "40px",
                     "object-fit": "cover",
                     "border-radius": "4px"
                   },
@@ -334,9 +352,9 @@
                   "type": "label",
                   "data": {
                     "content": "Chill Vibes",
-                    "color": "#ffffff",
+                    "color": "#111827",
                     "font-weight": "700",
-                    "font-size": "0.85rem"
+                    "font-size": "0.82rem"
                   },
                   "order": 1,
                   "display": "inline"
@@ -365,8 +383,8 @@
                   "data": {
                     "src": "https://picsum.photos/seed/sp3/48/48",
                     "alt": "Focus Mode",
-                    "width": "48px",
-                    "height": "48px",
+                    "width": "40px",
+                    "height": "40px",
                     "object-fit": "cover",
                     "border-radius": "4px"
                   },
@@ -378,9 +396,9 @@
                   "type": "label",
                   "data": {
                     "content": "Focus Mode",
-                    "color": "#ffffff",
+                    "color": "#111827",
                     "font-weight": "700",
-                    "font-size": "0.85rem"
+                    "font-size": "0.82rem"
                   },
                   "order": 1,
                   "display": "inline"
@@ -398,9 +416,9 @@
           "type": "h3",
           "data": {
             "content": "New Releases",
-            "color": "#ffffff",
+            "color": "#111827",
             "font-weight": "700",
-            "font-size": "1.2rem"
+            "font-size": "1.1rem"
           },
           "order": 3,
           "display": "block"
@@ -415,8 +433,8 @@
             "direction": "row",
             "justify": "flex-start",
             "align": "flex-start",
-            "wrap": "nowrap",
-            "gap": "16px"
+            "wrap": "wrap",
+            "gap": "12px"
           },
           "children": [
             {
@@ -430,7 +448,7 @@
                 "justify": "flex-start",
                 "align": "flex-start",
                 "wrap": "nowrap",
-                "gap": "6px"
+                "gap": "4px"
               },
               "children": [
                 {
@@ -439,8 +457,8 @@
                   "data": {
                     "src": "https://picsum.photos/seed/alb1/140/140",
                     "alt": "Album 1",
-                    "width": "140px",
-                    "height": "140px",
+                    "width": "120px",
+                    "height": "120px",
                     "object-fit": "cover",
                     "border-radius": "8px"
                   },
@@ -452,9 +470,9 @@
                   "type": "label",
                   "data": {
                     "content": "Midnight Drive",
-                    "color": "#ffffff",
+                    "color": "#111827",
                     "font-weight": "700",
-                    "font-size": "0.85rem"
+                    "font-size": "0.82rem"
                   },
                   "order": 1,
                   "display": "block"
@@ -464,8 +482,8 @@
                   "type": "label",
                   "data": {
                     "content": "The Weeknd",
-                    "color": "#b3b3b3",
-                    "font-size": "0.78rem"
+                    "color": "#6b7280",
+                    "font-size": "0.75rem"
                   },
                   "order": 2,
                   "display": "block"
@@ -485,7 +503,7 @@
                 "justify": "flex-start",
                 "align": "flex-start",
                 "wrap": "nowrap",
-                "gap": "6px"
+                "gap": "4px"
               },
               "children": [
                 {
@@ -494,8 +512,8 @@
                   "data": {
                     "src": "https://picsum.photos/seed/alb2/140/140",
                     "alt": "Album 2",
-                    "width": "140px",
-                    "height": "140px",
+                    "width": "120px",
+                    "height": "120px",
                     "object-fit": "cover",
                     "border-radius": "8px"
                   },
@@ -507,9 +525,9 @@
                   "type": "label",
                   "data": {
                     "content": "Solar Flare",
-                    "color": "#ffffff",
+                    "color": "#111827",
                     "font-weight": "700",
-                    "font-size": "0.85rem"
+                    "font-size": "0.82rem"
                   },
                   "order": 1,
                   "display": "block"
@@ -519,8 +537,8 @@
                   "type": "label",
                   "data": {
                     "content": "Dua Lipa",
-                    "color": "#b3b3b3",
-                    "font-size": "0.78rem"
+                    "color": "#6b7280",
+                    "font-size": "0.75rem"
                   },
                   "order": 2,
                   "display": "block"
@@ -540,7 +558,7 @@
                 "justify": "flex-start",
                 "align": "flex-start",
                 "wrap": "nowrap",
-                "gap": "6px"
+                "gap": "4px"
               },
               "children": [
                 {
@@ -549,8 +567,8 @@
                   "data": {
                     "src": "https://picsum.photos/seed/alb3/140/140",
                     "alt": "Album 3",
-                    "width": "140px",
-                    "height": "140px",
+                    "width": "120px",
+                    "height": "120px",
                     "object-fit": "cover",
                     "border-radius": "8px"
                   },
@@ -562,9 +580,9 @@
                   "type": "label",
                   "data": {
                     "content": "Neon Jungle",
-                    "color": "#ffffff",
+                    "color": "#111827",
                     "font-weight": "700",
-                    "font-size": "0.85rem"
+                    "font-size": "0.82rem"
                   },
                   "order": 1,
                   "display": "block"
@@ -574,8 +592,8 @@
                   "type": "label",
                   "data": {
                     "content": "Kendrick Lamar",
-                    "color": "#b3b3b3",
-                    "font-size": "0.78rem"
+                    "color": "#6b7280",
+                    "font-size": "0.75rem"
                   },
                   "order": 2,
                   "display": "block"
@@ -595,7 +613,7 @@
                 "justify": "flex-start",
                 "align": "flex-start",
                 "wrap": "nowrap",
-                "gap": "6px"
+                "gap": "4px"
               },
               "children": [
                 {
@@ -604,8 +622,8 @@
                   "data": {
                     "src": "https://picsum.photos/seed/alb4/140/140",
                     "alt": "Album 4",
-                    "width": "140px",
-                    "height": "140px",
+                    "width": "120px",
+                    "height": "120px",
                     "object-fit": "cover",
                     "border-radius": "8px"
                   },
@@ -617,9 +635,9 @@
                   "type": "label",
                   "data": {
                     "content": "Glass Animals",
-                    "color": "#ffffff",
+                    "color": "#111827",
                     "font-weight": "700",
-                    "font-size": "0.85rem"
+                    "font-size": "0.82rem"
                   },
                   "order": 1,
                   "display": "block"
@@ -629,8 +647,8 @@
                   "type": "label",
                   "data": {
                     "content": "Glass Animals",
-                    "color": "#b3b3b3",
-                    "font-size": "0.78rem"
+                    "color": "#6b7280",
+                    "font-size": "0.75rem"
                   },
                   "order": 2,
                   "display": "block"
@@ -687,8 +705,8 @@
               "data": {
                 "src": "https://picsum.photos/seed/now/48/48",
                 "alt": "Now playing",
-                "width": "48px",
-                "height": "48px",
+                "width": "44px",
+                "height": "44px",
                 "object-fit": "cover",
                 "border-radius": "4px"
               },
@@ -714,7 +732,7 @@
                   "type": "label",
                   "data": {
                     "content": "Midnight Drive",
-                    "color": "#ffffff",
+                    "color": "#111827",
                     "font-weight": "700",
                     "font-size": "0.9rem"
                   },
@@ -726,7 +744,7 @@
                   "type": "label",
                   "data": {
                     "content": "The Weeknd",
-                    "color": "#b3b3b3",
+                    "color": "#6b7280",
                     "font-size": "0.78rem"
                   },
                   "order": 1,
@@ -753,78 +771,110 @@
           "display": "block"
         },
         {
-          "id": "sp-pl-controls",
+          "id": "sp-center-stack",
           "type": "container",
           "data": {},
           "isContainer": true,
           "containerLayout": "flex",
           "containerFlexSettings": {
-            "direction": "row",
+            "direction": "column",
             "justify": "center",
             "align": "center",
             "wrap": "nowrap",
-            "gap": "8px"
+            "gap": "2px"
           },
           "children": [
             {
-              "id": "sp-ctl-shuf",
-              "type": "button",
-              "data": {
-                "label": "",
-                "icon": "shuffle",
-                "iconColor": "#b3b3b3",
-                "borderless": true
+              "id": "sp-pl-controls",
+              "type": "container",
+              "data": {},
+              "isContainer": true,
+              "containerLayout": "flex",
+              "containerFlexSettings": {
+                "direction": "row",
+                "justify": "center",
+                "align": "center",
+                "wrap": "nowrap",
+                "gap": "8px"
               },
+              "children": [
+                {
+                  "id": "sp-ctl-shuf",
+                  "type": "button",
+                  "data": {
+                    "label": "",
+                    "icon": "shuffle",
+                    "iconColor": "#9ca3af",
+                    "borderless": true
+                  },
+                  "order": 0,
+                  "display": "inline"
+                },
+                {
+                  "id": "sp-ctl-prev",
+                  "type": "button",
+                  "data": {
+                    "label": "",
+                    "icon": "skip-start-fill",
+                    "iconColor": "#374151",
+                    "borderless": true
+                  },
+                  "order": 1,
+                  "display": "inline"
+                },
+                {
+                  "id": "sp-ctl-play",
+                  "type": "button",
+                  "data": {
+                    "label": "",
+                    "icon": "play-circle-fill",
+                    "iconColor": "#111827",
+                    "borderless": false
+                  },
+                  "order": 2,
+                  "display": "inline"
+                },
+                {
+                  "id": "sp-ctl-next",
+                  "type": "button",
+                  "data": {
+                    "label": "",
+                    "icon": "skip-end-fill",
+                    "iconColor": "#374151",
+                    "borderless": true
+                  },
+                  "order": 3,
+                  "display": "inline"
+                },
+                {
+                  "id": "sp-ctl-rep",
+                  "type": "button",
+                  "data": {
+                    "label": "",
+                    "icon": "repeat",
+                    "iconColor": "#9ca3af",
+                    "borderless": true
+                  },
+                  "order": 4,
+                  "display": "inline"
+                }
+              ],
               "order": 0,
-              "display": "inline"
+              "display": "block"
             },
             {
-              "id": "sp-ctl-prev",
-              "type": "button",
+              "id": "sp-progress",
+              "type": "label",
               "data": {
-                "label": "",
-                "icon": "skip-start-fill",
-                "iconColor": "#ffffff",
-                "borderless": true
+                "content": "1:23 ──────●──────── 3:47",
+                "color": "#9ca3af",
+                "font-size": "0.72rem"
               },
               "order": 1,
-              "display": "inline"
-            },
-            {
-              "id": "sp-ctl-play",
-              "type": "button",
-              "data": {
-                "label": "",
-                "icon": "play-circle-fill",
-                "iconColor": "#ffffff",
-                "borderless": false
-              },
-              "order": 2,
-              "display": "inline"
-            },
-            {
-              "id": "sp-ctl-next",
-              "type": "button",
-              "data": {
-                "label": "",
-                "icon": "skip-end-fill",
-                "iconColor": "#ffffff",
-                "borderless": true
-              },
-              "order": 3,
-              "display": "inline"
-            },
-            {
-              "id": "sp-ctl-rep",
-              "type": "button",
-              "data": {
-                "label": "",
-                "icon": "repeat",
-                "iconColor": "#b3b3b3",
-                "borderless": true
-              },
-              "order": 4,
-              "display": "inline"
+              "display": "inline",
+              "flexItem": {
+                "flexGrow": 1
+              }
             }
           ],
           "order": 1,
@@ -850,7 +900,7 @@
               "data": {
                 "label": "",
                 "icon": "volume-up-fill",
-                "iconColor": "#b3b3b3",
+                "iconColor": "#6b7280",
                 "borderless": true
               },
               "order": 0,
@@ -861,7 +911,7 @@
               "type": "label",
               "data": {
                 "content": "▬▬▬▬▬●▬▬",
-                "color": "#b3b3b3",
+                "color": "#9ca3af",
                 "font-size": "0.75rem"
               },
               "order": 1,
@@ -893,7 +943,7 @@
   },
   "gridSettings": {
     "columns": "220px 1fr 1fr",
-    "rows": "1fr 72px",
+    "rows": "1fr 64px",
     "gap": "0px",
     "autoFlow": "row",
     "justifyItems": "stretch",

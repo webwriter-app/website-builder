@@ -8,8 +8,6 @@ import type {
 import { defaultFlexSettings, defaultGridSettings } from "./types";
 
 function migrateNodeGrid(n: any): any {
-  // If old schema stored container settings on node.grid, drop them.
-  // New schema expects placement fields only.
   const g = n?.grid;
   if (!g || typeof g !== "object") return migrateNodeChildren(n);
 
@@ -25,7 +23,6 @@ function migrateNodeGrid(n: any): any {
   return migrateNodeChildren(migrated);
 }
 
-/** Recursively migrate children arrays */
 function migrateNodeChildren(n: any): any {
   if (!Array.isArray(n?.children) || n.children.length === 0) return n;
   return { ...n, children: n.children.map(migrateNodeGrid) };
@@ -40,6 +37,7 @@ export type ParsedBuilderState = {
   gridSize: number;
   flexSettings: FlexSettings;
   gridSettings: GridSettings;
+  canvasBackground: string;           // ← NEW
   visibleLayoutModes?: Record<LayoutMode, boolean>;
   visibleCodeTabs?: Record<"html" | "css" | "combined", boolean>;
   showComponentSettingsInStudent?: boolean;
@@ -58,6 +56,7 @@ export function serializeBuilderState(args: {
   gridSize: number;
   flexSettings: FlexSettings;
   gridSettings: GridSettings;
+  canvasBackground: string;           // ← NEW
   visibleLayoutModes: Record<LayoutMode, boolean>;
   visibleCodeTabs: Record<"html" | "css" | "combined", boolean>;
   showComponentSettingsInStudent: boolean;
@@ -71,11 +70,11 @@ export function serializeBuilderState(args: {
     layoutMode: args.layoutMode,
     freeformNodes: args.freeformNodes,
     orderedNodes: args.orderedNodes,
-
     showGrid: args.showGrid,
     gridSize: args.gridSize,
     flexSettings: args.flexSettings,
     gridSettings: args.gridSettings,
+    canvasBackground: args.canvasBackground,   // ← NEW
     visibleLayoutModes: args.visibleLayoutModes,
     visibleCodeTabs: args.visibleCodeTabs,
     showComponentSettingsInStudent: args.showComponentSettingsInStudent,
@@ -110,7 +109,6 @@ export function parseBuilderState(
         ? (parsed.nodes as BuilderNode[])
         : [];
 
-    // Recursively migrate nodes (handles nested children too)
     const freeformNodes = freeformNodesRaw.map(migrateNodeGrid);
     const orderedNodes = orderedNodesRaw.map(migrateNodeGrid);
 
@@ -126,6 +124,12 @@ export function parseBuilderState(
       parsed.gridSettings && typeof parsed.gridSettings === "object"
         ? { ...gridBase, ...parsed.gridSettings }
         : gridBase;
+
+    // ── canvasBackground ────────────────────────────────────────────────────
+    const canvasBackground =
+      typeof parsed.canvasBackground === "string" && parsed.canvasBackground
+        ? parsed.canvasBackground
+        : "#ffffff";
 
     const visibleLayoutModes =
       parsed.visibleLayoutModes && typeof parsed.visibleLayoutModes === "object"
@@ -179,6 +183,7 @@ export function parseBuilderState(
       gridSize: Number(parsed.gridSize ?? 20),
       flexSettings,
       gridSettings,
+      canvasBackground,                        // ← NEW
       visibleLayoutModes,
       visibleCodeTabs,
       showComponentSettingsInStudent,

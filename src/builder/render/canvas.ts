@@ -11,13 +11,15 @@ import { defaultFlexSettings, defaultGridSettings } from "../types";
  */
 export function renderCanvasInner(host: WebwriterWebsiteBuilder) {
   const nodes = host.activeNodes;
+  const bg = host.canvasBackground ?? "#ffffff";   // ← reads from host
+
   if (nodes.length === 0) {
     return html`<div class="drop-zone">drop components here</div>`;
   }
 
   if (host.layoutMode === "freeform") {
     return html`
-      <div class="freeform-root">
+      <div class="freeform-root" style="background:${bg};">
         ${repeat(nodes, (n) => n.id, (n) => renderNodeFreeform(host, n))}
       </div>
     `;
@@ -25,7 +27,7 @@ export function renderCanvasInner(host: WebwriterWebsiteBuilder) {
 
   if (host.layoutMode === "flow") {
     return html`
-      <div class="flow-root">
+      <div class="flow-root" style="background:${bg};">
         ${repeat(sortedNodes(nodes), (n) => n.id, (n) => renderNodeFlow(host, n))}
       </div>
     `;
@@ -33,7 +35,7 @@ export function renderCanvasInner(host: WebwriterWebsiteBuilder) {
 
   if (host.layoutMode === "flex") {
     return html`
-      <div class="flex-root" style=${host.layout.flexContainerStyle()}>
+      <div class="flex-root" style="${host.layout.flexContainerStyle()};background:${bg};">
         ${repeat(sortedNodes(nodes), (n) => n.id, (n) => renderNodeFlow(host, n))}
       </div>
     `;
@@ -41,7 +43,7 @@ export function renderCanvasInner(host: WebwriterWebsiteBuilder) {
 
   // Grid
   return html`
-    <div class="grid-root" style=${host.layout.gridContainerStyle()}>
+    <div class="grid-root" style="${host.layout.gridContainerStyle()};background:${bg};">
       ${repeat(sortedNodes(nodes), (n) => n.id, (n) => renderNodeFlow(host, n))}
     </div>
   `;

@@ -57,6 +57,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   flexSettings:  FlexSettings  = defaultFlexSettings();
   gridSettings:  GridSettings  = defaultGridSettings();
 
+  canvasBackground: string = "#ffffff";
+
   // ─── Selection ───────────────────────────────────────────────────────────
   selectedNodeId: string | null = null;
   selectedElement: HTMLElement | null = null;
@@ -455,6 +457,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       gridSize: this.gridSize,
       flexSettings: this.flexSettings,
       gridSettings: this.gridSettings,
+      canvasBackground: this.canvasBackground,
     });
   }
 
@@ -477,7 +480,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this.gridSize                       = parsed.gridSize;
     this.flexSettings                   = parsed.flexSettings;
     this.gridSettings                   = parsed.gridSettings;
-
+    this.canvasBackground               = parsed.canvasBackground       ?? "#ffffff";
     this.clearSelection();
   }
 
