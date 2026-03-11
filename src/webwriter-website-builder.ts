@@ -111,15 +111,6 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   infoAnchorEl: HTMLElement | null = null;
   suppressNextClick = false;
   private componentQuery = "";
-  private oftenUsed: string[] = [
-    "h1",
-    "paragraph",
-    "image",
-    "button",
-    "link",
-    "divider",
-    "icon",
-  ];
 
   // ─── Author visibility toggles ───────────────────────────────────────────
   @state() visibleLayoutModes: Record<LayoutMode, boolean> = {
@@ -739,7 +730,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
             ${renderCanvasInner(this)} ${renderFloatingToolbar(this)}
             ${renderInfoPopup(this)}
 
-            <div class="fs-btn">
+            <div class="fs-btn" style=${this.toolbarKeyHidden ? "display:none;" : ""}>
               <sl-button
                 size="small"
                 variant="primary"

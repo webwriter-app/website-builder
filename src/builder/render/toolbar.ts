@@ -14,6 +14,7 @@ import {
   wbDividerIcon,
   wbSearchIcon,
 } from "../../assets/icons";
+import "../../assets/shoelaceImports";
 
 const LAYOUT_LABELS: Record<LayoutMode, string> = {
   freeform: "Freeform",
@@ -164,8 +165,9 @@ export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
     <div class="group-toolbar" @click=${(e: MouseEvent) => e.stopPropagation()}>
       <span class="group-count">${host.selectedIds.size} selected</span>
 
-      <select
+      <sl-select
         class="group-template-select"
+        size="small"
         .value=${host.groupTemplateId}
         @change=${(e: Event) => {
           host.groupTemplateId = (e.target as HTMLSelectElement).value;
@@ -173,11 +175,11 @@ export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
       >
         ${CONTAINER_TEMPLATES.map(
           (t) =>
-            html`<option value=${t.id} title=${t.description}>
+            html`<sl-option value=${t.id} title=${t.description}>
               ${t.label}
-            </option>`,
+            </sl-option>`,
         )}
-      </select>
+      </sl-select>
 
       <button
         class="group-btn"

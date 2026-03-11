@@ -30,7 +30,6 @@ export const layoutStyles = css`
     overflow: visible;
     position: relative;
     min-width: 0;
-    border-radius: 24px;
     border: 2px dashed var(--sl-color-neutral-300);
     box-sizing: border-box;
     transition: border-color 200ms ease;
@@ -184,16 +183,17 @@ export const layoutStyles = css`
     gap: 6px;
     padding: 4px 8px;
     background: var(--sl-color-primary-50);
-    border: 1px solid var(--sl-color-primary-200);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     margin-top: 6px;
     margin-bottom: 0;
+    height: 32px;
   }
 
   .group-count {
     font-size: 0.78rem;
     font-weight: 600;
-    color: var(--sl-color-primary-700);
+    color: #2196f3;
     white-space: nowrap;
   }
 
@@ -205,6 +205,8 @@ export const layoutStyles = css`
     background: white;
     flex: 1;
     min-width: 0;
+    font-family: "Geist", "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
   }
 
   .group-btn {
@@ -212,7 +214,7 @@ export const layoutStyles = css`
     padding: 2px 8px;
     border-radius: 6px;
     border: 1px solid var(--sl-color-primary-400);
-    background: var(--sl-color-primary-600);
+    background: #2196f3;
     color: white;
     cursor: pointer;
     white-space: nowrap;
@@ -223,6 +225,21 @@ export const layoutStyles = css`
     color: var(--sl-color-neutral-600);
     border-color: var(--sl-color-neutral-300);
   }
+
+  /* Overriding Shoelace internals to shrink the select */
+  .group-template-select::part(combobox) {
+    height: 24px;
+    width: 130px;
+    min-height: unset;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .group-template-select::part(display-input) {
+  font-family: "Geist", "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
 
   /* ── Layers panel ──────────────────────────────────────────────────── */
 
