@@ -30,27 +30,45 @@
           "display": "inline"
         },
         {
-          "id": "wa-c1-2",
-          "type": "button",
-          "data": {
-            "label": "",
-            "icon": "geo-alt",
-            "iconColor": "#6366f1",
-            "borderless": true
+          "id": "wa-c1-right",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "row",
+            "justify": "flex-end",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "4px"
           },
+          "children": [
+            {
+              "id": "wa-c1-2",
+              "type": "button",
+              "data": {
+                "label": "",
+                "icon": "geo-alt",
+                "iconColor": "#6366f1",
+                "borderless": true
+              },
+              "order": 0,
+              "display": "inline"
+            },
+            {
+              "id": "wa-c1-3",
+              "type": "button",
+              "data": {
+                "label": "",
+                "icon": "gear",
+                "iconColor": "#94a3b8",
+                "borderless": true
+              },
+              "order": 1,
+              "display": "inline"
+            }
+          ],
           "order": 1,
-          "display": "inline"
-        },
-        {
-          "id": "wa-c1-3",
-          "type": "button",
-          "data": {
-            "label": "",
-            "icon": "gear",
-            "iconColor": "#94a3b8",
-            "borderless": true
-          },
-          "order": 2,
           "display": "inline"
         }
       ],
@@ -92,7 +110,7 @@
             "justify": "flex-start",
             "align": "flex-start",
             "wrap": "nowrap",
-            "gap": "4px"
+            "gap": "2px"
           },
           "children": [
             {
@@ -113,7 +131,7 @@
                 "content": "18°C",
                 "color": "#1e293b",
                 "font-weight": "800",
-                "font-size": "3.5rem"
+                "font-size": "3rem"
               },
               "order": 1,
               "display": "block"
@@ -198,7 +216,7 @@
         "justify": "space-around",
         "align": "center",
         "wrap": "wrap",
-        "gap": "8px"
+        "gap": "4px"
       },
       "children": [
         {
@@ -430,7 +448,7 @@
         "content": "5-DAY FORECAST",
         "color": "#94a3b8",
         "font-weight": "700",
-        "font-size": "0.75rem"
+        "font-size": "0.72rem"
       },
       "order": 6,
       "display": "block"
@@ -446,7 +464,7 @@
         "justify": "space-between",
         "align": "stretch",
         "wrap": "nowrap",
-        "gap": "8px"
+        "gap": "4px"
       },
       "children": [
         {
@@ -460,7 +478,7 @@
             "justify": "center",
             "align": "center",
             "wrap": "nowrap",
-            "gap": "4px"
+            "gap": "2px"
           },
           "children": [
             {
@@ -469,7 +487,7 @@
               "data": {
                 "content": "Mon",
                 "color": "#64748b",
-                "font-size": "0.8rem"
+                "font-size": "0.75rem"
               },
               "order": 0,
               "display": "block"
@@ -479,7 +497,7 @@
               "type": "icon",
               "data": {
                 "name": "sun",
-                "size": "24px",
+                "size": "22px",
                 "color": "#f59e0b"
               },
               "order": 1,
@@ -491,7 +509,8 @@
               "data": {
                 "content": "22°",
                 "color": "#1e293b",
-                "font-weight": "700"
+                "font-weight": "700",
+                "font-size": "0.95rem"
               },
               "order": 2,
               "display": "block"
@@ -514,7 +533,7 @@
             "justify": "center",
             "align": "center",
             "wrap": "nowrap",
-            "gap": "4px"
+            "gap": "2px"
           },
           "children": [
             {
@@ -523,7 +542,7 @@
               "data": {
                 "content": "Tue",
                 "color": "#64748b",
-                "font-size": "0.8rem"
+                "font-size": "0.75rem"
               },
               "order": 0,
               "display": "block"
@@ -533,7 +552,7 @@
               "type": "icon",
               "data": {
                 "name": "cloud-rain",
-                "size": "24px",
+                "size": "22px",
                 "color": "#3b82f6"
               },
               "order": 1,
@@ -545,7 +564,8 @@
               "data": {
                 "content": "15°",
                 "color": "#1e293b",
-                "font-weight": "700"
+                "font-weight": "700",
+                "font-size": "0.95rem"
               },
               "order": 2,
               "display": "block"
@@ -568,7 +588,7 @@
             "justify": "center",
             "align": "center",
             "wrap": "nowrap",
-            "gap": "4px"
+            "gap": "2px"
           },
           "children": [
             {
@@ -577,7 +597,7 @@
               "data": {
                 "content": "Wed",
                 "color": "#64748b",
-                "font-size": "0.8rem"
+                "font-size": "0.75rem"
               },
               "order": 0,
               "display": "block"
@@ -587,7 +607,7 @@
               "type": "icon",
               "data": {
                 "name": "cloud",
-                "size": "24px",
+                "size": "22px",
                 "color": "#94a3b8"
               },
               "order": 1,
@@ -599,7 +619,8 @@
               "data": {
                 "content": "17°",
                 "color": "#1e293b",
-                "font-weight": "700"
+                "font-weight": "700",
+                "font-size": "0.95rem"
               },
               "order": 2,
               "display": "block"
@@ -622,7 +643,7 @@
             "justify": "center",
             "align": "center",
             "wrap": "nowrap",
-            "gap": "4px"
+            "gap": "2px"
           },
           "children": [
             {
@@ -631,7 +652,7 @@
               "data": {
                 "content": "Thu",
                 "color": "#64748b",
-                "font-size": "0.8rem"
+                "font-size": "0.75rem"
               },
               "order": 0,
               "display": "block"
@@ -641,7 +662,7 @@
               "type": "icon",
               "data": {
                 "name": "sun",
-                "size": "24px",
+                "size": "22px",
                 "color": "#f59e0b"
               },
               "order": 1,
@@ -653,7 +674,8 @@
               "data": {
                 "content": "24°",
                 "color": "#1e293b",
-                "font-weight": "700"
+                "font-weight": "700",
+                "font-size": "0.95rem"
               },
               "order": 2,
               "display": "block"
@@ -676,7 +698,7 @@
             "justify": "center",
             "align": "center",
             "wrap": "nowrap",
-            "gap": "4px"
+            "gap": "2px"
           },
           "children": [
             {
@@ -685,7 +707,7 @@
               "data": {
                 "content": "Fri",
                 "color": "#64748b",
-                "font-size": "0.8rem"
+                "font-size": "0.75rem"
               },
               "order": 0,
               "display": "block"
@@ -695,7 +717,7 @@
               "type": "icon",
               "data": {
                 "name": "cloud-lightning-rain",
-                "size": "24px",
+                "size": "22px",
                 "color": "#8b5cf6"
               },
               "order": 1,
@@ -707,7 +729,8 @@
               "data": {
                 "content": "12°",
                 "color": "#1e293b",
-                "font-weight": "700"
+                "font-weight": "700",
+                "font-size": "0.95rem"
               },
               "order": 2,
               "display": "block"
@@ -731,7 +754,7 @@
     "justify": "flex-start",
     "align": "stretch",
     "wrap": "nowrap",
-    "gap": "16px"
+    "gap": "10px"
   },
   "gridSettings": {
     "columns": "repeat(3, 1fr)",
