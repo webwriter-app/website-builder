@@ -1,101 +1,440 @@
 <webwriter-website-builder
   ww-state='{
-    "layoutMode": "grid",
-    "freeformNodes": [],
-    "orderedNodes": [
-      {
-        "id": "gr-s-01",
-        "type": "h2",
-        "data": { "content": "Our Features", "color": "#111827", "font-weight": "700" },
-        "order": 0,
-        "display": "block",
-        "grid": { "colSpan": 3 }
+  "layoutMode": "grid",
+  "freeformNodes": [],
+  "orderedNodes": [
+    {
+      "id": "gs-01",
+      "type": "label",
+      "data": {
+        "content": "FEATURES",
+        "color": "#6366f1",
+        "font-weight": "700",
+        "font-size": "0.75rem"
       },
-      {
-        "id": "gr-s-02",
-        "type": "icon",
-        "data": { "name": "lightning-charge", "size": "32px", "color": "#2563eb" },
-        "order": 1,
-        "display": "block"
-      },
-      {
-        "id": "gr-s-03",
-        "type": "icon",
-        "data": { "name": "shield-check", "size": "32px", "color": "#16a34a" },
-        "order": 2,
-        "display": "block"
-      },
-      {
-        "id": "gr-s-04",
-        "type": "icon",
-        "data": { "name": "globe", "size": "32px", "color": "#9333ea" },
-        "order": 3,
-        "display": "block"
-      },
-      {
-        "id": "gr-s-05",
-        "type": "h3",
-        "data": { "content": "Fast", "color": "#111827", "font-weight": "600" },
-        "order": 4,
-        "display": "block"
-      },
-      {
-        "id": "gr-s-06",
-        "type": "h3",
-        "data": { "content": "Secure", "color": "#111827", "font-weight": "600" },
-        "order": 5,
-        "display": "block"
-      },
-      {
-        "id": "gr-s-07",
-        "type": "h3",
-        "data": { "content": "Global", "color": "#111827", "font-weight": "600" },
-        "order": 6,
-        "display": "block"
-      },
-      {
-        "id": "gr-s-08",
-        "type": "p",
-        "data": { "content": "Optimised performance from day one.", "color": "#6b7280", "width": "180px" },
-        "order": 7,
-        "display": "block"
-      },
-      {
-        "id": "gr-s-09",
-        "type": "p",
-        "data": { "content": "Built-in encryption and access controls.", "color": "#6b7280", "width": "180px" },
-        "order": 8,
-        "display": "block"
-      },
-      {
-        "id": "gr-s-10",
-        "type": "p",
-        "data": { "content": "Deploy to any region in seconds.", "color": "#6b7280", "width": "180px" },
-        "order": 9,
-        "display": "block"
+      "order": 0,
+      "display": "block",
+      "grid": {
+        "colStart": 1,
+        "colSpan": 3
       }
-    ],
-    "showGrid": false,
-    "gridSize": 20,
-    "flexSettings": {
-      "direction": "row",
-      "justify": "flex-start",
-      "align": "stretch",
-      "wrap": "nowrap",
-      "gap": "12px"
     },
-    "gridSettings": {
-      "columns": "repeat(3, 1fr)",
-      "rows": "auto",
-      "gap": "16px",
-      "autoFlow": "row",
-      "justifyItems": "start",
-      "alignItems": "start"
+    {
+      "id": "gs-02",
+      "type": "h2",
+      "data": {
+        "content": "Everything you need",
+        "color": "#111827",
+        "font-weight": "800",
+        "font-size": "2rem"
+      },
+      "order": 1,
+      "display": "block",
+      "grid": {
+        "colStart": 1,
+        "colSpan": 3
+      }
     },
-    "visibleLayoutModes": { "freeform": true, "flow": true, "flex": true, "grid": true },
-    "visibleCodeTabs": { "combined": true, "html": true, "css": true },
-    "showComponentSettingsInStudent": true,
-    "showSidebarInStudent": false,
-    "allowDeleteInStudent": false
-  }'
+    {
+      "id": "gs-03",
+      "type": "paragraph",
+      "data": {
+        "content": "A complete toolkit for building modern, responsive web pages without any code.",
+        "color": "#6b7280",
+        "font-size": "1rem",
+        "width": "480px"
+      },
+      "order": 2,
+      "display": "block",
+      "grid": {
+        "colStart": 1,
+        "colSpan": 3
+      }
+    },
+    {
+      "id": "gs-d1",
+      "type": "divider",
+      "data": {
+        "width": "100%",
+        "height": "1px"
+      },
+      "order": 3,
+      "display": "block",
+      "grid": {
+        "colStart": 1,
+        "colSpan": 3
+      }
+    },
+    {
+      "id": "gs-card1",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "column",
+        "justify": "flex-start",
+        "align": "flex-start",
+        "wrap": "nowrap",
+        "gap": "8px"
+      },
+      "children": [
+        {
+          "id": "gs-c1-i",
+          "type": "icon",
+          "data": {
+            "name": "lightning-charge",
+            "size": "28px",
+            "color": "#6366f1"
+          },
+          "order": 0,
+          "display": "block"
+        },
+        {
+          "id": "gs-c1-h",
+          "type": "h3",
+          "data": {
+            "content": "Blazing Fast",
+            "color": "#111827",
+            "font-weight": "700",
+            "font-size": "1.1rem"
+          },
+          "order": 1,
+          "display": "block"
+        },
+        {
+          "id": "gs-c1-p",
+          "type": "paragraph",
+          "data": {
+            "content": "Optimised output with zero bloat. Your pages load instantly, every time.",
+            "color": "#6b7280",
+            "font-size": "0.9rem"
+          },
+          "order": 2,
+          "display": "block"
+        }
+      ],
+      "order": 4,
+      "display": "block",
+      "grid": {
+        "colStart": 1,
+        "colSpan": 1
+      }
+    },
+    {
+      "id": "gs-card2",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "column",
+        "justify": "flex-start",
+        "align": "flex-start",
+        "wrap": "nowrap",
+        "gap": "8px"
+      },
+      "children": [
+        {
+          "id": "gs-c2-i",
+          "type": "icon",
+          "data": {
+            "name": "phone",
+            "size": "28px",
+            "color": "#10b981"
+          },
+          "order": 0,
+          "display": "block"
+        },
+        {
+          "id": "gs-c2-h",
+          "type": "h3",
+          "data": {
+            "content": "Responsive",
+            "color": "#111827",
+            "font-weight": "700",
+            "font-size": "1.1rem"
+          },
+          "order": 1,
+          "display": "block"
+        },
+        {
+          "id": "gs-c2-p",
+          "type": "paragraph",
+          "data": {
+            "content": "Layouts adapt beautifully from desktop down to the smallest mobile screen.",
+            "color": "#6b7280",
+            "font-size": "0.9rem"
+          },
+          "order": 2,
+          "display": "block"
+        }
+      ],
+      "order": 5,
+      "display": "block",
+      "grid": {
+        "colStart": 2,
+        "colSpan": 1
+      }
+    },
+    {
+      "id": "gs-card3",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "column",
+        "justify": "flex-start",
+        "align": "flex-start",
+        "wrap": "nowrap",
+        "gap": "8px"
+      },
+      "children": [
+        {
+          "id": "gs-c3-i",
+          "type": "icon",
+          "data": {
+            "name": "shield-check",
+            "size": "28px",
+            "color": "#f59e0b"
+          },
+          "order": 0,
+          "display": "block"
+        },
+        {
+          "id": "gs-c3-h",
+          "type": "h3",
+          "data": {
+            "content": "Secure",
+            "color": "#111827",
+            "font-weight": "700",
+            "font-size": "1.1rem"
+          },
+          "order": 1,
+          "display": "block"
+        },
+        {
+          "id": "gs-c3-p",
+          "type": "paragraph",
+          "data": {
+            "content": "Built-in best practices keep your content and users safe by default.",
+            "color": "#6b7280",
+            "font-size": "0.9rem"
+          },
+          "order": 2,
+          "display": "block"
+        }
+      ],
+      "order": 6,
+      "display": "block",
+      "grid": {
+        "colStart": 3,
+        "colSpan": 1
+      }
+    },
+    {
+      "id": "gs-card4",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "column",
+        "justify": "flex-start",
+        "align": "flex-start",
+        "wrap": "nowrap",
+        "gap": "8px"
+      },
+      "children": [
+        {
+          "id": "gs-c4-i",
+          "type": "icon",
+          "data": {
+            "name": "palette2",
+            "size": "28px",
+            "color": "#ec4899"
+          },
+          "order": 0,
+          "display": "block"
+        },
+        {
+          "id": "gs-c4-h",
+          "type": "h3",
+          "data": {
+            "content": "Customisable",
+            "color": "#111827",
+            "font-weight": "700",
+            "font-size": "1.1rem"
+          },
+          "order": 1,
+          "display": "block"
+        },
+        {
+          "id": "gs-c4-p",
+          "type": "paragraph",
+          "data": {
+            "content": "Adjust colours, fonts, spacing and layout with a visual sidebar — no CSS needed.",
+            "color": "#6b7280",
+            "font-size": "0.9rem"
+          },
+          "order": 2,
+          "display": "block"
+        }
+      ],
+      "order": 7,
+      "display": "block",
+      "grid": {
+        "colStart": 1,
+        "colSpan": 1
+      }
+    },
+    {
+      "id": "gs-card5",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "column",
+        "justify": "flex-start",
+        "align": "flex-start",
+        "wrap": "nowrap",
+        "gap": "8px"
+      },
+      "children": [
+        {
+          "id": "gs-c5-i",
+          "type": "icon",
+          "data": {
+            "name": "code-slash",
+            "size": "28px",
+            "color": "#3b82f6"
+          },
+          "order": 0,
+          "display": "block"
+        },
+        {
+          "id": "gs-c5-h",
+          "type": "h3",
+          "data": {
+            "content": "Clean Code",
+            "color": "#111827",
+            "font-weight": "700",
+            "font-size": "1.1rem"
+          },
+          "order": 1,
+          "display": "block"
+        },
+        {
+          "id": "gs-c5-p",
+          "type": "paragraph",
+          "data": {
+            "content": "Export semantic HTML + CSS anytime. What you build is what you ship.",
+            "color": "#6b7280",
+            "font-size": "0.9rem"
+          },
+          "order": 2,
+          "display": "block"
+        }
+      ],
+      "order": 8,
+      "display": "block",
+      "grid": {
+        "colStart": 2,
+        "colSpan": 1
+      }
+    },
+    {
+      "id": "gs-card6",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "column",
+        "justify": "flex-start",
+        "align": "flex-start",
+        "wrap": "nowrap",
+        "gap": "8px"
+      },
+      "children": [
+        {
+          "id": "gs-c6-i",
+          "type": "icon",
+          "data": {
+            "name": "people",
+            "size": "28px",
+            "color": "#8b5cf6"
+          },
+          "order": 0,
+          "display": "block"
+        },
+        {
+          "id": "gs-c6-h",
+          "type": "h3",
+          "data": {
+            "content": "Collaborative",
+            "color": "#111827",
+            "font-weight": "700",
+            "font-size": "1.1rem"
+          },
+          "order": 1,
+          "display": "block"
+        },
+        {
+          "id": "gs-c6-p",
+          "type": "paragraph",
+          "data": {
+            "content": "Share layouts with students or teammates and iterate in real-time together.",
+            "color": "#6b7280",
+            "font-size": "0.9rem"
+          },
+          "order": 2,
+          "display": "block"
+        }
+      ],
+      "order": 9,
+      "display": "block",
+      "grid": {
+        "colStart": 3,
+        "colSpan": 1
+      }
+    }
+  ],
+  "showGrid": false,
+  "gridSize": 20,
+  "flexSettings": {
+    "direction": "row",
+    "justify": "flex-start",
+    "align": "stretch",
+    "wrap": "nowrap",
+    "gap": "12px"
+  },
+  "gridSettings": {
+    "columns": "repeat(3, 1fr)",
+    "rows": "auto",
+    "gap": "24px",
+    "autoFlow": "row",
+    "justifyItems": "stretch",
+    "alignItems": "start"
+  },
+  "visibleLayoutModes": {
+    "freeform": true,
+    "flow": true,
+    "flex": true,
+    "grid": true
+  },
+  "visibleCodeTabs": {
+    "combined": true,
+    "html": true,
+    "css": true
+  },
+  "showComponentSettingsInStudent": true,
+  "showSidebarInStudent": false,
+  "allowDeleteInStudent": false,
+  "showToolbarInStudent": true,
+  "showAddButton": true,
+  "showLayoutDropdown": true
+}'
 ></webwriter-website-builder>

@@ -1,69 +1,308 @@
 <webwriter-website-builder
   ww-state='{
-    "layoutMode": "flex",
-    "freeformNodes": [],
-    "orderedNodes": [
-      {
-        "id": "fl-s-01",
-        "type": "image",
-        "data": {
-          "src": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&q=80",
-          "alt": "Hero image",
-          "width": "280px",
-          "height": "180px",
-          "object-fit": "cover",
-          "border-radius": "10px"
+  "layoutMode": "flex",
+  "freeformNodes": [],
+  "orderedNodes": [
+    {
+      "id": "fls-c1",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "row",
+        "justify": "space-between",
+        "align": "center",
+        "wrap": "nowrap",
+        "gap": "16px"
+      },
+      "children": [
+        {
+          "id": "fls-c1-left",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "row",
+            "justify": "flex-start",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "4px"
+          },
+          "children": [
+            {
+              "id": "fls-c1-1",
+              "type": "label",
+              "data": {
+                "content": "MyBrand",
+                "color": "#111827",
+                "font-weight": "800",
+                "font-size": "1.15rem"
+              },
+              "order": 0,
+              "display": "inline"
+            },
+            {
+              "id": "fls-c1-2",
+              "type": "link",
+              "data": {
+                "label": "Features",
+                "href": "#",
+                "icon": ""
+              },
+              "order": 1,
+              "display": "inline"
+            },
+            {
+              "id": "fls-c1-3",
+              "type": "link",
+              "data": {
+                "label": "Pricing",
+                "href": "#",
+                "icon": ""
+              },
+              "order": 2,
+              "display": "inline"
+            },
+            {
+              "id": "fls-c1-4",
+              "type": "link",
+              "data": {
+                "label": "Docs",
+                "href": "#",
+                "icon": ""
+              },
+              "order": 3,
+              "display": "inline"
+            }
+          ],
+          "order": 0,
+          "display": "inline"
         },
-        "order": 0,
-        "display": "block"
+        {
+          "id": "fls-c1-5",
+          "type": "button",
+          "data": {
+            "label": "Sign Up",
+            "icon": "",
+            "iconColor": "#0f172a",
+            "borderless": false
+          },
+          "order": 1,
+          "display": "inline"
+        }
+      ],
+      "order": 0,
+      "display": "block"
+    },
+    {
+      "id": "fls-d1",
+      "type": "divider",
+      "data": {
+        "width": "100%",
+        "height": "1px"
       },
-      {
-        "id": "fl-s-02",
-        "type": "h2",
-        "data": { "content": "Welcome to FlexLayout", "color": "#111827", "font-weight": "700" },
-        "order": 1,
-        "display": "block"
+      "order": 1,
+      "display": "block"
+    },
+    {
+      "id": "fls-02",
+      "type": "label",
+      "data": {
+        "content": "✦ NOW IN BETA",
+        "color": "#6366f1",
+        "font-weight": "800",
+        "font-size": "0.72rem"
       },
-      {
-        "id": "fl-s-03",
-        "type": "p",
-        "data": {
-          "content": "This is a simple flex row. Items are placed side-by-side and wrap on smaller screens.",
-          "color": "#374151",
-          "width": "240px"
+      "order": 2,
+      "display": "block"
+    },
+    {
+      "id": "fls-03",
+      "type": "h1",
+      "data": {
+        "content": "Build pages visually.",
+        "color": "#0f172a",
+        "font-weight": "800",
+        "font-size": "2.8rem"
+      },
+      "order": 3,
+      "display": "block"
+    },
+    {
+      "id": "fls-04",
+      "type": "paragraph",
+      "data": {
+        "content": "Drag, drop, and arrange components without writing a single line of code.",
+        "color": "#4b5563",
+        "font-size": "1.05rem",
+        "width": "480px"
+      },
+      "order": 4,
+      "display": "block"
+    },
+    {
+      "id": "fls-c2",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "row",
+        "justify": "flex-end",
+        "align": "center",
+        "wrap": "nowrap",
+        "gap": "12px"
+      },
+      "children": [
+        {
+          "id": "fls-c2-1",
+          "type": "button",
+          "data": {
+            "label": "Start for free →",
+            "icon": "",
+            "iconColor": "#0f172a",
+            "borderless": false
+          },
+          "order": 0,
+          "display": "inline"
         },
-        "order": 2,
-        "display": "block"
+        {
+          "id": "fls-c2-2",
+          "type": "link",
+          "data": {
+            "label": "Watch demo",
+            "href": "#",
+            "icon": "play-circle"
+          },
+          "order": 1,
+          "display": "inline"
+        }
+      ],
+      "order": 5,
+      "display": "block"
+    },
+    {
+      "id": "fls-d2",
+      "type": "divider",
+      "data": {
+        "width": "100%",
+        "height": "3px"
       },
-      {
-        "id": "fl-s-04",
-        "type": "button",
-        "data": { "label": "Get Started", "icon": "", "iconColor": "#0f172a", "borderless": false },
-        "order": 3,
-        "display": "block"
-      }
-    ],
-    "showGrid": false,
-    "gridSize": 20,
-    "flexSettings": {
-      "direction": "row",
-      "justify": "flex-start",
-      "align": "center",
-      "wrap": "wrap",
-      "gap": "24px"
+      "order": 6,
+      "display": "block"
     },
-    "gridSettings": {
-      "columns": "repeat(3, 1fr)",
-      "rows": "auto",
-      "gap": "16px",
-      "autoFlow": "row",
-      "justifyItems": "stretch",
-      "alignItems": "start"
-    },
-    "visibleLayoutModes": { "freeform": true, "flow": true, "flex": true, "grid": true },
-    "visibleCodeTabs": { "combined": true, "html": true, "css": true },
-    "showComponentSettingsInStudent": true,
-    "showSidebarInStudent": false,
-    "allowDeleteInStudent": false
-  }'
+    {
+      "id": "fls-c3",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "row",
+        "justify": "flex-end",
+        "align": "center",
+        "wrap": "wrap",
+        "gap": "0px"
+      },
+      "children": [
+        {
+          "id": "fls-c3-1",
+          "type": "label",
+          "data": {
+            "content": "★★★★★  4.9 / 5",
+            "color": "#f59e0b",
+            "font-weight": "700",
+            "font-size": "0.88rem"
+          },
+          "order": 0,
+          "display": "inline"
+        },
+        {
+          "id": "fls-c3-dot1",
+          "type": "label",
+          "data": {
+            "content": "·",
+            "color": "#d1d5db",
+            "font-size": "1rem",
+            "font-weight": "400"
+          },
+          "order": 1,
+          "display": "inline"
+        },
+        {
+          "id": "fls-c3-2",
+          "type": "label",
+          "data": {
+            "content": "  2,400+ users",
+            "color": "#4b5563",
+            "font-size": "0.88rem"
+          },
+          "order": 2,
+          "display": "inline"
+        },
+        {
+          "id": "fls-c3-dot2",
+          "type": "label",
+          "data": {
+            "content": "·",
+            "color": "#d1d5db",
+            "font-size": "1rem",
+            "font-weight": "400"
+          },
+          "order": 3,
+          "display": "inline"
+        },
+        {
+          "id": "fls-c3-3",
+          "type": "label",
+          "data": {
+            "content": "  Open-source",
+            "color": "#4b5563",
+            "font-size": "0.88rem"
+          },
+          "order": 4,
+          "display": "inline"
+        }
+      ],
+      "order": 7,
+      "display": "block"
+    }
+  ],
+  "showGrid": false,
+  "gridSize": 20,
+  "flexSettings": {
+    "direction": "column",
+    "justify": "flex-start",
+    "align": "stretch",
+    "wrap": "nowrap",
+    "gap": "14px"
+  },
+  "gridSettings": {
+    "columns": "repeat(3, 1fr)",
+    "rows": "auto",
+    "gap": "12px",
+    "autoFlow": "row",
+    "justifyItems": "stretch",
+    "alignItems": "start"
+  },
+  "visibleLayoutModes": {
+    "freeform": true,
+    "flow": true,
+    "flex": true,
+    "grid": true
+  },
+  "visibleCodeTabs": {
+    "combined": true,
+    "html": true,
+    "css": true
+  },
+  "showComponentSettingsInStudent": true,
+  "showSidebarInStudent": false,
+  "allowDeleteInStudent": false,
+  "showToolbarInStudent": true,
+  "showAddButton": true,
+  "showLayoutDropdown": true
+}'
 ></webwriter-website-builder>

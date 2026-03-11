@@ -1,181 +1,762 @@
 <webwriter-website-builder
   ww-state='{
-    "layoutMode": "flex",
-    "freeformNodes": [],
-    "orderedNodes": [
-      {
-        "id": "fl-a-nav-label",
-        "type": "label",
-        "data": { "content": "MyBrand", "color": "#1d4ed8", "font-weight": "800" },
-        "order": 0,
-        "display": "inline"
+  "layoutMode": "flex",
+  "freeformNodes": [],
+  "orderedNodes": [
+    {
+      "id": "wa-c1",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "row",
+        "justify": "space-between",
+        "align": "center",
+        "wrap": "nowrap",
+        "gap": "12px"
       },
-      {
-        "id": "fl-a-nav-link1",
-        "type": "link",
-        "data": { "label": "Features", "href": "#", "icon": "" },
-        "order": 1,
-        "display": "inline"
-      },
-      {
-        "id": "fl-a-nav-link2",
-        "type": "link",
-        "data": { "label": "Pricing", "href": "#", "icon": "" },
-        "order": 2,
-        "display": "inline"
-      },
-      {
-        "id": "fl-a-nav-link3",
-        "type": "link",
-        "data": { "label": "Docs", "href": "#", "icon": "book" },
-        "order": 3,
-        "display": "inline"
-      },
-      {
-        "id": "fl-a-nav-btn",
-        "type": "button",
-        "data": { "label": "Sign up free", "icon": "arrow-right", "iconColor": "#1d4ed8", "borderless": false },
-        "order": 4,
-        "display": "inline"
-      },
-      {
-        "id": "fl-a-divider",
-        "type": "divider",
-        "data": { "width": "100%", "height": "1px" },
-        "order": 5,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-hero-icon",
-        "type": "icon",
-        "data": { "name": "lightning-charge-fill", "size": "48px", "color": "#1d4ed8" },
-        "order": 6,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-hero-h1",
-        "type": "h1",
-        "data": { "content": "Build faster, ship smarter", "color": "#111827", "font-weight": "800" },
-        "order": 7,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-hero-p",
-        "type": "p",
-        "data": {
-          "content": "A flex layout gives you full control over alignment, spacing, and order. Combine inline and block items to craft any layout.",
-          "color": "#6b7280",
-          "width": "520px"
+      "children": [
+        {
+          "id": "wa-c1-1",
+          "type": "label",
+          "data": {
+            "content": "⛅ WeatherNow",
+            "color": "#1e293b",
+            "font-weight": "700",
+            "font-size": "1.1rem"
+          },
+          "order": 0,
+          "display": "inline"
         },
-        "order": 8,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-hero-btn1",
-        "type": "button",
-        "data": { "label": "Start building", "icon": "play-fill", "iconColor": "#ffffff", "borderless": false },
-        "order": 9,
-        "display": "inline"
-      },
-      {
-        "id": "fl-a-hero-btn2",
-        "type": "button",
-        "data": { "label": "View demo", "icon": "camera-video", "iconColor": "#374151", "borderless": true },
-        "order": 10,
-        "display": "inline"
-      },
-      {
-        "id": "fl-a-divider2",
-        "type": "divider",
-        "data": { "width": "100%", "height": "1px" },
-        "order": 11,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-feat1-icon",
-        "type": "icon",
-        "data": { "name": "shield-check", "size": "28px", "color": "#059669" },
-        "order": 12,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-feat1-h3",
-        "type": "h3",
-        "data": { "content": "Secure by default", "color": "#111827", "font-weight": "600" },
-        "order": 13,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-feat1-p",
-        "type": "p",
-        "data": { "content": "End-to-end encryption and role-based access out of the box.", "color": "#6b7280", "width": "200px" },
-        "order": 14,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-feat2-icon",
-        "type": "icon",
-        "data": { "name": "bar-chart-line", "size": "28px", "color": "#7c3aed" },
-        "order": 15,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-feat2-h3",
-        "type": "h3",
-        "data": { "content": "Real-time analytics", "color": "#111827", "font-weight": "600" },
-        "order": 16,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-feat2-p",
-        "type": "p",
-        "data": { "content": "Track every event and surface insights without extra tooling.", "color": "#6b7280", "width": "200px" },
-        "order": 17,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-feat3-icon",
-        "type": "icon",
-        "data": { "name": "plug", "size": "28px", "color": "#ea580c" },
-        "order": 18,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-feat3-h3",
-        "type": "h3",
-        "data": { "content": "One-click integrations", "color": "#111827", "font-weight": "600" },
-        "order": 19,
-        "display": "block"
-      },
-      {
-        "id": "fl-a-feat3-p",
-        "type": "p",
-        "data": { "content": "Connect your favourite tools in minutes, not days.", "color": "#6b7280", "width": "200px" },
-        "order": 20,
-        "display": "block"
-      }
-    ],
-    "showGrid": false,
-    "gridSize": 20,
-    "flexSettings": {
-      "direction": "row",
-      "justify": "flex-start",
-      "align": "flex-start",
-      "wrap": "wrap",
-      "gap": "20px"
+        {
+          "id": "wa-c1-2",
+          "type": "button",
+          "data": {
+            "label": "",
+            "icon": "geo-alt",
+            "iconColor": "#6366f1",
+            "borderless": true
+          },
+          "order": 1,
+          "display": "inline"
+        },
+        {
+          "id": "wa-c1-3",
+          "type": "button",
+          "data": {
+            "label": "",
+            "icon": "gear",
+            "iconColor": "#94a3b8",
+            "borderless": true
+          },
+          "order": 2,
+          "display": "inline"
+        }
+      ],
+      "order": 0,
+      "display": "block"
     },
-    "gridSettings": {
-      "columns": "repeat(3, 1fr)",
-      "rows": "auto",
-      "gap": "16px",
-      "autoFlow": "row",
-      "justifyItems": "stretch",
-      "alignItems": "start"
+    {
+      "id": "wa-d1",
+      "type": "divider",
+      "data": {
+        "width": "100%",
+        "height": "1px"
+      },
+      "order": 1,
+      "display": "block"
     },
-    "visibleLayoutModes": { "freeform": true, "flow": true, "flex": true, "grid": true },
-    "visibleCodeTabs": { "combined": true, "html": true, "css": true },
-    "showComponentSettingsInStudent": true,
-    "showSidebarInStudent": false,
-    "allowDeleteInStudent": false
-  }'
+    {
+      "id": "wa-c2",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "row",
+        "justify": "space-between",
+        "align": "center",
+        "wrap": "wrap",
+        "gap": "24px"
+      },
+      "children": [
+        {
+          "id": "wa-c2-left",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "column",
+            "justify": "flex-start",
+            "align": "flex-start",
+            "wrap": "nowrap",
+            "gap": "4px"
+          },
+          "children": [
+            {
+              "id": "wa-c2-l1",
+              "type": "label",
+              "data": {
+                "content": "Berlin, DE",
+                "color": "#64748b",
+                "font-size": "0.9rem"
+              },
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "wa-c2-l2",
+              "type": "h1",
+              "data": {
+                "content": "18°C",
+                "color": "#1e293b",
+                "font-weight": "800",
+                "font-size": "3.5rem"
+              },
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "wa-c2-l3",
+              "type": "paragraph",
+              "data": {
+                "content": "Partly cloudy · Feels like 16°C",
+                "color": "#64748b",
+                "font-size": "0.9rem"
+              },
+              "order": 2,
+              "display": "block"
+            }
+          ],
+          "order": 0,
+          "display": "block"
+        },
+        {
+          "id": "wa-c2-right",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "column",
+            "justify": "center",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "6px"
+          },
+          "children": [
+            {
+              "id": "wa-c2-r1",
+              "type": "icon",
+              "data": {
+                "name": "cloud-sun",
+                "size": "64px",
+                "color": "#f59e0b"
+              },
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "wa-c2-r2",
+              "type": "label",
+              "data": {
+                "content": "H: 22°  L: 13°",
+                "color": "#94a3b8",
+                "font-size": "0.85rem"
+              },
+              "order": 1,
+              "display": "block"
+            }
+          ],
+          "order": 1,
+          "display": "block"
+        }
+      ],
+      "order": 2,
+      "display": "block"
+    },
+    {
+      "id": "wa-d2",
+      "type": "divider",
+      "data": {
+        "width": "100%",
+        "height": "1px"
+      },
+      "order": 3,
+      "display": "block"
+    },
+    {
+      "id": "wa-c3",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "row",
+        "justify": "space-around",
+        "align": "center",
+        "wrap": "wrap",
+        "gap": "8px"
+      },
+      "children": [
+        {
+          "id": "wa-c3-1",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "column",
+            "justify": "center",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "4px"
+          },
+          "children": [
+            {
+              "id": "wa-c3-1i",
+              "type": "icon",
+              "data": {
+                "name": "droplet",
+                "size": "22px",
+                "color": "#3b82f6"
+              },
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "wa-c3-1l",
+              "type": "label",
+              "data": {
+                "content": "62%",
+                "color": "#1e293b",
+                "font-weight": "700",
+                "font-size": "1rem"
+              },
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "wa-c3-1s",
+              "type": "label",
+              "data": {
+                "content": "Humidity",
+                "color": "#94a3b8",
+                "font-size": "0.75rem"
+              },
+              "order": 2,
+              "display": "block"
+            }
+          ],
+          "order": 0,
+          "display": "block"
+        },
+        {
+          "id": "wa-c3-2",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "column",
+            "justify": "center",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "4px"
+          },
+          "children": [
+            {
+              "id": "wa-c3-2i",
+              "type": "icon",
+              "data": {
+                "name": "wind",
+                "size": "22px",
+                "color": "#6366f1"
+              },
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "wa-c3-2l",
+              "type": "label",
+              "data": {
+                "content": "14 km/h",
+                "color": "#1e293b",
+                "font-weight": "700",
+                "font-size": "1rem"
+              },
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "wa-c3-2s",
+              "type": "label",
+              "data": {
+                "content": "Wind",
+                "color": "#94a3b8",
+                "font-size": "0.75rem"
+              },
+              "order": 2,
+              "display": "block"
+            }
+          ],
+          "order": 1,
+          "display": "block"
+        },
+        {
+          "id": "wa-c3-3",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "column",
+            "justify": "center",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "4px"
+          },
+          "children": [
+            {
+              "id": "wa-c3-3i",
+              "type": "icon",
+              "data": {
+                "name": "eye",
+                "size": "22px",
+                "color": "#10b981"
+              },
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "wa-c3-3l",
+              "type": "label",
+              "data": {
+                "content": "10 km",
+                "color": "#1e293b",
+                "font-weight": "700",
+                "font-size": "1rem"
+              },
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "wa-c3-3s",
+              "type": "label",
+              "data": {
+                "content": "Visibility",
+                "color": "#94a3b8",
+                "font-size": "0.75rem"
+              },
+              "order": 2,
+              "display": "block"
+            }
+          ],
+          "order": 2,
+          "display": "block"
+        },
+        {
+          "id": "wa-c3-4",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "column",
+            "justify": "center",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "4px"
+          },
+          "children": [
+            {
+              "id": "wa-c3-4i",
+              "type": "icon",
+              "data": {
+                "name": "thermometer-half",
+                "size": "22px",
+                "color": "#ef4444"
+              },
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "wa-c3-4l",
+              "type": "label",
+              "data": {
+                "content": "1013 hPa",
+                "color": "#1e293b",
+                "font-weight": "700",
+                "font-size": "1rem"
+              },
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "wa-c3-4s",
+              "type": "label",
+              "data": {
+                "content": "Pressure",
+                "color": "#94a3b8",
+                "font-size": "0.75rem"
+              },
+              "order": 2,
+              "display": "block"
+            }
+          ],
+          "order": 3,
+          "display": "block"
+        }
+      ],
+      "order": 4,
+      "display": "block"
+    },
+    {
+      "id": "wa-d3",
+      "type": "divider",
+      "data": {
+        "width": "100%",
+        "height": "1px"
+      },
+      "order": 5,
+      "display": "block"
+    },
+    {
+      "id": "wa-05",
+      "type": "label",
+      "data": {
+        "content": "5-DAY FORECAST",
+        "color": "#94a3b8",
+        "font-weight": "700",
+        "font-size": "0.75rem"
+      },
+      "order": 6,
+      "display": "block"
+    },
+    {
+      "id": "wa-c4",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "row",
+        "justify": "space-between",
+        "align": "stretch",
+        "wrap": "nowrap",
+        "gap": "8px"
+      },
+      "children": [
+        {
+          "id": "wa-f1",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "column",
+            "justify": "center",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "4px"
+          },
+          "children": [
+            {
+              "id": "wa-f1d",
+              "type": "label",
+              "data": {
+                "content": "Mon",
+                "color": "#64748b",
+                "font-size": "0.8rem"
+              },
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "wa-f1i",
+              "type": "icon",
+              "data": {
+                "name": "sun",
+                "size": "24px",
+                "color": "#f59e0b"
+              },
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "wa-f1t",
+              "type": "label",
+              "data": {
+                "content": "22°",
+                "color": "#1e293b",
+                "font-weight": "700"
+              },
+              "order": 2,
+              "display": "block"
+            }
+          ],
+          "order": 0,
+          "display": "block",
+          "flexItem": {
+            "flexGrow": 1
+          }
+        },
+        {
+          "id": "wa-f2",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "column",
+            "justify": "center",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "4px"
+          },
+          "children": [
+            {
+              "id": "wa-f2d",
+              "type": "label",
+              "data": {
+                "content": "Tue",
+                "color": "#64748b",
+                "font-size": "0.8rem"
+              },
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "wa-f2i",
+              "type": "icon",
+              "data": {
+                "name": "cloud-rain",
+                "size": "24px",
+                "color": "#3b82f6"
+              },
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "wa-f2t",
+              "type": "label",
+              "data": {
+                "content": "15°",
+                "color": "#1e293b",
+                "font-weight": "700"
+              },
+              "order": 2,
+              "display": "block"
+            }
+          ],
+          "order": 1,
+          "display": "block",
+          "flexItem": {
+            "flexGrow": 1
+          }
+        },
+        {
+          "id": "wa-f3",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "column",
+            "justify": "center",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "4px"
+          },
+          "children": [
+            {
+              "id": "wa-f3d",
+              "type": "label",
+              "data": {
+                "content": "Wed",
+                "color": "#64748b",
+                "font-size": "0.8rem"
+              },
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "wa-f3i",
+              "type": "icon",
+              "data": {
+                "name": "cloud",
+                "size": "24px",
+                "color": "#94a3b8"
+              },
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "wa-f3t",
+              "type": "label",
+              "data": {
+                "content": "17°",
+                "color": "#1e293b",
+                "font-weight": "700"
+              },
+              "order": 2,
+              "display": "block"
+            }
+          ],
+          "order": 2,
+          "display": "block",
+          "flexItem": {
+            "flexGrow": 1
+          }
+        },
+        {
+          "id": "wa-f4",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "column",
+            "justify": "center",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "4px"
+          },
+          "children": [
+            {
+              "id": "wa-f4d",
+              "type": "label",
+              "data": {
+                "content": "Thu",
+                "color": "#64748b",
+                "font-size": "0.8rem"
+              },
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "wa-f4i",
+              "type": "icon",
+              "data": {
+                "name": "sun",
+                "size": "24px",
+                "color": "#f59e0b"
+              },
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "wa-f4t",
+              "type": "label",
+              "data": {
+                "content": "24°",
+                "color": "#1e293b",
+                "font-weight": "700"
+              },
+              "order": 2,
+              "display": "block"
+            }
+          ],
+          "order": 3,
+          "display": "block",
+          "flexItem": {
+            "flexGrow": 1
+          }
+        },
+        {
+          "id": "wa-f5",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "column",
+            "justify": "center",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "4px"
+          },
+          "children": [
+            {
+              "id": "wa-f5d",
+              "type": "label",
+              "data": {
+                "content": "Fri",
+                "color": "#64748b",
+                "font-size": "0.8rem"
+              },
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "wa-f5i",
+              "type": "icon",
+              "data": {
+                "name": "cloud-lightning-rain",
+                "size": "24px",
+                "color": "#8b5cf6"
+              },
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "wa-f5t",
+              "type": "label",
+              "data": {
+                "content": "12°",
+                "color": "#1e293b",
+                "font-weight": "700"
+              },
+              "order": 2,
+              "display": "block"
+            }
+          ],
+          "order": 4,
+          "display": "block",
+          "flexItem": {
+            "flexGrow": 1
+          }
+        }
+      ],
+      "order": 7,
+      "display": "block"
+    }
+  ],
+  "showGrid": false,
+  "gridSize": 20,
+  "flexSettings": {
+    "direction": "column",
+    "justify": "flex-start",
+    "align": "stretch",
+    "wrap": "nowrap",
+    "gap": "16px"
+  },
+  "gridSettings": {
+    "columns": "repeat(3, 1fr)",
+    "rows": "auto",
+    "gap": "12px",
+    "autoFlow": "row",
+    "justifyItems": "stretch",
+    "alignItems": "start"
+  },
+  "visibleLayoutModes": {
+    "freeform": true,
+    "flow": true,
+    "flex": true,
+    "grid": true
+  },
+  "visibleCodeTabs": {
+    "combined": true,
+    "html": true,
+    "css": true
+  },
+  "showComponentSettingsInStudent": true,
+  "showSidebarInStudent": false,
+  "allowDeleteInStudent": false,
+  "showToolbarInStudent": true,
+  "showAddButton": true,
+  "showLayoutDropdown": true
+}'
 ></webwriter-website-builder>

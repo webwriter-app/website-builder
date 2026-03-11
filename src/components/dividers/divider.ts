@@ -19,28 +19,26 @@ export const DividerComponent: BuilderComponent = {
     const height = data?.height || DEFAULT_HEIGHT;
 
     return html`
-      <style>
-        .divider-wrap {
+      <div
+        style="
           display: inline-block;
           padding: 0.25rem 0;
           user-select: none;
-        }
-
-        hr {
-          margin: 0;
           width: ${width};
-          border: none;
-          border-top: ${height} solid #ccc;
-        }
-      </style>
-
-      <div class="divider-wrap">
-        <hr />
+        "
+      >
+        <hr
+          style="
+            margin: 0;
+            width: 100%;
+            border: none;
+            border-top: ${height} solid #ccc;
+          "
+        />
       </div>
     `;
   },
 
-  // Sidebar → Content (simple, useful)
   bindings: [
     {
       key: "width",
@@ -57,7 +55,7 @@ export const DividerComponent: BuilderComponent = {
       target: "hr",
       name: "height",
       placeholder: DEFAULT_HEIGHT,
-    }
+    },
   ],
 
   settings: ({ setData }) => {
@@ -66,7 +64,6 @@ export const DividerComponent: BuilderComponent = {
     return html`
       <div style="margin-top: 1rem">
         <h2 style="margin-top: 0">Divider</h2>
-
         <div class="setting-row">
           <sl-button size="small" variant="default" @click=${reset}>
             Reset width and height

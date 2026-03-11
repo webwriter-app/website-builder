@@ -1,205 +1,920 @@
 <webwriter-website-builder
   ww-state='{
-    "layoutMode": "grid",
-    "freeformNodes": [],
-    "orderedNodes": [
-      {
-        "id": "gr-a-hero-img",
-        "type": "image",
-        "data": {
-          "src": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80",
-          "alt": "Team working",
-          "width": "100%",
-          "height": "260px",
-          "object-fit": "cover",
-          "border-radius": "12px"
+  "layoutMode": "grid",
+  "freeformNodes": [],
+  "orderedNodes": [
+    {
+      "id": "sp-sidebar",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "column",
+        "justify": "flex-start",
+        "align": "flex-start",
+        "wrap": "nowrap",
+        "gap": "4px"
+      },
+      "children": [
+        {
+          "id": "sp-sb-logo",
+          "type": "h2",
+          "data": {
+            "content": "♫ Spotify",
+            "color": "#1db954",
+            "font-weight": "800",
+            "font-size": "1.4rem"
+          },
+          "order": 0,
+          "display": "block"
         },
-        "order": 0,
-        "display": "block",
-        "grid": { "colStart": 1, "colSpan": 2, "rowStart": 1, "rowSpan": 2 }
-      },
-      {
-        "id": "gr-a-hero-label",
-        "type": "label",
-        "data": { "content": "NEW  •  v2.0 IS LIVE", "color": "#1d4ed8", "font-weight": "700" },
-        "order": 1,
-        "display": "block",
-        "grid": { "colStart": 3, "colSpan": 1, "rowStart": 1 }
-      },
-      {
-        "id": "gr-a-hero-h1",
-        "type": "h1",
-        "data": { "content": "Design without limits", "color": "#111827", "font-weight": "800" },
-        "order": 2,
-        "display": "block",
-        "grid": { "colStart": 3, "colSpan": 1, "rowStart": 2 }
-      },
-      {
-        "id": "gr-a-hero-p",
-        "type": "p",
-        "data": {
-          "content": "Grid layout lets you place every element precisely. Span columns, control rows, and compose complex pages with ease.",
-          "color": "#374151",
-          "width": "260px"
+        {
+          "id": "sp-sb-d0",
+          "type": "divider",
+          "data": {
+            "width": "100%",
+            "height": "1px"
+          },
+          "order": 1,
+          "display": "block"
         },
-        "order": 3,
-        "display": "block",
-        "grid": { "colStart": 3, "colSpan": 1, "rowStart": 3 }
-      },
-      {
-        "id": "gr-a-hero-btn",
-        "type": "button",
-        "data": { "label": "Read the docs", "icon": "arrow-right", "iconColor": "#1d4ed8", "borderless": false },
-        "order": 4,
-        "display": "block",
-        "grid": { "colStart": 3, "colSpan": 1, "rowStart": 4 }
-      },
-      {
-        "id": "gr-a-stat1-h2",
-        "type": "h2",
-        "data": { "content": "12 ms", "color": "#1d4ed8", "font-weight": "800" },
-        "order": 5,
-        "display": "block",
-        "grid": { "colStart": 1, "colSpan": 1, "rowStart": 3 }
-      },
-      {
-        "id": "gr-a-stat1-p",
-        "type": "p",
-        "data": { "content": "Median response time", "color": "#6b7280", "width": "140px" },
-        "order": 6,
-        "display": "block",
-        "grid": { "colStart": 1, "colSpan": 1, "rowStart": 4 }
-      },
-      {
-        "id": "gr-a-stat2-h2",
-        "type": "h2",
-        "data": { "content": "99.9%", "color": "#7c3aed", "font-weight": "800" },
-        "order": 7,
-        "display": "block",
-        "grid": { "colStart": 2, "colSpan": 1, "rowStart": 3 }
-      },
-      {
-        "id": "gr-a-stat2-p",
-        "type": "p",
-        "data": { "content": "Uptime SLA", "color": "#6b7280", "width": "140px" },
-        "order": 8,
-        "display": "block",
-        "grid": { "colStart": 2, "colSpan": 1, "rowStart": 4 }
-      },
-      {
-        "id": "gr-a-divider",
-        "type": "divider",
-        "data": { "width": "100%", "height": "1px" },
-        "order": 9,
-        "display": "block",
-        "grid": { "colSpan": 3 }
-      },
-      {
-        "id": "gr-a-card1-icon",
-        "type": "icon",
-        "data": { "name": "cpu", "size": "28px", "color": "#0891b2" },
-        "order": 10,
-        "display": "block"
-      },
-      {
-        "id": "gr-a-card2-icon",
-        "type": "icon",
-        "data": { "name": "people", "size": "28px", "color": "#ea580c" },
-        "order": 11,
-        "display": "block"
-      },
-      {
-        "id": "gr-a-card3-icon",
-        "type": "icon",
-        "data": { "name": "graph-up-arrow", "size": "28px", "color": "#16a34a" },
-        "order": 12,
-        "display": "block"
-      },
-      {
-        "id": "gr-a-card1-h3",
-        "type": "h3",
-        "data": { "content": "Infrastructure", "color": "#111827", "font-weight": "600" },
-        "order": 13,
-        "display": "block"
-      },
-      {
-        "id": "gr-a-card2-h3",
-        "type": "h3",
-        "data": { "content": "Collaboration", "color": "#111827", "font-weight": "600" },
-        "order": 14,
-        "display": "block"
-      },
-      {
-        "id": "gr-a-card3-h3",
-        "type": "h3",
-        "data": { "content": "Growth", "color": "#111827", "font-weight": "600" },
-        "order": 15,
-        "display": "block"
-      },
-      {
-        "id": "gr-a-card1-p",
-        "type": "p",
-        "data": { "content": "Auto-scaling compute that reacts to your traffic in real time.", "color": "#6b7280", "width": "190px" },
-        "order": 16,
-        "display": "block"
-      },
-      {
-        "id": "gr-a-card2-p",
-        "type": "p",
-        "data": { "content": "Invite teammates, assign roles, and review changes together.", "color": "#6b7280", "width": "190px" },
-        "order": 17,
-        "display": "block"
-      },
-      {
-        "id": "gr-a-card3-p",
-        "type": "p",
-        "data": { "content": "Built-in funnels, cohorts, and A/B testing to grow revenue.", "color": "#6b7280", "width": "190px" },
-        "order": 18,
-        "display": "block"
-      },
-      {
-        "id": "gr-a-card1-link",
-        "type": "link",
-        "data": { "label": "Learn more", "href": "#", "icon": "arrow-right" },
-        "order": 19,
-        "display": "block"
-      },
-      {
-        "id": "gr-a-card2-link",
-        "type": "link",
-        "data": { "label": "Learn more", "href": "#", "icon": "arrow-right" },
-        "order": 20,
-        "display": "block"
-      },
-      {
-        "id": "gr-a-card3-link",
-        "type": "link",
-        "data": { "label": "Learn more", "href": "#", "icon": "arrow-right" },
-        "order": 21,
-        "display": "block"
+        {
+          "id": "sp-sb-n1",
+          "type": "button",
+          "data": {
+            "label": "Home",
+            "icon": "house-fill",
+            "iconColor": "#ffffff",
+            "borderless": true
+          },
+          "order": 2,
+          "display": "block"
+        },
+        {
+          "id": "sp-sb-n2",
+          "type": "button",
+          "data": {
+            "label": "Search",
+            "icon": "search",
+            "iconColor": "#b3b3b3",
+            "borderless": true
+          },
+          "order": 3,
+          "display": "block"
+        },
+        {
+          "id": "sp-sb-n3",
+          "type": "button",
+          "data": {
+            "label": "Your Library",
+            "icon": "collection-fill",
+            "iconColor": "#b3b3b3",
+            "borderless": true
+          },
+          "order": 4,
+          "display": "block"
+        },
+        {
+          "id": "sp-sb-d1",
+          "type": "divider",
+          "data": {
+            "width": "100%",
+            "height": "1px"
+          },
+          "order": 5,
+          "display": "block"
+        },
+        {
+          "id": "sp-sb-pl",
+          "type": "label",
+          "data": {
+            "content": "PLAYLISTS",
+            "color": "#b3b3b3",
+            "font-weight": "700",
+            "font-size": "0.7rem"
+          },
+          "order": 6,
+          "display": "block"
+        },
+        {
+          "id": "sp-sb-p1",
+          "type": "link",
+          "data": {
+            "label": "Liked Songs",
+            "href": "#",
+            "icon": "heart-fill"
+          },
+          "order": 7,
+          "display": "block"
+        },
+        {
+          "id": "sp-sb-p2",
+          "type": "link",
+          "data": {
+            "label": "Chill Vibes",
+            "href": "#",
+            "icon": ""
+          },
+          "order": 8,
+          "display": "block"
+        },
+        {
+          "id": "sp-sb-p3",
+          "type": "link",
+          "data": {
+            "label": "Focus Mode",
+            "href": "#",
+            "icon": ""
+          },
+          "order": 9,
+          "display": "block"
+        },
+        {
+          "id": "sp-sb-p4",
+          "type": "link",
+          "data": {
+            "label": "Road Trip Hits",
+            "href": "#",
+            "icon": ""
+          },
+          "order": 10,
+          "display": "block"
+        },
+        {
+          "id": "sp-sb-p5",
+          "type": "link",
+          "data": {
+            "label": "Late Night Jazz",
+            "href": "#",
+            "icon": ""
+          },
+          "order": 11,
+          "display": "block"
+        }
+      ],
+      "order": 0,
+      "display": "block",
+      "grid": {
+        "colStart": 1,
+        "colSpan": 1,
+        "rowStart": 1,
+        "rowSpan": 2
       }
-    ],
-    "showGrid": false,
-    "gridSize": 20,
-    "flexSettings": {
-      "direction": "row",
-      "justify": "flex-start",
-      "align": "stretch",
-      "wrap": "nowrap",
-      "gap": "12px"
     },
-    "gridSettings": {
-      "columns": "repeat(3, 1fr)",
-      "rows": "auto",
-      "gap": "24px",
-      "autoFlow": "row",
-      "justifyItems": "start",
-      "alignItems": "start"
+    {
+      "id": "sp-main",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "column",
+        "justify": "flex-start",
+        "align": "stretch",
+        "wrap": "nowrap",
+        "gap": "16px"
+      },
+      "children": [
+        {
+          "id": "sp-topbar",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "row",
+            "justify": "space-between",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "12px"
+          },
+          "children": [
+            {
+              "id": "sp-tb-1",
+              "type": "button",
+              "data": {
+                "label": "",
+                "icon": "chevron-left",
+                "iconColor": "#b3b3b3",
+                "borderless": true
+              },
+              "order": 0,
+              "display": "inline"
+            },
+            {
+              "id": "sp-tb-2",
+              "type": "button",
+              "data": {
+                "label": "",
+                "icon": "chevron-right",
+                "iconColor": "#b3b3b3",
+                "borderless": true
+              },
+              "order": 1,
+              "display": "inline"
+            },
+            {
+              "id": "sp-tb-3",
+              "type": "button",
+              "data": {
+                "label": "Profile",
+                "icon": "person-circle",
+                "iconColor": "#b3b3b3",
+                "borderless": false
+              },
+              "order": 2,
+              "display": "inline"
+            }
+          ],
+          "order": 0,
+          "display": "block"
+        },
+        {
+          "id": "sp-greet",
+          "type": "h2",
+          "data": {
+            "content": "Good afternoon",
+            "color": "#ffffff",
+            "font-weight": "800",
+            "font-size": "1.6rem"
+          },
+          "order": 1,
+          "display": "block"
+        },
+        {
+          "id": "sp-quickrow",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "grid",
+          "containerGridSettings": {
+            "columns": "repeat(3, 1fr)",
+            "rows": "auto",
+            "gap": "8px",
+            "autoFlow": "row",
+            "justifyItems": "stretch",
+            "alignItems": "start"
+          },
+          "children": [
+            {
+              "id": "sp-qp1",
+              "type": "container",
+              "data": {},
+              "isContainer": true,
+              "containerLayout": "flex",
+              "containerFlexSettings": {
+                "direction": "row",
+                "justify": "flex-start",
+                "align": "center",
+                "wrap": "nowrap",
+                "gap": "8px"
+              },
+              "children": [
+                {
+                  "id": "sp-qp1i",
+                  "type": "image",
+                  "data": {
+                    "src": "https://picsum.photos/seed/sp1/48/48",
+                    "alt": "Liked Songs",
+                    "width": "48px",
+                    "height": "48px",
+                    "object-fit": "cover",
+                    "border-radius": "4px"
+                  },
+                  "order": 0,
+                  "display": "inline"
+                },
+                {
+                  "id": "sp-qp1l",
+                  "type": "label",
+                  "data": {
+                    "content": "Liked Songs",
+                    "color": "#ffffff",
+                    "font-weight": "700",
+                    "font-size": "0.85rem"
+                  },
+                  "order": 1,
+                  "display": "inline"
+                }
+              ],
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "sp-qp2",
+              "type": "container",
+              "data": {},
+              "isContainer": true,
+              "containerLayout": "flex",
+              "containerFlexSettings": {
+                "direction": "row",
+                "justify": "flex-start",
+                "align": "center",
+                "wrap": "nowrap",
+                "gap": "8px"
+              },
+              "children": [
+                {
+                  "id": "sp-qp2i",
+                  "type": "image",
+                  "data": {
+                    "src": "https://picsum.photos/seed/sp2/48/48",
+                    "alt": "Chill Vibes",
+                    "width": "48px",
+                    "height": "48px",
+                    "object-fit": "cover",
+                    "border-radius": "4px"
+                  },
+                  "order": 0,
+                  "display": "inline"
+                },
+                {
+                  "id": "sp-qp2l",
+                  "type": "label",
+                  "data": {
+                    "content": "Chill Vibes",
+                    "color": "#ffffff",
+                    "font-weight": "700",
+                    "font-size": "0.85rem"
+                  },
+                  "order": 1,
+                  "display": "inline"
+                }
+              ],
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "sp-qp3",
+              "type": "container",
+              "data": {},
+              "isContainer": true,
+              "containerLayout": "flex",
+              "containerFlexSettings": {
+                "direction": "row",
+                "justify": "flex-start",
+                "align": "center",
+                "wrap": "nowrap",
+                "gap": "8px"
+              },
+              "children": [
+                {
+                  "id": "sp-qp3i",
+                  "type": "image",
+                  "data": {
+                    "src": "https://picsum.photos/seed/sp3/48/48",
+                    "alt": "Focus Mode",
+                    "width": "48px",
+                    "height": "48px",
+                    "object-fit": "cover",
+                    "border-radius": "4px"
+                  },
+                  "order": 0,
+                  "display": "inline"
+                },
+                {
+                  "id": "sp-qp3l",
+                  "type": "label",
+                  "data": {
+                    "content": "Focus Mode",
+                    "color": "#ffffff",
+                    "font-weight": "700",
+                    "font-size": "0.85rem"
+                  },
+                  "order": 1,
+                  "display": "inline"
+                }
+              ],
+              "order": 2,
+              "display": "block"
+            }
+          ],
+          "order": 2,
+          "display": "block"
+        },
+        {
+          "id": "sp-nr-lbl",
+          "type": "h3",
+          "data": {
+            "content": "New Releases",
+            "color": "#ffffff",
+            "font-weight": "700",
+            "font-size": "1.2rem"
+          },
+          "order": 3,
+          "display": "block"
+        },
+        {
+          "id": "sp-albums",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "row",
+            "justify": "flex-start",
+            "align": "flex-start",
+            "wrap": "nowrap",
+            "gap": "16px"
+          },
+          "children": [
+            {
+              "id": "sp-a1",
+              "type": "container",
+              "data": {},
+              "isContainer": true,
+              "containerLayout": "flex",
+              "containerFlexSettings": {
+                "direction": "column",
+                "justify": "flex-start",
+                "align": "flex-start",
+                "wrap": "nowrap",
+                "gap": "6px"
+              },
+              "children": [
+                {
+                  "id": "sp-a1-img",
+                  "type": "image",
+                  "data": {
+                    "src": "https://picsum.photos/seed/alb1/140/140",
+                    "alt": "Album 1",
+                    "width": "140px",
+                    "height": "140px",
+                    "object-fit": "cover",
+                    "border-radius": "8px"
+                  },
+                  "order": 0,
+                  "display": "block"
+                },
+                {
+                  "id": "sp-a1-t",
+                  "type": "label",
+                  "data": {
+                    "content": "Midnight Drive",
+                    "color": "#ffffff",
+                    "font-weight": "700",
+                    "font-size": "0.85rem"
+                  },
+                  "order": 1,
+                  "display": "block"
+                },
+                {
+                  "id": "sp-a1-a",
+                  "type": "label",
+                  "data": {
+                    "content": "The Weeknd",
+                    "color": "#b3b3b3",
+                    "font-size": "0.78rem"
+                  },
+                  "order": 2,
+                  "display": "block"
+                }
+              ],
+              "order": 0,
+              "display": "block"
+            },
+            {
+              "id": "sp-a2",
+              "type": "container",
+              "data": {},
+              "isContainer": true,
+              "containerLayout": "flex",
+              "containerFlexSettings": {
+                "direction": "column",
+                "justify": "flex-start",
+                "align": "flex-start",
+                "wrap": "nowrap",
+                "gap": "6px"
+              },
+              "children": [
+                {
+                  "id": "sp-a2-img",
+                  "type": "image",
+                  "data": {
+                    "src": "https://picsum.photos/seed/alb2/140/140",
+                    "alt": "Album 2",
+                    "width": "140px",
+                    "height": "140px",
+                    "object-fit": "cover",
+                    "border-radius": "8px"
+                  },
+                  "order": 0,
+                  "display": "block"
+                },
+                {
+                  "id": "sp-a2-t",
+                  "type": "label",
+                  "data": {
+                    "content": "Solar Flare",
+                    "color": "#ffffff",
+                    "font-weight": "700",
+                    "font-size": "0.85rem"
+                  },
+                  "order": 1,
+                  "display": "block"
+                },
+                {
+                  "id": "sp-a2-a",
+                  "type": "label",
+                  "data": {
+                    "content": "Dua Lipa",
+                    "color": "#b3b3b3",
+                    "font-size": "0.78rem"
+                  },
+                  "order": 2,
+                  "display": "block"
+                }
+              ],
+              "order": 1,
+              "display": "block"
+            },
+            {
+              "id": "sp-a3",
+              "type": "container",
+              "data": {},
+              "isContainer": true,
+              "containerLayout": "flex",
+              "containerFlexSettings": {
+                "direction": "column",
+                "justify": "flex-start",
+                "align": "flex-start",
+                "wrap": "nowrap",
+                "gap": "6px"
+              },
+              "children": [
+                {
+                  "id": "sp-a3-img",
+                  "type": "image",
+                  "data": {
+                    "src": "https://picsum.photos/seed/alb3/140/140",
+                    "alt": "Album 3",
+                    "width": "140px",
+                    "height": "140px",
+                    "object-fit": "cover",
+                    "border-radius": "8px"
+                  },
+                  "order": 0,
+                  "display": "block"
+                },
+                {
+                  "id": "sp-a3-t",
+                  "type": "label",
+                  "data": {
+                    "content": "Neon Jungle",
+                    "color": "#ffffff",
+                    "font-weight": "700",
+                    "font-size": "0.85rem"
+                  },
+                  "order": 1,
+                  "display": "block"
+                },
+                {
+                  "id": "sp-a3-a",
+                  "type": "label",
+                  "data": {
+                    "content": "Kendrick Lamar",
+                    "color": "#b3b3b3",
+                    "font-size": "0.78rem"
+                  },
+                  "order": 2,
+                  "display": "block"
+                }
+              ],
+              "order": 2,
+              "display": "block"
+            },
+            {
+              "id": "sp-a4",
+              "type": "container",
+              "data": {},
+              "isContainer": true,
+              "containerLayout": "flex",
+              "containerFlexSettings": {
+                "direction": "column",
+                "justify": "flex-start",
+                "align": "flex-start",
+                "wrap": "nowrap",
+                "gap": "6px"
+              },
+              "children": [
+                {
+                  "id": "sp-a4-img",
+                  "type": "image",
+                  "data": {
+                    "src": "https://picsum.photos/seed/alb4/140/140",
+                    "alt": "Album 4",
+                    "width": "140px",
+                    "height": "140px",
+                    "object-fit": "cover",
+                    "border-radius": "8px"
+                  },
+                  "order": 0,
+                  "display": "block"
+                },
+                {
+                  "id": "sp-a4-t",
+                  "type": "label",
+                  "data": {
+                    "content": "Glass Animals",
+                    "color": "#ffffff",
+                    "font-weight": "700",
+                    "font-size": "0.85rem"
+                  },
+                  "order": 1,
+                  "display": "block"
+                },
+                {
+                  "id": "sp-a4-a",
+                  "type": "label",
+                  "data": {
+                    "content": "Glass Animals",
+                    "color": "#b3b3b3",
+                    "font-size": "0.78rem"
+                  },
+                  "order": 2,
+                  "display": "block"
+                }
+              ],
+              "order": 3,
+              "display": "block"
+            }
+          ],
+          "order": 4,
+          "display": "block"
+        }
+      ],
+      "order": 1,
+      "display": "block",
+      "grid": {
+        "colStart": 2,
+        "colSpan": 2,
+        "rowStart": 1,
+        "rowSpan": 1
+      }
     },
-    "visibleLayoutModes": { "freeform": true, "flow": true, "flex": true, "grid": true },
-    "visibleCodeTabs": { "combined": true, "html": true, "css": true },
-    "showComponentSettingsInStudent": true,
-    "showSidebarInStudent": false,
-    "allowDeleteInStudent": false
-  }'
+    {
+      "id": "sp-player",
+      "type": "container",
+      "data": {},
+      "isContainer": true,
+      "containerLayout": "flex",
+      "containerFlexSettings": {
+        "direction": "row",
+        "justify": "space-between",
+        "align": "center",
+        "wrap": "nowrap",
+        "gap": "16px"
+      },
+      "children": [
+        {
+          "id": "sp-pl-info",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "row",
+            "justify": "flex-start",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "12px"
+          },
+          "children": [
+            {
+              "id": "sp-pl-img",
+              "type": "image",
+              "data": {
+                "src": "https://picsum.photos/seed/now/48/48",
+                "alt": "Now playing",
+                "width": "48px",
+                "height": "48px",
+                "object-fit": "cover",
+                "border-radius": "4px"
+              },
+              "order": 0,
+              "display": "inline"
+            },
+            {
+              "id": "sp-pl-stack",
+              "type": "container",
+              "data": {},
+              "isContainer": true,
+              "containerLayout": "flex",
+              "containerFlexSettings": {
+                "direction": "column",
+                "justify": "center",
+                "align": "flex-start",
+                "wrap": "nowrap",
+                "gap": "2px"
+              },
+              "children": [
+                {
+                  "id": "sp-pl-track",
+                  "type": "label",
+                  "data": {
+                    "content": "Midnight Drive",
+                    "color": "#ffffff",
+                    "font-weight": "700",
+                    "font-size": "0.9rem"
+                  },
+                  "order": 0,
+                  "display": "block"
+                },
+                {
+                  "id": "sp-pl-artist",
+                  "type": "label",
+                  "data": {
+                    "content": "The Weeknd",
+                    "color": "#b3b3b3",
+                    "font-size": "0.78rem"
+                  },
+                  "order": 1,
+                  "display": "block"
+                }
+              ],
+              "order": 1,
+              "display": "inline"
+            },
+            {
+              "id": "sp-pl-heart",
+              "type": "button",
+              "data": {
+                "label": "",
+                "icon": "heart",
+                "iconColor": "#1db954",
+                "borderless": true
+              },
+              "order": 2,
+              "display": "inline"
+            }
+          ],
+          "order": 0,
+          "display": "block"
+        },
+        {
+          "id": "sp-pl-controls",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "row",
+            "justify": "center",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "8px"
+          },
+          "children": [
+            {
+              "id": "sp-ctl-shuf",
+              "type": "button",
+              "data": {
+                "label": "",
+                "icon": "shuffle",
+                "iconColor": "#b3b3b3",
+                "borderless": true
+              },
+              "order": 0,
+              "display": "inline"
+            },
+            {
+              "id": "sp-ctl-prev",
+              "type": "button",
+              "data": {
+                "label": "",
+                "icon": "skip-start-fill",
+                "iconColor": "#ffffff",
+                "borderless": true
+              },
+              "order": 1,
+              "display": "inline"
+            },
+            {
+              "id": "sp-ctl-play",
+              "type": "button",
+              "data": {
+                "label": "",
+                "icon": "play-circle-fill",
+                "iconColor": "#ffffff",
+                "borderless": false
+              },
+              "order": 2,
+              "display": "inline"
+            },
+            {
+              "id": "sp-ctl-next",
+              "type": "button",
+              "data": {
+                "label": "",
+                "icon": "skip-end-fill",
+                "iconColor": "#ffffff",
+                "borderless": true
+              },
+              "order": 3,
+              "display": "inline"
+            },
+            {
+              "id": "sp-ctl-rep",
+              "type": "button",
+              "data": {
+                "label": "",
+                "icon": "repeat",
+                "iconColor": "#b3b3b3",
+                "borderless": true
+              },
+              "order": 4,
+              "display": "inline"
+            }
+          ],
+          "order": 1,
+          "display": "block"
+        },
+        {
+          "id": "sp-pl-vol",
+          "type": "container",
+          "data": {},
+          "isContainer": true,
+          "containerLayout": "flex",
+          "containerFlexSettings": {
+            "direction": "row",
+            "justify": "flex-end",
+            "align": "center",
+            "wrap": "nowrap",
+            "gap": "8px"
+          },
+          "children": [
+            {
+              "id": "sp-vol-i",
+              "type": "button",
+              "data": {
+                "label": "",
+                "icon": "volume-up-fill",
+                "iconColor": "#b3b3b3",
+                "borderless": true
+              },
+              "order": 0,
+              "display": "inline"
+            },
+            {
+              "id": "sp-vol-l",
+              "type": "label",
+              "data": {
+                "content": "▬▬▬▬▬●▬▬",
+                "color": "#b3b3b3",
+                "font-size": "0.75rem"
+              },
+              "order": 1,
+              "display": "inline"
+            }
+          ],
+          "order": 2,
+          "display": "block"
+        }
+      ],
+      "order": 2,
+      "display": "block",
+      "grid": {
+        "colStart": 1,
+        "colSpan": 3,
+        "rowStart": 2,
+        "rowSpan": 1
+      }
+    }
+  ],
+  "showGrid": false,
+  "gridSize": 20,
+  "flexSettings": {
+    "direction": "row",
+    "justify": "flex-start",
+    "align": "stretch",
+    "wrap": "nowrap",
+    "gap": "12px"
+  },
+  "gridSettings": {
+    "columns": "220px 1fr 1fr",
+    "rows": "1fr 72px",
+    "gap": "0px",
+    "autoFlow": "row",
+    "justifyItems": "stretch",
+    "alignItems": "stretch"
+  },
+  "visibleLayoutModes": {
+    "freeform": true,
+    "flow": true,
+    "flex": true,
+    "grid": true
+  },
+  "visibleCodeTabs": {
+    "combined": true,
+    "html": true,
+    "css": true
+  },
+  "showComponentSettingsInStudent": true,
+  "showSidebarInStudent": false,
+  "allowDeleteInStudent": false,
+  "showToolbarInStudent": true,
+  "showAddButton": true,
+  "showLayoutDropdown": true
+}'
 ></webwriter-website-builder>
