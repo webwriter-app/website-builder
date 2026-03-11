@@ -1,41 +1,197 @@
 <webwriter-website-builder
   ww-state='{
-    "layoutMode":"flow",
-    "freeformNodes":[],
-    "orderedNodes":[
-      {"id":"fla00000-0000-0000-0000-000000000001","type":"h1","data":{"content":"Pricing","color":"#111827","font-weight":"800"},"order":0,"display":"block"},
-      {"id":"fla00000-0000-0000-0000-000000000002","type":"paragraph","data":{"content":"Two plans. Upgrade anytime.","color":"#374151"},"order":1,"display":"block"},
-
-      {"id":"fla00000-0000-0000-0000-000000000003","type":"label","data":{"content":"Starter","color":"#111827","font-weight":"700"},"order":2,"display":"block"},
-      {"id":"fla00000-0000-0000-0000-000000000004","type":"h2","data":{"content":"$199/mo","color":"#111827","font-weight":"800"},"order":3,"display":"block"},
-      {"id":"fla00000-0000-0000-0000-000000000005","type":"button","data":{"label":"Choose Starter","icon":"","iconColor":"#0f172a","borderless":false},"order":4,"display":"block"},
-
-      {"id":"fla00000-0000-0000-0000-000000000006","type":"divider","data":{},"order":5,"display":"block"},
-
-      {"id":"fla00000-0000-0000-0000-000000000007","type":"label","data":{"content":"Pro","color":"#111827","font-weight":"700"},"order":6,"display":"block"},
-      {"id":"fla00000-0000-0000-0000-000000000008","type":"h2","data":{"content":"$299/mo","color":"#111827","font-weight":"800"},"order":7,"display":"block"},
-      {"id":"fla00000-0000-0000-0000-000000000009","type":"button","data":{"label":"Choose Pro","icon":"","iconColor":"#0f172a","borderless":false},"order":8,"display":"block"},
-
-      {"id":"fla00000-0000-0000-0000-000000000010","type":"divider","data":{},"order":9,"display":"block"},
-
-      {"id":"fla00000-0000-0000-0000-000000000011","type":"h2","data":{"content":"What you get","color":"#111827","font-weight":"800"},"order":10,"display":"block"},
-
-      {"id":"fla00000-0000-0000-0000-000000000012","type":"icon","data":{"name":"pie-chart","size":"28px","color":"#0f172a"},"order":11,"display":"inline"},
-      {"id":"fla00000-0000-0000-0000-000000000013","type":"label","data":{"content":"Analytics","color":"#111827","font-weight":"700"},"order":12,"display":"inline"},
-      {"id":"fla00000-0000-0000-0000-000000000014","type":"paragraph","data":{"content":"Dashboards and export.","color":"#374151"},"order":13,"display":"block"},
-
-      {"id":"fla00000-0000-0000-0000-000000000015","type":"icon","data":{"name":"shield-check","size":"28px","color":"#0f172a"},"order":14,"display":"inline"},
-      {"id":"fla00000-0000-0000-0000-000000000016","type":"label","data":{"content":"Security","color":"#111827","font-weight":"700"},"order":15,"display":"inline"},
-      {"id":"fla00000-0000-0000-0000-000000000017","type":"paragraph","data":{"content":"Sane defaults + hardening.","color":"#374151"},"order":16,"display":"block"}
-    ],
-    "showGrid":false,
-    "gridSize":20,
-    "flexSettings":{"direction":"row","justify":"flex-start","align":"stretch","wrap":"nowrap","gap":"12px"},
-    "gridSettings":{"columns":"repeat(4, 1fr)","rows":"auto","gap":"12px","autoFlow":"row","justifyItems":"stretch","alignItems":"start","templateAreas":""},
-    "visibleLayoutModes":{"freeform":true,"flow":true,"flex":true,"grid":true},
-    "visibleCodeTabs":{"combined":true,"html":true,"css":true},
-    "showComponentSettingsInStudent":true,
-    "showSidebarInStudent":false,
-    "allowDeleteInStudent":false
-  }'
+  "layoutMode": "flow",
+  "freeformNodes": [],
+  "orderedNodes": [
+    {
+      "id": "fla-badge",
+      "type": "label",
+      "data": { "content": "✦ SIMPLE PRICING", "color": "#6366f1", "font-weight": "800", "font-size": "0.72rem" },
+      "order": 0, "display": "block"
+    },
+    {
+      "id": "fla-h1",
+      "type": "h1",
+      "data": { "content": "Plans that scale with you.", "color": "#111827", "font-weight": "800", "font-size": "2rem" },
+      "order": 1, "display": "block"
+    },
+    {
+      "id": "fla-sub",
+      "type": "paragraph",
+      "data": { "content": "Start free, upgrade when you`re ready. No hidden fees, no long-term contracts.", "color": "#6b7280", "font-size": "0.95rem" },
+      "order": 2, "display": "block"
+    },
+    {
+      "id": "fla-d0",
+      "type": "divider",
+      "data": { "width": "100%", "height": "1px" },
+      "order": 3, "display": "block"
+    },
+    {
+      "id": "fla-starter-label",
+      "type": "label",
+      "data": { "content": "STARTER", "color": "#9ca3af", "font-weight": "700", "font-size": "0.7rem" },
+      "order": 4, "display": "block"
+    },
+    {
+      "id": "fla-starter-price",
+      "type": "label",
+      "data": { "content": "$19 / month", "color": "#111827", "font-weight": "800", "font-size": "2rem" },
+      "order": 5, "display": "block"
+    },
+    {
+      "id": "fla-starter-desc",
+      "type": "paragraph",
+      "data": { "content": "Perfect for individuals and small teams getting started.", "color": "#6b7280", "font-size": "0.9rem" },
+      "order": 6, "display": "block"
+    },
+    {
+      "id": "fla-s-f1",
+      "type": "label",
+      "data": { "content": "✔  Up to 5 projects", "color": "#374151", "font-size": "0.9rem" },
+      "order": 7, "display": "block"
+    },
+    {
+      "id": "fla-s-f2",
+      "type": "label",
+      "data": { "content": "✔  10 GB storage", "color": "#374151", "font-size": "0.9rem" },
+      "order": 8, "display": "block"
+    },
+    {
+      "id": "fla-s-f3",
+      "type": "label",
+      "data": { "content": "✔  Basic analytics", "color": "#374151", "font-size": "0.9rem" },
+      "order": 9, "display": "block"
+    },
+    {
+      "id": "fla-s-f4",
+      "type": "label",
+      "data": { "content": "✔  Email support", "color": "#374151", "font-size": "0.9rem" },
+      "order": 10, "display": "block"
+    },
+    {
+      "id": "fla-starter-cta",
+      "type": "button",
+      "data": { "label": "Get started free", "icon": "arrow-right", "iconColor": "#6366f1", "labelColor": "#6366f1", "borderless": false },
+      "order": 11, "display": "block"
+    },
+    {
+      "id": "fla-d1",
+      "type": "divider",
+      "data": { "width": "100%", "height": "1px" },
+      "order": 12, "display": "block"
+    },
+    {
+      "id": "fla-pro-label",
+      "type": "label",
+      "data": { "content": "PRO  ✦ MOST POPULAR", "color": "#6366f1", "font-weight": "700", "font-size": "0.7rem" },
+      "order": 13, "display": "block"
+    },
+    {
+      "id": "fla-pro-price",
+      "type": "label",
+      "data": { "content": "$49 / month", "color": "#111827", "font-weight": "800", "font-size": "2rem" },
+      "order": 14, "display": "block"
+    },
+    {
+      "id": "fla-pro-desc",
+      "type": "paragraph",
+      "data": { "content": "For growing teams that need advanced tools and priority support.", "color": "#6b7280", "font-size": "0.9rem" },
+      "order": 15, "display": "block"
+    },
+    {
+      "id": "fla-p-f1",
+      "type": "label",
+      "data": { "content": "✔  Unlimited projects", "color": "#374151", "font-size": "0.9rem" },
+      "order": 16, "display": "block"
+    },
+    {
+      "id": "fla-p-f2",
+      "type": "label",
+      "data": { "content": "✔  100 GB storage", "color": "#374151", "font-size": "0.9rem" },
+      "order": 17, "display": "block"
+    },
+    {
+      "id": "fla-p-f3",
+      "type": "label",
+      "data": { "content": "✔  Advanced analytics & export", "color": "#374151", "font-size": "0.9rem" },
+      "order": 18, "display": "block"
+    },
+    {
+      "id": "fla-p-f4",
+      "type": "label",
+      "data": { "content": "✔  Priority support + SLA", "color": "#374151", "font-size": "0.9rem" },
+      "order": 19, "display": "block"
+    },
+    {
+      "id": "fla-p-f5",
+      "type": "label",
+      "data": { "content": "✔  SSO & audit logs", "color": "#374151", "font-size": "0.9rem" },
+      "order": 20, "display": "block"
+    },
+    {
+      "id": "fla-pro-cta",
+      "type": "button",
+      "data": { "label": "Start Pro trial", "icon": "stars", "iconColor": "#6366f1", "labelColor": "#6366f1", "borderless": false },
+      "order": 21, "display": "block"
+    },
+    {
+      "id": "fla-d2",
+      "type": "divider",
+      "data": { "width": "100%", "height": "1px" },
+      "order": 22, "display": "block"
+    },
+    {
+      "id": "fla-faq-h",
+      "type": "h2",
+      "data": { "content": "Common questions", "color": "#111827", "font-weight": "700", "font-size": "1.2rem" },
+      "order": 23, "display": "block"
+    },
+    {
+      "id": "fla-q1",
+      "type": "label",
+      "data": { "content": "Can I switch plans later?", "color": "#111827", "font-weight": "700", "font-size": "0.9rem" },
+      "order": 24, "display": "block"
+    },
+    {
+      "id": "fla-a1",
+      "type": "paragraph",
+      "data": { "content": "Yes — upgrade or downgrade at any time. Changes take effect on your next billing cycle.", "color": "#6b7280", "font-size": "0.88rem" },
+      "order": 25, "display": "block"
+    },
+    {
+      "id": "fla-q2",
+      "type": "label",
+      "data": { "content": "Is there a free trial?", "color": "#111827", "font-weight": "700", "font-size": "0.9rem" },
+      "order": 26, "display": "block"
+    },
+    {
+      "id": "fla-a2",
+      "type": "paragraph",
+      "data": { "content": "Pro comes with a 14-day free trial. No credit card required to start.", "color": "#6b7280", "font-size": "0.88rem" },
+      "order": 27, "display": "block"
+    },
+    {
+      "id": "fla-d3",
+      "type": "divider",
+      "data": { "width": "40px", "height": "3px" },
+      "order": 28, "display": "block"
+    },
+    {
+      "id": "fla-footer",
+      "type": "label",
+      "data": { "content": "Questions? hello@example.com", "color": "#9ca3af", "font-size": "0.8rem" },
+      "order": 29, "display": "block"
+    }
+  ],
+  "showGrid": false,
+  "gridSize": 20,
+  "flexSettings": { "direction": "row", "justify": "flex-start", "align": "stretch", "wrap": "nowrap", "gap": "12px" },
+  "gridSettings": { "columns": "repeat(4, 1fr)", "rows": "auto", "gap": "12px", "autoFlow": "row", "justifyItems": "stretch", "alignItems": "start" },
+  "visibleLayoutModes": { "freeform": true, "flow": true, "flex": true, "grid": true },
+  "visibleCodeTabs": { "combined": true, "html": true, "css": true },
+  "showComponentSettingsInStudent": true,
+  "showSidebarInStudent": false,
+  "allowDeleteInStudent": false
+}'
 ></webwriter-website-builder>
