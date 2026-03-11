@@ -91,6 +91,9 @@ export const layoutStyles = css`
     position: relative;
     width: 100%;
     height: 100%;
+    overflow: auto;
+    background: var(--sl-color-neutral-0);
+    border: 1px solid var(--sl-color-neutral-200);
   }
 
   .flow-root {
@@ -98,9 +101,7 @@ export const layoutStyles = css`
     width: 100%;
     height: 100%;
     overflow: auto;
-    padding: 1rem;
     background: var(--sl-color-neutral-0);
-    border-radius: 12px;
     border: 1px solid var(--sl-color-neutral-200);
   }
 
@@ -119,9 +120,7 @@ export const layoutStyles = css`
     width: 100%;
     height: 100%;
     overflow: auto;
-    padding: 1rem;
     background: var(--sl-color-neutral-0);
-    border-radius: 12px;
     border: 1px solid var(--sl-color-neutral-200);
     display: flex;
   }
@@ -131,9 +130,7 @@ export const layoutStyles = css`
     width: 100%;
     height: 100%;
     overflow: auto;
-    padding: 1rem;
     background: var(--sl-color-neutral-0);
-    border-radius: 12px;
     border: 1px solid var(--sl-color-neutral-200);
     display: grid;
   }
