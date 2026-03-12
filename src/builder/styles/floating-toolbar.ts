@@ -74,7 +74,6 @@ export const floatingToolbarStyles = css`
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 999px;
     padding: 3px 6px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
     transform-origin: right center;
     animation: pillIn 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
   }
