@@ -1,5 +1,6 @@
 import { html } from "lit";
 import { repeat } from "lit/directives/repeat.js";
+import { msg } from "@lit/localize";
 import type { WebwriterWebsiteBuilder } from "../../webwriter-website-builder";
 import { sortedNodes } from "../layout";
 import { ComponentRegistry } from "../../components/registry";
@@ -14,7 +15,7 @@ export function renderCanvasInner(host: WebwriterWebsiteBuilder) {
   const bg = host.canvasBackground ?? "#ffffff";   // ← reads from host
 
   if (nodes.length === 0) {
-    return html`<div class="drop-zone">drop components here</div>`;
+    return html`<div class="drop-zone">${msg("drop components here")}</div>`;
   }
 
   if (host.layoutMode === "freeform") {
@@ -112,7 +113,7 @@ export function renderContainerContent(host: WebwriterWebsiteBuilder, n: Builder
   return html`
     <div class="nested-container" style=${style}>
       ${isEmpty
-        ? html`<div class="container-empty-hint">Empty container — add items via the sidebar</div>`
+        ? html`<div class="container-empty-hint">${msg("Empty container — add items via the sidebar")}</div>`
         : repeat(children, (c) => c.id, (c) => renderNestedNode(host, c, n))}
     </div>
   `;

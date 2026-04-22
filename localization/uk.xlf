@@ -1,6 +1,660 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-<file target-language="uk" source-language="en" original="lit-localize-inputs" datatype="plaintext">
-<body/>
-</file>
+<xliff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="lit-localize-inputs" datatype="plaintext" source-language="en" target-language="uk">
+    <body>
+      <trans-unit id="s4a5341646123f8ce">
+        <source>drop components here</source>
+        <target>перетягніть компоненти сюди</target>
+      </trans-unit>
+      <trans-unit id="sfcebd18506f1e535">
+        <source>Flow</source>
+        <target>Потік</target>
+      </trans-unit>
+      <trans-unit id="s642a4070f6bcfee2">
+        <source>Content</source>
+        <target>Зміст</target>
+      </trans-unit>
+      <trans-unit id="s931cc4d30fead4de">
+        <source>This will remove all elements from the canvas. Continue?</source>
+        <target>Це призведе до видалення всіх елементів з полотна. Продовжити?</target>
+      </trans-unit>
+      <trans-unit id="s9d8b8aa2b404c2c8">
+        <source>Settings</source>
+        <target>Налаштування</target>
+      </trans-unit>
+      <trans-unit id="s1e06a953386318ac">
+        <source>Reset Canvas</source>
+        <target>Очистити полотно</target>
+      </trans-unit>
+      <trans-unit id="sbb59e2127a113990">
+        <source>Choose an icon</source>
+        <target>Виберіть піктограму</target>
+      </trans-unit>
+      <trans-unit id="s8059a22698307577">
+        <source>Search icons…</source>
+        <target>Значки пошуку…</target>
+      </trans-unit>
+      <trans-unit id="s188927533d6c9987">
+        <source>Icon color</source>
+        <target>Колір піктограми</target>
+      </trans-unit>
+      <trans-unit id="s0442a59427632f08">
+        <source>All components</source>
+        <target>Усі компоненти</target>
+      </trans-unit>
+      <trans-unit id="s5d929ff1619ac0c9">
+        <source>Search</source>
+        <target>Пошук</target>
+      </trans-unit>
+      <trans-unit id="s6bb965855fa5c1ab">
+        <source>Search components…</source>
+        <target>Пошук компонентів…</target>
+      </trans-unit>
+      <trans-unit id="s2841a0c596d6f426">
+        <source>item</source>
+        <target>позиція</target>
+      </trans-unit>
+      <trans-unit id="s3e7884bf4f412c6f">
+        <source>items</source>
+        <target>товари</target>
+      </trans-unit>
+      <trans-unit id="s5ada999b33ccc808">
+        <source>Insert</source>
+        <target>Вставити</target>
+      </trans-unit>
+      <trans-unit id="sa7d404b9283351e9">
+        <source>Drag tiles from the palette, or insert here at default position.</source>
+        <target>Перетягніть плитки з палітри або вставте їх тут у стандартне положення.</target>
+      </trans-unit>
+      <trans-unit id="s6d9c15e46caed9ad">
+        <source>Syntax (preview)</source>
+        <target>Синтаксис (попередній перегляд)</target>
+      </trans-unit>
+      <trans-unit id="s5e8250fb85d64c23">
+        <source>Close</source>
+        <target>Закрити</target>
+      </trans-unit>
+      <trans-unit id="s1219d97b49650c05">
+        <source>Visibility</source>
+        <target>Видимість</target>
+      </trans-unit>
+      <trans-unit id="s2ea4f3816cb3eaab">
+        <source>Layout modes</source>
+        <target>Режими компонування</target>
+      </trans-unit>
+      <trans-unit id="s3e580baec12c5cf8">
+        <source>Code tabs</source>
+        <target>Вкладки коду</target>
+      </trans-unit>
+      <trans-unit id="s7c2386fe775b2853">
+        <source>Student mode</source>
+        <target>Студентський режим</target>
+      </trans-unit>
+      <trans-unit id="s514f361e5688d094">
+        <source>Show component settings</source>
+        <target>Показати налаштування компонента</target>
+      </trans-unit>
+      <trans-unit id="s4b05ac1126ccd6c0">
+        <source>Show sidebar</source>
+        <target>Показати бічну панель</target>
+      </trans-unit>
+      <trans-unit id="s47e91aa5cba9dc97">
+        <source>Show toolbar</source>
+        <target>Показати панель інструментів</target>
+      </trans-unit>
+      <trans-unit id="sd607d6d103ce5431">
+        <source>Allow delete</source>
+        <target>Дозволити видалення</target>
+      </trans-unit>
+      <trans-unit id="s4abf432fc76a8ec9">
+        <source>Author mode</source>
+        <target>Режим автора</target>
+      </trans-unit>
+      <trans-unit id="sa6d4361f17423080">
+        <source>Component</source>
+        <target>Компонент</target>
+      </trans-unit>
+      <trans-unit id="sc1034375f5a9f098">
+        <source>Container</source>
+        <target>Контейнер</target>
+      </trans-unit>
+      <trans-unit id="s536ea6b320f9600d">
+        <source>Ungroup</source>
+        <target>Розгрупувати</target>
+      </trans-unit>
+      <trans-unit id="se2c449472f2d611e">
+        <source>Container layout</source>
+        <target>Розташування контейнерів</target>
+      </trans-unit>
+      <trans-unit id="sa300750295f9a36a">
+        <source>Grid placement</source>
+        <target>Розміщення в сітці</target>
+      </trans-unit>
+      <trans-unit id="s177d1b8ad205f175">
+        <source>Flex item</source>
+        <target>Елемент Flex</target>
+      </trans-unit>
+      <trans-unit id="s5bf5477d6a2ad856">
+        <source>Background color</source>
+        <target>Колір фону</target>
+      </trans-unit>
+      <trans-unit id="s76bb11989a7ba03e">
+        <source>Higher = in front. Click to select.</source>
+        <target>Вище = попереду. Клацніть, щоб вибрати.</target>
+      </trans-unit>
+      <trans-unit id="sa00beff1c266a23e">
+        <source>Bring forward</source>
+        <target>Перенести</target>
+      </trans-unit>
+      <trans-unit id="s50b60b4970cbd9ea">
+        <source>Send back</source>
+        <target>Відправити назад</target>
+      </trans-unit>
+      <trans-unit id="s9ffe1bbe64712bf1">
+        <source>Canvas</source>
+        <target>Полотно</target>
+      </trans-unit>
+      <trans-unit id="sc40ba85758f16fca">
+        <source>Combined</source>
+        <target>Сукупно</target>
+      </trans-unit>
+      <trans-unit id="sdaf07664dbfc95c5">
+        <source>Choose icon…</source>
+        <target>Виберіть піктограму…</target>
+      </trans-unit>
+      <trans-unit id="seb9a18743f5c0535">
+        <source>Empty container — add items via the sidebar</source>
+        <target>Порожній контейнер — додайте елементи через бічну панель</target>
+      </trans-unit>
+      <trans-unit id="s2ceb11be2290bb1b">
+        <source>Cancel</source>
+        <target>Скасувати</target>
+      </trans-unit>
+      <trans-unit id="s47ba0113da523b8d">
+        <source>Use icon</source>
+        <target>Використовувати піктограму</target>
+      </trans-unit>
+      <trans-unit id="s8e985aeeca6a8166">
+        <source>White</source>
+        <target>Білий</target>
+      </trans-unit>
+      <trans-unit id="s6399d92a898bc466">
+        <source>Off-white</source>
+        <target>Брунатний</target>
+      </trans-unit>
+      <trans-unit id="sae0e215d6564e14e">
+        <source>Light grey</source>
+        <target>Світло-сірий</target>
+      </trans-unit>
+      <trans-unit id="sac895c732f350ac5">
+        <source>Dark</source>
+        <target>Темний</target>
+      </trans-unit>
+      <trans-unit id="s795999a39e6aae81">
+        <source>Midnight</source>
+        <target>Північ</target>
+      </trans-unit>
+      <trans-unit id="s5d838598f78157f2">
+        <source>Charcoal</source>
+        <target>Деревне вугілля</target>
+      </trans-unit>
+      <trans-unit id="s45fff5d2e28db1a4">
+        <source>Reset to white</source>
+        <target>Скинути до білого</target>
+      </trans-unit>
+      <trans-unit id="sdab38385e185e9bf">
+        <source>Layers</source>
+        <target>Шари</target>
+      </trans-unit>
+      <trans-unit id="s2492f5fb1b05b45e">
+        <source>Text</source>
+        <target>Текст</target>
+      </trans-unit>
+      <trans-unit id="s3d93f9ea0c5a13fa">
+        <source>Image</source>
+        <target>Зображення</target>
+      </trans-unit>
+      <trans-unit id="s068d4dd16d9106d0">
+        <source>Icon</source>
+        <target>Піктограма</target>
+      </trans-unit>
+      <trans-unit id="s0312976fe9da5951">
+        <source>Button</source>
+        <target>Кнопка</target>
+      </trans-unit>
+      <trans-unit id="s4616fdc48b092f86">
+        <source>Divider</source>
+        <target>Роздільник</target>
+      </trans-unit>
+      <trans-unit id="sd65fa257917527a8">
+        <source>Browse all components</source>
+        <target>Переглянути всі компоненти</target>
+      </trans-unit>
+      <trans-unit id="sfc5542fcfe78b99b">
+        <source>Add component</source>
+        <target>Додати компонент</target>
+      </trans-unit>
+      <trans-unit id="s03c44f5a1b0581d4">
+        <source>selected</source>
+        <target>вибрані</target>
+      </trans-unit>
+      <trans-unit id="s8354160a1fe59b16">
+        <source>Wrap selected nodes in a container</source>
+        <target>Об'єднати вибрані вузли в контейнер</target>
+      </trans-unit>
+      <trans-unit id="s98b1cb8fb62909ec">
+        <source>Group</source>
+        <target>Група</target>
+      </trans-unit>
+      <trans-unit id="s8f18916860db5d80">
+        <source>Clear selection</source>
+        <target>Очистити вибір</target>
+      </trans-unit>
+      <trans-unit id="s569ed106bd3565e4">
+        <source>Switch layout to 
+          <x id="0" equiv-text="${mode}"/>
+        </source>
+        <target>Змінити розкладку на 
+          <x id="0" equiv-text="${mode}"/>
+        </target>
+      </trans-unit>
+      <trans-unit id="s0bdef849e0480d0e">
+        <source>Drag to canvas · Click for info</source>
+        <target>Перетягніть на полотно · Натисніть, щоб отримати інформацію</target>
+      </trans-unit>
+      <trans-unit id="s0d2f74dc9c0833a2">
+        <source>Drag to place on canvas. Click Insert to add at default position.</source>
+        <target>Перетягніть, щоб розмістити на полотні. Натисніть «Вставити», щоб додати у стандартне положення.</target>
+      </trans-unit>
+      <trans-unit id="sbba25f7b32fdf484">
+        <source>Button text</source>
+        <target>Текст кнопки</target>
+      </trans-unit>
+      <trans-unit id="s96b8133d45d9108b">
+        <source>Button label</source>
+        <target>Напис на кнопці</target>
+      </trans-unit>
+      <trans-unit id="se4a2a305de890ead">
+        <source>Pick icon…</source>
+        <target>Вибрати піктограму…</target>
+      </trans-unit>
+      <trans-unit id="sd5b036cc13fb77b4">
+        <source>Reset button</source>
+        <target>Кнопка скидання</target>
+      </trans-unit>
+      <trans-unit id="s88f5053fccdf0a61">
+        <source>hide border</source>
+        <target>приховати межу</target>
+      </trans-unit>
+      <trans-unit id="sf43739275a48c99c">
+        <source>Link text</source>
+        <target>Текст посилання</target>
+      </trans-unit>
+      <trans-unit id="s6ecb7a2f9be48443">
+        <source>Link label</source>
+        <target>Назва посилання</target>
+      </trans-unit>
+      <trans-unit id="s47bc103b7d41ad9c">
+        <source>Link URL</source>
+        <target>Посилання</target>
+      </trans-unit>
+      <trans-unit id="sd2b47d8cc09e0dfe">
+        <source>Icon name (optional)</source>
+        <target>Назва піктограми (не обов’язково)</target>
+      </trans-unit>
+      <trans-unit id="s3cf89cb47fdde7e9">
+        <source>Link</source>
+        <target>Посилання</target>
+      </trans-unit>
+      <trans-unit id="sc7cae0914551bb10">
+        <source>Reset link</source>
+        <target>Посилання для скидання</target>
+      </trans-unit>
+      <trans-unit id="sd6fb5bdee45e7967">
+        <source>Press "A" while clicking to follow the link.</source>
+        <target>Натисніть клавішу «A» під час клікання, щоб перейти за посиланням.</target>
+      </trans-unit>
+      <trans-unit id="s0fef364f29f8ffc1">
+        <source>Width (e.g. 300px, 20rem)</source>
+        <target>Ширина (наприклад, 300 пікселів, 20 рем)</target>
+      </trans-unit>
+      <trans-unit id="s09d3e1c6cc8700b9">
+        <source>Height (e.g. 10px, 0.5rem)</source>
+        <target>Висота (наприклад, 10 пікселів, 0,5 рем)</target>
+      </trans-unit>
+      <trans-unit id="s5172602152d8a620">
+        <source>Reset width and height</source>
+        <target>Скинути значення ширини та висоти</target>
+      </trans-unit>
+      <trans-unit id="sbfe81a957a15772c">
+        <source>Audio URL</source>
+        <target>Посилання на аудіофайл</target>
+      </trans-unit>
+      <trans-unit id="s08e6bd98452e6bb9">
+        <source>Audio</source>
+        <target>Аудіо</target>
+      </trans-unit>
+      <trans-unit id="s56b2da93a4b8874e">
+        <source>Upload Audio</source>
+        <target>Завантажити аудіо</target>
+      </trans-unit>
+      <trans-unit id="s78789724e789221c">
+        <source>Size</source>
+        <target>Розмір</target>
+      </trans-unit>
+      <trans-unit id="s344ea8f4939cdc98">
+        <source>Color</source>
+        <target>Колір</target>
+      </trans-unit>
+      <trans-unit id="sef5caf7c3cf24b03">
+        <source>Placeholder image</source>
+        <target>Зображення-заповнювач</target>
+      </trans-unit>
+      <trans-unit id="se09e3dc382fe557f">
+        <source>Image URL</source>
+        <target>URL зображення</target>
+      </trans-unit>
+      <trans-unit id="sff9d51b6c5a73163">
+        <source>Alt Text</source>
+        <target>Альтернативний текст</target>
+      </trans-unit>
+      <trans-unit id="sf79bbcb9f92e4d35">
+        <source>Object Fit</source>
+        <target>Підбір об’єкта</target>
+      </trans-unit>
+      <trans-unit id="sba64d8954d027206">
+        <source>Opacity</source>
+        <target>Непрозорість</target>
+      </trans-unit>
+      <trans-unit id="s0b786a0e85eb6783">
+        <source>Border Radius</source>
+        <target>Радіус вигину</target>
+      </trans-unit>
+      <trans-unit id="s15f1c890a4d45381">
+        <source>Upload Image</source>
+        <target>Завантажити зображення</target>
+      </trans-unit>
+      <trans-unit id="s5fc61cdf86138f38">
+        <source>Reset to placeholder</source>
+        <target>Скинути до замінника</target>
+      </trans-unit>
+      <trans-unit id="s3936a6d9094737dd">
+        <source>Video URL</source>
+        <target>Посилання на відео</target>
+      </trans-unit>
+      <trans-unit id="s89ba1ee1ccee063b">
+        <source>Describe the video (accessibility)</source>
+        <target>Опишіть відео (доступність)</target>
+      </trans-unit>
+      <trans-unit id="s85186a61e0d55bac">
+        <source>Video</source>
+        <target>Відео</target>
+      </trans-unit>
+      <trans-unit id="s288dd43090a568af">
+        <source>Upload Video</source>
+        <target>Завантажити відео</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2f81604bb81a">
+        <source>Heading 1</source>
+        <target>Заголовок 1</target>
+      </trans-unit>
+      <trans-unit id="s094eb0fadccf24d8">
+        <source>Heading text</source>
+        <target>Заголовок</target>
+      </trans-unit>
+      <trans-unit id="s072c3c42e24456af">
+        <source>Enter heading…</source>
+        <target>Введіть заголовок…</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2e81604bb667">
+        <source>Heading 2</source>
+        <target>Заголовок 2</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2d81604bb4b4">
+        <source>Heading 3</source>
+        <target>Заголовок 3</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2c81604bb301">
+        <source>Heading 4</source>
+        <target>Заголовок 4</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2b81604bb14e">
+        <source>Heading 5</source>
+        <target>Заголовок 5</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2a81604baf9b">
+        <source>Heading 6</source>
+        <target>Заголовок 6</target>
+      </trans-unit>
+      <trans-unit id="s5590dbf7e425789d">
+        <source>Label</source>
+        <target>Етикетка</target>
+      </trans-unit>
+      <trans-unit id="s6ce2cd4c021d67c0">
+        <source>Label text</source>
+        <target>Текст етикетки</target>
+      </trans-unit>
+      <trans-unit id="sb7fd199d895f2ee0">
+        <source>Enter label text…</source>
+        <target>Введіть текст етикетки…</target>
+      </trans-unit>
+      <trans-unit id="s599dcd2472c75c19">
+        <source>Paragraph</source>
+        <target>Абзац</target>
+      </trans-unit>
+      <trans-unit id="s506f0816b38dd34c">
+        <source>Paragraph text</source>
+        <target>Текст абзацу</target>
+      </trans-unit>
+      <trans-unit id="s28674808a6dbbd5f">
+        <source>Enter paragraph…</source>
+        <target>Введіть абзац…</target>
+      </trans-unit>
+      <trans-unit id="sf21fb4f4b9e8911f">
+        <source>Width</source>
+        <target>Ширина</target>
+      </trans-unit>
+      <trans-unit id="sffdadf0a576fd802">
+        <source>Height</source>
+        <target>Висота</target>
+      </trans-unit>
+      <trans-unit id="s8e43508f1392e94d">
+        <source>Text color</source>
+        <target>Колір тексту</target>
+      </trans-unit>
+      <trans-unit id="s236ed7ba747099b0">
+        <source>Font weight</source>
+        <target>Насиченість шрифту</target>
+      </trans-unit>
+      <trans-unit id="sa30f1981fd1cd441">
+        <source>Font size</source>
+        <target>Розмір шрифту</target>
+      </trans-unit>
+      <trans-unit id="s9d1a9174ca15faad">
+        <source>Choose font</source>
+        <target>Виберіть шрифт</target>
+      </trans-unit>
+      <trans-unit id="s4b4afa8bcb02d5ac">
+        <source>Typography</source>
+        <target>Типографіка</target>
+      </trans-unit>
+      <trans-unit id="s079cf7850d9327f0">
+        <source>Font</source>
+        <target>Шрифт</target>
+      </trans-unit>
+      <trans-unit id="sc480ad5cd5e098ed">
+        <source>Reset font</source>
+        <target>Скинути шрифт</target>
+      </trans-unit>
+      <trans-unit id="s2d5ed76c30d38322">
+        <source>Enter text…</source>
+        <target>Введіть текст…</target>
+      </trans-unit>
+      <trans-unit id="sb688a1d8ede5c08e">
+        <source>Textarea placeholder</source>
+        <target>Текст-заповнювач для поля Textarea</target>
+      </trans-unit>
+      <trans-unit id="s56786c3f3e37cefa">
+        <source>Enter textarea placeholder…</source>
+        <target>Введіть текст-заповнювач для поля введення…</target>
+      </trans-unit>
+      <trans-unit id="s4e03726ad458f1f2">
+        <source>Width (e.g. 320px, 60%)</source>
+        <target>Ширина (наприклад, 320 пікселів, 60 %)</target>
+      </trans-unit>
+      <trans-unit id="sa40e933fba661284">
+        <source>Height (e.g. 120px)</source>
+        <target>Висота (наприклад, 120 пікселів)</target>
+      </trans-unit>
+      <trans-unit id="s3643189d1abbb7f4">
+        <source>Code</source>
+        <target>Код</target>
+      </trans-unit>
+      <trans-unit id="hee3c66c7df58c59e">
+        <source>Hold 
+          <x id="0" equiv-text="&lt;kbd&gt;"/>T
+          <x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.
+        </source>
+        <target>Утримуйте 
+          <x id="0" equiv-text="&lt;kbd&gt;"/> T
+          <x id="1" equiv-text="&lt;/kbd&gt;"/> , щоб тимчасово приховати накладку панелі інструментів.
+        </target>
+      </trans-unit>
+      <trans-unit id="s33054d1d675674c9">
+        <source>Freeform</source>
+        <target>Вільна форма</target>
+      </trans-unit>
+      <trans-unit id="s13685d515f24f806">
+        <source>Two Columns</source>
+        <target>Дві колонки</target>
+      </trans-unit>
+      <trans-unit id="s9f35b422aa707a80">
+        <source>Equal-width side-by-side columns</source>
+        <target>Столбці однакової ширини, розташовані поруч</target>
+      </trans-unit>
+      <trans-unit id="se6b9f0707592d7f4">
+        <source>Hero + Sidebar</source>
+        <target>Герой + Бічна панель</target>
+      </trans-unit>
+      <trans-unit id="sf60963b73764eca2">
+        <source>Wide main area with a narrow sidebar</source>
+        <target>Широка основна область із вузькою бічною панеллю</target>
+      </trans-unit>
+      <trans-unit id="s50cf51c05f0d4f09">
+        <source>Card Grid</source>
+        <target>Сітка карток</target>
+      </trans-unit>
+      <trans-unit id="sbd2f3cd9e56e40c3">
+        <source>Responsive 3-column card layout</source>
+        <target>Адаптивний макет із 3-ма колонками у вигляді карток</target>
+      </trans-unit>
+      <trans-unit id="sfc83e9eb133d7361">
+        <source>Centered Stack</source>
+        <target>Вирівняний по центру стек</target>
+      </trans-unit>
+      <trans-unit id="s79f4e6731ad3be45">
+        <source>Vertically stacked, centered items</source>
+        <target>Елементи, розташовані вертикально один над одним та вирівняні по центру</target>
+      </trans-unit>
+      <trans-unit id="s9abadcc828884d7b">
+        <source>Textarea</source>
+        <target>Поле для введення тексту</target>
+      </trans-unit>
+      <trans-unit id="s2e4818861000b13f">
+        <source>Layout</source>
+        <target>Макет</target>
+      </trans-unit>
+      <trans-unit id="sd23ee5e66df8400a">
+        <source>Direction</source>
+        <target>Напрямок</target>
+      </trans-unit>
+      <trans-unit id="sbe6283ffe834c65a">
+        <source>Justify content</source>
+        <target>Вирівняти вміст</target>
+      </trans-unit>
+      <trans-unit id="sb4d3986485cf1326">
+        <source>Align items</source>
+        <target>Вирівняти елементи</target>
+      </trans-unit>
+      <trans-unit id="se619a501d1bfe6a5">
+        <source>Wrap</source>
+        <target>Обгортання</target>
+      </trans-unit>
+      <trans-unit id="seaf97719986faf4f">
+        <source>Gap</source>
+        <target>Розрив</target>
+      </trans-unit>
+      <trans-unit id="sb0f3327210fe18fc">
+        <source>Columns</source>
+        <target>Стовпці</target>
+      </trans-unit>
+      <trans-unit id="scace072bef961918">
+        <source>Rows</source>
+        <target>Рядки</target>
+      </trans-unit>
+      <trans-unit id="s33b8dc0523428dde">
+        <source>Auto flow</source>
+        <target>Автоматичний потік</target>
+      </trans-unit>
+      <trans-unit id="s915caf9e3dad37f7">
+        <source>Justify items</source>
+        <target>Вирівняти елементи</target>
+      </trans-unit>
+      <trans-unit id="s1125d159f7e64df5">
+        <source>Display</source>
+        <target>Екран</target>
+      </trans-unit>
+      <trans-unit id="s06fd2f8b555158a4">
+        <source>Area</source>
+        <target>Площа</target>
+      </trans-unit>
+      <trans-unit id="s4525d914120bba9f">
+        <source>Column start</source>
+        <target>Початок колонки</target>
+      </trans-unit>
+      <trans-unit id="s861fdb0670b22561">
+        <source>Column span</source>
+        <target>Проліт колони</target>
+      </trans-unit>
+      <trans-unit id="s62fbafa74a42f033">
+        <source>Row start</source>
+        <target>Початок рядка</target>
+      </trans-unit>
+      <trans-unit id="s46b90b74670a1865">
+        <source>Row span</source>
+        <target>Ширина рядка</target>
+      </trans-unit>
+      <trans-unit id="s8fa8b0a18d4320de">
+        <source>Parent direction:</source>
+        <target>Вказівки для батьків:</target>
+      </trans-unit>
+      <trans-unit id="s5a053ed77fa9c1bc">
+        <source>Align self</source>
+        <target>Вирівняти</target>
+      </trans-unit>
+      <trans-unit id="sd95af958ff5ee320">
+        <source>inherit parent</source>
+        <target>успадкувати від батьківського елемента</target>
+      </trans-unit>
+      <trans-unit id="sbfa01f189a68d3e9">
+        <source>Flex grow</source>
+        <target>Гнучке вирощування</target>
+      </trans-unit>
+      <trans-unit id="sef24caccbd4645ef">
+        <source>Flex shrink</source>
+        <target>Термоусадочна плівка</target>
+      </trans-unit>
+      <trans-unit id="saced41ddda8b2354">
+        <source>Flex basis</source>
+        <target>На основі Flex</target>
+      </trans-unit>
+      <trans-unit id="s3adbbe7967b559b5">
+        <source>Describe the image (accessibility)</source>
+        <target>Опишіть зображення (доступність)</target>
+      </trans-unit>
+      <trans-unit id="s6f44d1ec40b5eb0d">
+        <source>Component settings</source>
+        <target>Налаштування компонентів</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

@@ -1,4 +1,5 @@
 import { html } from "lit";
+import { msg } from "@lit/localize";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import { FONT_OPTIONS } from "../../builder/data/data";
 
@@ -7,7 +8,7 @@ const DEFAULT_FONT =
 
 export const Heading6: BuilderComponent = {
   type: "h6",
-  label: "Heading 6",
+  label: () => msg("Heading 6"),
   group: "text",
 
   defaultData: {
@@ -17,7 +18,7 @@ export const Heading6: BuilderComponent = {
   render: (data) => {
     const font = data?.font ?? DEFAULT_FONT;
     const color = data?.color ?? "#000000";
-    const content = data?.content ?? "Heading 6";
+    const content = data?.content ?? msg("Heading 6");
     const fontWeight = data?.["font-weight"] ?? "normal";
     const fontSize = data?.["font-size"] ?? "2em";
 
@@ -37,17 +38,17 @@ export const Heading6: BuilderComponent = {
     `;
   },
 
-  bindings: [
+  bindings: () => [
     {
       key: "content",
-      label: "Heading text",
+      label: msg("Heading text"),
       kind: "text",
       target: "h6",
-      placeholder: "Enter heading…",
+      placeholder: msg("Enter heading…"),
     },
     {
       key: "color",
-      label: "Text color",
+      label: msg("Text color"),
       kind: "style",
       target: "h6",
       name: "color",
@@ -55,7 +56,7 @@ export const Heading6: BuilderComponent = {
     },
     {
       key: "font-weight",
-      label: "Font weight",
+      label: msg("Font weight"),
       kind: "style",
       target: "h6",
       name: "font-weight",
@@ -63,7 +64,7 @@ export const Heading6: BuilderComponent = {
     },
     {
       key: "font-size",
-      label: "Font size",
+      label: msg("Font size"),
       kind: "style",
       target: "h6",
       name: "font-size",
@@ -73,17 +74,17 @@ export const Heading6: BuilderComponent = {
   settings: ({ data, setData }) => {
     const current = (data?.font as string) ?? DEFAULT_FONT;
     const currentLabel =
-      FONT_OPTIONS.find((f) => f.value === current)?.label ?? "Choose font";
+      FONT_OPTIONS.find((f) => f.value === current)?.label ?? msg("Choose font");
 
     return html`
       <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Typography</h2>
+        <h2 style="margin-top: 0">${msg("Typography")}</h2>
 
         <div class="setting-row">
           <div
             style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-bottom: 0.25rem;"
           >
-            Font
+            ${msg("Font")}
           </div>
 
           <sl-dropdown placement="bottom-start" hoist>
@@ -122,7 +123,7 @@ export const Heading6: BuilderComponent = {
             variant="default"
             @click=${() => setData({ font: DEFAULT_FONT })}
           >
-            Reset font
+            ${msg("Reset font")}
           </sl-button>
         </div>
       </div>

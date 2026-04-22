@@ -1,4 +1,5 @@
 import { html } from "lit";
+import { msg } from "@lit/localize";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import "../../assets/shoelaceImports";
 
@@ -8,7 +9,7 @@ const DEFAULT_ICON = "";
 
 export const LinkComponent: BuilderComponent = {
   type: "link",
-  label: "Link",
+  label: () => msg("Link"),
   group: "buttons",
 
   defaultData: {
@@ -58,17 +59,17 @@ export const LinkComponent: BuilderComponent = {
     `;
   },
 
-  bindings: [
+  bindings: () => [
     {
       key: "label",
-      label: "Link text",
+      label: msg("Link text"),
       kind: "text",
       target: "span",
-      placeholder: "Link label",
+      placeholder: msg("Link label"),
     },
     {
       key: "href",
-      label: "Link URL",
+      label: msg("Link URL"),
       kind: "attr",
       target: "a",
       name: "href",
@@ -76,7 +77,7 @@ export const LinkComponent: BuilderComponent = {
     },
     {
       key: "icon",
-      label: "Icon name (optional)",
+      label: msg("Icon name (optional)"),
       kind: "attr",
       target: "sl-icon",
       name: "name",
@@ -91,16 +92,16 @@ export const LinkComponent: BuilderComponent = {
 
     return html`
       <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Link</h2>
+        <h2 style="margin-top: 0">${msg("Link")}</h2>
 
         <div class="setting-row">
           <sl-button size="small" variant="default" @click=${reset}>
-            Reset link
+            ${msg("Reset link")}
           </sl-button>
         </div>
 
         <div class="setting-row" style="font-size: 0.8rem; color: #666;">
-          Press "A" while clicking to follow the link.
+          ${msg('Press "A" while clicking to follow the link.')}
         </div>
       </div>
     `;

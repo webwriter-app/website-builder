@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.1" srcLang="en" trgLang="zh-hans">
+<file id="." original=".">
+<unit id="description"><segment><source>Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).</source><target>构建、探索并了解采用不同布局（自由布局、流式布局、弹性布局、网格布局）的静态网站。</target></segment></unit>
+</file>
+</xliff>

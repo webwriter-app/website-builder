@@ -1,4 +1,5 @@
 import { html } from "lit";
+import { msg } from "@lit/localize";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 
 const PLACEHOLDER_AUDIO =
@@ -6,7 +7,7 @@ const PLACEHOLDER_AUDIO =
 
 export const AudioComponent: BuilderComponent = {
   type: "audio",
-  label: "Audio",
+  label: () => msg("Audio"),
   group: "media",
 
   defaultData: {
@@ -41,10 +42,10 @@ export const AudioComponent: BuilderComponent = {
   },
 
   // Generic sidebar field
-  bindings: [
+  bindings: () => [
     {
       key: "src",
-      label: "Audio URL",
+      label: msg("Audio URL"),
       kind: "attr",
       target: "audio",
       name: "src",
@@ -72,7 +73,7 @@ export const AudioComponent: BuilderComponent = {
 
     return html`
       <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Audio</h2>
+        <h2 style="margin-top: 0">${msg("Audio")}</h2>
 
         <div class="setting-row">
           <label
@@ -83,7 +84,7 @@ export const AudioComponent: BuilderComponent = {
               margin-bottom: 0.25rem;
             "
           >
-            Upload Audio
+            ${msg("Upload Audio")}
           </label>
 
           <input
@@ -100,7 +101,7 @@ export const AudioComponent: BuilderComponent = {
             variant="default"
             @click=${resetToPlaceholder}
           >
-            Reset to placeholder
+            ${msg("Reset to placeholder")}
           </sl-button>
         </div>
       </div>

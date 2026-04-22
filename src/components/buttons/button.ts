@@ -1,4 +1,5 @@
 import { html } from "lit";
+import { msg } from "@lit/localize";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import "../../assets/shoelaceImports";
 
@@ -9,7 +10,7 @@ const DEFAULT_LABEL_COLOR = "#0f172a";
 
 export const ButtonComponent: BuilderComponent = {
   type: "button",
-  label: "Button",
+  label: () => msg("Button"),
   group: "buttons",
 
   defaultData: {
@@ -88,13 +89,13 @@ export const ButtonComponent: BuilderComponent = {
     `;
   },
 
-  bindings: [
+  bindings: () => [
     {
       key: "label",
-      label: "Button text",
+      label: msg("Button text"),
       kind: "text",
       target: "span",
-      placeholder: "Button label",
+      placeholder: msg("Button label"),
     },
   ],
 
@@ -115,7 +116,7 @@ export const ButtonComponent: BuilderComponent = {
 
     return html`
       <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Button</h2>
+        <h2 style="margin-top: 0">${msg("Button")}</h2>
 
         <div
           class="setting-row"
@@ -124,7 +125,7 @@ export const ButtonComponent: BuilderComponent = {
           <ww-icon-picker
             .value=${icon}
             .color=${iconColor}
-            button-label="Pick icon…"
+            button-label=${msg("Pick icon…")}
             @ww-change=${(e: CustomEvent) =>
               setData({
                 icon: e.detail?.name ?? "",
@@ -133,14 +134,14 @@ export const ButtonComponent: BuilderComponent = {
           ></ww-icon-picker>
 
           <sl-button size="small" variant="default" @click=${reset}>
-            Reset button
+            ${msg("Reset button")}
           </sl-button>
         </div>
 
         <div class="setting-row">
           <div style="display:flex; align-items:center; gap:0.6rem;">
             <label style="font-size:0.85rem; color:var(--sl-color-neutral-700); flex-shrink:0;">
-              Text color
+              ${msg("Text color")}
             </label>
             <input
               type="color"
@@ -177,7 +178,7 @@ export const ButtonComponent: BuilderComponent = {
             @sl-change=${(e: any) =>
               setData({ borderless: Boolean(e.target.checked) })}
           >
-            hide border
+            ${msg("hide border")}
           </sl-switch>
         </div>
       </div>

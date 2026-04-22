@@ -1,4 +1,5 @@
 import { html } from "lit";
+import { msg } from "@lit/localize";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 
 const DEFAULT_WIDTH = "300px";
@@ -6,7 +7,7 @@ const DEFAULT_HEIGHT = "1px";
 
 export const DividerComponent: BuilderComponent = {
   type: "divider",
-  label: "Divider",
+  label: () => msg("Divider"),
   group: "dividers",
 
   defaultData: {
@@ -39,10 +40,10 @@ export const DividerComponent: BuilderComponent = {
     `;
   },
 
-  bindings: [
+  bindings: () => [
     {
       key: "width",
-      label: "Width (e.g. 300px, 20rem)",
+      label: msg("Width (e.g. 300px, 20rem)"),
       kind: "style",
       target: "hr",
       name: "width",
@@ -50,7 +51,7 @@ export const DividerComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: "Height (e.g. 10px, 0.5rem)",
+      label: msg("Height (e.g. 10px, 0.5rem)"),
       kind: "style",
       target: "hr",
       name: "height",
@@ -63,10 +64,10 @@ export const DividerComponent: BuilderComponent = {
 
     return html`
       <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Divider</h2>
+        <h2 style="margin-top: 0">${msg("Divider")}</h2>
         <div class="setting-row">
           <sl-button size="small" variant="default" @click=${reset}>
-            Reset width and height
+            ${msg("Reset width and height")}
           </sl-button>
         </div>
       </div>

@@ -22,7 +22,7 @@ export type ComponentSettingsCtx = {
 // maps names (named it "type" here since it better matches the purpose) to builder components
 export interface BuilderComponent {
   type: string;
-  label: string;
+  label: () => string;
   group: "text" | "media" | "buttons" | "dividers";
   defaultData?: any;
 
@@ -31,5 +31,5 @@ export interface BuilderComponent {
   // CHANGED: was (element: HTMLElement) => TemplateResult
   settings?: (ctx: ComponentSettingsCtx) => TemplateResult;
 
-  bindings?: ComponentBinding[];
+  bindings?: () => ComponentBinding[];
 }

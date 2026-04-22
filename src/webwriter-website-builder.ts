@@ -2,6 +2,7 @@ import { html } from "lit";
 import { LitElementWw } from "@webwriter/lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { msg } from "@lit/localize";
+// @ts-ignore
 import LOCALIZE from "../localization/generated";
 import { wbGear } from "./assets/icons";
 import { shoelaceScoped } from "./assets/shoelaceImports";
@@ -17,7 +18,7 @@ import {
 } from "./builder/layout";
 import { groupNodes, ungroupNodes } from "./builder/layout";
 import {
-  CONTAINER_TEMPLATES,
+  getContainerTemplates,
   defaultFlexSettings,
   defaultGridSettings,
 } from "./builder/types";
@@ -327,13 +328,13 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     const allTypes = Object.keys(ComponentRegistry);
     const searched = q
       ? allTypes.filter((t) => {
-          const label = (ComponentRegistry[t]?.label ?? t).toLowerCase();
+          const label = (ComponentRegistry[t]?.label() ?? t).toLowerCase();
           return t.toLowerCase().includes(q) || label.includes(q);
         })
       : allTypes;
     return searched.sort((a, b) => {
-      const la = (ComponentRegistry[a]?.label ?? a).toLowerCase();
-      const lb = (ComponentRegistry[b]?.label ?? b).toLowerCase();
+      const la = (ComponentRegistry[a]?.label() ?? a).toLowerCase();
+      const lb = (ComponentRegistry[b]?.label() ?? b).toLowerCase();
       return la.localeCompare(lb);
     });
   }
@@ -374,6 +375,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   groupSelected() {
     if (this.selectedIds.size < 2) return;
+    const CONTAINER_TEMPLATES = getContainerTemplates();
     const template =
       CONTAINER_TEMPLATES.find((t) => t.id === this.groupTemplateId) ??
       CONTAINER_TEMPLATES[0];
@@ -681,7 +683,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
           <div class="settings">
             <h2>${wbGear} ${msg("Settings")}</h2>
 
-            <sl-details summary="Canvas">
+            <sl-details summary=${msg("Canvas")}>
               ${renderLayersPanel(this)}
 
               <div class="settings-row">
@@ -700,14 +702,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                           padding:0.4rem 0.6rem;background:var(--sl-color-neutral-50);
                           border-radius:8px;border:1px solid var(--sl-color-neutral-200);"
               >
-                Hold
-                <kbd
-                  style="font-family:monospace;background:var(--sl-color-neutral-100);
-                               border:1px solid var(--sl-color-neutral-300);border-radius:4px;
-                               padding:1px 5px;font-size:0.75rem;"
-                  >T</kbd
-                >
-                to temporarily hide the toolbar overlay.
+                ${msg(html`Hold <kbd>T</kbd> to temporarily hide the toolbar overlay.`)}
               </div>
             </sl-details>
 
@@ -747,10 +742,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         <!-- Code panel (fullscreen only) -->
         ${split
           ? html`
-              <div class="code-panel" aria-label="Code">
+              <div class="code-panel" aria-label=${msg("Code")}>
                 <div class="code-header">
-                  <div class="code-title">Code</div>
-                  <div class="code-tabs" role="tablist" aria-label="Code tabs">
+                  <div class="code-title">${msg("Code")}</div>
+                  <div class="code-tabs" role="tablist" aria-label=${msg("Code tabs")}>
                     ${this._renderCodeTabs()}
                   </div>
                 </div>
@@ -770,7 +765,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         ${showDrawer
           ? html`
               <sl-drawer
-                label="Component settings"
+                label=${msg("Component settings")}
                 placement="end"
                 .open=${true}
                 @sl-after-hide=${this._closeStudentDrawer}
@@ -792,7 +787,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   private _renderCodeTabs() {
     const tabs: Array<[CodeTab, string]> = [
-      ["combined", "Combined"],
+      ["combined", msg("Combined")],
       ["html", "HTML"],
       ["css", "CSS"],
     ];

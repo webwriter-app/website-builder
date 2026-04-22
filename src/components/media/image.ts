@@ -1,4 +1,5 @@
 import { html } from "lit";
+import { msg } from "@lit/localize";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import { wbPlaceholderIMG } from "../../assets/icons";
 
@@ -6,12 +7,12 @@ const PLACEHOLDER_SRC = wbPlaceholderIMG;
 
 export const ImageComponent: BuilderComponent = {
   type: "image",
-  label: "Image",
+  label: () => msg("Image"),
   group: "media",
 
   defaultData: {
     src: PLACEHOLDER_SRC,
-    alt: "Placeholder image",
+    alt: msg("Placeholder image"),
   },
 
   render(data) {
@@ -42,10 +43,10 @@ export const ImageComponent: BuilderComponent = {
   },
 
   // Only fields that are useful in the generic "Content" section
-  bindings: [
+  bindings: () => [
     {
       key: "src",
-      label: "Image URL",
+      label: msg("Image URL"),
       kind: "attr",
       target: "img",
       name: "src",
@@ -53,15 +54,15 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "alt",
-      label: "Alt Text",
+      label: msg("Alt Text"),
       kind: "attr",
       target: "img",
       name: "alt",
-      placeholder: "Describe the image (accessibility)",
+      placeholder: msg("Describe the image (accessibility)"),
     },
     {
       key: "width",
-      label: "Width",
+      label: msg("Width"),
       kind: "style", 
       target: "img",
       name: "width",
@@ -69,7 +70,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: "Height",
+      label: msg("Height"),
       kind: "style",
       target: "img",
       name: "height",
@@ -77,7 +78,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "object-fit",
-      label: "Object Fit",
+      label: msg("Object Fit"),
       kind: "style",
       target: "img",
       name: "object-fit",
@@ -85,7 +86,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "opacity",
-      label: "Opacity",
+      label: msg("Opacity"),
       kind: "style",
       target: "img",
       name: "opacity",
@@ -93,7 +94,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "border-radius",
-      label: "Border Radius",
+      label: msg("Border Radius"),
       kind: "style",
       target: "img",
       name: "border-radius",
@@ -121,12 +122,12 @@ export const ImageComponent: BuilderComponent = {
     };
 
     const resetToPlaceholder = () => {
-      setData({ src: PLACEHOLDER_SRC, alt: "Placeholder image" });
+      setData({ src: PLACEHOLDER_SRC, alt: msg("Placeholder image") });
     };
 
     return html`
       <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Image</h2>
+        <h2 style="margin-top: 0">${msg("Image")}</h2>
 
         <div class="setting-row">
           <label
@@ -137,7 +138,7 @@ export const ImageComponent: BuilderComponent = {
             margin-bottom: 0.25rem;
           "
           >
-            Upload Image
+            ${msg("Upload Image")}
           </label>
 
           <input
@@ -154,7 +155,7 @@ export const ImageComponent: BuilderComponent = {
             variant="default"
             @click=${resetToPlaceholder}
           >
-            Reset to placeholder
+            ${msg("Reset to placeholder")}
           </sl-button>
         </div>
       </div>

@@ -56,6 +56,19 @@ export const settingsStyles = css`
     padding: 0.5rem 0 0.75rem 0;
   }
 
+  .settings kbd {
+    font-family: monospace;
+    background: var(--sl-color-neutral-100);
+    border: 1px solid var(--sl-color-neutral-300);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.75rem;
+  }
+
+  .settings .css-prop {
+    font-size: 0.78rem;
+  }
+
   /* Palette "all components" button */
   .all-components-btn::part(base) {
     display: flex;

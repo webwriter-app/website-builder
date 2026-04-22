@@ -1,6 +1,660 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-<file target-language="fr" source-language="en" original="lit-localize-inputs" datatype="plaintext">
-<body/>
-</file>
+<xliff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="lit-localize-inputs" datatype="plaintext" source-language="en" target-language="fr">
+    <body>
+      <trans-unit id="s4a5341646123f8ce">
+        <source>drop components here</source>
+        <target>déposez les éléments ici</target>
+      </trans-unit>
+      <trans-unit id="sfcebd18506f1e535">
+        <source>Flow</source>
+        <target>Débit</target>
+      </trans-unit>
+      <trans-unit id="s642a4070f6bcfee2">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="s931cc4d30fead4de">
+        <source>This will remove all elements from the canvas. Continue?</source>
+        <target>Cela supprimera tous les éléments du canevas. Voulez-vous continuer ?</target>
+      </trans-unit>
+      <trans-unit id="s9d8b8aa2b404c2c8">
+        <source>Settings</source>
+        <target>Paramètres</target>
+      </trans-unit>
+      <trans-unit id="s1e06a953386318ac">
+        <source>Reset Canvas</source>
+        <target>Réinitialiser le canevas</target>
+      </trans-unit>
+      <trans-unit id="sbb59e2127a113990">
+        <source>Choose an icon</source>
+        <target>Choisissez une icône</target>
+      </trans-unit>
+      <trans-unit id="s8059a22698307577">
+        <source>Search icons…</source>
+        <target>Icônes de recherche…</target>
+      </trans-unit>
+      <trans-unit id="s188927533d6c9987">
+        <source>Icon color</source>
+        <target>Couleur de l'icône</target>
+      </trans-unit>
+      <trans-unit id="s0442a59427632f08">
+        <source>All components</source>
+        <target>Tous les composants</target>
+      </trans-unit>
+      <trans-unit id="s5d929ff1619ac0c9">
+        <source>Search</source>
+        <target>Rechercher</target>
+      </trans-unit>
+      <trans-unit id="s6bb965855fa5c1ab">
+        <source>Search components…</source>
+        <target>Rechercher des composants…</target>
+      </trans-unit>
+      <trans-unit id="s2841a0c596d6f426">
+        <source>item</source>
+        <target>article</target>
+      </trans-unit>
+      <trans-unit id="s3e7884bf4f412c6f">
+        <source>items</source>
+        <target>articles</target>
+      </trans-unit>
+      <trans-unit id="s5ada999b33ccc808">
+        <source>Insert</source>
+        <target>Insérer</target>
+      </trans-unit>
+      <trans-unit id="sa7d404b9283351e9">
+        <source>Drag tiles from the palette, or insert here at default position.</source>
+        <target>Faites glisser les tuiles depuis la palette ou insérez-les ici à leur emplacement par défaut.</target>
+      </trans-unit>
+      <trans-unit id="s6d9c15e46caed9ad">
+        <source>Syntax (preview)</source>
+        <target>Syntaxe (aperçu)</target>
+      </trans-unit>
+      <trans-unit id="s5e8250fb85d64c23">
+        <source>Close</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit id="s1219d97b49650c05">
+        <source>Visibility</source>
+        <target>Visibilité</target>
+      </trans-unit>
+      <trans-unit id="s2ea4f3816cb3eaab">
+        <source>Layout modes</source>
+        <target>Modes de mise en page</target>
+      </trans-unit>
+      <trans-unit id="s3e580baec12c5cf8">
+        <source>Code tabs</source>
+        <target>Onglets de code</target>
+      </trans-unit>
+      <trans-unit id="s7c2386fe775b2853">
+        <source>Student mode</source>
+        <target>Mode étudiant</target>
+      </trans-unit>
+      <trans-unit id="s514f361e5688d094">
+        <source>Show component settings</source>
+        <target>Afficher les paramètres du composant</target>
+      </trans-unit>
+      <trans-unit id="s4b05ac1126ccd6c0">
+        <source>Show sidebar</source>
+        <target>Afficher la barre latérale</target>
+      </trans-unit>
+      <trans-unit id="s47e91aa5cba9dc97">
+        <source>Show toolbar</source>
+        <target>Afficher la barre d'outils</target>
+      </trans-unit>
+      <trans-unit id="sd607d6d103ce5431">
+        <source>Allow delete</source>
+        <target>Autoriser la suppression</target>
+      </trans-unit>
+      <trans-unit id="s4abf432fc76a8ec9">
+        <source>Author mode</source>
+        <target>Mode auteur</target>
+      </trans-unit>
+      <trans-unit id="sa6d4361f17423080">
+        <source>Component</source>
+        <target>Composant</target>
+      </trans-unit>
+      <trans-unit id="sc1034375f5a9f098">
+        <source>Container</source>
+        <target>Conteneur</target>
+      </trans-unit>
+      <trans-unit id="s536ea6b320f9600d">
+        <source>Ungroup</source>
+        <target>Dégrouper</target>
+      </trans-unit>
+      <trans-unit id="se2c449472f2d611e">
+        <source>Container layout</source>
+        <target>Disposition des conteneurs</target>
+      </trans-unit>
+      <trans-unit id="sa300750295f9a36a">
+        <source>Grid placement</source>
+        <target>Positionnement sur la grille</target>
+      </trans-unit>
+      <trans-unit id="s177d1b8ad205f175">
+        <source>Flex item</source>
+        <target>Élément Flex</target>
+      </trans-unit>
+      <trans-unit id="s5bf5477d6a2ad856">
+        <source>Background color</source>
+        <target>Couleur d'arrière-plan</target>
+      </trans-unit>
+      <trans-unit id="s76bb11989a7ba03e">
+        <source>Higher = in front. Click to select.</source>
+        <target>Plus haut = à l'avant. Cliquez pour sélectionner.</target>
+      </trans-unit>
+      <trans-unit id="sa00beff1c266a23e">
+        <source>Bring forward</source>
+        <target>Avancer</target>
+      </trans-unit>
+      <trans-unit id="s50b60b4970cbd9ea">
+        <source>Send back</source>
+        <target>Renvoyer</target>
+      </trans-unit>
+      <trans-unit id="s9ffe1bbe64712bf1">
+        <source>Canvas</source>
+        <target>Toile</target>
+      </trans-unit>
+      <trans-unit id="sc40ba85758f16fca">
+        <source>Combined</source>
+        <target>Combiné</target>
+      </trans-unit>
+      <trans-unit id="sdaf07664dbfc95c5">
+        <source>Choose icon…</source>
+        <target>Choisissez une icône…</target>
+      </trans-unit>
+      <trans-unit id="seb9a18743f5c0535">
+        <source>Empty container — add items via the sidebar</source>
+        <target>Panier vide — ajoutez des articles via la barre latérale</target>
+      </trans-unit>
+      <trans-unit id="s2ceb11be2290bb1b">
+        <source>Cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="s47ba0113da523b8d">
+        <source>Use icon</source>
+        <target>Utiliser l'icône</target>
+      </trans-unit>
+      <trans-unit id="s8e985aeeca6a8166">
+        <source>White</source>
+        <target>Blanc</target>
+      </trans-unit>
+      <trans-unit id="s6399d92a898bc466">
+        <source>Off-white</source>
+        <target>Blanc cassé</target>
+      </trans-unit>
+      <trans-unit id="sae0e215d6564e14e">
+        <source>Light grey</source>
+        <target>Gris clair</target>
+      </trans-unit>
+      <trans-unit id="sac895c732f350ac5">
+        <source>Dark</source>
+        <target>Sombre</target>
+      </trans-unit>
+      <trans-unit id="s795999a39e6aae81">
+        <source>Midnight</source>
+        <target>Minuit</target>
+      </trans-unit>
+      <trans-unit id="s5d838598f78157f2">
+        <source>Charcoal</source>
+        <target>Charbon de bois</target>
+      </trans-unit>
+      <trans-unit id="s45fff5d2e28db1a4">
+        <source>Reset to white</source>
+        <target>Réinitialiser en blanc</target>
+      </trans-unit>
+      <trans-unit id="sdab38385e185e9bf">
+        <source>Layers</source>
+        <target>Calques</target>
+      </trans-unit>
+      <trans-unit id="s2492f5fb1b05b45e">
+        <source>Text</source>
+        <target>Texte</target>
+      </trans-unit>
+      <trans-unit id="s3d93f9ea0c5a13fa">
+        <source>Image</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit id="s068d4dd16d9106d0">
+        <source>Icon</source>
+        <target>Icône</target>
+      </trans-unit>
+      <trans-unit id="s0312976fe9da5951">
+        <source>Button</source>
+        <target>Bouton</target>
+      </trans-unit>
+      <trans-unit id="s4616fdc48b092f86">
+        <source>Divider</source>
+        <target>Séparateur</target>
+      </trans-unit>
+      <trans-unit id="sd65fa257917527a8">
+        <source>Browse all components</source>
+        <target>Parcourir tous les composants</target>
+      </trans-unit>
+      <trans-unit id="sfc5542fcfe78b99b">
+        <source>Add component</source>
+        <target>Ajouter un composant</target>
+      </trans-unit>
+      <trans-unit id="s03c44f5a1b0581d4">
+        <source>selected</source>
+        <target>sélectionné</target>
+      </trans-unit>
+      <trans-unit id="s8354160a1fe59b16">
+        <source>Wrap selected nodes in a container</source>
+        <target>Placer les nœuds sélectionnés dans un conteneur</target>
+      </trans-unit>
+      <trans-unit id="s98b1cb8fb62909ec">
+        <source>Group</source>
+        <target>Groupe</target>
+      </trans-unit>
+      <trans-unit id="s8f18916860db5d80">
+        <source>Clear selection</source>
+        <target>Effacer la sélection</target>
+      </trans-unit>
+      <trans-unit id="s569ed106bd3565e4">
+        <source>Switch layout to 
+          <x id="0" equiv-text="${mode}"/>
+        </source>
+        <target>Changer la disposition du clavier pour 
+          <x id="0" equiv-text="${mode}"/>
+        </target>
+      </trans-unit>
+      <trans-unit id="s0bdef849e0480d0e">
+        <source>Drag to canvas · Click for info</source>
+        <target>Faites glisser vers la zone de travail · Cliquez pour plus d'informations</target>
+      </trans-unit>
+      <trans-unit id="s0d2f74dc9c0833a2">
+        <source>Drag to place on canvas. Click Insert to add at default position.</source>
+        <target>Faites glisser pour le placer sur le canevas. Cliquez sur « Insérer » pour l'ajouter à l'emplacement par défaut.</target>
+      </trans-unit>
+      <trans-unit id="sbba25f7b32fdf484">
+        <source>Button text</source>
+        <target>Texte du bouton</target>
+      </trans-unit>
+      <trans-unit id="s96b8133d45d9108b">
+        <source>Button label</source>
+        <target>Étiquette du bouton</target>
+      </trans-unit>
+      <trans-unit id="se4a2a305de890ead">
+        <source>Pick icon…</source>
+        <target>Sélectionner une icône…</target>
+      </trans-unit>
+      <trans-unit id="sd5b036cc13fb77b4">
+        <source>Reset button</source>
+        <target>Bouton de réinitialisation</target>
+      </trans-unit>
+      <trans-unit id="s88f5053fccdf0a61">
+        <source>hide border</source>
+        <target>masquer la bordure</target>
+      </trans-unit>
+      <trans-unit id="sf43739275a48c99c">
+        <source>Link text</source>
+        <target>Texte du lien</target>
+      </trans-unit>
+      <trans-unit id="s6ecb7a2f9be48443">
+        <source>Link label</source>
+        <target>Lien</target>
+      </trans-unit>
+      <trans-unit id="s47bc103b7d41ad9c">
+        <source>Link URL</source>
+        <target>URL du lien</target>
+      </trans-unit>
+      <trans-unit id="sd2b47d8cc09e0dfe">
+        <source>Icon name (optional)</source>
+        <target>Nom de l'icône (facultatif)</target>
+      </trans-unit>
+      <trans-unit id="s3cf89cb47fdde7e9">
+        <source>Link</source>
+        <target>Lien</target>
+      </trans-unit>
+      <trans-unit id="sc7cae0914551bb10">
+        <source>Reset link</source>
+        <target>Lien de réinitialisation</target>
+      </trans-unit>
+      <trans-unit id="sd6fb5bdee45e7967">
+        <source>Press "A" while clicking to follow the link.</source>
+        <target>Appuyez sur la touche « A » tout en cliquant pour suivre le lien.</target>
+      </trans-unit>
+      <trans-unit id="s0fef364f29f8ffc1">
+        <source>Width (e.g. 300px, 20rem)</source>
+        <target>Largeur (par exemple 300 px, 20 rem)</target>
+      </trans-unit>
+      <trans-unit id="s09d3e1c6cc8700b9">
+        <source>Height (e.g. 10px, 0.5rem)</source>
+        <target>Hauteur (par exemple : 10 px, 0,5 rem)</target>
+      </trans-unit>
+      <trans-unit id="s5172602152d8a620">
+        <source>Reset width and height</source>
+        <target>Réinitialiser la largeur et la hauteur</target>
+      </trans-unit>
+      <trans-unit id="sbfe81a957a15772c">
+        <source>Audio URL</source>
+        <target>Lien audio</target>
+      </trans-unit>
+      <trans-unit id="s08e6bd98452e6bb9">
+        <source>Audio</source>
+        <target>Audio</target>
+      </trans-unit>
+      <trans-unit id="s56b2da93a4b8874e">
+        <source>Upload Audio</source>
+        <target>Télécharger un fichier audio</target>
+      </trans-unit>
+      <trans-unit id="s78789724e789221c">
+        <source>Size</source>
+        <target>Taille</target>
+      </trans-unit>
+      <trans-unit id="s344ea8f4939cdc98">
+        <source>Color</source>
+        <target>Couleur</target>
+      </trans-unit>
+      <trans-unit id="sef5caf7c3cf24b03">
+        <source>Placeholder image</source>
+        <target>Image de remplacement</target>
+      </trans-unit>
+      <trans-unit id="se09e3dc382fe557f">
+        <source>Image URL</source>
+        <target>URL de l'image</target>
+      </trans-unit>
+      <trans-unit id="sff9d51b6c5a73163">
+        <source>Alt Text</source>
+        <target>Texte alternatif</target>
+      </trans-unit>
+      <trans-unit id="sf79bbcb9f92e4d35">
+        <source>Object Fit</source>
+        <target>Ajustement de l'objet</target>
+      </trans-unit>
+      <trans-unit id="sba64d8954d027206">
+        <source>Opacity</source>
+        <target>Opacité</target>
+      </trans-unit>
+      <trans-unit id="s0b786a0e85eb6783">
+        <source>Border Radius</source>
+        <target>Rayon de bordure</target>
+      </trans-unit>
+      <trans-unit id="s15f1c890a4d45381">
+        <source>Upload Image</source>
+        <target>Télécharger une image</target>
+      </trans-unit>
+      <trans-unit id="s5fc61cdf86138f38">
+        <source>Reset to placeholder</source>
+        <target>Réinitialiser pour afficher l'espace réservé</target>
+      </trans-unit>
+      <trans-unit id="s3936a6d9094737dd">
+        <source>Video URL</source>
+        <target>URL de la vidéo</target>
+      </trans-unit>
+      <trans-unit id="s89ba1ee1ccee063b">
+        <source>Describe the video (accessibility)</source>
+        <target>Décrivez la vidéo (accessibilité)</target>
+      </trans-unit>
+      <trans-unit id="s85186a61e0d55bac">
+        <source>Video</source>
+        <target>Vidéo</target>
+      </trans-unit>
+      <trans-unit id="s288dd43090a568af">
+        <source>Upload Video</source>
+        <target>Télécharger une vidéo</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2f81604bb81a">
+        <source>Heading 1</source>
+        <target>Titre 1</target>
+      </trans-unit>
+      <trans-unit id="s094eb0fadccf24d8">
+        <source>Heading text</source>
+        <target>Texte de l'en-tête</target>
+      </trans-unit>
+      <trans-unit id="s072c3c42e24456af">
+        <source>Enter heading…</source>
+        <target>Entrez le titre…</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2e81604bb667">
+        <source>Heading 2</source>
+        <target>Titre 2</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2d81604bb4b4">
+        <source>Heading 3</source>
+        <target>Titre 3</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2c81604bb301">
+        <source>Heading 4</source>
+        <target>Rubrique 4</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2b81604bb14e">
+        <source>Heading 5</source>
+        <target>Rubrique 5</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2a81604baf9b">
+        <source>Heading 6</source>
+        <target>Rubrique 6</target>
+      </trans-unit>
+      <trans-unit id="s5590dbf7e425789d">
+        <source>Label</source>
+        <target>Étiquette</target>
+      </trans-unit>
+      <trans-unit id="s6ce2cd4c021d67c0">
+        <source>Label text</source>
+        <target>Texte de l'étiquette</target>
+      </trans-unit>
+      <trans-unit id="sb7fd199d895f2ee0">
+        <source>Enter label text…</source>
+        <target>Saisissez le texte de l'étiquette…</target>
+      </trans-unit>
+      <trans-unit id="s599dcd2472c75c19">
+        <source>Paragraph</source>
+        <target>Paragraphe</target>
+      </trans-unit>
+      <trans-unit id="s506f0816b38dd34c">
+        <source>Paragraph text</source>
+        <target>Texte du paragraphe</target>
+      </trans-unit>
+      <trans-unit id="s28674808a6dbbd5f">
+        <source>Enter paragraph…</source>
+        <target>Saisir un paragraphe…</target>
+      </trans-unit>
+      <trans-unit id="sf21fb4f4b9e8911f">
+        <source>Width</source>
+        <target>Largeur</target>
+      </trans-unit>
+      <trans-unit id="sffdadf0a576fd802">
+        <source>Height</source>
+        <target>Hauteur</target>
+      </trans-unit>
+      <trans-unit id="s8e43508f1392e94d">
+        <source>Text color</source>
+        <target>Couleur du texte</target>
+      </trans-unit>
+      <trans-unit id="s236ed7ba747099b0">
+        <source>Font weight</source>
+        <target>Épaisseur de la police</target>
+      </trans-unit>
+      <trans-unit id="sa30f1981fd1cd441">
+        <source>Font size</source>
+        <target>Taille de la police</target>
+      </trans-unit>
+      <trans-unit id="s9d1a9174ca15faad">
+        <source>Choose font</source>
+        <target>Choisissez une police</target>
+      </trans-unit>
+      <trans-unit id="s4b4afa8bcb02d5ac">
+        <source>Typography</source>
+        <target>Typographie</target>
+      </trans-unit>
+      <trans-unit id="s079cf7850d9327f0">
+        <source>Font</source>
+        <target>Police</target>
+      </trans-unit>
+      <trans-unit id="sc480ad5cd5e098ed">
+        <source>Reset font</source>
+        <target>Réinitialiser la police</target>
+      </trans-unit>
+      <trans-unit id="s2d5ed76c30d38322">
+        <source>Enter text…</source>
+        <target>Saisissez du texte…</target>
+      </trans-unit>
+      <trans-unit id="sb688a1d8ede5c08e">
+        <source>Textarea placeholder</source>
+        <target>Texte de remplacement pour la zone de texte</target>
+      </trans-unit>
+      <trans-unit id="s56786c3f3e37cefa">
+        <source>Enter textarea placeholder…</source>
+        <target>Saisissez le texte de remplacement de la zone de texte…</target>
+      </trans-unit>
+      <trans-unit id="s4e03726ad458f1f2">
+        <source>Width (e.g. 320px, 60%)</source>
+        <target>Largeur (par exemple 320 px, 60 %)</target>
+      </trans-unit>
+      <trans-unit id="sa40e933fba661284">
+        <source>Height (e.g. 120px)</source>
+        <target>Hauteur (par exemple 120 px)</target>
+      </trans-unit>
+      <trans-unit id="s3643189d1abbb7f4">
+        <source>Code</source>
+        <target>Code</target>
+      </trans-unit>
+      <trans-unit id="hee3c66c7df58c59e">
+        <source>Hold 
+          <x id="0" equiv-text="&lt;kbd&gt;"/>T
+          <x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.
+        </source>
+        <target>Maintenez enfoncées les touches 
+          <x id="0" equiv-text="&lt;kbd&gt;"/> T
+          <x id="1" equiv-text="&lt;/kbd&gt;"/> pour masquer temporairement la barre d'outils.
+        </target>
+      </trans-unit>
+      <trans-unit id="s33054d1d675674c9">
+        <source>Freeform</source>
+        <target>Forme libre</target>
+      </trans-unit>
+      <trans-unit id="s13685d515f24f806">
+        <source>Two Columns</source>
+        <target>Deux colonnes</target>
+      </trans-unit>
+      <trans-unit id="s9f35b422aa707a80">
+        <source>Equal-width side-by-side columns</source>
+        <target>Colonnes côte à côte de largeur égale</target>
+      </trans-unit>
+      <trans-unit id="se6b9f0707592d7f4">
+        <source>Hero + Sidebar</source>
+        <target>Héros + Barre latérale</target>
+      </trans-unit>
+      <trans-unit id="sf60963b73764eca2">
+        <source>Wide main area with a narrow sidebar</source>
+        <target>Une zone principale large avec une barre latérale étroite</target>
+      </trans-unit>
+      <trans-unit id="s50cf51c05f0d4f09">
+        <source>Card Grid</source>
+        <target>Grille de cartes</target>
+      </trans-unit>
+      <trans-unit id="sbd2f3cd9e56e40c3">
+        <source>Responsive 3-column card layout</source>
+        <target>Mise en page réactive à trois colonnes sous forme de cartes</target>
+      </trans-unit>
+      <trans-unit id="sfc83e9eb133d7361">
+        <source>Centered Stack</source>
+        <target>Pile centrée</target>
+      </trans-unit>
+      <trans-unit id="s79f4e6731ad3be45">
+        <source>Vertically stacked, centered items</source>
+        <target>Éléments empilés verticalement et centrés</target>
+      </trans-unit>
+      <trans-unit id="s9abadcc828884d7b">
+        <source>Textarea</source>
+        <target>Zone de texte</target>
+      </trans-unit>
+      <trans-unit id="s2e4818861000b13f">
+        <source>Layout</source>
+        <target>Mise en page</target>
+      </trans-unit>
+      <trans-unit id="sd23ee5e66df8400a">
+        <source>Direction</source>
+        <target>Direction</target>
+      </trans-unit>
+      <trans-unit id="sbe6283ffe834c65a">
+        <source>Justify content</source>
+        <target>Aligner le contenu</target>
+      </trans-unit>
+      <trans-unit id="sb4d3986485cf1326">
+        <source>Align items</source>
+        <target>Aligner les éléments</target>
+      </trans-unit>
+      <trans-unit id="se619a501d1bfe6a5">
+        <source>Wrap</source>
+        <target>Envelopper</target>
+      </trans-unit>
+      <trans-unit id="seaf97719986faf4f">
+        <source>Gap</source>
+        <target>Écart</target>
+      </trans-unit>
+      <trans-unit id="sb0f3327210fe18fc">
+        <source>Columns</source>
+        <target>Rubriques</target>
+      </trans-unit>
+      <trans-unit id="scace072bef961918">
+        <source>Rows</source>
+        <target>Lignes</target>
+      </trans-unit>
+      <trans-unit id="s33b8dc0523428dde">
+        <source>Auto flow</source>
+        <target>Débit automatique</target>
+      </trans-unit>
+      <trans-unit id="s915caf9e3dad37f7">
+        <source>Justify items</source>
+        <target>Aligner les éléments</target>
+      </trans-unit>
+      <trans-unit id="s1125d159f7e64df5">
+        <source>Display</source>
+        <target>Affichage</target>
+      </trans-unit>
+      <trans-unit id="s06fd2f8b555158a4">
+        <source>Area</source>
+        <target>Zone</target>
+      </trans-unit>
+      <trans-unit id="s4525d914120bba9f">
+        <source>Column start</source>
+        <target>Début de la rubrique</target>
+      </trans-unit>
+      <trans-unit id="s861fdb0670b22561">
+        <source>Column span</source>
+        <target>Portée de la colonne</target>
+      </trans-unit>
+      <trans-unit id="s62fbafa74a42f033">
+        <source>Row start</source>
+        <target>Début de ligne</target>
+      </trans-unit>
+      <trans-unit id="s46b90b74670a1865">
+        <source>Row span</source>
+        <target>Largeur de rangée</target>
+      </trans-unit>
+      <trans-unit id="s8fa8b0a18d4320de">
+        <source>Parent direction:</source>
+        <target>Consignes aux parents :</target>
+      </trans-unit>
+      <trans-unit id="s5a053ed77fa9c1bc">
+        <source>Align self</source>
+        <target>S'aligner</target>
+      </trans-unit>
+      <trans-unit id="sd95af958ff5ee320">
+        <source>inherit parent</source>
+        <target>hériter du parent</target>
+      </trans-unit>
+      <trans-unit id="sbfa01f189a68d3e9">
+        <source>Flex grow</source>
+        <target>Flex Grow</target>
+      </trans-unit>
+      <trans-unit id="sef24caccbd4645ef">
+        <source>Flex shrink</source>
+        <target>Film thermorétractable</target>
+      </trans-unit>
+      <trans-unit id="saced41ddda8b2354">
+        <source>Flex basis</source>
+        <target>base flexible</target>
+      </trans-unit>
+      <trans-unit id="s3adbbe7967b559b5">
+        <source>Describe the image (accessibility)</source>
+        <target>Décrivez l'image (accessibilité)</target>
+      </trans-unit>
+      <trans-unit id="s6f44d1ec40b5eb0d">
+        <source>Component settings</source>
+        <target>Paramètres des composants</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

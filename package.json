@@ -1,61 +1,93 @@
 {
-    "name": "@webwriter/website-builder",
-    "version": "0.0.1",
-    "description": "Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).",
-    "keywords": [
-        "webwriter-widget",
-        "widget-conceptual",
-        "widget-lang-en",
-        "iscedf2013-06",
-        "isced2011-3",
-        "isced2011-6",
-        "Drag-and-Drop",
-        "Freeform",
-        "Flow",
-        "Flex",
-        "Grid"
-    ],
-    "license": "MIT",
-    "author": "Moritz Langenhan <moritz.langenhan@rwth-aachen.de>",
-    "scripts": {
-        "prepublishOnly": "npx @webwriter/build",
-        "dev": "npx @webwriter/build dev",
-        "localize": "lit-localize extract && npx @webwriter/build localize && lit-localize build"
+  "name": "@webwriter/website-builder",
+  "version": "0.0.1",
+  "description": "Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).",
+  "keywords": [
+    "webwriter-widget",
+    "widget-conceptual",
+    "widget-lang-en",
+    "iscedf2013-06",
+    "isced2011-3",
+    "isced2011-6",
+    "Drag-and-Drop",
+    "Freeform",
+    "Flow",
+    "Flex",
+    "Grid",
+    "widget-lang-de",
+    "widget-lang-ar",
+    "widget-lang-bg",
+    "widget-lang-cs",
+    "widget-lang-da",
+    "widget-lang-nl",
+    "widget-lang-et",
+    "widget-lang-fi",
+    "widget-lang-fr",
+    "widget-lang-el",
+    "widget-lang-hu",
+    "widget-lang-it",
+    "widget-lang-lv",
+    "widget-lang-lt",
+    "widget-lang-nb",
+    "widget-lang-pl",
+    "widget-lang-pt-PT",
+    "widget-lang-ro",
+    "widget-lang-ru",
+    "widget-lang-sk",
+    "widget-lang-sl",
+    "widget-lang-es",
+    "widget-lang-sv",
+    "widget-lang-tr",
+    "widget-lang-uk",
+    "widget-lang-pt-BR",
+    "widget-lang-ko",
+    "widget-lang-ja",
+    "widget-lang-id",
+    "widget-lang-zh-hans",
+    "widget-lang-zh-hant"
+  ],
+  "license": "MIT",
+  "author": "Moritz Langenhan <moritz.langenhan@rwth-aachen.de>",
+  "scripts": {
+    "prepublishOnly": "npx @webwriter/build",
+    "dev": "npx @webwriter/build dev",
+    "localize": "lit-localize extract && npx @webwriter/build localize && lit-localize build"
+  },
+  "dependencies": {
+    "@shoelace-style/shoelace": "^2.20.1",
+    "@webwriter/lit": "^2",
+    "geist": "^1.7.0",
+    "lit": "^3.3.2",
+    "soft": "^0.0.0"
+  },
+  "devDependencies": {
+    "@lit/localize-tools": "^0.8"
+  },
+  "exports": {
+    "./widgets/webwriter-website-builder.*": {
+      "source": "./src/webwriter-website-builder.ts",
+      "default": "./dist/widgets/webwriter-website-builder.*"
     },
-    "dependencies": {
-        "@shoelace-style/shoelace": "^2.20.1",
-        "@webwriter/lit": "^2",
-        "geist": "^1.7.0",
-        "lit": "^3.3.2",
-        "soft": "^0.0.0"
-    },
-    "devDependencies": {
-        "@lit/localize-tools": "^0.8"
-    },
-    "exports": {
-        "./widgets/webwriter-website-builder.*": {
-            "source": "./src/webwriter-website-builder.ts",
-            "default": "./dist/widgets/webwriter-website-builder.*"
-        },
-        "./snippets/flex-starter.html": "./snippets/flex/example-flex-starter.html",
-        "./snippets/flex-advanced.html": "./snippets/flex/example-flex-advanced.html",
-        "./snippets/grid-starter.html": "./snippets/grid/example-grid-starter.html",
-        "./snippets/grid-advanced.html": "./snippets/grid/example-grid-advanced.html",
-        "./snippets/freeform-starter.html": "./snippets/freeform/example-freeform-starter.html",
-        "./snippets/freeform-advanced.html": "./snippets/freeform/example-freeform-advanced.html",
-        "./snippets/flow-starter.html": "./snippets/flow/example-flow-starter.html",
-        "./snippets/flow-advanced.html": "./snippets/flow/example-flow-advanced.html"
-    },
-    "editingConfig": {
-        ".": {},
-        "./widgets/webwriter-website-builder": {},
-        "./snippets/flex-starter": {},
-        "./snippets/flex-advanced": {},
-        "./snippets/grid-starter": {},
-        "./snippets/grid-advanced": {},
-        "./snippets/freeform-starter": {},
-        "./snippets/freeform-advanced": {},
-        "./snippets/flow-starter": {},
-        "./snippets/flow-advanced": {}
-    }
+    "./snippets/flex-starter.html": "./snippets/flex/example-flex-starter.html",
+    "./snippets/flex-advanced.html": "./snippets/flex/example-flex-advanced.html",
+    "./snippets/grid-starter.html": "./snippets/grid/example-grid-starter.html",
+    "./snippets/grid-advanced.html": "./snippets/grid/example-grid-advanced.html",
+    "./snippets/freeform-starter.html": "./snippets/freeform/example-freeform-starter.html",
+    "./snippets/freeform-advanced.html": "./snippets/freeform/example-freeform-advanced.html",
+    "./snippets/flow-starter.html": "./snippets/flow/example-flow-starter.html",
+    "./snippets/flow-advanced.html": "./snippets/flow/example-flow-advanced.html",
+    "./editing-config.json": "./editing-config.json"
+  },
+  "editingConfig": {
+    ".": {},
+    "./widgets/webwriter-website-builder": {},
+    "./snippets/flex-starter": {},
+    "./snippets/flex-advanced": {},
+    "./snippets/grid-starter": {},
+    "./snippets/grid-advanced": {},
+    "./snippets/freeform-starter": {},
+    "./snippets/freeform-advanced": {},
+    "./snippets/flow-starter": {},
+    "./snippets/flow-advanced": {}
+  }
 }

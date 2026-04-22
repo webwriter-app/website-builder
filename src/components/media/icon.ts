@@ -1,5 +1,6 @@
 // Usage in IconComponent (src/builder/components/media/icon.ts)
 import { html } from "lit";
+import { msg } from "@lit/localize";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import "../../assets/shoelaceImports";
 
@@ -8,7 +9,7 @@ const DEFAULT_COLOR = "#0f172a";
 
 export const IconComponent: BuilderComponent = {
   type: "icon",
-  label: "Icon",
+  label: () => msg("Icon"),
   group: "media",
 
   defaultData: {
@@ -60,13 +61,13 @@ export const IconComponent: BuilderComponent = {
 
     return html`
       <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Icon</h2>
+        <h2 style="margin-top: 0">${msg("Icon")}</h2>
 
         <div class="setting-row">
           <ww-icon-picker
             .value=${name}
             .color=${color}
-            button-label="Pick icon…"
+            button-label=${msg("Pick icon…")}
             @ww-change=${(e: CustomEvent) =>
               setData({ name: e.detail.name, color: e.detail.color })}
           ></ww-icon-picker>
@@ -74,7 +75,7 @@ export const IconComponent: BuilderComponent = {
 
         <div class="setting-row">
           <sl-input
-            label="Size"
+            label=${msg("Size")}
             placeholder="32px"
             .value=${String(size)}
             @sl-input=${(e: any) =>
@@ -84,7 +85,7 @@ export const IconComponent: BuilderComponent = {
 
         <div class="setting-row">
           <sl-input
-            label="Color"
+            label=${msg("Color")}
             placeholder="#0f172a"
             .value=${String(color)}
             @sl-input=${(e: any) =>

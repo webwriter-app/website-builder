@@ -1,4 +1,5 @@
 import { html } from "lit";
+import { msg } from "@lit/localize";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import { FONT_OPTIONS } from "../../builder/data/data";
 
@@ -7,7 +8,7 @@ const DEFAULT_FONT =
 
 export const ParagraphComponent: BuilderComponent = {
   type: "p",
-  label: "Paragraph",
+  label: () => msg("Paragraph"),
   group: "text",
 
   defaultData: {
@@ -17,7 +18,7 @@ export const ParagraphComponent: BuilderComponent = {
   render: (data) => {
     const font = data?.font ?? DEFAULT_FONT;
     const color = data?.color ?? "#000000";
-    const content = data?.content ?? "Paragraph";
+    const content = data?.content ?? msg("Paragraph");
     const fontWeight = data?.["font-weight"] ?? "normal";
     const width = data?.width ?? "auto";
     const height = data?.height ?? "auto";
@@ -41,17 +42,17 @@ export const ParagraphComponent: BuilderComponent = {
     `;
   },
 
-  bindings: [
+  bindings: () => [
     {
       key: "content",
-      label: "Paragraph text",
+      label: msg("Paragraph text"),
       kind: "text",
       target: "p",
-      placeholder: "Enter paragraph…",
+      placeholder: msg("Enter paragraph…"),
     },
     {
       key: "width",
-      label: "Width",
+      label: msg("Width"),
       kind: "style",
       target: "p",
       name: "width",
@@ -59,7 +60,7 @@ export const ParagraphComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: "Height",
+      label: msg("Height"),
       kind: "style",
       target: "p",
       name: "height",
@@ -67,7 +68,7 @@ export const ParagraphComponent: BuilderComponent = {
     },
     {
       key: "color",
-      label: "Text color",
+      label: msg("Text color"),
       kind: "style",
       target: "p",
       name: "color",
@@ -75,7 +76,7 @@ export const ParagraphComponent: BuilderComponent = {
     },
     {
       key: "font-weight",
-      label: "Font weight",
+      label: msg("Font weight"),
       kind: "style",
       target: "p",
       name: "font-weight",
@@ -83,7 +84,7 @@ export const ParagraphComponent: BuilderComponent = {
     },
     {
       key: "font-size",
-      label: "Font size",
+      label: msg("Font size"),
       kind: "style",
       target: "p",
       name: "font-size",
@@ -93,17 +94,17 @@ export const ParagraphComponent: BuilderComponent = {
   settings: ({ data, setData }) => {
     const current = (data?.font as string) ?? DEFAULT_FONT;
     const currentLabel =
-      FONT_OPTIONS.find((f) => f.value === current)?.label ?? "Choose font";
+      FONT_OPTIONS.find((f) => f.value === current)?.label ?? msg("Choose font");
 
     return html`
       <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Typography</h2>
+        <h2 style="margin-top: 0">${msg("Typography")}</h2>
 
         <div class="setting-row">
           <div
             style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-bottom: 0.25rem;"
           >
-            Font
+            ${msg("Font")}
           </div>
 
           <sl-dropdown placement="bottom-start" hoist>
@@ -142,7 +143,7 @@ export const ParagraphComponent: BuilderComponent = {
             variant="default"
             @click=${() => setData({ font: DEFAULT_FONT })}
           >
-            Reset font
+            ${msg("Reset font")}
           </sl-button>
         </div>
       </div>

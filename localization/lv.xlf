@@ -1,6 +1,660 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-<file target-language="lv" source-language="en" original="lit-localize-inputs" datatype="plaintext">
-<body/>
-</file>
+<xliff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="lit-localize-inputs" datatype="plaintext" source-language="en" target-language="lv">
+    <body>
+      <trans-unit id="s4a5341646123f8ce">
+        <source>drop components here</source>
+        <target>ievietojiet komponentes šeit</target>
+      </trans-unit>
+      <trans-unit id="sfcebd18506f1e535">
+        <source>Flow</source>
+        <target>Plūsma</target>
+      </trans-unit>
+      <trans-unit id="s642a4070f6bcfee2">
+        <source>Content</source>
+        <target>Saturs</target>
+      </trans-unit>
+      <trans-unit id="s931cc4d30fead4de">
+        <source>This will remove all elements from the canvas. Continue?</source>
+        <target>Tādējādi tiks noņemti visi elementi no darba laukuma. Turpināt?</target>
+      </trans-unit>
+      <trans-unit id="s9d8b8aa2b404c2c8">
+        <source>Settings</source>
+        <target>Iestatījumi</target>
+      </trans-unit>
+      <trans-unit id="s1e06a953386318ac">
+        <source>Reset Canvas</source>
+        <target>Atjaunot darba laukumu</target>
+      </trans-unit>
+      <trans-unit id="sbb59e2127a113990">
+        <source>Choose an icon</source>
+        <target>Izvēlieties ikonu</target>
+      </trans-unit>
+      <trans-unit id="s8059a22698307577">
+        <source>Search icons…</source>
+        <target>Meklēšanas ikonas…</target>
+      </trans-unit>
+      <trans-unit id="s188927533d6c9987">
+        <source>Icon color</source>
+        <target>Ikona krāsa</target>
+      </trans-unit>
+      <trans-unit id="s0442a59427632f08">
+        <source>All components</source>
+        <target>Visas sastāvdaļas</target>
+      </trans-unit>
+      <trans-unit id="s5d929ff1619ac0c9">
+        <source>Search</source>
+        <target>Meklēt</target>
+      </trans-unit>
+      <trans-unit id="s6bb965855fa5c1ab">
+        <source>Search components…</source>
+        <target>Meklēt komponentus…</target>
+      </trans-unit>
+      <trans-unit id="s2841a0c596d6f426">
+        <source>item</source>
+        <target>prece</target>
+      </trans-unit>
+      <trans-unit id="s3e7884bf4f412c6f">
+        <source>items</source>
+        <target>preces</target>
+      </trans-unit>
+      <trans-unit id="s5ada999b33ccc808">
+        <source>Insert</source>
+        <target>Ievietot</target>
+      </trans-unit>
+      <trans-unit id="sa7d404b9283351e9">
+        <source>Drag tiles from the palette, or insert here at default position.</source>
+        <target>Pavelciet flīzes no paletes vai ievietojiet tās šeit standarta pozīcijā.</target>
+      </trans-unit>
+      <trans-unit id="s6d9c15e46caed9ad">
+        <source>Syntax (preview)</source>
+        <target>Sintakse (priekšskatījums)</target>
+      </trans-unit>
+      <trans-unit id="s5e8250fb85d64c23">
+        <source>Close</source>
+        <target>Aizvērt</target>
+      </trans-unit>
+      <trans-unit id="s1219d97b49650c05">
+        <source>Visibility</source>
+        <target>Redzamība</target>
+      </trans-unit>
+      <trans-unit id="s2ea4f3816cb3eaab">
+        <source>Layout modes</source>
+        <target>Izkārtojuma režīmi</target>
+      </trans-unit>
+      <trans-unit id="s3e580baec12c5cf8">
+        <source>Code tabs</source>
+        <target>Kodu cilnes</target>
+      </trans-unit>
+      <trans-unit id="s7c2386fe775b2853">
+        <source>Student mode</source>
+        <target>Studenta režīms</target>
+      </trans-unit>
+      <trans-unit id="s514f361e5688d094">
+        <source>Show component settings</source>
+        <target>Rādīt komponenta iestatījumus</target>
+      </trans-unit>
+      <trans-unit id="s4b05ac1126ccd6c0">
+        <source>Show sidebar</source>
+        <target>Rādīt sānu joslu</target>
+      </trans-unit>
+      <trans-unit id="s47e91aa5cba9dc97">
+        <source>Show toolbar</source>
+        <target>Rādīt rīkjoslu</target>
+      </trans-unit>
+      <trans-unit id="sd607d6d103ce5431">
+        <source>Allow delete</source>
+        <target>Atļaut dzēšanu</target>
+      </trans-unit>
+      <trans-unit id="s4abf432fc76a8ec9">
+        <source>Author mode</source>
+        <target>Autora režīms</target>
+      </trans-unit>
+      <trans-unit id="sa6d4361f17423080">
+        <source>Component</source>
+        <target>Komponents</target>
+      </trans-unit>
+      <trans-unit id="sc1034375f5a9f098">
+        <source>Container</source>
+        <target>Konteiners</target>
+      </trans-unit>
+      <trans-unit id="s536ea6b320f9600d">
+        <source>Ungroup</source>
+        <target>Atdalīt no grupas</target>
+      </trans-unit>
+      <trans-unit id="se2c449472f2d611e">
+        <source>Container layout</source>
+        <target>Konteinera izkārtojums</target>
+      </trans-unit>
+      <trans-unit id="sa300750295f9a36a">
+        <source>Grid placement</source>
+        <target>Tīkla izvietošana</target>
+      </trans-unit>
+      <trans-unit id="s177d1b8ad205f175">
+        <source>Flex item</source>
+        <target>Flex elements</target>
+      </trans-unit>
+      <trans-unit id="s5bf5477d6a2ad856">
+        <source>Background color</source>
+        <target>Fona krāsa</target>
+      </trans-unit>
+      <trans-unit id="s76bb11989a7ba03e">
+        <source>Higher = in front. Click to select.</source>
+        <target>Augstāk = priekšā. Noklikšķiniet, lai izvēlētos.</target>
+      </trans-unit>
+      <trans-unit id="sa00beff1c266a23e">
+        <source>Bring forward</source>
+        <target>Pārcelt uz priekšu</target>
+      </trans-unit>
+      <trans-unit id="s50b60b4970cbd9ea">
+        <source>Send back</source>
+        <target>Nosūtīt atpakaļ</target>
+      </trans-unit>
+      <trans-unit id="s9ffe1bbe64712bf1">
+        <source>Canvas</source>
+        <target>Kanvas</target>
+      </trans-unit>
+      <trans-unit id="sc40ba85758f16fca">
+        <source>Combined</source>
+        <target>Kopā</target>
+      </trans-unit>
+      <trans-unit id="sdaf07664dbfc95c5">
+        <source>Choose icon…</source>
+        <target>Izvēlieties ikonu…</target>
+      </trans-unit>
+      <trans-unit id="seb9a18743f5c0535">
+        <source>Empty container — add items via the sidebar</source>
+        <target>Tukša konteinera — pievienojiet objektus, izmantojot sānu joslu</target>
+      </trans-unit>
+      <trans-unit id="s2ceb11be2290bb1b">
+        <source>Cancel</source>
+        <target>Atcelt</target>
+      </trans-unit>
+      <trans-unit id="s47ba0113da523b8d">
+        <source>Use icon</source>
+        <target>Izmanto ikonu</target>
+      </trans-unit>
+      <trans-unit id="s8e985aeeca6a8166">
+        <source>White</source>
+        <target>Balts</target>
+      </trans-unit>
+      <trans-unit id="s6399d92a898bc466">
+        <source>Off-white</source>
+        <target>Gaiši krēmkrāsas</target>
+      </trans-unit>
+      <trans-unit id="sae0e215d6564e14e">
+        <source>Light grey</source>
+        <target>Gaiši pelēks</target>
+      </trans-unit>
+      <trans-unit id="sac895c732f350ac5">
+        <source>Dark</source>
+        <target>Tumšs</target>
+      </trans-unit>
+      <trans-unit id="s795999a39e6aae81">
+        <source>Midnight</source>
+        <target>Pusnakts</target>
+      </trans-unit>
+      <trans-unit id="s5d838598f78157f2">
+        <source>Charcoal</source>
+        <target>Ogle</target>
+      </trans-unit>
+      <trans-unit id="s45fff5d2e28db1a4">
+        <source>Reset to white</source>
+        <target>Atjaunot balto krāsu</target>
+      </trans-unit>
+      <trans-unit id="sdab38385e185e9bf">
+        <source>Layers</source>
+        <target>Slāņi</target>
+      </trans-unit>
+      <trans-unit id="s2492f5fb1b05b45e">
+        <source>Text</source>
+        <target>Teksts</target>
+      </trans-unit>
+      <trans-unit id="s3d93f9ea0c5a13fa">
+        <source>Image</source>
+        <target>Attēls</target>
+      </trans-unit>
+      <trans-unit id="s068d4dd16d9106d0">
+        <source>Icon</source>
+        <target>Ikona</target>
+      </trans-unit>
+      <trans-unit id="s0312976fe9da5951">
+        <source>Button</source>
+        <target>Poga</target>
+      </trans-unit>
+      <trans-unit id="s4616fdc48b092f86">
+        <source>Divider</source>
+        <target>Atdalītājs</target>
+      </trans-unit>
+      <trans-unit id="sd65fa257917527a8">
+        <source>Browse all components</source>
+        <target>Pārlūkot visus komponentus</target>
+      </trans-unit>
+      <trans-unit id="sfc5542fcfe78b99b">
+        <source>Add component</source>
+        <target>Pievienot komponentu</target>
+      </trans-unit>
+      <trans-unit id="s03c44f5a1b0581d4">
+        <source>selected</source>
+        <target>izvēlēts</target>
+      </trans-unit>
+      <trans-unit id="s8354160a1fe59b16">
+        <source>Wrap selected nodes in a container</source>
+        <target>Ievietot atlasītos mezglus konteinerā</target>
+      </trans-unit>
+      <trans-unit id="s98b1cb8fb62909ec">
+        <source>Group</source>
+        <target>Grupa</target>
+      </trans-unit>
+      <trans-unit id="s8f18916860db5d80">
+        <source>Clear selection</source>
+        <target>Dzēst atlasi</target>
+      </trans-unit>
+      <trans-unit id="s569ed106bd3565e4">
+        <source>Switch layout to 
+          <x id="0" equiv-text="${mode}"/>
+        </source>
+        <target>Mainīt izkārtojumu uz 
+          <x id="0" equiv-text="${mode}"/>
+        </target>
+      </trans-unit>
+      <trans-unit id="s0bdef849e0480d0e">
+        <source>Drag to canvas · Click for info</source>
+        <target>Velciet uz darba laukumu · Noklikšķiniet, lai iegūtu informāciju</target>
+      </trans-unit>
+      <trans-unit id="s0d2f74dc9c0833a2">
+        <source>Drag to place on canvas. Click Insert to add at default position.</source>
+        <target>Velciet, lai novietotu uz darba laukuma. Noklikšķiniet uz „Ievietot“, lai pievienotu standarta pozīcijā.</target>
+      </trans-unit>
+      <trans-unit id="sbba25f7b32fdf484">
+        <source>Button text</source>
+        <target>Poga pogas pogas</target>
+      </trans-unit>
+      <trans-unit id="s96b8133d45d9108b">
+        <source>Button label</source>
+        <target>Poga ar uzrakstu</target>
+      </trans-unit>
+      <trans-unit id="se4a2a305de890ead">
+        <source>Pick icon…</source>
+        <target>Izvēlēties ikonu…</target>
+      </trans-unit>
+      <trans-unit id="sd5b036cc13fb77b4">
+        <source>Reset button</source>
+        <target>Atjaunošanas poga</target>
+      </trans-unit>
+      <trans-unit id="s88f5053fccdf0a61">
+        <source>hide border</source>
+        <target>paslēpt malu</target>
+      </trans-unit>
+      <trans-unit id="sf43739275a48c99c">
+        <source>Link text</source>
+        <target>Saites teksts</target>
+      </trans-unit>
+      <trans-unit id="s6ecb7a2f9be48443">
+        <source>Link label</source>
+        <target>Saites nosaukums</target>
+      </trans-unit>
+      <trans-unit id="s47bc103b7d41ad9c">
+        <source>Link URL</source>
+        <target>Saites URL</target>
+      </trans-unit>
+      <trans-unit id="sd2b47d8cc09e0dfe">
+        <source>Icon name (optional)</source>
+        <target>Ikona (pēc izvēles)</target>
+      </trans-unit>
+      <trans-unit id="s3cf89cb47fdde7e9">
+        <source>Link</source>
+        <target>Saite</target>
+      </trans-unit>
+      <trans-unit id="sc7cae0914551bb10">
+        <source>Reset link</source>
+        <target>Atjaunot saiti</target>
+      </trans-unit>
+      <trans-unit id="sd6fb5bdee45e7967">
+        <source>Press "A" while clicking to follow the link.</source>
+        <target>Nospiediet pogu „A“, vienlaikus uzklikšķinot uz saites.</target>
+      </trans-unit>
+      <trans-unit id="s0fef364f29f8ffc1">
+        <source>Width (e.g. 300px, 20rem)</source>
+        <target>Platums (piem., 300 pikseļi, 20 rem)</target>
+      </trans-unit>
+      <trans-unit id="s09d3e1c6cc8700b9">
+        <source>Height (e.g. 10px, 0.5rem)</source>
+        <target>Augstums (piem., 10 pikseļi, 0,5 rem)</target>
+      </trans-unit>
+      <trans-unit id="s5172602152d8a620">
+        <source>Reset width and height</source>
+        <target>Atjaunot platumu un augstumu</target>
+      </trans-unit>
+      <trans-unit id="sbfe81a957a15772c">
+        <source>Audio URL</source>
+        <target>Audio URL</target>
+      </trans-unit>
+      <trans-unit id="s08e6bd98452e6bb9">
+        <source>Audio</source>
+        <target>Audio</target>
+      </trans-unit>
+      <trans-unit id="s56b2da93a4b8874e">
+        <source>Upload Audio</source>
+        <target>Augšupielādēt audio</target>
+      </trans-unit>
+      <trans-unit id="s78789724e789221c">
+        <source>Size</source>
+        <target>Izmērs</target>
+      </trans-unit>
+      <trans-unit id="s344ea8f4939cdc98">
+        <source>Color</source>
+        <target>Krāsa</target>
+      </trans-unit>
+      <trans-unit id="sef5caf7c3cf24b03">
+        <source>Placeholder image</source>
+        <target>Aizstājējattēls</target>
+      </trans-unit>
+      <trans-unit id="se09e3dc382fe557f">
+        <source>Image URL</source>
+        <target>Attēla URL</target>
+      </trans-unit>
+      <trans-unit id="sff9d51b6c5a73163">
+        <source>Alt Text</source>
+        <target>Alternatīvais teksts</target>
+      </trans-unit>
+      <trans-unit id="sf79bbcb9f92e4d35">
+        <source>Object Fit</source>
+        <target>Objekta pielāgošana</target>
+      </trans-unit>
+      <trans-unit id="sba64d8954d027206">
+        <source>Opacity</source>
+        <target>Necaurspīdīgums</target>
+      </trans-unit>
+      <trans-unit id="s0b786a0e85eb6783">
+        <source>Border Radius</source>
+        <target>Malas rādiuss</target>
+      </trans-unit>
+      <trans-unit id="s15f1c890a4d45381">
+        <source>Upload Image</source>
+        <target>Augšupielādēt attēlu</target>
+      </trans-unit>
+      <trans-unit id="s5fc61cdf86138f38">
+        <source>Reset to placeholder</source>
+        <target>Atjaunot uz vietas turētāju</target>
+      </trans-unit>
+      <trans-unit id="s3936a6d9094737dd">
+        <source>Video URL</source>
+        <target>Video URL</target>
+      </trans-unit>
+      <trans-unit id="s89ba1ee1ccee063b">
+        <source>Describe the video (accessibility)</source>
+        <target>Aprakstiet video (pieejamība)</target>
+      </trans-unit>
+      <trans-unit id="s85186a61e0d55bac">
+        <source>Video</source>
+        <target>Video</target>
+      </trans-unit>
+      <trans-unit id="s288dd43090a568af">
+        <source>Upload Video</source>
+        <target>Augšupielādēt video</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2f81604bb81a">
+        <source>Heading 1</source>
+        <target>1. sadaļa</target>
+      </trans-unit>
+      <trans-unit id="s094eb0fadccf24d8">
+        <source>Heading text</source>
+        <target>Virsraksta teksts</target>
+      </trans-unit>
+      <trans-unit id="s072c3c42e24456af">
+        <source>Enter heading…</source>
+        <target>Ievadiet virsrakstu…</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2e81604bb667">
+        <source>Heading 2</source>
+        <target>2. sadaļa</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2d81604bb4b4">
+        <source>Heading 3</source>
+        <target>3. sadaļa</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2c81604bb301">
+        <source>Heading 4</source>
+        <target>4. sadaļa</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2b81604bb14e">
+        <source>Heading 5</source>
+        <target>5. sadaļa</target>
+      </trans-unit>
+      <trans-unit id="sbc5f2a81604baf9b">
+        <source>Heading 6</source>
+        <target>6. sadaļa</target>
+      </trans-unit>
+      <trans-unit id="s5590dbf7e425789d">
+        <source>Label</source>
+        <target>Etiķete</target>
+      </trans-unit>
+      <trans-unit id="s6ce2cd4c021d67c0">
+        <source>Label text</source>
+        <target>Uzraksts uz etiķetes</target>
+      </trans-unit>
+      <trans-unit id="sb7fd199d895f2ee0">
+        <source>Enter label text…</source>
+        <target>Ievadiet uzraksta tekstu…</target>
+      </trans-unit>
+      <trans-unit id="s599dcd2472c75c19">
+        <source>Paragraph</source>
+        <target>Punkts</target>
+      </trans-unit>
+      <trans-unit id="s506f0816b38dd34c">
+        <source>Paragraph text</source>
+        <target>Teksta daļa</target>
+      </trans-unit>
+      <trans-unit id="s28674808a6dbbd5f">
+        <source>Enter paragraph…</source>
+        <target>Ievadiet rindkopu…</target>
+      </trans-unit>
+      <trans-unit id="sf21fb4f4b9e8911f">
+        <source>Width</source>
+        <target>Platums</target>
+      </trans-unit>
+      <trans-unit id="sffdadf0a576fd802">
+        <source>Height</source>
+        <target>Augstums</target>
+      </trans-unit>
+      <trans-unit id="s8e43508f1392e94d">
+        <source>Text color</source>
+        <target>Teksta krāsa</target>
+      </trans-unit>
+      <trans-unit id="s236ed7ba747099b0">
+        <source>Font weight</source>
+        <target>Burtu biezums</target>
+      </trans-unit>
+      <trans-unit id="sa30f1981fd1cd441">
+        <source>Font size</source>
+        <target>Burtu izmērs</target>
+      </trans-unit>
+      <trans-unit id="s9d1a9174ca15faad">
+        <source>Choose font</source>
+        <target>Izvēlieties fontu</target>
+      </trans-unit>
+      <trans-unit id="s4b4afa8bcb02d5ac">
+        <source>Typography</source>
+        <target>Tipogrāfija</target>
+      </trans-unit>
+      <trans-unit id="s079cf7850d9327f0">
+        <source>Font</source>
+        <target>Fonts</target>
+      </trans-unit>
+      <trans-unit id="sc480ad5cd5e098ed">
+        <source>Reset font</source>
+        <target>Atjaunot fontu</target>
+      </trans-unit>
+      <trans-unit id="s2d5ed76c30d38322">
+        <source>Enter text…</source>
+        <target>Ievadi tekstu…</target>
+      </trans-unit>
+      <trans-unit id="sb688a1d8ede5c08e">
+        <source>Textarea placeholder</source>
+        <target>Teksta lauka aizstājējteksts</target>
+      </trans-unit>
+      <trans-unit id="s56786c3f3e37cefa">
+        <source>Enter textarea placeholder…</source>
+        <target>Ievadiet teksta lauka aizstājējtekstu…</target>
+      </trans-unit>
+      <trans-unit id="s4e03726ad458f1f2">
+        <source>Width (e.g. 320px, 60%)</source>
+        <target>Platums (piem., 320 pikseļi, 60 %)</target>
+      </trans-unit>
+      <trans-unit id="sa40e933fba661284">
+        <source>Height (e.g. 120px)</source>
+        <target>Augstums (piem., 120 pikseļi)</target>
+      </trans-unit>
+      <trans-unit id="s3643189d1abbb7f4">
+        <source>Code</source>
+        <target>Kods</target>
+      </trans-unit>
+      <trans-unit id="hee3c66c7df58c59e">
+        <source>Hold 
+          <x id="0" equiv-text="&lt;kbd&gt;"/>T
+          <x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.
+        </source>
+        <target>Turiet nospiestu 
+          <x id="0" equiv-text="&lt;kbd&gt;"/> T
+          <x id="1" equiv-text="&lt;/kbd&gt;"/> , lai uz laiku paslēptu rīkjoslas pārklājumu.
+        </target>
+      </trans-unit>
+      <trans-unit id="s33054d1d675674c9">
+        <source>Freeform</source>
+        <target>Brīvā forma</target>
+      </trans-unit>
+      <trans-unit id="s13685d515f24f806">
+        <source>Two Columns</source>
+        <target>Divas slejas</target>
+      </trans-unit>
+      <trans-unit id="s9f35b422aa707a80">
+        <source>Equal-width side-by-side columns</source>
+        <target>Vienāda platuma blakus novietotas slejas</target>
+      </trans-unit>
+      <trans-unit id="se6b9f0707592d7f4">
+        <source>Hero + Sidebar</source>
+        <target>Varonis + sānu josla</target>
+      </trans-unit>
+      <trans-unit id="sf60963b73764eca2">
+        <source>Wide main area with a narrow sidebar</source>
+        <target>Plaša galvenā lapa ar šauru sānu joslu</target>
+      </trans-unit>
+      <trans-unit id="s50cf51c05f0d4f09">
+        <source>Card Grid</source>
+        <target>Kāršu tabula</target>
+      </trans-unit>
+      <trans-unit id="sbd2f3cd9e56e40c3">
+        <source>Responsive 3-column card layout</source>
+        <target>Responsīvs 3-kolonnu kartīšu izkārtojums</target>
+      </trans-unit>
+      <trans-unit id="sfc83e9eb133d7361">
+        <source>Centered Stack</source>
+        <target>Centrēts skursteņveida izkārtojums</target>
+      </trans-unit>
+      <trans-unit id="s79f4e6731ad3be45">
+        <source>Vertically stacked, centered items</source>
+        <target>Vertikāli izvietoti, centrēti elementi</target>
+      </trans-unit>
+      <trans-unit id="s9abadcc828884d7b">
+        <source>Textarea</source>
+        <target>Teksta lauks</target>
+      </trans-unit>
+      <trans-unit id="s2e4818861000b13f">
+        <source>Layout</source>
+        <target>Izkārtojums</target>
+      </trans-unit>
+      <trans-unit id="sd23ee5e66df8400a">
+        <source>Direction</source>
+        <target>Virziens</target>
+      </trans-unit>
+      <trans-unit id="sbe6283ffe834c65a">
+        <source>Justify content</source>
+        <target>Izlīdzināt saturu</target>
+      </trans-unit>
+      <trans-unit id="sb4d3986485cf1326">
+        <source>Align items</source>
+        <target>Sakārtot objektus</target>
+      </trans-unit>
+      <trans-unit id="se619a501d1bfe6a5">
+        <source>Wrap</source>
+        <target>Ietin</target>
+      </trans-unit>
+      <trans-unit id="seaf97719986faf4f">
+        <source>Gap</source>
+        <target>Atšķirība</target>
+      </trans-unit>
+      <trans-unit id="sb0f3327210fe18fc">
+        <source>Columns</source>
+        <target>Kolonnas</target>
+      </trans-unit>
+      <trans-unit id="scace072bef961918">
+        <source>Rows</source>
+        <target>Rindas</target>
+      </trans-unit>
+      <trans-unit id="s33b8dc0523428dde">
+        <source>Auto flow</source>
+        <target>Automātiska plūsma</target>
+      </trans-unit>
+      <trans-unit id="s915caf9e3dad37f7">
+        <source>Justify items</source>
+        <target>Izlīdzināt elementus</target>
+      </trans-unit>
+      <trans-unit id="s1125d159f7e64df5">
+        <source>Display</source>
+        <target>Ekrāns</target>
+      </trans-unit>
+      <trans-unit id="s06fd2f8b555158a4">
+        <source>Area</source>
+        <target>Platība</target>
+      </trans-unit>
+      <trans-unit id="s4525d914120bba9f">
+        <source>Column start</source>
+        <target>Kolonnas sākums</target>
+      </trans-unit>
+      <trans-unit id="s861fdb0670b22561">
+        <source>Column span</source>
+        <target>Kolonnu atstatums</target>
+      </trans-unit>
+      <trans-unit id="s62fbafa74a42f033">
+        <source>Row start</source>
+        <target>Rindas sākums</target>
+      </trans-unit>
+      <trans-unit id="s46b90b74670a1865">
+        <source>Row span</source>
+        <target>Rindu platums</target>
+      </trans-unit>
+      <trans-unit id="s8fa8b0a18d4320de">
+        <source>Parent direction:</source>
+        <target>Norādījumi vecākiem:</target>
+      </trans-unit>
+      <trans-unit id="s5a053ed77fa9c1bc">
+        <source>Align self</source>
+        <target>Saskaņot sevi</target>
+      </trans-unit>
+      <trans-unit id="sd95af958ff5ee320">
+        <source>inherit parent</source>
+        <target>pārņemt no vecāka</target>
+      </trans-unit>
+      <trans-unit id="sbfa01f189a68d3e9">
+        <source>Flex grow</source>
+        <target>Flex izaugsme</target>
+      </trans-unit>
+      <trans-unit id="sef24caccbd4645ef">
+        <source>Flex shrink</source>
+        <target>Termosaraušanās caurule</target>
+      </trans-unit>
+      <trans-unit id="saced41ddda8b2354">
+        <source>Flex basis</source>
+        <target>Flex bāze</target>
+      </trans-unit>
+      <trans-unit id="s3adbbe7967b559b5">
+        <source>Describe the image (accessibility)</source>
+        <target>Aprakstiet attēlu (pieejamība)</target>
+      </trans-unit>
+      <trans-unit id="s6f44d1ec40b5eb0d">
+        <source>Component settings</source>
+        <target>Komponentu iestatījumi</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

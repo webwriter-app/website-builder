@@ -1,5 +1,6 @@
 import { css, html, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
+import { msg } from "@lit/localize";
 import { LitElementWw } from "@webwriter/lit";
 import "../../../assets/shoelaceImports";
 import { shoelaceScoped } from "../../../assets/shoelaceImports";
@@ -68,9 +69,9 @@ export class WwIconPicker extends LitElementWw {
   @property({ type: String }) size = "18px";
 
   @property({ type: String, attribute: "button-label" }) buttonLabel =
-    "Choose icon…";
+    msg("Choose icon…");
   @property({ type: String, attribute: "search-placeholder" })
-  searchPlaceholder = "Search icons…";
+  searchPlaceholder = msg("Search icons…");
 
   private _openDialog() {
     this.dispatchEvent(

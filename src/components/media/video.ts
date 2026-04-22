@@ -1,4 +1,5 @@
 import { html } from "lit";
+import { msg } from "@lit/localize";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 
 /**
@@ -9,7 +10,7 @@ const PLACEHOLDER_VIDEO =
 
 export const VideoComponent: BuilderComponent = {
   type: "video",
-  label: "Video",
+  label: () => msg("Video"),
   group: "media",
 
   defaultData: {
@@ -67,10 +68,10 @@ export const VideoComponent: BuilderComponent = {
     `;
   },
 
-  bindings: [
+  bindings: () => [
     {
       key: "src",
-      label: "Video URL",
+      label: msg("Video URL"),
       kind: "attr",
       target: "video",
       name: "src",
@@ -78,15 +79,15 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "alt",
-      label: "Alt Text",
+      label: msg("Alt Text"),
       kind: "attr",
       target: "video",
       name: "alt",
-      placeholder: "Describe the video (accessibility)",
+      placeholder: msg("Describe the video (accessibility)"),
     },
     {
       key: "width",
-      label: "Width",
+      label: msg("Width"),
       kind: "style",
       target: "video",
       name: "width",
@@ -94,7 +95,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: "Height",
+      label: msg("Height"),
       kind: "style",
       target: "video",
       name: "height",
@@ -102,7 +103,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "object-fit",
-      label: "Object Fit",
+      label: msg("Object Fit"),
       kind: "style",
       target: "video",
       name: "object-fit",
@@ -110,7 +111,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "opacity",
-      label: "Opacity",
+      label: msg("Opacity"),
       kind: "style",
       target: "video",
       name: "opacity",
@@ -118,7 +119,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "border-radius",
-      label: "Border Radius",
+      label: msg("Border Radius"),
       kind: "style",
       target: "video",
       name: "border-radius",
@@ -146,7 +147,7 @@ export const VideoComponent: BuilderComponent = {
 
     return html`
       <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Video</h2>
+        <h2 style="margin-top: 0">${msg("Video")}</h2>
 
         <div class="setting-row">
           <label
@@ -157,7 +158,7 @@ export const VideoComponent: BuilderComponent = {
               margin-bottom: 0.25rem;
             "
           >
-            Upload Video
+            ${msg("Upload Video")}
           </label>
 
           <input
@@ -174,7 +175,7 @@ export const VideoComponent: BuilderComponent = {
             variant="default"
             @click=${resetToPlaceholder}
           >
-            Reset to placeholder
+            ${msg("Reset to placeholder")}
           </sl-button>
         </div>
       </div>

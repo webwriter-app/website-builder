@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.1" srcLang="en" trgLang="ko">
+<file id="." original=".">
+<unit id="description"><segment><source>Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).</source><target>다양한 레이아웃(Freeform, Flow, Flex, Grid)을 갖춘 정적 웹사이트를 구축하고, 탐색하며, 이해해 보세요.</target></segment></unit>
+</file>
+</xliff>

@@ -1,3 +1,5 @@
+import { msg } from "@lit/localize";
+
 export type LayoutMode = "freeform" | "flow" | "flex" | "grid";
 
 export type GridPlacement = {
@@ -96,32 +98,32 @@ export type ContainerTemplate = {
   containerGridSettings?: GridSettings;
 };
 
-export const CONTAINER_TEMPLATES: ContainerTemplate[] = [
+export const getContainerTemplates: () => ContainerTemplate[] = () => [
   {
     id: "two-column",
-    label: "Two Columns",
-    description: "Equal-width side-by-side columns",
+    label: msg("Two Columns"),
+    description: msg("Equal-width side-by-side columns"),
     containerLayout: "flex",
     containerFlexSettings: { direction: "row", justify: "flex-start", align: "stretch", gap: "16px", wrap: "wrap" },
   },
   {
     id: "hero-sidebar",
-    label: "Hero + Sidebar",
-    description: "Wide main area with a narrow sidebar",
+    label: msg("Hero + Sidebar"),
+    description: msg("Wide main area with a narrow sidebar"),
     containerLayout: "grid",
     containerGridSettings: { columns: "1fr 280px", rows: "auto", gap: "16px", autoFlow: "row", justifyItems: "stretch", alignItems: "start" },
   },
   {
     id: "card-grid",
-    label: "Card Grid",
-    description: "Responsive 3-column card layout",
+    label: msg("Card Grid"),
+    description: msg("Responsive 3-column card layout"),
     containerLayout: "grid",
     containerGridSettings: { columns: "repeat(3, 1fr)", rows: "auto", gap: "16px", autoFlow: "row", justifyItems: "stretch", alignItems: "start" },
   },
   {
     id: "centered-stack",
-    label: "Centered Stack",
-    description: "Vertically stacked, centered items",
+    label: msg("Centered Stack"),
+    description: msg("Vertically stacked, centered items"),
     containerLayout: "flex",
     containerFlexSettings: { direction: "column", justify: "flex-start", align: "center", gap: "12px", wrap: "nowrap" },
   },

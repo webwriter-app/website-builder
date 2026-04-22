@@ -1,4 +1,5 @@
 import { html } from "lit";
+import { msg } from "@lit/localize";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import { FONT_OPTIONS } from "../../builder/data/data";
 
@@ -10,13 +11,13 @@ const DEFAULT_HEIGHT = "40px";
 
 export const TextareaComponent: BuilderComponent = {
   type: "textarea",
-  label: "Textarea",
+  label: () => msg("Textarea"),
   group: "text",
 
   defaultData: {
     font: DEFAULT_FONT,
     color: "#000000",
-    placeholder: "Enter text…",
+    placeholder: msg("Enter text…"),
     "font-weight": "normal",
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,
@@ -30,7 +31,7 @@ export const TextareaComponent: BuilderComponent = {
         : DEFAULT_FONT;
 
     const color = data?.color ?? "#000000";
-    const placeholder = data?.placeholder ?? "Enter text…";
+    const placeholder = data?.placeholder ?? msg("Enter text…");
     const fontWeight = data?.["font-weight"] ?? "normal";
     const width = data?.width ?? DEFAULT_WIDTH;
     const height = data?.height ?? DEFAULT_HEIGHT;
@@ -68,17 +69,17 @@ export const TextareaComponent: BuilderComponent = {
     `;
   },
 
-  bindings: [
+  bindings: () => [
     {
       key: "placeholder",
-      label: "Textarea placeholder",
+      label: msg("Textarea placeholder"),
       kind: "text",
       target: "sl-textarea",
-      placeholder: "Enter textarea placeholder…",
+      placeholder: msg("Enter textarea placeholder…"),
     },
     {
       key: "color",
-      label: "Text color",
+      label: msg("Text color"),
       kind: "style",
       target: "sl-textarea",
       name: "color",
@@ -86,7 +87,7 @@ export const TextareaComponent: BuilderComponent = {
     },
     {
       key: "font-weight",
-      label: "Font weight",
+      label: msg("Font weight"),
       kind: "style",
       target: "sl-textarea",
       name: "font-weight",
@@ -94,7 +95,7 @@ export const TextareaComponent: BuilderComponent = {
     },
     {
       key: "width",
-      label: "Width (e.g. 320px, 60%)",
+      label: msg("Width (e.g. 320px, 60%)"),
       kind: "style",
       target: "sl-textarea",
       name: "width",
@@ -102,7 +103,7 @@ export const TextareaComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: "Height (e.g. 120px)",
+      label: msg("Height (e.g. 120px)"),
       kind: "style",
       target: "sl-textarea",
       name: "height",
@@ -110,7 +111,7 @@ export const TextareaComponent: BuilderComponent = {
     },
     {
       key: "font-size",
-      label: "Font size",
+      label: msg("Font size"),
       kind: "style",
       target: "sl-textarea",
       name: "font-size",
@@ -121,17 +122,17 @@ export const TextareaComponent: BuilderComponent = {
   settings: ({ data, setData }) => {
     const current = (data?.font as string) ?? DEFAULT_FONT;
     const currentLabel =
-      FONT_OPTIONS.find((f) => f.value === current)?.label ?? "Choose font";
+      FONT_OPTIONS.find((f) => f.value === current)?.label ?? msg("Choose font");
 
     return html`
       <div style="margin-top: 1rem">
-        <h2 style="margin-top: 0">Typography</h2>
+        <h2 style="margin-top: 0">${msg("Typography")}</h2>
 
         <div class="setting-row">
           <div
             style="font-size: 0.8rem; color: var(--sl-color-neutral-600); margin-bottom: 0.25rem;"
           >
-            Font
+            ${msg("Font")}
           </div>
 
           <sl-dropdown placement="bottom-start" hoist>
@@ -170,7 +171,7 @@ export const TextareaComponent: BuilderComponent = {
             variant="default"
             @click=${() => setData({ font: DEFAULT_FONT })}
           >
-            Reset font
+            ${msg("Reset font")}
           </sl-button>
         </div>
       </div>
