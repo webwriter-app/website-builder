@@ -27,15 +27,15 @@
       </trans-unit>
       <trans-unit id="sbb59e2127a113990">
         <source>Choose an icon</source>
-        <target>Wähle ein Symbol aus</target>
+        <target>Wähle ein Icon aus</target>
       </trans-unit>
       <trans-unit id="s8059a22698307577">
         <source>Search icons…</source>
-        <target>Suchsymbole…</target>
+        <target>Icons durchsuchen …</target>
       </trans-unit>
       <trans-unit id="s188927533d6c9987">
         <source>Icon color</source>
-        <target>Farbe des Symbols</target>
+        <target>Icon-Farbe</target>
       </trans-unit>
       <trans-unit id="s0442a59427632f08">
         <source>All components</source>
@@ -47,15 +47,15 @@
       </trans-unit>
       <trans-unit id="s6bb965855fa5c1ab">
         <source>Search components…</source>
-        <target>Komponenten suchen…</target>
+        <target>Komponenten suchen …</target>
       </trans-unit>
       <trans-unit id="s2841a0c596d6f426">
         <source>item</source>
-        <target>Artikel</target>
+        <target>Eintrag</target>
       </trans-unit>
       <trans-unit id="s3e7884bf4f412c6f">
         <source>items</source>
-        <target>Artikel</target>
+        <target>Einträge</target>
       </trans-unit>
       <trans-unit id="s5ada999b33ccc808">
         <source>Insert</source>
@@ -87,7 +87,7 @@
       </trans-unit>
       <trans-unit id="s7c2386fe775b2853">
         <source>Student mode</source>
-        <target>Studentenmodus</target>
+        <target>Schülermodus</target>
       </trans-unit>
       <trans-unit id="s514f361e5688d094">
         <source>Show component settings</source>
@@ -99,7 +99,7 @@
       </trans-unit>
       <trans-unit id="s47e91aa5cba9dc97">
         <source>Show toolbar</source>
-        <target>Symbolleiste anzeigen</target>
+        <target>Toolbar anzeigen</target>
       </trans-unit>
       <trans-unit id="sd607d6d103ce5431">
         <source>Allow delete</source>
@@ -115,7 +115,7 @@
       </trans-unit>
       <trans-unit id="sc1034375f5a9f098">
         <source>Container</source>
-        <target>Behälter</target>
+        <target>Container</target>
       </trans-unit>
       <trans-unit id="s536ea6b320f9600d">
         <source>Ungroup</source>
@@ -123,11 +123,11 @@
       </trans-unit>
       <trans-unit id="se2c449472f2d611e">
         <source>Container layout</source>
-        <target>Anordnung der Container</target>
+        <target>Container-Layout</target>
       </trans-unit>
       <trans-unit id="sa300750295f9a36a">
         <source>Grid placement</source>
-        <target>Anordnung im Raster</target>
+        <target>Grid-Anordnung</target>
       </trans-unit>
       <trans-unit id="s177d1b8ad205f175">
         <source>Flex item</source>
@@ -147,7 +147,7 @@
       </trans-unit>
       <trans-unit id="s50b60b4970cbd9ea">
         <source>Send back</source>
-        <target>Zurücksenden</target>
+        <target>Zurückschicken</target>
       </trans-unit>
       <trans-unit id="s9ffe1bbe64712bf1">
         <source>Canvas</source>
@@ -155,15 +155,15 @@
       </trans-unit>
       <trans-unit id="sc40ba85758f16fca">
         <source>Combined</source>
-        <target>Zusammen</target>
+        <target>Kombiniert</target>
       </trans-unit>
       <trans-unit id="sdaf07664dbfc95c5">
         <source>Choose icon…</source>
-        <target>Symbol auswählen…</target>
+        <target>Icon auswählen …</target>
       </trans-unit>
       <trans-unit id="seb9a18743f5c0535">
         <source>Empty container — add items via the sidebar</source>
-        <target>Leerer Container – Artikel über die Seitenleiste hinzufügen</target>
+        <target>Leerer Container – Inhalt über die Seitenleiste hinzufügen</target>
       </trans-unit>
       <trans-unit id="s2ceb11be2290bb1b">
         <source>Cancel</source>
@@ -171,7 +171,7 @@
       </trans-unit>
       <trans-unit id="s47ba0113da523b8d">
         <source>Use icon</source>
-        <target>Symbol verwenden</target>
+        <target>Icon verwenden</target>
       </trans-unit>
       <trans-unit id="s8e985aeeca6a8166">
         <source>White</source>
@@ -215,11 +215,11 @@
       </trans-unit>
       <trans-unit id="s068d4dd16d9106d0">
         <source>Icon</source>
-        <target>Symbol</target>
+        <target>Icon</target>
       </trans-unit>
       <trans-unit id="s0312976fe9da5951">
         <source>Button</source>
-        <target>Schaltfläche</target>
+        <target>Button</target>
       </trans-unit>
       <trans-unit id="s4616fdc48b092f86">
         <source>Divider</source>
@@ -250,9 +250,7 @@
         <target>Auswahl löschen</target>
       </trans-unit>
       <trans-unit id="s569ed106bd3565e4">
-        <source>Switch layout to 
-          <x id="0" equiv-text="${mode}"/>
-        </source>
+        <source>Switch layout to <x id="0" equiv-text="${mode}"/></source>
         <target>Layout wechseln zu 
           <x id="0" equiv-text="${mode}"/>
         </target>
@@ -267,19 +265,19 @@
       </trans-unit>
       <trans-unit id="sbba25f7b32fdf484">
         <source>Button text</source>
-        <target>Schaltflächentext</target>
+        <target>Button-Text</target>
       </trans-unit>
       <trans-unit id="s96b8133d45d9108b">
         <source>Button label</source>
-        <target>Beschriftung der Schaltfläche</target>
+        <target>Button-Beschriftung</target>
       </trans-unit>
       <trans-unit id="se4a2a305de890ead">
         <source>Pick icon…</source>
-        <target>Symbol auswählen…</target>
+        <target>Icon auswählen …</target>
       </trans-unit>
       <trans-unit id="sd5b036cc13fb77b4">
         <source>Reset button</source>
-        <target>Reset-Taste</target>
+        <target>Button zurücksetzen</target>
       </trans-unit>
       <trans-unit id="s88f5053fccdf0a61">
         <source>hide border</source>
@@ -299,7 +297,7 @@
       </trans-unit>
       <trans-unit id="sd2b47d8cc09e0dfe">
         <source>Icon name (optional)</source>
-        <target>Symbolname (optional)</target>
+        <target>Iconname (optional)</target>
       </trans-unit>
       <trans-unit id="s3cf89cb47fdde7e9">
         <source>Link</source>
@@ -311,7 +309,7 @@
       </trans-unit>
       <trans-unit id="sd6fb5bdee45e7967">
         <source>Press "A" while clicking to follow the link.</source>
-        <target>Drücke die Taste „A“, während du auf den Link klickst.</target>
+        <target>Drücke die Taste „A“ beim Klicken, um dem Link zu folgen.</target>
       </trans-unit>
       <trans-unit id="s0fef364f29f8ffc1">
         <source>Width (e.g. 300px, 20rem)</source>
@@ -319,7 +317,7 @@
       </trans-unit>
       <trans-unit id="s09d3e1c6cc8700b9">
         <source>Height (e.g. 10px, 0.5rem)</source>
-        <target>Höhe (z. B. 10px, 0,5rem)</target>
+        <target>Höhe (z. B. 10px, 0.5rem)</target>
       </trans-unit>
       <trans-unit id="s5172602152d8a620">
         <source>Reset width and height</source>
@@ -399,7 +397,7 @@
       </trans-unit>
       <trans-unit id="s094eb0fadccf24d8">
         <source>Heading text</source>
-        <target>Überschrift</target>
+        <target>Überschrift-Text</target>
       </trans-unit>
       <trans-unit id="s072c3c42e24456af">
         <source>Enter heading…</source>
@@ -427,11 +425,11 @@
       </trans-unit>
       <trans-unit id="s5590dbf7e425789d">
         <source>Label</source>
-        <target>Bezeichnung</target>
+        <target>Beschriftung</target>
       </trans-unit>
       <trans-unit id="s6ce2cd4c021d67c0">
         <source>Label text</source>
-        <target>Beschriftung</target>
+        <target>Beschriftungstext</target>
       </trans-unit>
       <trans-unit id="sb7fd199d895f2ee0">
         <source>Enter label text…</source>
@@ -495,11 +493,11 @@
       </trans-unit>
       <trans-unit id="s56786c3f3e37cefa">
         <source>Enter textarea placeholder…</source>
-        <target>Geben Sie den Platzhalter für das Textfeld ein…</target>
+        <target>Geben Sie den Platzhalter für das Textfeld ein …</target>
       </trans-unit>
       <trans-unit id="s4e03726ad458f1f2">
         <source>Width (e.g. 320px, 60%)</source>
-        <target>Breite (z. B. 320px, 60 %)</target>
+        <target>Breite (z. B. 320px, 60%)</target>
       </trans-unit>
       <trans-unit id="sa40e933fba661284">
         <source>Height (e.g. 120px)</source>
@@ -510,13 +508,9 @@
         <target>Code</target>
       </trans-unit>
       <trans-unit id="hee3c66c7df58c59e">
-        <source>Hold 
-          <x id="0" equiv-text="&lt;kbd&gt;"/>T
-          <x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.
-        </source>
+        <source>Hold <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.</source>
         <target>Halten Sie 
-          <x id="0" equiv-text="&lt;kbd&gt;"/> T
-          <x id="1" equiv-text="&lt;/kbd&gt;"/> gedrückt, um die Symbolleisten-Einblendung vorübergehend auszublenden.
+          <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> gedrückt, um die Symbolleisten-Einblendung vorübergehend auszublenden.
         </target>
       </trans-unit>
       <trans-unit id="s33054d1d675674c9">
@@ -533,7 +527,7 @@
       </trans-unit>
       <trans-unit id="se6b9f0707592d7f4">
         <source>Hero + Sidebar</source>
-        <target>Held + Seitenleiste</target>
+        <target>Hero + Seitenleiste</target>
       </trans-unit>
       <trans-unit id="sf60963b73764eca2">
         <source>Wide main area with a narrow sidebar</source>
@@ -577,7 +571,7 @@
       </trans-unit>
       <trans-unit id="se619a501d1bfe6a5">
         <source>Wrap</source>
-        <target>Umschlag</target>
+        <target>Umbruch</target>
       </trans-unit>
       <trans-unit id="seaf97719986faf4f">
         <source>Gap</source>
@@ -593,7 +587,7 @@
       </trans-unit>
       <trans-unit id="s33b8dc0523428dde">
         <source>Auto flow</source>
-        <target>Automatischer Durchfluss</target>
+        <target>Automatischer Fluss</target>
       </trans-unit>
       <trans-unit id="s915caf9e3dad37f7">
         <source>Justify items</source>
@@ -625,11 +619,11 @@
       </trans-unit>
       <trans-unit id="s8fa8b0a18d4320de">
         <source>Parent direction:</source>
-        <target>Hinweis für Eltern:</target>
+        <target>Richtung des Elternelements:</target>
       </trans-unit>
       <trans-unit id="s5a053ed77fa9c1bc">
         <source>Align self</source>
-        <target>Sich selbst ausrichten</target>
+        <target>Selbst ausrichten</target>
       </trans-unit>
       <trans-unit id="sd95af958ff5ee320">
         <source>inherit parent</source>
@@ -637,11 +631,11 @@
       </trans-unit>
       <trans-unit id="sbfa01f189a68d3e9">
         <source>Flex grow</source>
-        <target>Flexible Anbaufläche</target>
+        <target>Flex-Wachsen</target>
       </trans-unit>
       <trans-unit id="sef24caccbd4645ef">
         <source>Flex shrink</source>
-        <target>Schrumpfschlauch</target>
+        <target>Flex-Schrumpfen</target>
       </trans-unit>
       <trans-unit id="saced41ddda8b2354">
         <source>Flex basis</source>
