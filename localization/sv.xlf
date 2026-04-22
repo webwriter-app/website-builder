@@ -655,6 +655,14 @@
         <source>Component settings</source>
         <target>Komponentinställningar</target>
       </trans-unit>
+      <trans-unit id="sb9cdc961961c6ddb">
+        <source>e.g.</source>
+        <target>t.ex.</target>
+      </trans-unit>
+      <trans-unit id="s08b05407b5565ca4">
+        <source>or</source>
+        <target>eller</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

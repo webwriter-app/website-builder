@@ -75,7 +75,7 @@ export const VideoComponent: BuilderComponent = {
       kind: "attr",
       target: "video",
       name: "src",
-      placeholder: "https://… or data:video/…",
+      placeholder: `https://… ${msg("or")} data:video/…`,
     },
     {
       key: "alt",
@@ -91,7 +91,7 @@ export const VideoComponent: BuilderComponent = {
       kind: "style",
       target: "video",
       name: "width",
-      placeholder: "e.g. 300px",
+      placeholder: `${msg("e.g.")} 300px`,
     },
     {
       key: "height",
@@ -99,7 +99,7 @@ export const VideoComponent: BuilderComponent = {
       kind: "style",
       target: "video",
       name: "height",
-      placeholder: "e.g. 200px",
+      placeholder: `${msg("e.g.")} 200px`,
     },
     {
       key: "object-fit",
@@ -107,7 +107,7 @@ export const VideoComponent: BuilderComponent = {
       kind: "style",
       target: "video",
       name: "object-fit",
-      placeholder: "e.g. contain, cover, fill",
+      placeholder: `${msg("e.g.")} contain, cover, fill`,
     },
     {
       key: "opacity",
@@ -115,7 +115,7 @@ export const VideoComponent: BuilderComponent = {
       kind: "style",
       target: "video",
       name: "opacity",
-      placeholder: "e.g. 0.5",
+      placeholder: `${msg("e.g.")} 0.5`,
     },
     {
       key: "border-radius",
@@ -123,7 +123,7 @@ export const VideoComponent: BuilderComponent = {
       kind: "style",
       target: "video",
       name: "border-radius",
-      placeholder: "e.g. 8px",
+      placeholder: `${msg("e.g.")} 8px`,
     },
   ],
 

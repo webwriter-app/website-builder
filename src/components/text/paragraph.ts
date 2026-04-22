@@ -56,7 +56,7 @@ export const ParagraphComponent: BuilderComponent = {
       kind: "style",
       target: "p",
       name: "width",
-      placeholder: "e.g. 300px",
+      placeholder: `${msg("e.g.")} 300px`,
     },
     {
       key: "height",
@@ -64,7 +64,7 @@ export const ParagraphComponent: BuilderComponent = {
       kind: "style",
       target: "p",
       name: "height",
-      placeholder: "e.g. 100px",
+      placeholder: `${msg("e.g.")} 100px`,
     },
     {
       key: "color",
@@ -80,7 +80,7 @@ export const ParagraphComponent: BuilderComponent = {
       kind: "style",
       target: "p",
       name: "font-weight",
-      placeholder: "e.g. 400 or bold",
+      placeholder: `${msg("e.g.")} 400 ${msg("or")} bold`,
     },
     {
       key: "font-size",
@@ -88,7 +88,7 @@ export const ParagraphComponent: BuilderComponent = {
       kind: "style",
       target: "p",
       name: "font-size",
-      placeholder: "e.g. 32px or 2em",
+      placeholder: `${msg("e.g.")} 32px ${msg("or")} 2em`,
     }
   ],
   settings: ({ data, setData }) => {

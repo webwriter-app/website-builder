@@ -50,7 +50,7 @@ export const ImageComponent: BuilderComponent = {
       kind: "attr",
       target: "img",
       name: "src",
-      placeholder: "https://… or data:image/…",
+      placeholder: `https://… ${msg("or")} data:image/…`,
     },
     {
       key: "alt",
@@ -66,7 +66,7 @@ export const ImageComponent: BuilderComponent = {
       kind: "style", 
       target: "img",
       name: "width",
-      placeholder: "e.g. 300px",
+      placeholder: `${msg("e.g.")} 300px`,
     },
     {
       key: "height",
@@ -74,7 +74,7 @@ export const ImageComponent: BuilderComponent = {
       kind: "style",
       target: "img",
       name: "height",
-      placeholder: "e.g. 200px",
+      placeholder: `${msg("e.g.")} 200px`,
     },
     {
       key: "object-fit",
@@ -82,7 +82,7 @@ export const ImageComponent: BuilderComponent = {
       kind: "style",
       target: "img",
       name: "object-fit",
-      placeholder: "e.g. contain, cover, fill",
+      placeholder: `${msg("e.g.")} contain, cover, fill`,
     },
     {
       key: "opacity",
@@ -90,7 +90,7 @@ export const ImageComponent: BuilderComponent = {
       kind: "style",
       target: "img",
       name: "opacity",
-      placeholder: "e.g. 0.5",
+      placeholder: `${msg("e.g.")} 0.5`,
     },
     {
       key: "border-radius",
@@ -98,7 +98,7 @@ export const ImageComponent: BuilderComponent = {
       kind: "style",
       target: "img",
       name: "border-radius",
-      placeholder: "e.g. 8px",
+      placeholder: `${msg("e.g.")} 8px`,
     }
   ],
 

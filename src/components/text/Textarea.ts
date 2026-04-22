@@ -91,7 +91,7 @@ export const TextareaComponent: BuilderComponent = {
       kind: "style",
       target: "sl-textarea",
       name: "font-weight",
-      placeholder: "e.g. 400 or bold",
+      placeholder: `${msg("e.g.")} 400 ${msg("or")} bold`,
     },
     {
       key: "width",
@@ -115,7 +115,7 @@ export const TextareaComponent: BuilderComponent = {
       kind: "style",
       target: "sl-textarea",
       name: "font-size",
-      placeholder: "e.g. 32px or 2em",
+      placeholder: `${msg("e.g.")} 32px ${msg("or")} 2em`,
     }
   ],
 

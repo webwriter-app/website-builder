@@ -49,7 +49,7 @@ export const AudioComponent: BuilderComponent = {
       kind: "attr",
       target: "audio",
       name: "src",
-      placeholder: "https://… or data:audio/…",
+      placeholder: `https://… ${msg("or")} data:audio/…`,
     },
   ],
 

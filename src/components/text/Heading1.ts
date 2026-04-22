@@ -60,7 +60,7 @@ export const Heading1: BuilderComponent = {
       kind: "style",
       target: "h1",
       name: "font-weight",
-      placeholder: "e.g. 400 or bold",
+      placeholder: `${msg("e.g.")} 400 ${msg("or")} bold`,
     },
     {
       key: "font-size",
@@ -68,7 +68,7 @@ export const Heading1: BuilderComponent = {
       kind: "style",
       target: "h1",
       name: "font-size",
-      placeholder: "e.g. 32px or 2em",
+      placeholder: `${msg("e.g.")} 32px ${msg("or")} 2em`,
     }
   ],
   settings: ({ data, setData }) => {

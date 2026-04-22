@@ -238,7 +238,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
 
             <div class="setting-row">
               <sl-input
-                placeholder="e.g. 12px"
+                placeholder=${`${msg("e.g.")} 12px`}
                 .value=${flex.gap ?? "12px"}
                 @sl-input=${(e: any) =>
                   host.layout.setFlexSettings({
@@ -264,7 +264,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
 
             <div class="setting-row">
               <sl-input
-                placeholder="e.g. repeat(3, 1fr)"
+                placeholder=${`${msg("e.g.")} repeat(3, 1fr)`}
                 .value=${grid.columns ?? "repeat(3, 1fr)"}
                 @sl-input=${(e: any) =>
                   host.layout.setGridSettings({
@@ -277,7 +277,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
 
             <div class="setting-row">
               <sl-input
-                placeholder="e.g. auto"
+                placeholder=${`${msg("e.g.")} auto`}
                 .value=${grid.rows ?? "auto"}
                 @sl-input=${(e: any) =>
                   host.layout.setGridSettings({
@@ -290,7 +290,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
 
             <div class="setting-row">
               <sl-input
-                placeholder="e.g. 12px"
+                placeholder=${`${msg("e.g.")} 12px`}
                 .value=${grid.gap ?? "12px"}
                 @sl-input=${(e: any) =>
                   host.layout.setGridSettings({
@@ -564,7 +564,7 @@ function renderContainerFlexSettings(
       </sl-select>
     </div>
     <div class="setting-row">
-      <sl-input placeholder="e.g. 12px" .value=${f.gap ?? "12px"} @sl-input=${(e: any) => set({ gap: String(e.target.value ?? "") })}>
+      <sl-input placeholder=${`${msg("e.g.")} 12px`} .value=${f.gap ?? "12px"} @sl-input=${(e: any) => set({ gap: String(e.target.value ?? "") })}>
         <span slot="label">${msg("Gap")} <span class="css-prop">(<code>gap</code>)</span></span>
       </sl-input>
     </div>
@@ -581,17 +581,17 @@ function renderContainerGridSettings(
 
   return html`
     <div class="setting-row">
-      <sl-input placeholder="e.g. repeat(3, 1fr)" .value=${g.columns ?? "repeat(3, 1fr)"} @sl-input=${(e: any) => set({ columns: String(e.target.value ?? "") })}>
+      <sl-input placeholder=${`${msg("e.g.")} repeat(3, 1fr)`} .value=${g.columns ?? "repeat(3, 1fr)"} @sl-input=${(e: any) => set({ columns: String(e.target.value ?? "") })}>
         <span slot="label">${msg("Columns")} <span class="css-prop">(<code>grid-template-columns</code>)</span></span>
       </sl-input>
     </div>
     <div class="setting-row">
-      <sl-input placeholder="e.g. auto" .value=${g.rows ?? "auto"} @sl-input=${(e: any) => set({ rows: String(e.target.value ?? "") })}>
+      <sl-input placeholder=${`${msg("e.g.")} auto`} .value=${g.rows ?? "auto"} @sl-input=${(e: any) => set({ rows: String(e.target.value ?? "") })}>
         <span slot="label">${msg("Rows")} <span class="css-prop">(<code>grid-template-rows</code>)</span></span>
       </sl-input>
     </div>
     <div class="setting-row">
-      <sl-input placeholder="e.g. 12px" .value=${g.gap ?? "12px"} @sl-input=${(e: any) => set({ gap: String(e.target.value ?? "") })}>
+      <sl-input placeholder=${`${msg("e.g.")} 12px`} .value=${g.gap ?? "12px"} @sl-input=${(e: any) => set({ gap: String(e.target.value ?? "") })}>
         <span slot="label">${msg("Gap")} <span class="css-prop">(<code>gap</code>)</span></span>
       </sl-input>
     </div>
@@ -636,7 +636,7 @@ function renderGridPlacementUI(host: WebwriterWebsiteBuilder, node: BuilderNode)
     <div style="margin-top:1rem">
       <h2 style="margin-top:0">${msg("Grid placement")}</h2>
       <div class="setting-row">
-        <sl-input placeholder="e.g. hero" .value=${String(g.area ?? "")} @sl-input=${(e: any) => update({ area: String(e.target.value ?? "") })}>
+        <sl-input placeholder=${`${msg("e.g.")} hero`} .value=${String(g.area ?? "")} @sl-input=${(e: any) => update({ area: String(e.target.value ?? "") })}>
           <span slot="label">${msg("Area")} <span class="css-prop">(<code>grid-area</code>)</span></span>
         </sl-input>
       </div>
