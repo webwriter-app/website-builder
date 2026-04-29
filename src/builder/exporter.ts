@@ -82,6 +82,16 @@ function serialize(node: HtmlNode, depth = 0): string {
 // Component → HtmlNode
 // ---------------------------------------------------------------------------
 
+function textStyle(d: Record<string, unknown>): string | null {
+  const parts: string[] = [];
+  if (d.color && d.color !== "#000000") parts.push(`color:${escapeAttr(d.color)}`);
+  if (d["font-weight"] && d["font-weight"] !== "normal") parts.push(`font-weight:${escapeAttr(d["font-weight"])}`);
+  if (d["font-size"] && d["font-size"] !== "1em") parts.push(`font-size:${escapeAttr(d["font-size"])}`);
+  if (d.width) parts.push(`width:${escapeAttr(d.width)}`);
+  if (d.height) parts.push(`height:${escapeAttr(d.height)}`);
+  return parts.length ? parts.join(";") : null;
+}
+
 function componentToNode(n: BuilderNode): HtmlNode {
   if (n.isContainer || n.type === "container") return containerToNode(n);
 
@@ -89,11 +99,41 @@ function componentToNode(n: BuilderNode): HtmlNode {
   const d = n.data ?? {};
 
   switch (t) {
-    case "h1": return el("h1", {}, text(String(d.text ?? d.value ?? "Heading")));
-    case "h2": return el("h2", {}, text(String(d.text ?? d.value ?? "Heading")));
-    case "h3": return el("h3", {}, text(String(d.text ?? d.value ?? "Heading")));
-    case "paragraph": return el("p", {}, text(String(d.text ?? d.value ?? "Text…")));
-    case "blockquote": return el("blockquote", {}, text(String(d.text ?? d.value ?? "")));
+    case "h1":
+    case "h2":
+    case "h3":
+    case "h4":
+    case "h5":
+    case "h6": {
+      const style = textStyle(d);
+      return el(t, style ? { style } : {}, text(String(d.content ?? d.text ?? d.value ?? "Heading")));
+    }
+
+    case "paragraph": {
+      const style = textStyle(d);
+      return el("p", style ? { style } : {}, text(String(d.content ?? d.text ?? d.value ?? "Text…")));
+    }
+
+    case "label": {
+      const style = textStyle(d);
+      return el("label", style ? { style } : {}, text(String(d.content ?? d.text ?? d.value ?? "Label")));
+    }
+
+    case "textarea": {
+      const attrs: Record<string, string | null> = {};
+      if (d.placeholder) attrs.placeholder = escapeAttr(d.placeholder);
+      const parts: string[] = [];
+      if (d.color && d.color !== "#000000") parts.push(`color:${escapeAttr(d.color)}`);
+      if (d["font-family"] || d.font) parts.push(`font-family:${escapeAttr((d["font-family"] ?? d.font) as string)}`);
+      if (d["font-weight"] && d["font-weight"] !== "normal") parts.push(`font-weight:${escapeAttr(d["font-weight"])}`);
+      if (d["font-size"] && d["font-size"] !== "1em") parts.push(`font-size:${escapeAttr(d["font-size"])}`);
+      if (d.width) parts.push(`width:${escapeAttr(d.width)}`);
+      if (d.height) parts.push(`height:${escapeAttr(d.height)}`);
+      if (parts.length) attrs.style = parts.join(";");
+      return el("textarea", attrs);
+    }
+
+    case "blockquote": return el("blockquote", {}, text(String(d.content ?? d.text ?? d.value ?? "")));
 
     case "code": {
       const lang = d.language ? { "data-lang": String(d.language) } : {};
@@ -126,10 +166,16 @@ function componentToNode(n: BuilderNode): HtmlNode {
       return el("audio", { src: escapeAttr(src), controls: null });
     }
 
-    case "button": return el("button", { type: "button" }, text(String(d.label ?? "Button")));
+    case "button": {
+      const attrs: Record<string, string | null> = { type: "button" };
+      const btnParts: string[] = [];
+      if (d.labelColor && d.labelColor !== "#0f172a") btnParts.push(`color:${escapeAttr(d.labelColor)}`);
+      if (btnParts.length) attrs.style = btnParts.join(";");
+      return el("button", attrs, text(String(d.label ?? "Button")));
+    }
 
     case "link": {
-      return el("a", { href: escapeAttr(d.href ?? "#"), target: "_blank", rel: "noopener noreferrer" }, text(String(d.label ?? "Link")));
+      return el("a", { href: escapeAttr(d.href ?? "#"), target: "_blank", rel: "noopener noreferrer" }, text(String(d.label ?? d.content ?? "Link")));
     }
 
     case "icon": {
