@@ -1,6 +1,6 @@
 {
   "name": "@webwriter/website-builder",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).",
   "keywords": [
     "webwriter-widget",
@@ -48,12 +48,14 @@
   ],
   "license": "MIT",
   "author": "Moritz Langenhan <moritz.langenhan@rwth-aachen.de>",
+  "repository": "github:webwriter-app/website-builder",
   "scripts": {
     "prepublishOnly": "npx @webwriter/build",
     "dev": "npx @webwriter/build dev",
     "localize": "lit-localize extract && npx @webwriter/build localize && lit-localize build"
   },
   "dependencies": {
+    "@lit/localize": "^0.12.2",
     "@shoelace-style/shoelace": "^2.20.1",
     "@webwriter/lit": "^2",
     "lit": "^3.3.2"

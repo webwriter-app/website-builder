@@ -447,6 +447,15 @@
             },
             {
               "kind": "field",
+              "name": "_hasFocus",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether keyboard focus is currently inside this widget"
+            },
+            {
+              "kind": "field",
               "name": "iconDialogTarget",
               "type": {
                 "text": "EventTarget | null"
