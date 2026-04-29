@@ -76,7 +76,8 @@
     "./snippets/freeform-advanced.html": "./snippets/freeform/example-freeform-advanced.html",
     "./snippets/flow-starter.html": "./snippets/flow/example-flow-starter.html",
     "./snippets/flow-advanced.html": "./snippets/flow/example-flow-advanced.html",
-    "./editing-config.json": "./editing-config.json"
+    "./editing-config.json": "./editing-config.json",
+    "./custom-elements.json": "./custom-elements.json"
   },
   "editingConfig": {
     ".": {},
@@ -89,5 +90,6 @@
     "./snippets/freeform-advanced": {},
     "./snippets/flow-starter": {},
     "./snippets/flow-advanced": {}
-  }
+  },
+  "customElements": "custom-elements.json"
 }

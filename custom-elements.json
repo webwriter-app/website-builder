@@ -1,0 +1,876 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/webwriter-website-builder.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "WebwriterWebsiteBuilder",
+          "members": [
+            {
+              "kind": "field",
+              "name": "localize",
+              "privacy": "protected",
+              "default": "LOCALIZE"
+            },
+            {
+              "kind": "field",
+              "name": "drag",
+              "default": "new DragController(this)",
+              "description": "Handles all drag-and-drop logic"
+            },
+            {
+              "kind": "field",
+              "name": "selection",
+              "default": "new SelectionController(this)",
+              "description": "Handles node selection, multi-select, drill-in (double-click), and canvas click"
+            },
+            {
+              "kind": "field",
+              "name": "keyboard",
+              "default": "new KeyboardController(this)",
+              "description": "Handles all keyboard shortcuts"
+            },
+            {
+              "kind": "field",
+              "name": "layout",
+              "default": "new LayoutController(this)",
+              "description": "Handles layout mode switching and global flex/grid settings"
+            },
+            {
+              "kind": "field",
+              "name": "wwState",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Saves the widget data in an attribute",
+              "attribute": "ww-state"
+            },
+            {
+              "kind": "field",
+              "name": "_hydrating",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_lastSerialized",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "_skipNextApplyFromWwState",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "layoutMode",
+              "type": {
+                "text": "LayoutMode"
+              },
+              "default": "\"freeform\"",
+              "description": "The selected layout mode (freeform, flow, flex or grid)"
+            },
+            {
+              "kind": "field",
+              "name": "freeformNodes",
+              "type": {
+                "text": "BuilderNode[]"
+              },
+              "default": "[]",
+              "description": "The website element nodes for freeform layout"
+            },
+            {
+              "kind": "field",
+              "name": "orderedNodes",
+              "type": {
+                "text": "BuilderNode[]"
+              },
+              "default": "[]",
+              "description": "The ordered website element nodes for flow, flex or grid layout"
+            },
+            {
+              "kind": "field",
+              "name": "flexSettings",
+              "type": {
+                "text": "FlexSettings"
+              },
+              "description": "Configuration of the flex layout"
+            },
+            {
+              "kind": "field",
+              "name": "gridSettings",
+              "type": {
+                "text": "GridSettings"
+              },
+              "description": "Configuration of the grid layout"
+            },
+            {
+              "kind": "field",
+              "name": "canvasBackground",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"#ffffff\"",
+              "description": "Background color of the canvas, as an RGB hex code"
+            },
+            {
+              "kind": "field",
+              "name": "selectedNodeId",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "The id of the selected node"
+            },
+            {
+              "kind": "field",
+              "name": "selectedElement",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "default": "null",
+              "description": "The selected HTML element"
+            },
+            {
+              "kind": "field",
+              "name": "selectedIds",
+              "type": {
+                "text": "Set<string>"
+              },
+              "default": "new Set()",
+              "description": "Set of all selected node ids"
+            },
+            {
+              "kind": "field",
+              "name": "focusedContainerId",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "The id of the focused container"
+            },
+            {
+              "kind": "field",
+              "name": "shiftPressed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether shift is currently pressed"
+            },
+            {
+              "kind": "field",
+              "name": "interactKeyPressed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the interact key (\"A\") is currently pressed"
+            },
+            {
+              "kind": "field",
+              "name": "gridKeyPressed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the grid key (\"G\") is currently pressed"
+            },
+            {
+              "kind": "field",
+              "name": "toolbarKeyHidden",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the hide toolbar key (\"T\") is currently pressed"
+            },
+            {
+              "kind": "field",
+              "name": "showGrid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the grid overlay should be shown all the time"
+            },
+            {
+              "kind": "field",
+              "name": "gridSize",
+              "type": {
+                "text": "number"
+              },
+              "default": "20",
+              "description": "The size of the overlay grid"
+            },
+            {
+              "kind": "field",
+              "name": "toolbarOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the toolbar is currently open"
+            },
+            {
+              "kind": "field",
+              "name": "layoutDropdownOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the layout dropdown is currently open"
+            },
+            {
+              "kind": "field",
+              "name": "showAddButton",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Whether the add button in the top right should be shown"
+            },
+            {
+              "kind": "field",
+              "name": "showLayoutDropdown",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Whether the layout dropdown should be shown"
+            },
+            {
+              "kind": "field",
+              "name": "groupTemplateId",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"two-column\"",
+              "description": "The id of the currently selected grouping template (\"two-column\", \"hero-sidebar\", \"card-grid\" or \"centered-stack\")"
+            },
+            {
+              "kind": "field",
+              "name": "infoForType",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Which element type to show the info popup for"
+            },
+            {
+              "kind": "field",
+              "name": "infoAnchorEl",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "default": "null",
+              "description": "The DOM element the info popup is anchored to"
+            },
+            {
+              "kind": "field",
+              "name": "suppressNextClick",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Prevents double trigger clicking issues"
+            },
+            {
+              "kind": "field",
+              "name": "visibleLayoutModes",
+              "type": {
+                "text": "Record<LayoutMode, boolean>"
+              },
+              "default": "{ freeform: true, flow: true, flex: true, grid: true, }",
+              "description": "Which layout modes to show"
+            },
+            {
+              "kind": "field",
+              "name": "visibleCodeTabs",
+              "type": {
+                "text": "Record<CodeTab, boolean>"
+              },
+              "default": "{ combined: true, html: true, css: true, }",
+              "description": "Which code tabs to show in fullscreen mode"
+            },
+            {
+              "kind": "field",
+              "name": "showComponentSettingsInStudent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Whether component settings should be shown in student mode"
+            },
+            {
+              "kind": "field",
+              "name": "showSidebarInStudent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the sidebar (containing canvas settings) should be shown in student mode"
+            },
+            {
+              "kind": "field",
+              "name": "showToolbarInStudent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Whether the toolbar (to add more elements) should be shown in student mode"
+            },
+            {
+              "kind": "field",
+              "name": "allowDeleteInStudent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether elements should be deletable in student mode"
+            },
+            {
+              "kind": "field",
+              "name": "allComponentsDialogOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the components dialog is currently open"
+            },
+            {
+              "kind": "field",
+              "name": "allComponentsQuery",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The current components dialog search query"
+            },
+            {
+              "kind": "field",
+              "name": "_studentDrawerOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_codeTab",
+              "type": {
+                "text": "CodeTab"
+              },
+              "privacy": "private",
+              "default": "\"html\""
+            },
+            {
+              "kind": "field",
+              "name": "iconDialogOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the icon dialog is currently open"
+            },
+            {
+              "kind": "field",
+              "name": "iconDraftName",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"gear\"",
+              "description": "The currently selected icon's name"
+            },
+            {
+              "kind": "field",
+              "name": "iconDraftColor",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"#0f172a\"",
+              "description": "The selected color for the icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconQuery",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The icon dialog search query"
+            },
+            {
+              "kind": "field",
+              "name": "iconScrollTop",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "How much pixels the icon scroller is currently scrolled down (scrollTop)"
+            },
+            {
+              "kind": "field",
+              "name": "iconViewportH",
+              "type": {
+                "text": "number"
+              },
+              "default": "520",
+              "description": "The clientHeight of the icon scroller"
+            },
+            {
+              "kind": "field",
+              "name": "iconScroller",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "default": "null",
+              "description": "The icon scroller HTML element (#ww-icon-scroller)"
+            },
+            {
+              "kind": "field",
+              "name": "iconDialogTarget",
+              "type": {
+                "text": "EventTarget | null"
+              },
+              "default": "null",
+              "description": "The element to dispatch icon result events from"
+            },
+            {
+              "kind": "field",
+              "name": "exporter",
+              "privacy": "private",
+              "default": "new BuilderExporter()"
+            },
+            {
+              "kind": "field",
+              "name": "activeNodes",
+              "type": {
+                "text": "BuilderNode[]"
+              },
+              "description": "The website element nodes depending on the current layout mode",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "setActiveNodes",
+              "parameters": [
+                {
+                  "name": "next",
+                  "type": {
+                    "text": "BuilderNode[]"
+                  }
+                }
+              ],
+              "description": "Set the freeform or ordered nodes array, depending on the current layout mode"
+            },
+            {
+              "kind": "method",
+              "name": "normalizeOrder",
+              "description": "Sets the order attribute of each node to its position in the array"
+            },
+            {
+              "kind": "method",
+              "name": "selectNodeId",
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Select a node based on its id"
+            },
+            {
+              "kind": "method",
+              "name": "clearSelection",
+              "description": "Clear the selection of nodes"
+            },
+            {
+              "kind": "method",
+              "name": "getSelectedNode",
+              "return": {
+                "type": {
+                  "text": "BuilderNode | null"
+                }
+              },
+              "description": "Get the BuilderNode object of the selected node, if a node is selected"
+            },
+            {
+              "kind": "method",
+              "name": "updateNode",
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "patch",
+                  "type": {
+                    "text": "Partial<BuilderNode>"
+                  }
+                }
+              ],
+              "description": "Update the node with given id using a (partial) BuilderNode object"
+            },
+            {
+              "kind": "method",
+              "name": "deleteSelectedNode",
+              "description": "Delete the selected node"
+            },
+            {
+              "kind": "method",
+              "name": "blurActive",
+              "description": "Blur the active element"
+            },
+            {
+              "kind": "method",
+              "name": "isEditingWithinComponent",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "description": "Returns whether the focus is currently on an element that accepts typing text"
+            },
+            {
+              "kind": "method",
+              "name": "isInteractiveTarget",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "target",
+                  "type": {
+                    "text": "EventTarget | null"
+                  }
+                }
+              ],
+              "description": "Returns whether the event target is an \"interactive\" element, that requires clicking for interaction"
+            },
+            {
+              "kind": "field",
+              "name": "_containerSettingsId",
+              "type": {
+                "text": "string | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "method",
+              "name": "allowInteractEvent",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "_e",
+                  "type": {
+                    "text": "any"
+                  }
+                }
+              ],
+              "description": "Returns whether the interact key is pressed"
+            },
+            {
+              "kind": "method",
+              "name": "_allowInteract",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                }
+              ],
+              "description": "Allows interaction when ctrl/meta is held during a click.\nDIFFERENT from allowInteractEvent — this uses ctrlKey/metaKey, not interactKeyPressed.\nUsed in selectNodeFromWrapper to allow link/button clicks through."
+            },
+            {
+              "kind": "method",
+              "name": "selectNodeFromWrapper",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                },
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Select node from a wrapper click. Prevents link navigation unless ctrl/meta held.\nUses _allowInteract (ctrl/meta key), NOT allowInteractEvent (A key)."
+            },
+            {
+              "kind": "method",
+              "name": "isAuthorMode",
+              "description": "Whether the widget is currently in author mode (contenteditable)"
+            },
+            {
+              "kind": "method",
+              "name": "isStudentMode",
+              "description": "Whether the widget is currently in student mode"
+            },
+            {
+              "kind": "method",
+              "name": "gridPlacementFromPointer",
+              "parameters": [
+                {
+                  "name": "root",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                },
+                {
+                  "name": "clientX",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "clientY",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Get grid placement from pointer position"
+            },
+            {
+              "kind": "method",
+              "name": "getPaletteItems",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              },
+              "description": "Returns sorted, filtered list of component type IDs for the palette"
+            },
+            {
+              "kind": "method",
+              "name": "quickAdd",
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Quickly add a node by type via the elements palette"
+            },
+            {
+              "kind": "method",
+              "name": "groupSelected",
+              "description": "Group the selected nodes"
+            },
+            {
+              "kind": "method",
+              "name": "ungroupContainer",
+              "parameters": [
+                {
+                  "name": "containerId",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Ungroups the selected group of nodes"
+            },
+            {
+              "kind": "method",
+              "name": "setCodeTabVisible",
+              "parameters": [
+                {
+                  "name": "tab",
+                  "type": {
+                    "text": "CodeTab"
+                  }
+                },
+                {
+                  "name": "visible",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "description": "Set visibility of the code tab"
+            },
+            {
+              "kind": "method",
+              "name": "openAllComponentsDialog",
+              "description": "Open the all components dialog"
+            },
+            {
+              "kind": "field",
+              "name": "onIconDialogAfterShow",
+              "description": "Executed after the icon dialog is opened"
+            },
+            {
+              "kind": "field",
+              "name": "onIconDialogAfterHide",
+              "description": "Executed after the icon dialog is closed"
+            },
+            {
+              "kind": "field",
+              "name": "_onIconDialogScroll",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "isFullscreen",
+              "description": "Whether the widget is in fullscreen mode",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_onFsChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_onFsError",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_toggleFullscreen",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_confirmReset",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_resetCanvas",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_closeStudentDrawer",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_maybeOpenStudentDrawerOnSelect",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_serializeState",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_applyState",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "serialized",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_generateExport",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_onGlobalMouseDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_renderCodeTabs",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "ww-state",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Saves the widget data in an attribute",
+              "fieldName": "wwState"
+            }
+          ],
+          "superclass": {
+            "name": "LitElementWw",
+            "package": "@webwriter/lit"
+          },
+          "tagName": "webwriter-website-builder",
+          "customElement": true,
+          "modulePath": "src/webwriter-website-builder.ts",
+          "definitionPath": "src/webwriter-website-builder.ts"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "WebwriterWebsiteBuilder",
+          "declaration": {
+            "name": "WebwriterWebsiteBuilder",
+            "module": "src/webwriter-website-builder.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "webwriter-website-builder",
+          "declaration": {
+            "name": "WebwriterWebsiteBuilder",
+            "module": "src/webwriter-website-builder.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

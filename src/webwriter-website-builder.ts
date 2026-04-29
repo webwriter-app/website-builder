@@ -59,16 +59,20 @@ import type { ComponentBinding } from "./types/BuilderComponent";
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElementWw {
   // ─── i18n ────────────────────────────────────────────────────────────────
-  localize = LOCALIZE;
-  msg = msg;
+  protected localize = LOCALIZE;
 
   // ─── Controllers ─────────────────────────────────────────────────────────
+  /** Handles all drag-and-drop logic */
   drag = new DragController(this);
+  /** Handles node selection, multi-select, drill-in (double-click), and canvas click */
   selection = new SelectionController(this);
+  /** Handles all keyboard shortcuts */
   keyboard = new KeyboardController(this);
+  /** Handles layout mode switching and global flex/grid settings */
   layout = new LayoutController(this);
 
   // ─── State persistence ───────────────────────────────────────────────────
+  /** Saves the widget data in an attribute */
   @property({ attribute: "ww-state" })
   accessor wwState: string = "";
 
@@ -77,49 +81,77 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _skipNextApplyFromWwState = false;
 
   // ─── Layout ──────────────────────────────────────────────────────────────
+  /** The selected layout mode (freeform, flow, flex or grid) */
   layoutMode: LayoutMode = "freeform";
+  /** The website element nodes for freeform layout */
   freeformNodes: BuilderNode[] = [];
+  /** The ordered website element nodes for flow, flex or grid layout */
   orderedNodes: BuilderNode[] = [];
+  /** Configuration of the flex layout */
   flexSettings: FlexSettings = defaultFlexSettings();
+  /** Configuration of the grid layout */
   gridSettings: GridSettings = defaultGridSettings();
 
+  /** Background color of the canvas, as an RGB hex code */
   canvasBackground: string = "#ffffff";
 
   // ─── Selection ───────────────────────────────────────────────────────────
+  /** The id of the selected node */
   selectedNodeId: string | null = null;
+  /** The selected HTML element */
   selectedElement: HTMLElement | null = null;
+  /** Set of all selected node ids */
   @state() selectedIds: Set<string> = new Set();
+  /** The id of the focused container */
   @state() focusedContainerId: string | null = null;
 
   // ─── Interaction keys ────────────────────────────────────────────────────
+  /** Whether shift is currently pressed */
   shiftPressed = false;
+  /** Whether the interact key ("A") is currently pressed */
   interactKeyPressed = false;
+  /** Whether the grid key ("G") is currently pressed */
   @state() gridKeyPressed = false;
+  /** Whether the hide toolbar key ("T") is currently pressed */
   @state() toolbarKeyHidden = false;
+  /** Whether the grid overlay should be shown all the time */
   @state() showGrid = false;
+  /** The size of the overlay grid */
   gridSize = 20;
 
   // ─── Toolbar / palette UI state ──────────────────────────────────────────
+  /** Whether the toolbar is currently open */
   @state() toolbarOpen = false;
+  /** Whether the layout dropdown is currently open */
   @state() layoutDropdownOpen = false;
+  /** Whether the add button in the top right should be shown */
   showAddButton = true;
+  /** Whether the layout dropdown should be shown */
   showLayoutDropdown = true;
+  /** The id of the currently selected grouping template ("two-column", "hero-sidebar", "card-grid" or "centered-stack") */
   groupTemplateId = "two-column";
 
   // Palette state: tray, info popup, search, suppress-click guard, favourites
+  /** @internal Never gets set? Can probably be removed */
   trayOpen = false;
+  /** Which element type to show the info popup for */
   infoForType: string | null = null;
+  /** The DOM element the info popup is anchored to */
   infoAnchorEl: HTMLElement | null = null;
+  /** Prevents double trigger clicking issues */
   suppressNextClick = false;
+  /** @internal Also never gets set. Can probably also be removed */
   private componentQuery = "";
 
   // ─── Author visibility toggles ───────────────────────────────────────────
+  /** Which layout modes to show */
   @state() visibleLayoutModes: Record<LayoutMode, boolean> = {
     freeform: true,
     flow: true,
     flex: true,
     grid: true,
   };
+  /** Which code tabs to show in fullscreen mode */
   @state() visibleCodeTabs: Record<CodeTab, boolean> = {
     combined: true,
     html: true,
@@ -127,13 +159,19 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   };
 
   // ─── Student mode toggles ────────────────────────────────────────────────
+  /** Whether component settings should be shown in student mode */
   @state() showComponentSettingsInStudent = true;
+  /** Whether the sidebar (containing canvas settings) should be shown in student mode */
   @state() showSidebarInStudent = false;
+  /** Whether the toolbar (to add more elements) should be shown in student mode */
   @state() showToolbarInStudent = true;
+  /** Whether elements should be deletable in student mode */
   @state() allowDeleteInStudent = false;
 
   // ─── All-components dialog ───────────────────────────────────────────────
+  /** Whether the components dialog is currently open */
   @state() allComponentsDialogOpen = false;
+  /** The current components dialog search query */
   @state() allComponentsQuery = "";
 
   // ─── Student drawer ───────────────────────────────────────────────────────
@@ -143,19 +181,28 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _codeTab: CodeTab = "html";
 
   // ─── Icon dialog ─────────────────────────────────────────────────────────
+  /** Whether the icon dialog is currently open */
   @state() iconDialogOpen = false;
+  /** The currently selected icon's name */
   @state() iconDraftName = "gear";
+  /** The selected color for the icon */
   @state() iconDraftColor = "#0f172a";
+  /** The icon dialog search query */
   @state() iconQuery = "";
+  /** How much pixels the icon scroller is currently scrolled down (scrollTop) */
   @state() iconScrollTop = 0;
+  /** The clientHeight of the icon scroller */
   @state() iconViewportH = 520;
+  /** The icon scroller HTML element (#ww-icon-scroller) */
   iconScroller: HTMLElement | null = null;
+  /** The element to dispatch icon result events from */
   iconDialogTarget: EventTarget | null = null;
 
   // ─── Exporter ────────────────────────────────────────────────────────────
   private exporter = new BuilderExporter();
 
   // ─── Scoped elements ─────────────────────────────────────────────────────
+  /** @internal */
   static get scopedElements() {
     return { ...shoelaceScoped, "ww-icon-picker": WwIconPicker };
   }
@@ -164,24 +211,28 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   // ─── Public node accessors (used by controllers) ─────────────────────────
 
+  /** The website element nodes depending on the current layout mode */
   get activeNodes(): BuilderNode[] {
     return this.layoutMode === "freeform"
       ? this.freeformNodes
       : this.orderedNodes;
   }
 
+  /** Set the freeform or ordered nodes array, depending on the current layout mode */
   setActiveNodes(next: BuilderNode[]) {
     if (this.layoutMode === "freeform") this.freeformNodes = next;
     else this.orderedNodes = next;
     this.requestUpdate();
   }
 
+  /** Sets the order attribute of each node to its position in the array */
   normalizeOrder() {
     this.setActiveNodes(normalizeOrder(this.activeNodes));
   }
 
   // ─── Selection helpers (used by controllers) ─────────────────────────────
 
+  /** Select a node based on its id */
   selectNodeId(id: string) {
     this.selectedNodeId = id;
     this.selectedElement = this.renderRoot.querySelector(
@@ -191,6 +242,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this.requestUpdate();
   }
 
+  /** Clear the selection of nodes */
   clearSelection() {
     this.selectedNodeId = null;
     this.selectedElement = null;
@@ -201,15 +253,18 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this.requestUpdate();
   }
 
+  /** Get the BuilderNode object of the selected node, if a node is selected */
   getSelectedNode(): BuilderNode | null {
     if (!this.selectedNodeId) return null;
     return findNodeById(this.activeNodes, this.selectedNodeId) ?? null;
   }
 
+  /** Update the node with given id using a (partial) BuilderNode object */
   updateNode(id: string, patch: Partial<BuilderNode>) {
     this.setActiveNodes(updateNodeById(this.activeNodes, id, patch));
   }
 
+  /** Delete the selected node */
   deleteSelectedNode() {
     const id = this.selectedNodeId;
     if (!id) return;
@@ -220,6 +275,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     );
   }
 
+  /** Blur the active element */
   blurActive() {
     const root = this.renderRoot as ShadowRoot;
     (root.activeElement as HTMLElement | null)?.blur();
@@ -227,6 +283,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     if (dae && dae !== this) dae.blur();
   }
 
+  /** Returns whether the focus is currently on an element that accepts typing text */
   isEditingWithinComponent(): boolean {
     const root = this.renderRoot as ShadowRoot;
     const ae =
@@ -244,6 +301,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     return false;
   }
 
+  /** Returns whether the event target is an "interactive" element, that requires clicking for interaction */
   isInteractiveTarget(target: EventTarget | null): boolean {
     if (!(target instanceof HTMLElement)) return false;
     return Boolean(
@@ -276,6 +334,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   // Container settings tracking (set when grouping, cleared on deselect)
   private _containerSettingsId: string | null = null;
 
+  /** Returns whether the interact key is pressed */
   allowInteractEvent(_e: any): boolean {
     return this.interactKeyPressed;
   }
@@ -303,15 +362,18 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this.selectNodeId(id);
   }
 
+  /** Whether the widget is currently in author mode (contenteditable) */
   isAuthorMode() {
     return !!this.isContentEditable;
   }
+  /** Whether the widget is currently in student mode */
   isStudentMode() {
     return !this.isContentEditable;
   }
 
   // ─── Grid helpers (used by DragController) ───────────────────────────────
 
+  /** Get grid placement from pointer position */
   gridPlacementFromPointer(
     root: HTMLElement,
     clientX: number,
@@ -341,6 +403,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   // ─── Palette / quick add ─────────────────────────────────────────────────
 
+  /** Quickly add a node by type via the elements palette */
   quickAdd(type: string) {
     const component = ComponentRegistry[type];
     if (!component) return;
@@ -373,6 +436,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   // ─── Grouping ─────────────────────────────────────────────────────────────
 
+  /** Group the selected nodes */
   groupSelected() {
     if (this.selectedIds.size < 2) return;
     const CONTAINER_TEMPLATES = getContainerTemplates();
@@ -395,6 +459,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this.requestUpdate();
   }
 
+  /** Ungroups the selected group of nodes */
   ungroupContainer(containerId: string) {
     this.clearSelection();
     this.setActiveNodes(ungroupNodes(this.activeNodes, containerId));
@@ -403,6 +468,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   // ─── Code tab visibility ──────────────────────────────────────────────────
 
+  /** Set visibility of the code tab */
   setCodeTabVisible(tab: CodeTab, visible: boolean) {
     const next = { ...this.visibleCodeTabs, [tab]: visible };
     if (!Object.values(next).some(Boolean)) return;
@@ -418,6 +484,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   // ─── All-components dialog ───────────────────────────────────────────────
 
+  /** Open the all components dialog */
   openAllComponentsDialog() {
     this.allComponentsQuery = "";
     this.allComponentsDialogOpen = true;
@@ -430,6 +497,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   // ─── Icon dialog handlers ─────────────────────────────────────────────────
 
+  /** Executed after the icon dialog is opened */
   onIconDialogAfterShow = (e: Event) => {
     const dlg = e.target as HTMLElement;
     this.iconScroller = dlg.querySelector("#ww-icon-scroller");
@@ -444,6 +512,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     );
   };
 
+  /** Executed after the icon dialog is closed */
   onIconDialogAfterHide = () => {
     this.iconScroller?.removeEventListener("scroll", this._onIconDialogScroll);
     this.iconScroller = null;
@@ -460,6 +529,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   // ─── Fullscreen ──────────────────────────────────────────────────────────
 
+  /** Whether the widget is in fullscreen mode */
   get isFullscreen() {
     return this.ownerDocument.fullscreenElement === this;
   }
@@ -486,7 +556,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   private async _confirmReset() {
     const confirmed = confirm(
-      this.msg("This will remove all elements from the canvas. Continue?"),
+      msg("This will remove all elements from the canvas. Continue?"),
     );
     if (confirmed) this._resetCanvas();
   }
