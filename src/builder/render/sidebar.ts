@@ -380,13 +380,9 @@ export function renderSelectedComponentSettings(host: WebwriterWebsiteBuilder) {
     ? component.settings({
         data: node.data ?? {},
         setData: (patch) => {
-          host.setActiveNodes(
-            host.activeNodes.map((n) =>
-              n.id === node.id
-                ? { ...n, data: { ...(node.data ?? {}), ...patch } }
-                : n,
-            ),
-          );
+          host.updateNode(node.id, {
+            data: { ...(node.data ?? {}), ...patch },
+          });
           host.requestUpdate();
         },
       })
@@ -445,15 +441,9 @@ export function renderSelectedComponentSettings(host: WebwriterWebsiteBuilder) {
                   placeholder=${b.placeholder ?? ""}
                   @sl-input=${(e: CustomEvent) => {
                     const value = String((e.target as any).value ?? "");
-                    host.setActiveNodes(
-                      host.activeNodes.map((n) => {
-                        if (n.id !== node.id) return n;
-                        return {
-                          ...n,
-                          data: { ...(n.data ?? {}), [b.key]: value },
-                        };
-                      }),
-                    );
+                    host.updateNode(node.id, {
+                      data: { ...(node.data ?? {}), [b.key]: value },
+                    });
                     host.requestUpdate();
                   }}
                 ></sl-input>
