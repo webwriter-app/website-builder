@@ -18,16 +18,20 @@ export class KeyboardController {
   }
 
   onKeyDown = (e: KeyboardEvent) => {
-    switch (e.key) {
-      case "Escape":
-        if (this.host.focusedContainerId) {
-          this.host.focusedContainerId = null;
-          this.host.requestUpdate();
-        } else {
-          this.host.clearSelection();
-        }
-        return;
+    if (e.key === "Escape") {
+      if (this.host.focusedContainerId) {
+        this.host.focusedContainerId = null;
+        this.host.requestUpdate();
+      } else {
+        this.host.clearSelection();
+      }
+      return;
+    }
 
+    if (!this.host._hasFocus) return;
+    if (this.host.isEditingWithinComponent()) return;
+
+    switch (e.key) {
       case "g":
       case "G":
         if (!this.host.gridKeyPressed) {
@@ -55,7 +59,6 @@ export class KeyboardController {
 
       case "Backspace":
       case "Delete":
-        if (this.host.isEditingWithinComponent()) return;
         if (this.host.isStudentMode() && !this.host.allowDeleteInStudent) return;
         e.preventDefault();
         this.host.deleteSelectedNode();

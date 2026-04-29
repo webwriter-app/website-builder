@@ -195,6 +195,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   @state() iconViewportH = 520;
   /** The icon scroller HTML element (#ww-icon-scroller) */
   iconScroller: HTMLElement | null = null;
+  /** Whether keyboard focus is currently inside this widget */
+  _hasFocus = false;
   /** The element to dispatch icon result events from */
   iconDialogTarget: EventTarget | null = null;
 
@@ -715,6 +717,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   private _onGlobalMouseDown = (e: MouseEvent) => {
     const path = e.composedPath();
+    this._hasFocus = path.includes(this);
     if (!path.includes(this)) return;
 
     const palette = this.shadowRoot?.querySelector(".palette");
@@ -747,7 +750,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     const hideSidebar = split || (isStudent && !this.showSidebarInStudent);
 
     return html`
-      <div class="layout ${split ? "fullscreen-split" : ""}">
+      <div class="layout ${split ? "fullscreen-split" : ""}" tabindex="-1">
         <!-- Sidebar -->
         <div part="options" style=${hideSidebar ? "display:none;" : ""}>
           <div class="settings">

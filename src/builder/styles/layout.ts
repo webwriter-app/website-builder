@@ -14,6 +14,7 @@ export const layoutStyles = css`
     flex: 1;
     height: 100%;
     min-width: 0;
+    outline: none;
   }
 
   .layout.fullscreen-split {
@@ -65,6 +66,7 @@ export const layoutStyles = css`
 
   .builder-element {
     user-select: none;
+    outline: none;
   }
 
   .builder-element.selected {
