@@ -56,9 +56,7 @@
   "dependencies": {
     "@shoelace-style/shoelace": "^2.20.1",
     "@webwriter/lit": "^2",
-    "geist": "^1.7.0",
-    "lit": "^3.3.2",
-    "soft": "^0.0.0"
+    "lit": "^3.3.2"
   },
   "devDependencies": {
     "@lit/localize-tools": "^0.8"
@@ -76,6 +74,7 @@
     "./snippets/freeform-advanced.html": "./snippets/freeform/example-freeform-advanced.html",
     "./snippets/flow-starter.html": "./snippets/flow/example-flow-starter.html",
     "./snippets/flow-advanced.html": "./snippets/flow/example-flow-advanced.html",
+    "./icon": "./icon.svg",
     "./editing-config.json": "./editing-config.json",
     "./custom-elements.json": "./custom-elements.json"
   },
