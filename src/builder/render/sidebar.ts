@@ -772,7 +772,7 @@ export function renderLayersPanel(host: WebwriterWebsiteBuilder) {
               host.requestUpdate();
             }
           }}
-          style="flex:1;"
+          style="flex:1;min-width:50px;"
         ></sl-input>
 
         <!-- Reset to white -->
