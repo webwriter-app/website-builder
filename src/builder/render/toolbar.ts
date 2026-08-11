@@ -38,7 +38,8 @@ export function renderFloatingToolbar(host: WebwriterWebsiteBuilder) {
   const showLayout = isAuthor
     ? host.showLayoutDropdown
     : host.showToolbarInStudent;
-  if (!showAdd && !showLayout) return null;
+  const showGroup = host.selectedIds.size >= 2;
+  if (!showAdd && !showLayout && !showGroup) return null;
 
   const hidden = host.toolbarKeyHidden;
   const visibleModes = (
@@ -159,7 +160,6 @@ function renderLayoutDropdown(
 
 export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
   if (host.selectedIds.size < 2) return null;
-  if (!host.isContentEditable) return null;
 
   return html`
     <div class="group-toolbar" @click=${(e: MouseEvent) => e.stopPropagation()}>

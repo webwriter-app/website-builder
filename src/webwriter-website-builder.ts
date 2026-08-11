@@ -744,9 +744,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
     const canShowStudentDrawer =
       isStudent && this.showComponentSettingsInStudent;
-    const hasSelection = Boolean(this.selectedNodeId);
+    const hasSingleSelection =
+      Boolean(this.selectedNodeId) && this.selectedIds.size <= 1;
     const showDrawer =
-      canShowStudentDrawer && hasSelection && this._studentDrawerOpen;
+      canShowStudentDrawer && hasSingleSelection && this._studentDrawerOpen;
 
     const { html: outHtml, css: outCss, combined } = this._generateExport();
     const hideSidebar = split || (isStudent && !this.showSidebarInStudent);
