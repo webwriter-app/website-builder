@@ -360,7 +360,10 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
 
 // ─── Component Settings ───────────────────────────────────────────────────────
 
-export function renderSelectedComponentSettings(host: WebwriterWebsiteBuilder) {
+export function renderSelectedComponentSettings(
+  host: WebwriterWebsiteBuilder,
+  options: { bare?: boolean } = {},
+) {
   const isStudent = !host.isContentEditable;
   if (isStudent && !host.showComponentSettingsInStudent) return null;
 
@@ -454,12 +457,18 @@ export function renderSelectedComponentSettings(host: WebwriterWebsiteBuilder) {
       `
     : null;
 
+  const content = html`
+    ${custom ?? null} ${flowDisplayUI} ${rootGridUI} ${flexItemUI}
+    ${containerGridUI} ${bindingsUI}
+  `;
+
+  if (options.bare) {
+    return html`<div style="margin-top:1rem">${content}</div>`;
+  }
+
   return html`
     <sl-details summary=${msg("Component")}>
-      <div style="margin-top:1rem">
-        ${custom ?? null} ${flowDisplayUI} ${rootGridUI} ${flexItemUI}
-        ${containerGridUI} ${bindingsUI}
-      </div>
+      <div style="margin-top:1rem">${content}</div>
     </sl-details>
   `;
 }

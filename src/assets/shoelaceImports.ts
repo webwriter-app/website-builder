@@ -1,3 +1,4 @@
+// @ts-ignore
 import "@shoelace-style/shoelace/dist/themes/light.css";
 
 import SlButton from "@shoelace-style/shoelace/dist/components/button/button.component.js";
@@ -16,6 +17,7 @@ import SlDropdown from "@shoelace-style/shoelace/dist/components/dropdown/dropdo
 import SlMenu from "@shoelace-style/shoelace/dist/components/menu/menu.js";
 import SlMenuItem from "@shoelace-style/shoelace/dist/components/menu-item/menu-item.js";
 import SlDialog from "@shoelace-style/shoelace/dist/components/dialog/dialog.js";
+import SlDrawer from "@shoelace-style/shoelace/dist/components/drawer/drawer.js";
 import SlColorPicker from "@shoelace-style/shoelace/dist/components/color-picker/color-picker.component.js";
 import SlDetails from '@shoelace-style/shoelace/dist/components/details/details.js';
 
@@ -36,6 +38,7 @@ export const shoelaceScoped = {
   "sl-menu": SlMenu,
   "sl-menu-item": SlMenuItem,
   "sl-dialog": SlDialog,
+  "sl-drawer": SlDrawer,
   "sl-color-picker": SlColorPicker,
   "sl-details": SlDetails,
 };

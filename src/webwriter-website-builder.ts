@@ -842,6 +842,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
               <sl-drawer
                 label=${msg("Component settings")}
                 placement="end"
+                contained
                 .open=${true}
                 @sl-after-hide=${this._closeStudentDrawer}
                 @sl-request-close=${(e: CustomEvent) => {
@@ -850,7 +851,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                 }}
               >
                 <div class="settings">
-                  ${renderSelectedComponentSettings(this)}
+                  ${renderSelectedComponentSettings(this, { bare: true })}
                 </div>
               </sl-drawer>
             `
