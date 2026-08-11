@@ -35,6 +35,8 @@ export class DragController {
     startX: number;
     startY: number;
     event: PointerEvent;
+    holdTimer?: number;
+    releaseContextMenu?: () => void;
   } | null = null;
 
   // Ordered sort state
@@ -43,6 +45,7 @@ export class DragController {
   private _sortPointerId: number | null = null;
   private _sortStartIndex = -1;
   private _sortCurrentIndex = -1;
+  private _sortReleaseGesture?: () => void;
 
   private _dragEl: HTMLElement | null = null;
   private _placeholderEl: HTMLElement | null = null;
@@ -358,26 +361,46 @@ export class DragController {
 
     const startX = e.clientX;
     const startY = e.clientY;
+    const pointerId = e.pointerId;
+    const isTouch = e.pointerType === "touch";
 
     const el = this.host.renderRoot.querySelector(
       `[data-node-id="${nodeId}"]`,
     ) as HTMLElement | null;
     if (el) {
       try {
-        el.setPointerCapture(e.pointerId);
+        el.setPointerCapture(pointerId);
       } catch {}
     }
 
+    let lastX = startX;
+    let lastY = startY;
+
+    const start = (x: number, y: number) => {
+      this.cancelPendingOrderedDrag();
+      this.startOrderedSortDrag(
+        { ...e, clientX: x, clientY: y } as PointerEvent,
+        nodeId,
+        isTouch,
+      );
+    };
+
     const onMove = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return;
+      lastX = ev.clientX;
+      lastY = ev.clientY;
+
       const dx = ev.clientX - startX;
       const dy = ev.clientY - startY;
-      if (Math.sqrt(dx * dx + dy * dy) >= this.DRAG_THRESHOLD) {
-        this.cancelPendingOrderedDrag();
-        this.startOrderedSortDrag(
-          { ...e, clientX: ev.clientX, clientY: ev.clientY } as PointerEvent,
-          nodeId,
-        );
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (isTouch) {
+        // The finger travelled before the hold elapsed: this is a scroll.
+        if (distance >= this.TOUCH_TOLERANCE) this.cancelPendingOrderedDrag();
+        return;
       }
+
+      if (distance >= this.DRAG_THRESHOLD) start(ev.clientX, ev.clientY);
     };
 
     const onUp = () => this.cancelPendingOrderedDrag();
@@ -386,13 +409,26 @@ export class DragController {
     window.addEventListener("pointerup", onUp, { once: true });
     window.addEventListener("pointercancel", onUp, { once: true });
 
-    this._pendingOrderedDrag = { pointerId: e.pointerId, nodeId, startX, startY, event: e };
+    this._pendingOrderedDrag = {
+      pointerId,
+      nodeId,
+      startX,
+      startY,
+      event: e,
+      holdTimer: isTouch
+        ? window.setTimeout(() => start(lastX, lastY), this.TOUCH_HOLD_MS)
+        : undefined,
+      releaseContextMenu: isTouch ? this._suppressContextMenu() : undefined,
+    };
     this._pendingOrderedMoveHandler = onMove;
     this._pendingOrderedUpHandler = onUp;
   }
 
   cancelPendingOrderedDrag() {
-    if (!this._pendingOrderedDrag) return;
+    const pending = this._pendingOrderedDrag;
+    if (!pending) return;
+    if (pending.holdTimer !== undefined) clearTimeout(pending.holdTimer);
+    pending.releaseContextMenu?.();
     if (this._pendingOrderedMoveHandler)
       window.removeEventListener("pointermove", this._pendingOrderedMoveHandler);
     if (this._pendingOrderedUpHandler) {
@@ -404,7 +440,7 @@ export class DragController {
     this._pendingOrderedUpHandler = undefined;
   }
 
-  startOrderedSortDrag(e: PointerEvent, nodeId: string) {
+  startOrderedSortDrag(e: PointerEvent, nodeId: string, isTouch = false) {
     if (this.host.layoutMode === "freeform") return;
 
     const rootSel =
@@ -456,6 +492,11 @@ export class DragController {
     this._sortCurrentIndex = startIndex;
     this._dragEl = el;
     this._placeholderEl = placeholder;
+
+    if (isTouch) {
+      this._sortReleaseGesture = this._claimTouchGesture();
+      navigator.vibrate?.(10);
+    }
     this._dragOffsetX = offsetX;
     this._dragOffsetY = offsetY;
 
@@ -678,6 +719,8 @@ export class DragController {
 
   private _resetOrderedDragArtifacts() {
     this.cancelPendingOrderedDrag();
+    this._sortReleaseGesture?.();
+    this._sortReleaseGesture = undefined;
     if (this._dragEl) {
       this._dragEl.classList.remove("dragging");
       this._dragEl.style.cssText = "";
