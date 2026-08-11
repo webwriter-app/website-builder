@@ -13,17 +13,7 @@ export class SelectionController {
 
   handleNodeSelect(e: PointerEvent | MouseEvent, nodeId: string) {
     if (this.host.shiftPressed) {
-      const rootIds = new Set(this.host.activeNodes.map((n) => n.id));
-      if (!rootIds.has(nodeId)) return;
-
-      const next = new Set(this.host.selectedIds);
-      if (next.has(nodeId)) next.delete(nodeId);
-      else next.add(nodeId);
-
-      this.host.selectedNodeId = next.size > 0 ? nodeId : null;
-      this.host.selectedIds = next;
-      this.host.focusedContainerId = null;
-      this.host.requestUpdate();
+      this.toggleInSelection(nodeId);
       return;
     }
 
@@ -40,6 +30,21 @@ export class SelectionController {
     if (!isChildOfFocused && !isFocusedContainer) {
       this.host.focusedContainerId = null;
     }
+    this.host.requestUpdate();
+  }
+
+  /** Toggles a node's membership in the multi-selection */
+  private toggleInSelection(nodeId: string) {
+    const rootIds = new Set(this.host.activeNodes.map((n) => n.id));
+    if (!rootIds.has(nodeId)) return;
+
+    const next = new Set(this.host.selectedIds);
+    if (next.has(nodeId)) next.delete(nodeId);
+    else next.add(nodeId);
+
+    this.host.selectedNodeId = next.size > 0 ? nodeId : null;
+    this.host.selectedIds = next;
+    this.host.focusedContainerId = null;
     this.host.requestUpdate();
   }
 
@@ -87,6 +92,19 @@ export class SelectionController {
     if (interactive && !allowInteract) {
       e.preventDefault();
       e.stopPropagation();
+    }
+
+    // A second finger touching down on another node while a first finger is
+    // already holding one (pending or actively dragging) adds it to the
+    // selection instead of starting its own drag — the touch equivalent of
+    // shift-click.
+    if (
+      e.pointerType === "touch" &&
+      this.host.drag.hasOtherActiveTouchPointer(e.pointerId)
+    ) {
+      this.toggleInSelection(nodeId);
+      navigator.vibrate?.(10);
+      return;
     }
 
     this.handleNodeSelect(e, nodeId);

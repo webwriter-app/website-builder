@@ -59,8 +59,18 @@ export class DragController {
   private _pendingOrderedMoveHandler?: (e: PointerEvent) => void;
   private _pendingOrderedUpHandler?: (e: PointerEvent) => void;
 
+  private _activeTouchPointers = new Set<number>();
+
   constructor(host: WebwriterWebsiteBuilder) {
     this.host = host;
+  }
+
+  /** Whether some touch pointer other than `pointerId` is currently holding a node down. */
+  hasOtherActiveTouchPointer(pointerId: number): boolean {
+    for (const id of this._activeTouchPointers) {
+      if (id !== pointerId) return true;
+    }
+    return false;
   }
 
   // ─── HTML5 Drag ───────────────────────────────────────────────────────────
@@ -200,6 +210,8 @@ export class DragController {
       el.setPointerCapture(pointerId);
     } catch {}
 
+    if (isTouch) this._activeTouchPointers.add(pointerId);
+
     let lastX = startX;
     let lastY = startY;
 
@@ -219,14 +231,20 @@ export class DragController {
 
       if (isTouch) {
         // The finger travelled before the hold elapsed: this is a scroll.
-        if (distance >= this.TOUCH_TOLERANCE) this.cancelPendingFreeformDrag();
+        if (distance >= this.TOUCH_TOLERANCE) {
+          this.cancelPendingFreeformDrag();
+          this._activeTouchPointers.delete(pointerId);
+        }
         return;
       }
 
       if (distance >= this.DRAG_THRESHOLD) start(ev.clientX, ev.clientY);
     };
 
-    const onUp = () => this.cancelPendingFreeformDrag();
+    const onUp = () => {
+      this.cancelPendingFreeformDrag();
+      this._activeTouchPointers.delete(pointerId);
+    };
 
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp, { once: true });
@@ -308,6 +326,7 @@ export class DragController {
       window.removeEventListener("pointercancel", onUp);
       releaseGesture?.();
       el.classList.remove("freeform-dragging");
+      this._activeTouchPointers.delete(pointerId);
       try {
         el.releasePointerCapture(pointerId);
       } catch {}
@@ -373,6 +392,8 @@ export class DragController {
       } catch {}
     }
 
+    if (isTouch) this._activeTouchPointers.add(pointerId);
+
     let lastX = startX;
     let lastY = startY;
 
@@ -396,14 +417,20 @@ export class DragController {
 
       if (isTouch) {
         // The finger travelled before the hold elapsed: this is a scroll.
-        if (distance >= this.TOUCH_TOLERANCE) this.cancelPendingOrderedDrag();
+        if (distance >= this.TOUCH_TOLERANCE) {
+          this.cancelPendingOrderedDrag();
+          this._activeTouchPointers.delete(pointerId);
+        }
         return;
       }
 
       if (distance >= this.DRAG_THRESHOLD) start(ev.clientX, ev.clientY);
     };
 
-    const onUp = () => this.cancelPendingOrderedDrag();
+    const onUp = () => {
+      this.cancelPendingOrderedDrag();
+      this._activeTouchPointers.delete(pointerId);
+    };
 
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp, { once: true });
@@ -646,6 +673,7 @@ export class DragController {
 
   finishOrderedSortDrag(ev: PointerEvent) {
     this.cancelPendingOrderedDrag();
+    this._activeTouchPointers.delete(this._sortPointerId ?? ev.pointerId);
     if (this._orderedMoveHandler)
       window.removeEventListener("pointermove", this._orderedMoveHandler);
     if (this._orderedUpHandler) {
