@@ -13,6 +13,8 @@ export class DragController {
   private host: WebwriterWebsiteBuilder;
 
   private readonly DRAG_THRESHOLD = 6;
+  private readonly TOUCH_TOLERANCE = 12;
+  private readonly TOUCH_HOLD_MS = 300;
 
   // Freeform pending drag
   private _pendingFreeformDrag: {
@@ -22,6 +24,8 @@ export class DragController {
     startY: number;
     onMove: (e: PointerEvent) => void;
     onUp: (e: PointerEvent) => void;
+    holdTimer?: number;
+    releaseContextMenu?: () => void;
   } | null = null;
 
   // Ordered pending drag
@@ -48,6 +52,7 @@ export class DragController {
   private _lastPointerX = 0;
   private _lastPointerY = 0;
   private _orderedMoveHandler?: (e: PointerEvent) => void;
+  private _orderedUpHandler?: (e: PointerEvent) => void;
   private _pendingOrderedMoveHandler?: (e: PointerEvent) => void;
   private _pendingOrderedUpHandler?: (e: PointerEvent) => void;
 
@@ -164,11 +169,21 @@ export class DragController {
 
   // ─── Freeform Drag ───────────────────────────────────────────────────────
 
+  /**
+   * A press on a freeform node that may still turn into a drag.
+   *
+   * Mouse and pen start dragging as soon as the pointer travels past a small
+   * threshold. A finger cannot do that: the same movement is how the reader
+   * scrolls the page, so a touch has to rest on the node for {@link TOUCH_HOLD_MS}
+   * before it picks it up. Moving before that leaves the gesture to the browser.
+   */
   beginPendingFreeformDrag(e: PointerEvent, nodeId: string) {
     this.cancelPendingFreeformDrag();
 
     const startX = e.clientX;
     const startY = e.clientY;
+    const pointerId = e.pointerId;
+    const isTouch = e.pointerType === "touch";
 
     const el = this.host.renderRoot.querySelector(
       `[data-node-id="${nodeId}"]`,
@@ -179,57 +194,90 @@ export class DragController {
     if (!el || !canvas) return;
 
     try {
-      el.setPointerCapture(e.pointerId);
+      el.setPointerCapture(pointerId);
     } catch {}
 
+    let lastX = startX;
+    let lastY = startY;
+
+    const start = (x: number, y: number) => {
+      this.cancelPendingFreeformDrag();
+      this.commitFreeformDrag(pointerId, nodeId, el, canvas, x, y, isTouch);
+    };
+
     const onMove = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return;
+      lastX = ev.clientX;
+      lastY = ev.clientY;
+
       const dx = ev.clientX - startX;
       const dy = ev.clientY - startY;
-      if (Math.sqrt(dx * dx + dy * dy) >= this.DRAG_THRESHOLD) {
-        this.cancelPendingFreeformDrag();
-        this.commitFreeformDrag(ev, nodeId, el, canvas, ev.clientX, ev.clientY);
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (isTouch) {
+        // The finger travelled before the hold elapsed: this is a scroll.
+        if (distance >= this.TOUCH_TOLERANCE) this.cancelPendingFreeformDrag();
+        return;
       }
+
+      if (distance >= this.DRAG_THRESHOLD) start(ev.clientX, ev.clientY);
     };
 
     const onUp = () => this.cancelPendingFreeformDrag();
 
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp, { once: true });
+    window.addEventListener("pointercancel", onUp, { once: true });
 
     this._pendingFreeformDrag = {
-      pointerId: e.pointerId,
+      pointerId,
       nodeId,
       startX,
       startY,
       onMove,
       onUp,
+      holdTimer: isTouch
+        ? window.setTimeout(() => start(lastX, lastY), this.TOUCH_HOLD_MS)
+        : undefined,
+      releaseContextMenu: isTouch ? this._suppressContextMenu() : undefined,
     };
   }
 
   cancelPendingFreeformDrag() {
-    if (!this._pendingFreeformDrag) return;
-    window.removeEventListener("pointermove", this._pendingFreeformDrag.onMove);
-    window.removeEventListener("pointerup", this._pendingFreeformDrag.onUp);
+    const pending = this._pendingFreeformDrag;
+    if (!pending) return;
+    if (pending.holdTimer !== undefined) clearTimeout(pending.holdTimer);
+    pending.releaseContextMenu?.();
+    window.removeEventListener("pointermove", pending.onMove);
+    window.removeEventListener("pointerup", pending.onUp);
+    window.removeEventListener("pointercancel", pending.onUp);
     this._pendingFreeformDrag = null;
   }
 
   commitFreeformDrag(
-    e: PointerEvent,
+    pointerId: number,
     nodeId: string,
     el: HTMLElement,
     canvas: HTMLElement,
     initialClientX: number,
     initialClientY: number,
+    isTouch = false,
   ) {
     try {
-      el.setPointerCapture(e.pointerId);
+      el.setPointerCapture(pointerId);
     } catch {}
 
     const rect = el.getBoundingClientRect();
     const offsetX = initialClientX - rect.left;
     const offsetY = initialClientY - rect.top;
 
+    el.classList.add("freeform-dragging");
+    const releaseGesture = isTouch ? this._claimTouchGesture() : null;
+    if (isTouch) navigator.vibrate?.(10);
+
     const onMove = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return;
+
       const containerRect = canvas.getBoundingClientRect();
       let newX = ev.clientX - containerRect.left - offsetX;
       let newY = ev.clientY - containerRect.top - offsetY;
@@ -250,16 +298,57 @@ export class DragController {
       this.host.requestUpdate();
     };
 
-    const onUp = () => {
+    const onUp = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return;
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      releaseGesture?.();
+      el.classList.remove("freeform-dragging");
       try {
-        el.releasePointerCapture(e.pointerId);
+        el.releasePointerCapture(pointerId);
       } catch {}
     };
 
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+  }
+
+  /**
+   * Claims the running touch gesture so the browser neither pans the page
+   * underneath the dragged node nor opens its long-press menu on top of it.
+   * `touch-action` cannot do the former: it is latched when the finger goes
+   * down, long before the hold turns the press into a drag, so the only way to
+   * keep the pointer stream alive is to cancel the browser's own reactions.
+   *
+   * @returns a function that releases the gesture back to the browser.
+   */
+  private _claimTouchGesture(): () => void {
+    const blockScroll = (ev: TouchEvent) => {
+      if (ev.cancelable) ev.preventDefault();
+    };
+    window.addEventListener("touchmove", blockScroll, { passive: false });
+    const releaseContextMenu = this._suppressContextMenu();
+    return () => {
+      window.removeEventListener("touchmove", blockScroll);
+      releaseContextMenu();
+    };
+  }
+
+  /**
+   * Swallows the browser's long-press context menu. It is not enough to let it
+   * open and ignore it: Chrome cancels the active pointer when the menu appears,
+   * which would drop the node mid-drag.
+   *
+   * Scoped to the widget — a press anywhere else keeps its normal menu.
+   *
+   * @returns a function that restores the menu.
+   */
+  private _suppressContextMenu(): () => void {
+    const block = (ev: Event) => ev.preventDefault();
+    this.host.addEventListener("contextmenu", block);
+    return () => this.host.removeEventListener("contextmenu", block);
   }
 
   // ─── Ordered Sort Drag ───────────────────────────────────────────────────
@@ -295,6 +384,7 @@ export class DragController {
 
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp, { once: true });
+    window.addEventListener("pointercancel", onUp, { once: true });
 
     this._pendingOrderedDrag = { pointerId: e.pointerId, nodeId, startX, startY, event: e };
     this._pendingOrderedMoveHandler = onMove;
@@ -305,8 +395,10 @@ export class DragController {
     if (!this._pendingOrderedDrag) return;
     if (this._pendingOrderedMoveHandler)
       window.removeEventListener("pointermove", this._pendingOrderedMoveHandler);
-    if (this._pendingOrderedUpHandler)
+    if (this._pendingOrderedUpHandler) {
       window.removeEventListener("pointerup", this._pendingOrderedUpHandler);
+      window.removeEventListener("pointercancel", this._pendingOrderedUpHandler);
+    }
     this._pendingOrderedDrag = null;
     this._pendingOrderedMoveHandler = undefined;
     this._pendingOrderedUpHandler = undefined;
@@ -372,7 +464,9 @@ export class DragController {
 
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp, { once: true });
+    window.addEventListener("pointercancel", onUp, { once: true });
     this._orderedMoveHandler = onMove;
+    this._orderedUpHandler = onUp;
   }
 
   private _onOrderedSortMove(ev: PointerEvent) {
@@ -513,6 +607,11 @@ export class DragController {
     this.cancelPendingOrderedDrag();
     if (this._orderedMoveHandler)
       window.removeEventListener("pointermove", this._orderedMoveHandler);
+    if (this._orderedUpHandler) {
+      window.removeEventListener("pointerup", this._orderedUpHandler);
+      window.removeEventListener("pointercancel", this._orderedUpHandler);
+      this._orderedUpHandler = undefined;
+    }
 
     if (!this._sortDragging || !this._dragEl || !this._placeholderEl || !this._sortDragId) {
       this._resetOrderedDragArtifacts();

@@ -34,6 +34,7 @@ export const layoutStyles = css`
     border: 2px dashed var(--sl-color-neutral-300);
     box-sizing: border-box;
     transition: border-color 200ms ease;
+    touch-action: manipulation;
   }
 
   .canvas.has-nodes {
@@ -66,6 +67,9 @@ export const layoutStyles = css`
 
   .builder-element {
     user-select: none;
+    -webkit-user-select: none;
+    /* Keeps iOS from opening its selection/image callout on the drag hold */
+    -webkit-touch-callout: none;
     outline: none;
   }
 

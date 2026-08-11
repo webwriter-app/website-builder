@@ -707,6 +707,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   }
 
   disconnectedCallback() {
+    this.drag.cancelPendingFreeformDrag();
+    this.drag.cancelPendingOrderedDrag();
     document.removeEventListener("fullscreenchange", this._onFsChange);
     document.removeEventListener("fullscreenerror", this._onFsError);
     window.removeEventListener("mousedown", this._onGlobalMouseDown);

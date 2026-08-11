@@ -25,6 +25,14 @@ export const draggingStyles = css`
     }
   }
 
+  .builder-element.freeform-dragging > .drag-shell {
+    transform: scale(1.03);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    transition:
+      transform 120ms ease-out,
+      box-shadow 120ms ease-out;
+  }
+
   /* Placeholder while dragging */
   .drag-placeholder {
     border-radius: 12px;
