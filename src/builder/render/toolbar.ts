@@ -161,9 +161,7 @@ function renderLayoutDropdown(
 // ─── Touch action bar (delete / grid / interact — no keyboard needed) ─────────
 
 export function renderTouchToolbar(host: WebwriterWebsiteBuilder) {
-  const deleteBlocked =
-    !host.selectedNodeId ||
-    (host.isStudentMode() && !host.allowDeleteInStudent);
+  const deleteBlocked = host.isStudentMode() && !host.allowDeleteInStudent;
 
   return html`
     <div class="touch-toolbar">
@@ -171,6 +169,7 @@ export function renderTouchToolbar(host: WebwriterWebsiteBuilder) {
         <sl-button
           class="touch-toolbar-btn"
           size="small"
+          ?disabled=${!host.selectedNodeId}
           @click=${() => host.deleteSelectedNode()}
         >
           <sl-icon name="trash3" slot="prefix"></sl-icon>

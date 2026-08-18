@@ -677,6 +677,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     window.addEventListener("mousedown", this._onGlobalMouseDown);
     window.addEventListener("keydown", this.keyboard.onKeyDown);
     window.addEventListener("keyup", this.keyboard.onKeyUp);
+    window.addEventListener("blur", this.keyboard.onWindowBlur);
 
     this._hydrating = true;
     this._applyState(this.getAttribute("ww-state") || "");
@@ -715,6 +716,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     window.removeEventListener("mousedown", this._onGlobalMouseDown);
     window.removeEventListener("keydown", this.keyboard.onKeyDown);
     window.removeEventListener("keyup", this.keyboard.onKeyUp);
+    window.removeEventListener("blur", this.keyboard.onWindowBlur);
     super.disconnectedCallback();
   }
 

@@ -109,4 +109,18 @@ export class KeyboardController {
         break;
     }
   };
+
+  onWindowBlur = () => {
+    const needsUpdate =
+      this.host.gridKeyPressed ||
+      this.host.toolbarKeyHidden ||
+      this.host.interactKeyPressed;
+
+    this.host.shiftPressed = false;
+    this.host.gridKeyPressed = false;
+    this.host.toolbarKeyHidden = false;
+    this.host.interactKeyPressed = false;
+
+    if (needsUpdate) this.host.requestUpdate();
+  };
 }
