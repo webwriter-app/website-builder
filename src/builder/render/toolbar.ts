@@ -158,6 +158,55 @@ function renderLayoutDropdown(
   `;
 }
 
+// ─── Touch action bar (delete / grid / interact — no keyboard needed) ─────────
+
+export function renderTouchToolbar(host: WebwriterWebsiteBuilder) {
+  const deleteBlocked =
+    !host.selectedNodeId ||
+    (host.isStudentMode() && !host.allowDeleteInStudent);
+
+  return html`
+    <div class="touch-toolbar">
+      ${!deleteBlocked ? html`
+        <sl-button
+          class="touch-toolbar-btn"
+          size="small"
+          @click=${() => host.deleteSelectedNode()}
+        >
+          <sl-icon name="trash3" slot="prefix"></sl-icon>
+          ${msg("Delete")}
+        </sl-button>
+      `: null}
+
+      <sl-button
+        class="touch-toolbar-btn"
+        size="small"
+        variant=${host.gridKeyPressed ? "primary" : "default"}
+        @click=${() => {
+          host.gridKeyPressed = !host.gridKeyPressed;
+          host.requestUpdate();
+        }}
+      >
+        <sl-icon name="grid" slot="prefix"></sl-icon>
+        ${msg("Grid")}
+      </sl-button>
+
+      <sl-button
+        class="touch-toolbar-btn"
+        size="small"
+        variant=${host.interactKeyPressed ? "primary" : "default"}
+        @click=${() => {
+          host.interactKeyPressed = !host.interactKeyPressed;
+          host.requestUpdate();
+        }}
+      >
+        <sl-icon name="hand-index" slot="prefix"></sl-icon>
+        ${msg("Interact")}
+      </sl-button>
+    </div>
+  `;
+}
+
 export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
   if (host.selectedIds.size < 2) return null;
 

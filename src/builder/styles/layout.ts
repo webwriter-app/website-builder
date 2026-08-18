@@ -11,18 +11,54 @@ export const layoutStyles = css`
 
   .layout {
     display: flex;
+    flex-direction: column;
     flex: 1;
     height: 100%;
     min-width: 0;
+    min-height: 0;
     outline: none;
   }
 
-  .layout.fullscreen-split {
+  .layout-row {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .layout-row.fullscreen-split {
     display: grid;
     grid-template-columns: minmax(360px, 1fr) minmax(320px, 520px);
     gap: 0.75rem;
     padding: 0.75rem;
     box-sizing: border-box;
+  }
+
+  /* ── Touch action bar ──────────────────────────────────────────────── */
+  /* Only shown on devices whose primary input is touch (no hardware keyboard) */
+
+  .touch-toolbar {
+    display: none;
+  }
+
+  @media (pointer: coarse) {
+    .touch-toolbar {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sl-spacing-x-small);
+      padding: var(--sl-spacing-x-small);
+      margin: var(--sl-spacing-x-small);
+      border: 1px solid var(--sl-color-neutral-300);
+      border-radius: var(--sl-border-radius-medium);
+      background: var(--sl-color-neutral-0);
+      z-index: 600;
+    }
+  }
+
+  .touch-toolbar-btn {
+    display: flex;
   }
 
   .canvas {

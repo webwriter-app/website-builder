@@ -50,7 +50,10 @@ export class KeyboardController {
 
       case "a":
       case "A":
-        this.host.interactKeyPressed = true;
+        if (!this.host.interactKeyPressed) {
+          this.host.interactKeyPressed = true;
+          this.host.requestUpdate();
+        }
         return;
 
       case "Shift":
@@ -102,6 +105,7 @@ export class KeyboardController {
       case "a":
       case "A":
         this.host.interactKeyPressed = false;
+        this.host.requestUpdate();
         break;
     }
   };

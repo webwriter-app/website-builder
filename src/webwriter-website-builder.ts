@@ -40,6 +40,7 @@ import { renderCanvasInner } from "./builder/render/canvas";
 import {
   renderFloatingToolbar,
   renderInfoPopup,
+  renderTouchToolbar,
 } from "./builder/render/toolbar";
 import {
   renderLayersPanel,
@@ -753,89 +754,94 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     const hideSidebar = split || (isStudent && !this.showSidebarInStudent);
 
     return html`
-      <div class="layout ${split ? "fullscreen-split" : ""}" tabindex="-1">
-        <!-- Sidebar -->
-        <div part="options" style=${hideSidebar ? "display:none;" : ""}>
-          <div class="settings">
-            <h2>${wbGear} ${msg("Settings")}</h2>
+      <div class="layout" tabindex="-1">
+        <div class="layout-row ${split ? "fullscreen-split" : ""}">
+          <!-- Sidebar -->
+          <div part="options" style=${hideSidebar ? "display:none;" : ""}>
+            <div class="settings">
+              <h2>${wbGear} ${msg("Settings")}</h2>
 
-            <sl-details summary=${msg("Canvas")}>
-              ${renderLayersPanel(this)}
+              <sl-details summary=${msg("Canvas")}>
+                ${renderLayersPanel(this)}
 
-              <div class="settings-row">
-                <sl-button
-                  size="small"
-                  variant="default"
-                  @click=${this._confirmReset}
-                  style="margin-left:auto;"
+                <div class="settings-row">
+                  <sl-button
+                    size="small"
+                    variant="default"
+                    @click=${this._confirmReset}
+                    style="margin-left:auto;"
+                  >
+                    ${msg("Reset Canvas")}
+                  </sl-button>
+                </div>
+
+                <div
+                  style="margin-top:0.5rem;font-size:0.78rem;color:var(--sl-color-neutral-600);
+                            padding:0.4rem 0.6rem;background:var(--sl-color-neutral-50);
+                            border-radius:8px;border:1px solid var(--sl-color-neutral-200);"
                 >
-                  ${msg("Reset Canvas")}
-                </sl-button>
-              </div>
+                  ${msg(html`Hold <kbd>T</kbd> to temporarily hide the toolbar overlay.`)}
+                </div>
+              </sl-details>
 
-              <div
-                style="margin-top:0.5rem;font-size:0.78rem;color:var(--sl-color-neutral-600);
-                          padding:0.4rem 0.6rem;background:var(--sl-color-neutral-50);
-                          border-radius:8px;border:1px solid var(--sl-color-neutral-200);"
-              >
-                ${msg(html`Hold <kbd>T</kbd> to temporarily hide the toolbar overlay.`)}
-              </div>
-            </sl-details>
-
-            ${renderVisibilitySettings(this)} ${renderLayoutSettings(this)}
-            ${renderSelectedComponentSettings(this)}
-          </div>
-        </div>
-
-        <!-- Editor / Canvas -->
-        <div class="editor" style=${split ? "height:100%;" : ""}>
-          <div
-            class="canvas ${this.activeNodes.length > 0 ? "has-nodes" : ""}"
-            @dragover=${this.drag.onDragOver.bind(this.drag)}
-            @drop=${this.drag.onDrop.bind(this.drag)}
-            style="--grid-size:${this.gridSize}px; background:${this
-              .canvasBackground};"
-            @click=${(e: MouseEvent) => this.selection.onCanvasClick(e)}
-          >
-            ${showGridOverlay ? html`<div class="grid-overlay"></div>` : null}
-            ${renderCanvasInner(this)} ${renderFloatingToolbar(this)}
-            ${renderInfoPopup(this)}
-
-            <div class="fs-btn" style=${this.toolbarKeyHidden ? "display:none;" : ""}>
-              <sl-button
-                size="small"
-                variant="primary"
-                @click=${this._toggleFullscreen}
-              >
-                <sl-icon
-                  name=${this.isFullscreen ? "fullscreen-exit" : "fullscreen"}
-                ></sl-icon>
-              </sl-button>
+              ${renderVisibilitySettings(this)} ${renderLayoutSettings(this)}
+              ${renderSelectedComponentSettings(this)}
             </div>
           </div>
+
+          <!-- Editor / Canvas -->
+          <div class="editor" style=${split ? "height:100%;" : ""}>
+            <div
+              class="canvas ${this.activeNodes.length > 0 ? "has-nodes" : ""}"
+              @dragover=${this.drag.onDragOver.bind(this.drag)}
+              @drop=${this.drag.onDrop.bind(this.drag)}
+              style="--grid-size:${this.gridSize}px; background:${this
+                .canvasBackground};"
+              @click=${(e: MouseEvent) => this.selection.onCanvasClick(e)}
+            >
+              ${showGridOverlay ? html`<div class="grid-overlay"></div>` : null}
+              ${renderCanvasInner(this)} ${renderFloatingToolbar(this)}
+              ${renderInfoPopup(this)}
+
+              <div class="fs-btn" style=${this.toolbarKeyHidden ? "display:none;" : ""}>
+                <sl-button
+                  size="small"
+                  variant="primary"
+                  @click=${this._toggleFullscreen}
+                >
+                  <sl-icon
+                    name=${this.isFullscreen ? "fullscreen-exit" : "fullscreen"}
+                  ></sl-icon>
+                </sl-button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Code panel (fullscreen only) -->
+          ${split
+            ? html`
+                <div class="code-panel" aria-label=${msg("Code")}>
+                  <div class="code-header">
+                    <div class="code-title">${msg("Code")}</div>
+                    <div class="code-tabs" role="tablist" aria-label=${msg("Code tabs")}>
+                      ${this._renderCodeTabs()}
+                    </div>
+                  </div>
+                  <pre class="code-body" tabindex="0">
+                    ${this._codeTab === "combined"
+                      ? combined
+                      : this._codeTab === "html"
+                        ? outHtml
+                        : outCss}
+                  </pre
+                  >
+                </div>
+              `
+            : null}
         </div>
 
-        <!-- Code panel (fullscreen only) -->
-        ${split
-          ? html`
-              <div class="code-panel" aria-label=${msg("Code")}>
-                <div class="code-header">
-                  <div class="code-title">${msg("Code")}</div>
-                  <div class="code-tabs" role="tablist" aria-label=${msg("Code tabs")}>
-                    ${this._renderCodeTabs()}
-                  </div>
-                </div>
-                <pre class="code-body" tabindex="0">
-                  ${this._codeTab === "combined"
-                    ? combined
-                    : this._codeTab === "html"
-                      ? outHtml
-                      : outCss}
-                </pre
-                >
-              </div>
-            `
-          : null}
+        <!-- Touch action bar: delete / grid / interact, for devices without a keyboard -->
+        ${renderTouchToolbar(this)}
 
         <!-- Student settings drawer -->
         ${showDrawer
