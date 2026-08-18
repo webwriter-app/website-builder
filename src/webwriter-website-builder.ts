@@ -63,13 +63,13 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   protected localize = LOCALIZE;
 
   // ─── Controllers ─────────────────────────────────────────────────────────
-  /** Handles all drag-and-drop logic */
+  /** @internal Handles all drag-and-drop logic */
   drag = new DragController(this);
-  /** Handles node selection, multi-select, drill-in (double-click), and canvas click */
+  /** @internal Handles node selection, multi-select, drill-in (double-click), and canvas click */
   selection = new SelectionController(this);
   /** Handles all keyboard shortcuts */
-  keyboard = new KeyboardController(this);
-  /** Handles layout mode switching and global flex/grid settings */
+  private keyboard = new KeyboardController(this);
+  /** @internal Handles layout mode switching and global flex/grid settings */
   layout = new LayoutController(this);
 
   // ─── State persistence ───────────────────────────────────────────────────
@@ -82,77 +82,75 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _skipNextApplyFromWwState = false;
 
   // ─── Layout ──────────────────────────────────────────────────────────────
-  /** The selected layout mode (freeform, flow, flex or grid) */
+  /** @internal The selected layout mode (freeform, flow, flex or grid) */
   layoutMode: LayoutMode = "freeform";
-  /** The website element nodes for freeform layout */
+  /** @internal The website element nodes for freeform layout */
   freeformNodes: BuilderNode[] = [];
-  /** The ordered website element nodes for flow, flex or grid layout */
+  /** @internal The ordered website element nodes for flow, flex or grid layout */
   orderedNodes: BuilderNode[] = [];
-  /** Configuration of the flex layout */
+  /** @internal Configuration of the flex layout */
   flexSettings: FlexSettings = defaultFlexSettings();
-  /** Configuration of the grid layout */
+  /** @internal Configuration of the grid layout */
   gridSettings: GridSettings = defaultGridSettings();
 
-  /** Background color of the canvas, as an RGB hex code */
+  /** @internal Background color of the canvas, as an RGB hex code */
   canvasBackground: string = "#ffffff";
 
   // ─── Selection ───────────────────────────────────────────────────────────
-  /** The id of the selected node */
+  /** @internal The id of the selected node */
   selectedNodeId: string | null = null;
-  /** The selected HTML element */
-  selectedElement: HTMLElement | null = null;
-  /** Set of all selected node ids */
+  /** @internal Set of all selected node ids */
   @state() selectedIds: Set<string> = new Set();
-  /** The id of the focused container */
+  /** @internal The id of the focused container */
   @state() focusedContainerId: string | null = null;
 
   // ─── Interaction keys ────────────────────────────────────────────────────
-  /** Whether shift is currently pressed */
+  /** @internal Whether shift is currently pressed */
   shiftPressed = false;
-  /** Whether the interact key ("A") is currently pressed */
+  /** @internal Whether the interact key ("A") is currently pressed */
   interactKeyPressed = false;
-  /** Whether the grid key ("G") is currently pressed */
+  /** @internal Whether the grid key ("G") is currently pressed */
   @state() gridKeyPressed = false;
-  /** Whether the hide toolbar key ("T") is currently pressed */
+  /** @internal Whether the hide toolbar key ("T") is currently pressed */
   @state() toolbarKeyHidden = false;
   /** Whether the grid overlay should be shown all the time */
-  @state() showGrid = false;
-  /** The size of the overlay grid */
+  @state() private showGrid = false;
+  /** @internal The size of the overlay grid */
   gridSize = 20;
 
   // ─── Toolbar / palette UI state ──────────────────────────────────────────
-  /** Whether the toolbar is currently open */
+  /** @internal Whether the toolbar is currently open */
   @state() toolbarOpen = false;
-  /** Whether the layout dropdown is currently open */
+  /** @internal Whether the layout dropdown is currently open */
   @state() layoutDropdownOpen = false;
-  /** Whether the add button in the top right should be shown */
+  /** @internal Whether the add button in the top right should be shown */
   showAddButton = true;
-  /** Whether the layout dropdown should be shown */
+  /** @internal Whether the layout dropdown should be shown */
   showLayoutDropdown = true;
-  /** The id of the currently selected grouping template ("two-column", "hero-sidebar", "card-grid" or "centered-stack") */
+  /** @internal The id of the currently selected grouping template ("two-column", "hero-sidebar", "card-grid" or "centered-stack") */
   groupTemplateId = "two-column";
 
   // Palette state: tray, info popup, search, suppress-click guard, favourites
   /** @internal Never gets set? Can probably be removed */
   trayOpen = false;
-  /** Which element type to show the info popup for */
+  /** @internal Which element type to show the info popup for */
   infoForType: string | null = null;
-  /** The DOM element the info popup is anchored to */
+  /** @internal The DOM element the info popup is anchored to */
   infoAnchorEl: HTMLElement | null = null;
-  /** Prevents double trigger clicking issues */
+  /** @internal Prevents double trigger clicking issues */
   suppressNextClick = false;
   /** @internal Also never gets set. Can probably also be removed */
   private componentQuery = "";
 
   // ─── Author visibility toggles ───────────────────────────────────────────
-  /** Which layout modes to show */
+  /** @internal Which layout modes to show */
   @state() visibleLayoutModes: Record<LayoutMode, boolean> = {
     freeform: true,
     flow: true,
     flex: true,
     grid: true,
   };
-  /** Which code tabs to show in fullscreen mode */
+  /** @internal Which code tabs to show in fullscreen mode */
   @state() visibleCodeTabs: Record<CodeTab, boolean> = {
     combined: true,
     html: true,
@@ -160,19 +158,19 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   };
 
   // ─── Student mode toggles ────────────────────────────────────────────────
-  /** Whether component settings should be shown in student mode */
+  /** @internal Whether component settings should be shown in student mode */
   @state() showComponentSettingsInStudent = true;
-  /** Whether the sidebar (containing canvas settings) should be shown in student mode */
+  /** @internal Whether the sidebar (containing canvas settings) should be shown in student mode */
   @state() showSidebarInStudent = false;
-  /** Whether the toolbar (to add more elements) should be shown in student mode */
+  /** @internal Whether the toolbar (to add more elements) should be shown in student mode */
   @state() showToolbarInStudent = true;
-  /** Whether elements should be deletable in student mode */
+  /** @internal Whether elements should be deletable in student mode */
   @state() allowDeleteInStudent = false;
 
   // ─── All-components dialog ───────────────────────────────────────────────
-  /** Whether the components dialog is currently open */
+  /** @internal Whether the components dialog is currently open */
   @state() allComponentsDialogOpen = false;
-  /** The current components dialog search query */
+  /** @internal The current components dialog search query */
   @state() allComponentsQuery = "";
 
   // ─── Student drawer ───────────────────────────────────────────────────────
@@ -184,23 +182,23 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _wasFullscreen = false;
 
   // ─── Icon dialog ─────────────────────────────────────────────────────────
-  /** Whether the icon dialog is currently open */
+  /** @internal Whether the icon dialog is currently open */
   @state() iconDialogOpen = false;
-  /** The currently selected icon's name */
+  /** @internal The currently selected icon's name */
   @state() iconDraftName = "gear";
-  /** The selected color for the icon */
+  /** @internal The selected color for the icon */
   @state() iconDraftColor = "#0f172a";
-  /** The icon dialog search query */
+  /** @internal The icon dialog search query */
   @state() iconQuery = "";
-  /** How much pixels the icon scroller is currently scrolled down (scrollTop) */
+  /** @internal How much pixels the icon scroller is currently scrolled down (scrollTop) */
   @state() iconScrollTop = 0;
-  /** The clientHeight of the icon scroller */
+  /** @internal The clientHeight of the icon scroller */
   @state() iconViewportH = 520;
-  /** The icon scroller HTML element (#ww-icon-scroller) */
+  /** @internal The icon scroller HTML element (#ww-icon-scroller) */
   iconScroller: HTMLElement | null = null;
-  /** Whether keyboard focus is currently inside this widget */
+  /** @internal Whether keyboard focus is currently inside this widget */
   _hasFocus = false;
-  /** The element to dispatch icon result events from */
+  /** @internal The element to dispatch icon result events from */
   iconDialogTarget: EventTarget | null = null;
 
   // ─── Exporter ────────────────────────────────────────────────────────────
@@ -216,7 +214,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   // ─── Public node accessors (used by controllers) ─────────────────────────
 
-  /** The website element nodes depending on the current layout mode */
+  /** @internal The website element nodes depending on the current layout mode */
   get activeNodes(): BuilderNode[] {
     return this.layoutMode === "freeform"
       ? this.freeformNodes
@@ -240,9 +238,6 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   /** Select a node based on its id */
   selectNodeId(id: string) {
     this.selectedNodeId = id;
-    this.selectedElement = this.renderRoot.querySelector(
-      `[data-node-id="${id}"]`,
-    ) as HTMLElement | null;
     this._maybeOpenStudentDrawerOnSelect();
     this.requestUpdate();
   }
@@ -250,7 +245,6 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   /** Clear the selection of nodes */
   clearSelection() {
     this.selectedNodeId = null;
-    this.selectedElement = null;
     this.selectedIds = new Set();
     this._containerSettingsId = null; // must be reset on clear
     this.focusedContainerId = null;
@@ -502,7 +496,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   // ─── Icon dialog handlers ─────────────────────────────────────────────────
 
-  /** Executed after the icon dialog is opened */
+  /** @internal Executed after the icon dialog is opened */
   onIconDialogAfterShow = (e: Event) => {
     const dlg = e.target as HTMLElement;
     this.iconScroller = dlg.querySelector("#ww-icon-scroller");
@@ -517,7 +511,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     );
   };
 
-  /** Executed after the icon dialog is closed */
+  /** @internal Executed after the icon dialog is closed */
   onIconDialogAfterHide = () => {
     this.iconScroller?.removeEventListener("scroll", this._onIconDialogScroll);
     this.iconScroller = null;
@@ -535,7 +529,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   // ─── Fullscreen ──────────────────────────────────────────────────────────
 
   /** Whether the widget is in fullscreen mode */
-  get isFullscreen() {
+  private get isFullscreen() {
     return this.ownerDocument.fullscreenElement === this;
   }
 
