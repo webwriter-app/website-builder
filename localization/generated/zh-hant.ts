@@ -93,6 +93,9 @@
 'sd65fa257917527a8': `Browse all components`,
 's5e8250fb85d64c23': `Close`,
 'sfc5542fcfe78b99b': `Add component`,
+'sdc673e73b5c13aea': `Delete`,
+'s25e1a07e454c2c11': `Grid`,
+'see1a91137da362cf': `Interact`,
 's03c44f5a1b0581d4': `selected`,
 's8354160a1fe59b16': `Wrap selected nodes in a container`,
 's98b1cb8fb62909ec': `Group`,
@@ -172,5 +175,6 @@
 'hee3c66c7df58c59e': html`Hold <kbd>T</kbd> to temporarily hide the toolbar overlay.`,
 's3643189d1abbb7f4': `Code`,
 's6f44d1ec40b5eb0d': `Component settings`,
+'s4b10acae683d2978': `Fullscreen`,
     };
   

@@ -663,6 +663,22 @@
         <source>or</source>
         <target>eller</target>
       </trans-unit>
+      <trans-unit id="sdc673e73b5c13aea">
+        <source>Delete</source>
+        <target>Slett</target>
+      </trans-unit>
+      <trans-unit id="s25e1a07e454c2c11">
+        <source>Grid</source>
+        <target>Rutenett</target>
+      </trans-unit>
+      <trans-unit id="see1a91137da362cf">
+        <source>Interact</source>
+        <target>Interagere</target>
+      </trans-unit>
+      <trans-unit id="s4b10acae683d2978">
+        <source>Fullscreen</source>
+        <target>Fullskjerm</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

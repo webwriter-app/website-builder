@@ -250,7 +250,9 @@
         <target>Auswahl löschen</target>
       </trans-unit>
       <trans-unit id="s569ed106bd3565e4">
-        <source>Switch layout to <x id="0" equiv-text="${mode}"/></source>
+        <source>Switch layout to 
+          <x id="0" equiv-text="${mode}"/>
+        </source>
         <target>Layout wechseln zu 
           <x id="0" equiv-text="${mode}"/>
         </target>
@@ -508,9 +510,13 @@
         <target>Code</target>
       </trans-unit>
       <trans-unit id="hee3c66c7df58c59e">
-        <source>Hold <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.</source>
+        <source>Hold 
+          <x id="0" equiv-text="&lt;kbd&gt;"/>T
+          <x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.
+        </source>
         <target>Halten Sie 
-          <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> gedrückt, um die Symbolleisten-Einblendung vorübergehend auszublenden.
+          <x id="0" equiv-text="&lt;kbd&gt;"/>T
+          <x id="1" equiv-text="&lt;/kbd&gt;"/> gedrückt, um die Symbolleisten-Einblendung vorübergehend auszublenden.
         </target>
       </trans-unit>
       <trans-unit id="s33054d1d675674c9">
@@ -656,6 +662,22 @@
       <trans-unit id="s08b05407b5565ca4">
         <source>or</source>
         <target>oder</target>
+      </trans-unit>
+      <trans-unit id="sdc673e73b5c13aea">
+        <source>Delete</source>
+        <target>Löschen</target>
+      </trans-unit>
+      <trans-unit id="s25e1a07e454c2c11">
+        <source>Grid</source>
+        <target>Raster</target>
+      </trans-unit>
+      <trans-unit id="see1a91137da362cf">
+        <source>Interact</source>
+        <target>Interagieren</target>
+      </trans-unit>
+      <trans-unit id="s4b10acae683d2978">
+        <source>Fullscreen</source>
+        <target>Vollbild</target>
       </trans-unit>
     </body>
   </file>

@@ -663,6 +663,22 @@
         <source>or</source>
         <target>alebo</target>
       </trans-unit>
+      <trans-unit id="sdc673e73b5c13aea">
+        <source>Delete</source>
+        <target>Odstrániť</target>
+      </trans-unit>
+      <trans-unit id="s25e1a07e454c2c11">
+        <source>Grid</source>
+        <target>Mriežka</target>
+      </trans-unit>
+      <trans-unit id="see1a91137da362cf">
+        <source>Interact</source>
+        <target>Interakcia</target>
+      </trans-unit>
+      <trans-unit id="s4b10acae683d2978">
+        <source>Fullscreen</source>
+        <target>Celá obrazovka</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
