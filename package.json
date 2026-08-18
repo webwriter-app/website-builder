@@ -1,6 +1,6 @@
 {
   "name": "@webwriter/website-builder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).",
   "keywords": [
     "webwriter-widget",

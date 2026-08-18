@@ -1,5 +1,5 @@
-# Website Builder (`@webwriter/website-builder@1.0.0`)
-[License: MIT](LICENSE) | Version: 1.0.0
+# Website Builder (`@webwriter/website-builder@1.0.1`)
+[License: MIT](LICENSE) | Version: 1.0.1
 
 Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).
 

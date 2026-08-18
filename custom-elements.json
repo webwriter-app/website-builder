@@ -63,16 +63,6 @@
             },
             {
               "kind": "field",
-              "name": "selectedElement",
-              "type": {
-                "text": "HTMLElement | null"
-              },
-              "privacy": "private",
-              "default": "null",
-              "description": "The selected HTML element"
-            },
-            {
-              "kind": "field",
               "name": "showGrid",
               "type": {
                 "text": "boolean"
@@ -289,7 +279,7 @@
                   }
                 }
               ],
-              "description": "Select node from a wrapper click. Prevents link navigation unless ctrl/meta held.\nUses _allowInteract (ctrl/meta key), NOT allowInteractEvent (A key)."
+              "description": "Select node from a wrapper click. Prevents link navigation unless ctrl/meta held.\r\nUses _allowInteract (ctrl/meta key), NOT allowInteractEvent (A key)."
             },
             {
               "kind": "method",
