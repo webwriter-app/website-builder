@@ -179,7 +179,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   @state() private _studentDrawerOpen = false;
 
   // ─── Code panel ──────────────────────────────────────────────────────────
+  @state() private _codePanelOpen = false;
   private _codeTab: CodeTab = "html";
+  private _wasFullscreen = false;
 
   // ─── Icon dialog ─────────────────────────────────────────────────────────
   /** Whether the icon dialog is currently open */
@@ -538,15 +540,20 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   }
 
   private _onFsChange = () => {
-    console.warn("[fs] change", {
-      fsEl: document.fullscreenElement?.tagName ?? null,
-      isFs: document.fullscreenElement === this,
-    });
+    const isFullscreen = this.isFullscreen;
+    if (
+      this._wasFullscreen &&
+      !isFullscreen
+    ) {
+      this._codePanelOpen = false;
+    }
+    this._wasFullscreen = isFullscreen;
     this.requestUpdate();
   };
   private _onFsError = (e: Event) => console.warn("[fs] error", e);
 
   private async _toggleFullscreen() {
+    const document = this.ownerDocument;
     try {
       if (document.fullscreenElement) await document.exitFullscreen();
       else await this.requestFullscreen();
@@ -554,6 +561,17 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       this.requestUpdate();
     }
   }
+
+  private _toggleCodePanel = () => {
+    this._codePanelOpen = !this._codePanelOpen;
+    this.requestUpdate();
+  };
+
+  private _closeCodePanel = () => {
+    const wasOpen = this._codePanelOpen;
+    this._codePanelOpen = false;
+    if (wasOpen) this.requestUpdate();
+  };
 
   // ─── Canvas reset ────────────────────────────────────────────────────────
 
@@ -741,7 +759,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   render() {
     const showGridOverlay = this.showGrid || this.gridKeyPressed;
-    const split = this.isFullscreen;
+    const showCode = this._codePanelOpen;
+    const canFullscreen =
+      this.ownerDocument.fullscreenEnabled &&
+      typeof this.requestFullscreen === "function";
     const isAuthor = this.isContentEditable;
     const isStudent = !isAuthor;
 
@@ -753,11 +774,11 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       canShowStudentDrawer && hasSingleSelection && this._studentDrawerOpen;
 
     const { html: outHtml, css: outCss, combined } = this._generateExport();
-    const hideSidebar = split || (isStudent && !this.showSidebarInStudent);
+    const hideSidebar = showCode || (isStudent && !this.showSidebarInStudent);
 
     return html`
       <div class="layout" tabindex="-1">
-        <div class="layout-row ${split ? "fullscreen-split" : ""}">
+        <div class="layout-row ${showCode ? "code-open" : ""}">
           <!-- Sidebar -->
           <div part="options" style=${hideSidebar ? "display:none;" : ""}>
             <div class="settings">
@@ -792,7 +813,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
           </div>
 
           <!-- Editor / Canvas -->
-          <div class="editor" style=${split ? "height:100%;" : ""}>
+          <div class="editor" style=${showCode ? "height:100%;" : ""}>
             <div
               class="canvas ${this.activeNodes.length > 0 ? "has-nodes" : ""}"
               @dragover=${this.drag.onDragOver.bind(this.drag)}
@@ -805,25 +826,22 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
               ${renderCanvasInner(this)} ${renderFloatingToolbar(this)}
               ${renderInfoPopup(this)}
 
-              <div class="fs-btn" style=${this.toolbarKeyHidden ? "display:none;" : ""}>
-                <sl-button
-                  size="small"
-                  variant="primary"
-                  @click=${this._toggleFullscreen}
-                >
-                  <sl-icon
-                    name=${this.isFullscreen ? "fullscreen-exit" : "fullscreen"}
-                  ></sl-icon>
-                </sl-button>
-              </div>
+              ${this._renderViewControls(canFullscreen, showCode)}
             </div>
           </div>
 
-          <!-- Code panel (fullscreen only) -->
-          ${split
+          <!-- Code panel -->
+          ${showCode
             ? html`
                 <div class="code-panel" aria-label=${msg("Code")}>
                   <div class="code-header">
+                    <sl-icon-button
+                      name="x-lg"
+                      library="system"
+                      label=${msg("Close")}
+                      @click=${this._closeCodePanel}
+                    >
+                    </sl-icon-button>
                     <div class="code-title">${msg("Code")}</div>
                     <div class="code-tabs" role="tablist" aria-label=${msg("Code tabs")}>
                       ${this._renderCodeTabs()}
@@ -837,13 +855,14 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                         : outCss}
                   </pre
                   >
+                  ${this._renderViewControls(canFullscreen, showCode, true)}
                 </div>
               `
             : null}
         </div>
 
         <!-- Touch action bar: delete / grid / interact, for devices without a keyboard -->
-        ${renderTouchToolbar(this)}
+        ${showCode ? null : renderTouchToolbar(this)}
 
         <!-- Student settings drawer -->
         ${showDrawer
@@ -866,6 +885,47 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
             `
           : null}
         ${renderIconDialog(this)} ${renderAllComponentsDialog(this)}
+      </div>
+    `;
+  }
+
+  private _renderViewControls(
+    canFullscreen: boolean,
+    showCode: boolean,
+    overCode = false,
+  ) {
+    return html`
+      <div
+        class="view-controls ${overCode ? "code-view-controls" : ""}"
+        style=${this.toolbarKeyHidden ? "display:none;" : ""}
+      >
+        <sl-button
+          size="small"
+          variant="primary"
+          title=${msg("Code")}
+          aria-label=${msg("Code")}
+          aria-pressed=${showCode ? "true" : "false"}
+          @click=${this._toggleCodePanel}
+        >
+          <sl-icon name="code-slash"></sl-icon>
+        </sl-button>
+        ${canFullscreen
+          ? html`
+              <sl-button
+                size="small"
+                variant="primary"
+                title=${this.isFullscreen ? msg("Close") : msg("Fullscreen")}
+                aria-label=${this.isFullscreen
+                  ? msg("Close")
+                  : msg("Fullscreen")}
+                @click=${this._toggleFullscreen}
+              >
+                <sl-icon
+                  name=${this.isFullscreen ? "fullscreen-exit" : "fullscreen"}
+                ></sl-icon>
+              </sl-button>
+            `
+          : null}
       </div>
     `;
   }

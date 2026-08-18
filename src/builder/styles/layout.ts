@@ -26,12 +26,39 @@ export const layoutStyles = css`
     min-width: 0;
   }
 
-  .layout-row.fullscreen-split {
+  .layout-row.code-open {
     display: grid;
-    grid-template-columns: minmax(360px, 1fr) minmax(320px, 520px);
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 520px);
     gap: 0.75rem;
     padding: 0.75rem;
     box-sizing: border-box;
+  }
+
+  .layout-row.code-open .editor {
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .layout-row.code-open .canvas {
+    overflow: hidden;
+  }
+
+  @container (max-width: 700px) {
+    .layout-row.code-open {
+      display: flex;
+      gap: 0;
+      padding: 0;
+    }
+
+    .layout-row.code-open .editor {
+      display: none;
+    }
+
+    .layout-row.code-open .code-panel {
+      border: 0;
+      border-radius: 0;
+      width: 100%;
+    }
   }
 
   /* ── Touch action bar ──────────────────────────────────────────────── */
@@ -166,17 +193,19 @@ export const layoutStyles = css`
     display: grid;
   }
 
-  .fs-btn {
+  .view-controls {
     position: absolute;
     right: 14px;
     bottom: 14px;
     z-index: 20;
+    display: flex;
+    gap: var(--sl-spacing-x-small);
     border-radius: 999px;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
   }
 
-  .fs-btn sl-button::part(base) {
+  .view-controls sl-button::part(base) {
     border-radius: 999px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
   }
 
   /* ── Nested containers ─────────────────────────────────────────────── */

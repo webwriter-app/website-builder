@@ -1,8 +1,9 @@
 import { css } from "lit";
 
 export const codePanelStyles = css`
-  /* Code panel (only shown in fullscreen) */
+  /* Code panel */
   .code-panel {
+    position: relative;
     background: var(--sl-color-neutral-0);
     border: 1px solid var(--sl-color-neutral-200);
     border-radius: 12px;
@@ -11,6 +12,10 @@ export const codePanelStyles = css`
     flex-direction: column;
     min-width: 0;
     height: 100%;
+  }
+
+  .code-view-controls {
+    display: none;
   }
 
   .code-header {
@@ -52,9 +57,13 @@ export const codePanelStyles = css`
 
   .code-tabs {
     display: flex;
+    flex: 1;
+    min-width: 0;
     gap: 0.35rem;
     align-items: center;
     justify-content: flex-end;
+    overflow-x: auto;
+    scrollbar-width: thin;
   }
 
   .code-tab {
@@ -72,5 +81,21 @@ export const codePanelStyles = css`
     border-color: var(--sl-color-primary-300);
     background: var(--sl-color-primary-50);
     color: var(--sl-color-primary-700);
+  }
+
+  @container (max-width: 420px) {
+    .code-title {
+      display: none;
+    }
+
+    .code-tabs {
+      justify-content: flex-start;
+    }
+  }
+
+  @container (max-width: 700px) {
+    .code-view-controls {
+      display: flex;
+    }
   }
 `;
