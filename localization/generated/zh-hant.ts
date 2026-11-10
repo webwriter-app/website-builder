@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`按住\x20
-          <kbd> T
-          </kbd> 可暫時隱藏工具列覆蓋層。
-        `,
+      'hee3c66c7df58c59e': html`按住 <kbd>T</kbd> 暫時隱藏浮動工具列。`,
 's0312976fe9da5951': `按鈕`,
 's03c44f5a1b0581d4': `已選取`,
 's0442a59427632f08': `所有元件`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `取消分組`,
 's5590dbf7e425789d': `標籤`,
 's56786c3f3e37cefa': `輸入文字區塊的預設文字…`,
-'s569ed106bd3565e4': str`將佈局切換為\x20
-          ${0}
-        `,
+'s569ed106bd3565e4': str`切換至 ${0} 配置`,
 's56b2da93a4b8874e': `上傳音訊`,
 's599dcd2472c75c19': `段落`,
 's5a053ed77fa9c1bc': `調整自身`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `柱跨距`,
 's88f5053fccdf0a61': `隱藏邊框`,
 's89ba1ee1ccee063b': `描述影片（無障礙）`,
+'s8dfcedb8b2d680cd': `建構工具設定`,
 's8e43508f1392e94d': `文字顏色`,
 's8e985aeeca6a8166': `白色`,
 's8f18916860db5d80': `清除選取項目`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `流程`,
 'sff9d51b6c5a73163': `替代文字`,
 'sffdadf0a576fd802': `高度`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

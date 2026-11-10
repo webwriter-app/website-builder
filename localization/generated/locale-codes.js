@@ -40,6 +40,7 @@ export const targetLocales = [
   `sv`,
   `tr`,
   `uk`,
+  `zh`,
   `zh-hans`,
   `zh-hant`,
 ];
@@ -78,6 +79,7 @@ export const allLocales = [
   `sv`,
   `tr`,
   `uk`,
+  `zh`,
   `zh-hans`,
   `zh-hant`,
 ];

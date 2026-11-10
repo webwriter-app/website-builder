@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`按住\x20
-          <kbd> T
-          </kbd> 可暂时隐藏工具栏覆盖层。
-        `,
+      'hee3c66c7df58c59e': html`按住 <kbd>T</kbd> 暂时隐藏悬浮工具栏。`,
 's0312976fe9da5951': `按钮`,
 's03c44f5a1b0581d4': `已选中`,
 's0442a59427632f08': `所有组件`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `取消分组`,
 's5590dbf7e425789d': `标签`,
 's56786c3f3e37cefa': `输入文本区域占位符……`,
-'s569ed106bd3565e4': str`将布局切换为\x20
-          ${0}
-        `,
+'s569ed106bd3565e4': str`切换到 ${0} 布局`,
 's56b2da93a4b8874e': `上传音频`,
 's599dcd2472c75c19': `段落`,
 's5a053ed77fa9c1bc': `调整自身`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `柱跨度`,
 's88f5053fccdf0a61': `隐藏边框`,
 's89ba1ee1ccee063b': `描述视频（无障碍）`,
+'s8dfcedb8b2d680cd': `构建器设置`,
 's8e43508f1392e94d': `文字颜色`,
 's8e985aeeca6a8166': `白色`,
 's8f18916860db5d80': `清除选择`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `流`,
 'sff9d51b6c5a73163': `替代文本`,
 'sffdadf0a576fd802': `高度`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

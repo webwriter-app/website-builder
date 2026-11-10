@@ -55,7 +55,12 @@
       "en-IN": "Website Builder",
       "fr": "Créateur de sites web",
       "de": "Website-Builder",
-      "es": "Creador de sitios web"
+      "es": "Creador de sitios web",
+      "ar": "منشئ المواقع",
+      "bg": "Конструктор на уебсайтове",
+      "zh": "网站构建器",
+      "zh-Hans": "网站构建器",
+      "zh-Hant": "網站建構工具"
     }
   },
   "./widgets/webwriter-website-builder": {
@@ -69,7 +74,12 @@
       "en-IN": "Website Builder",
       "fr": "Créateur de sites web",
       "de": "Website-Builder",
-      "es": "Creador de sitios web"
+      "es": "Creador de sitios web",
+      "ar": "منشئ المواقع",
+      "bg": "Конструктор на уебсайтове",
+      "zh": "网站构建器",
+      "zh-Hans": "网站构建器",
+      "zh-Hant": "網站建構工具"
     }
   },
   "./snippets/flex-starter": {
@@ -83,7 +93,12 @@
       "en-IN": "Flex Starter",
       "fr": "Flexbox : initiation",
       "de": "Flexbox: Einstieg",
-      "es": "Flexbox: iniciación"
+      "es": "Flexbox: iniciación",
+      "ar": "التخطيط المرن للمبتدئين",
+      "bg": "Гъвкаво оформление за начинаещи",
+      "zh": "弹性布局入门",
+      "zh-Hans": "弹性布局入门",
+      "zh-Hant": "彈性配置入門"
     }
   },
   "./snippets/flex-advanced": {
@@ -97,7 +112,12 @@
       "en-IN": "Flex Advanced",
       "fr": "Flexbox : avancé",
       "de": "Flexbox: Fortgeschritten",
-      "es": "Flexbox: avanzado"
+      "es": "Flexbox: avanzado",
+      "ar": "التخطيط المرن المتقدم",
+      "bg": "Гъвкаво оформление за напреднали",
+      "zh": "弹性布局进阶",
+      "zh-Hans": "弹性布局进阶",
+      "zh-Hant": "彈性配置進階"
     }
   },
   "./snippets/grid-starter": {
@@ -111,7 +131,12 @@
       "en-IN": "Grid Starter",
       "fr": "Grid : initiation",
       "de": "Grid: Einstieg",
-      "es": "Grid: iniciación"
+      "es": "Grid: iniciación",
+      "ar": "التخطيط الشبكي للمبتدئين",
+      "bg": "Мрежа за начинаещи",
+      "zh": "网格布局入门",
+      "zh-Hans": "网格布局入门",
+      "zh-Hant": "格線配置入門"
     }
   },
   "./snippets/grid-advanced": {
@@ -125,7 +150,12 @@
       "en-IN": "Grid Advanced",
       "fr": "Grid : avancé",
       "de": "Grid: Fortgeschritten",
-      "es": "Grid: avanzado"
+      "es": "Grid: avanzado",
+      "ar": "التخطيط الشبكي المتقدم",
+      "bg": "Мрежа за напреднали",
+      "zh": "网格布局进阶",
+      "zh-Hans": "网格布局进阶",
+      "zh-Hant": "格線配置進階"
     }
   },
   "./snippets/freeform-starter": {
@@ -139,7 +169,12 @@
       "en-IN": "Freeform Starter",
       "fr": "Mise en page libre : initiation",
       "de": "Freies Layout: Einstieg",
-      "es": "Diseño libre: iniciación"
+      "es": "Diseño libre: iniciación",
+      "ar": "التخطيط الحر للمبتدئين",
+      "bg": "Свободно оформление за начинаещи",
+      "zh": "自由布局入门",
+      "zh-Hans": "自由布局入门",
+      "zh-Hant": "自由配置入門"
     }
   },
   "./snippets/freeform-advanced": {
@@ -153,7 +188,12 @@
       "en-IN": "Freeform Advanced",
       "fr": "Mise en page libre : avancée",
       "de": "Freies Layout: Fortgeschritten",
-      "es": "Diseño libre: avanzado"
+      "es": "Diseño libre: avanzado",
+      "ar": "التخطيط الحر المتقدم",
+      "bg": "Свободно оформление за напреднали",
+      "zh": "自由布局进阶",
+      "zh-Hans": "自由布局进阶",
+      "zh-Hant": "自由配置進階"
     }
   },
   "./snippets/flow-starter": {
@@ -167,7 +207,12 @@
       "en-IN": "Flow Starter",
       "fr": "Flux du document : initiation",
       "de": "Dokumentfluss: Einstieg",
-      "es": "Flujo del documento: iniciación"
+      "es": "Flujo del documento: iniciación",
+      "ar": "تخطيط التدفق للمبتدئين",
+      "bg": "Поточно оформление за начинаещи",
+      "zh": "流式布局入门",
+      "zh-Hans": "流式布局入门",
+      "zh-Hant": "流式配置入門"
     }
   },
   "./snippets/flow-advanced": {
@@ -181,7 +226,12 @@
       "en-IN": "Flow Advanced",
       "fr": "Flux du document : avancé",
       "de": "Dokumentfluss: Fortgeschritten",
-      "es": "Flujo del documento: avanzado"
+      "es": "Flujo del documento: avanzado",
+      "ar": "تخطيط التدفق المتقدم",
+      "bg": "Поточно оформление за напреднали",
+      "zh": "流式布局进阶",
+      "zh-Hans": "流式布局进阶",
+      "zh-Hant": "流式配置進階"
     }
   }
 }
