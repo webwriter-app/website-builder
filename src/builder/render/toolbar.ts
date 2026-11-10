@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { msg, str } from "@lit/localize";
+import { str, type MsgFn } from "@lit/localize";
 import type { WebwriterWebsiteBuilder } from "../../webwriter-website-builder";
 import { getContainerTemplates, type LayoutMode } from "../types";
 import { tileGlyph, componentSyntaxHint } from "../palette-helpers";
@@ -16,14 +16,14 @@ import {
 } from "../../assets/icons";
 import "../../assets/shoelaceImports";
 
-const getLayoutLabels = (): Record<LayoutMode, string> => ({
+const getLayoutLabels = (msg: MsgFn): Record<LayoutMode, string> => ({
   freeform: msg("Freeform"),
   flow: msg("Flow"),
   flex: "Flex",
   grid: "Grid",
 });
 
-const getToolbarQuickItems = () => [
+const getToolbarQuickItems = (msg: MsgFn) => [
   { type: "h1", glyph: wbH1Icon, label: "H1" },
   { type: "paragraph", glyph: wbTextIcon, label: msg("Text") },
   { type: "image", glyph: wbImageIcon, label: msg("Image") },
@@ -66,7 +66,7 @@ function renderAddRow(host: WebwriterWebsiteBuilder) {
             <div class="toolbar-pill">
               <button
                 class="toolbar-icon-btn search-btn"
-                title=${msg("Browse all components")}
+                title=${host.msg("Browse all components")}
                 @click=${() => {
                   host.openAllComponentsDialog();
                   host.toolbarOpen = false;
@@ -75,7 +75,7 @@ function renderAddRow(host: WebwriterWebsiteBuilder) {
                 <span class="tb-glyph">${wbSearchIcon}</span>
               </button>
               <div class="toolbar-divider"></div>
-              ${getToolbarQuickItems().map(
+              ${getToolbarQuickItems(host.msg).map(
                 (item) => html`
                   <button
                     class="toolbar-icon-btn"
@@ -102,7 +102,7 @@ function renderAddRow(host: WebwriterWebsiteBuilder) {
         : null}
       <button
         class="toolbar-toggle ${host.toolbarOpen ? "open" : ""}"
-        title=${host.toolbarOpen ? msg("Close") : msg("Add component")}
+        title=${host.toolbarOpen ? host.msg("Close") : host.msg("Add component")}
         @click=${() => {
           host.toolbarOpen = !host.toolbarOpen;
           if (!host.toolbarOpen) host.layoutDropdownOpen = false;
@@ -129,7 +129,7 @@ function renderLayoutDropdown(
           host.requestUpdate();
         }}
       >
-        ${getLayoutLabels()[host.layoutMode]}
+        ${getLayoutLabels(host.msg)[host.layoutMode]}
         <span class="dd-arrow ${host.layoutDropdownOpen ? "up" : ""}">▼</span>
       </button>
       ${host.layoutDropdownOpen
@@ -147,7 +147,7 @@ function renderLayoutDropdown(
                       host.requestUpdate();
                     }}
                   >
-                    ${getLayoutLabels()[mode]}
+                    ${getLayoutLabels(host.msg)[mode]}
                   </button>
                 `,
               )}
@@ -173,7 +173,7 @@ export function renderTouchToolbar(host: WebwriterWebsiteBuilder) {
           @click=${() => host.deleteSelectedNode()}
         >
           <sl-icon name="trash3" slot="prefix"></sl-icon>
-          ${msg("Delete")}
+          ${host.msg("Delete")}
         </sl-button>
       `: null}
 
@@ -187,7 +187,7 @@ export function renderTouchToolbar(host: WebwriterWebsiteBuilder) {
         }}
       >
         <sl-icon name="grid" slot="prefix"></sl-icon>
-        ${msg("Grid")}
+        ${host.msg("Grid")}
       </sl-button>
 
       <sl-button
@@ -200,7 +200,7 @@ export function renderTouchToolbar(host: WebwriterWebsiteBuilder) {
         }}
       >
         <sl-icon name="hand-index" slot="prefix"></sl-icon>
-        ${msg("Interact")}
+        ${host.msg("Interact")}
       </sl-button>
     </div>
   `;
@@ -211,7 +211,7 @@ export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
 
   return html`
     <div class="group-toolbar" @click=${(e: MouseEvent) => e.stopPropagation()}>
-      <span class="group-count">${host.selectedIds.size} ${msg("selected")}</span>
+      <span class="group-count">${host.selectedIds.size} ${host.msg("selected")}</span>
 
       <sl-select
         class="group-template-select"
@@ -221,7 +221,7 @@ export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
           host.groupTemplateId = (e.target as HTMLSelectElement).value;
         }}
       >
-        ${getContainerTemplates().map(
+        ${getContainerTemplates(host.msg).map(
           (t) =>
             html`<sl-option value=${t.id} title=${t.description}>
               ${t.label}
@@ -232,15 +232,15 @@ export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
       <button
         class="group-btn"
         @click=${() => host.groupSelected()}
-        title=${msg("Wrap selected nodes in a container")}
+        title=${host.msg("Wrap selected nodes in a container")}
       >
-        ${msg("Group")}
+        ${host.msg("Group")}
       </button>
 
       <button
         class="group-btn group-btn--cancel"
         @click=${() => host.clearSelection()}
-        title=${msg("Clear selection")}
+        title=${host.msg("Clear selection")}
       >
         ${wbCloseIcon}
       </button>
@@ -261,7 +261,7 @@ export function renderLayoutBtn(
       class="seg-btn ${active ? "active" : ""}"
       @click=${() => host.layout.setLayoutMode(mode)}
       type="button"
-      title=${msg(str`Switch layout to ${mode}`)}
+      title=${host.msg(str`Switch layout to ${mode}`)}
     >
       ${label}
     </button>
@@ -276,7 +276,7 @@ export function renderPaletteTile(
   opts: { compact: boolean },
 ) {
   const comp = ComponentRegistry[type];
-  const label = comp?.label?.() ?? type;
+  const label = comp?.label?.(host.msg) ?? type;
 
   const onDragStart = (e: DragEvent) => {
     host.suppressNextClick = true;
@@ -303,7 +303,7 @@ export function renderPaletteTile(
       data-component-type=${type}
       @dragstart=${onDragStart}
       @click=${onClick}
-      title=${msg("Drag to canvas · Click for info")}
+      title=${host.msg("Drag to canvas · Click for info")}
       style=${opts.compact ? "height: 64px;" : "height: 72px;"}
     >
       <div class="tile-icon">${tileGlyph(type)}</div>
@@ -318,7 +318,7 @@ export function renderInfoPopup(host: WebwriterWebsiteBuilder) {
   if (!host.infoForType || !host.infoAnchorEl) return null;
 
   const comp = ComponentRegistry[host.infoForType];
-  const label = comp?.label?.() ?? host.infoForType;
+  const label = comp?.label?.(host.msg) ?? host.infoForType;
   const syntax = componentSyntaxHint(host.infoForType);
 
   const insert = () => {
@@ -347,21 +347,21 @@ export function renderInfoPopup(host: WebwriterWebsiteBuilder) {
             ${label}
           </div>
           <sl-button size="small" variant="primary" @click=${insert}
-            >${msg("Insert")}</sl-button
+            >${host.msg("Insert")}</sl-button
           >
         </div>
 
         <div
           style="margin-top: 0.4rem; font-size: 0.8rem; color: var(--sl-color-neutral-600);"
         >
-          ${msg("Drag to place on canvas. Click Insert to add at default position.")}
+          ${host.msg("Drag to place on canvas. Click Insert to add at default position.")}
         </div>
 
         <div style="margin-top: 0.6rem;">
           <div
             style="font-size: 0.75rem; color: var(--sl-color-neutral-500); margin-bottom: 0.25rem;"
           >
-            ${msg("Syntax (preview)")}
+            ${host.msg("Syntax (preview)")}
           </div>
           <pre
             style="

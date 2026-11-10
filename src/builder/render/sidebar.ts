@@ -11,7 +11,6 @@
 
 import { html } from "lit";
 import { keyed } from "lit/directives/keyed.js";
-import { msg } from "@lit/localize";
 import type { WebwriterWebsiteBuilder } from "../../webwriter-website-builder";
 import { ComponentRegistry } from "../../components/registry";
 import type {
@@ -32,15 +31,15 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
   const isStudent = !host.isContentEditable;
 
   return html`
-    <sl-details summary=${msg("Visibility")}>
+    <sl-details summary=${host.msg("Visibility")}>
       <div class="vis-section">
         <div class="vis-section-label">
           <sl-icon name="layout-three-columns"></sl-icon>
-          ${msg("Layout modes")}
+          ${host.msg("Layout modes")}
         </div>
         <div class="vis-chips">
-          ${layoutModeChip(host, "freeform", msg("Freeform"), "arrows-move")}
-          ${layoutModeChip(host, "flow", msg("Flow"), "arrow-down")}
+          ${layoutModeChip(host, "freeform", host.msg("Freeform"), "arrows-move")}
+          ${layoutModeChip(host, "flow", host.msg("Flow"), "arrow-down")}
           ${layoutModeChip(host, "flex", "Flex", "distribute-horizontal")}
           ${layoutModeChip(host, "grid", "Grid", "grid")}
         </div>
@@ -49,10 +48,10 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
       <div class="vis-section">
         <div class="vis-section-label">
           <sl-icon name="code-slash"></sl-icon>
-          ${msg("Code tabs")}
+          ${host.msg("Code tabs")}
         </div>
         <div class="vis-chips">
-          ${codeTabChip(host, "combined", msg("Combined"))}
+          ${codeTabChip(host, "combined", host.msg("Combined"))}
           ${codeTabChip(host, "html", "HTML")}
           ${codeTabChip(host, "css", "CSS")}
         </div>
@@ -61,11 +60,11 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
       <div class="vis-section">
         <div class="vis-section-label">
           <sl-icon name="person"></sl-icon>
-          ${msg("Student mode")}
+          ${host.msg("Student mode")}
         </div>
 
         <div class="vis-switch-row">
-          <span class="vis-switch-label">${msg("Show component settings")}</span>
+          <span class="vis-switch-label">${host.msg("Show component settings")}</span>
           <sl-switch
             size="small"
             .checked=${host.showComponentSettingsInStudent}
@@ -79,7 +78,7 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
         </div>
 
         <div class="vis-switch-row">
-          <span class="vis-switch-label">${msg("Show sidebar")}</span>
+          <span class="vis-switch-label">${host.msg("Show sidebar")}</span>
           <sl-switch
             size="small"
             .checked=${host.showSidebarInStudent}
@@ -93,7 +92,7 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
         </div>
 
         <div class="vis-switch-row">
-          <span class="vis-switch-label">${msg("Show toolbar")}</span>
+          <span class="vis-switch-label">${host.msg("Show toolbar")}</span>
           <sl-switch
             size="small"
             .checked=${host.showToolbarInStudent}
@@ -107,7 +106,7 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
         </div>
 
         <div class="vis-switch-row">
-          <span class="vis-switch-label">${msg("Allow delete")}</span>
+          <span class="vis-switch-label">${host.msg("Allow delete")}</span>
           <sl-switch
             size="small"
             .checked=${host.allowDeleteInStudent}
@@ -122,7 +121,7 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
 
         <div class="vis-mode-badge">
           <sl-icon name=${isStudent ? "mortarboard" : "pencil"}></sl-icon>
-          ${isStudent ? msg("Student mode") : msg("Author mode")}
+          ${isStudent ? host.msg("Student mode") : host.msg("Author mode")}
         </div>
       </div>
     </sl-details>
@@ -175,7 +174,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
     return keyed(
       "layout-flex",
       html`
-        <sl-details summary=${msg("Layout")}>
+        <sl-details summary=${host.msg("Layout")}>
           <div style="margin-top: 1rem">
             <div class="setting-row">
               <sl-select
@@ -185,7 +184,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
                     direction: e.target.value as FlexSettings["direction"],
                   })}
               >
-                <span slot="label">${msg("Direction")} <span class="css-prop">(<code>flex-direction</code>)</span></span>
+                <span slot="label">${host.msg("Direction")} <span class="css-prop">(<code>flex-direction</code>)</span></span>
                 <sl-option value="row">row</sl-option>
                 <sl-option value="column">column</sl-option>
               </sl-select>
@@ -197,7 +196,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
                 @sl-change=${(e: any) =>
                   host.layout.setFlexSettings({ justify: e.target.value })}
               >
-                <span slot="label">${msg("Justify content")} <span class="css-prop">(<code>justify-content</code>)</span></span>
+                <span slot="label">${host.msg("Justify content")} <span class="css-prop">(<code>justify-content</code>)</span></span>
                 <sl-option value="flex-start">flex-start</sl-option>
                 <sl-option value="center">center</sl-option>
                 <sl-option value="flex-end">flex-end</sl-option>
@@ -213,7 +212,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
                 @sl-change=${(e: any) =>
                   host.layout.setFlexSettings({ align: e.target.value })}
               >
-                <span slot="label">${msg("Align items")} <span class="css-prop">(<code>align-items</code>)</span></span>
+                <span slot="label">${host.msg("Align items")} <span class="css-prop">(<code>align-items</code>)</span></span>
                 <sl-option value="stretch">stretch</sl-option>
                 <sl-option value="flex-start">flex-start</sl-option>
                 <sl-option value="center">center</sl-option>
@@ -230,7 +229,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
                     wrap: e.target.value as FlexSettings["wrap"],
                   })}
               >
-                <span slot="label">${msg("Wrap")} <span class="css-prop">(<code>flex-wrap</code>)</span></span>
+                <span slot="label">${host.msg("Wrap")} <span class="css-prop">(<code>flex-wrap</code>)</span></span>
                 <sl-option value="nowrap">nowrap</sl-option>
                 <sl-option value="wrap">wrap</sl-option>
               </sl-select>
@@ -238,14 +237,14 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
 
             <div class="setting-row">
               <sl-input
-                placeholder=${`${msg("e.g.")} 12px`}
+                placeholder=${`${host.msg("e.g.")} 12px`}
                 .value=${flex.gap ?? "12px"}
                 @sl-input=${(e: any) =>
                   host.layout.setFlexSettings({
                     gap: String(e.target.value ?? ""),
                   })}
               >
-                <span slot="label">${msg("Gap")} <span class="css-prop">(<code>gap</code>)</span></span>
+                <span slot="label">${host.msg("Gap")} <span class="css-prop">(<code>gap</code>)</span></span>
               </sl-input>
             </div>
           </div>
@@ -259,45 +258,45 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
     return keyed(
       "layout-grid",
       html`
-        <sl-details summary=${msg("Layout")}>
+        <sl-details summary=${host.msg("Layout")}>
           <div style="margin-top: 1rem">
 
             <div class="setting-row">
               <sl-input
-                placeholder=${`${msg("e.g.")} repeat(3, 1fr)`}
+                placeholder=${`${host.msg("e.g.")} repeat(3, 1fr)`}
                 .value=${grid.columns ?? "repeat(3, 1fr)"}
                 @sl-input=${(e: any) =>
                   host.layout.setGridSettings({
                     columns: String(e.target.value ?? ""),
                   })}
               >
-                <span slot="label">${msg("Columns")} <span class="css-prop">(<code>grid-template-columns</code>)</span></span>
+                <span slot="label">${host.msg("Columns")} <span class="css-prop">(<code>grid-template-columns</code>)</span></span>
               </sl-input>
             </div>
 
             <div class="setting-row">
               <sl-input
-                placeholder=${`${msg("e.g.")} auto`}
+                placeholder=${`${host.msg("e.g.")} auto`}
                 .value=${grid.rows ?? "auto"}
                 @sl-input=${(e: any) =>
                   host.layout.setGridSettings({
                     rows: String(e.target.value ?? ""),
                   })}
               >
-                <span slot="label">${msg("Rows")} <span class="css-prop">(<code>grid-template-rows</code>)</span></span>
+                <span slot="label">${host.msg("Rows")} <span class="css-prop">(<code>grid-template-rows</code>)</span></span>
               </sl-input>
             </div>
 
             <div class="setting-row">
               <sl-input
-                placeholder=${`${msg("e.g.")} 12px`}
+                placeholder=${`${host.msg("e.g.")} 12px`}
                 .value=${grid.gap ?? "12px"}
                 @sl-input=${(e: any) =>
                   host.layout.setGridSettings({
                     gap: String(e.target.value ?? ""),
                   })}
               >
-                <span slot="label">${msg("Gap")} <span class="css-prop">(<code>gap</code>)</span></span>
+                <span slot="label">${host.msg("Gap")} <span class="css-prop">(<code>gap</code>)</span></span>
               </sl-input>
             </div>
 
@@ -309,7 +308,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
                     autoFlow: e.target.value as GridSettings["autoFlow"],
                   })}
               >
-                <span slot="label">${msg("Auto flow")} <span class="css-prop">(<code>grid-auto-flow</code>)</span></span>
+                <span slot="label">${host.msg("Auto flow")} <span class="css-prop">(<code>grid-auto-flow</code>)</span></span>
                 <sl-option value="row">row</sl-option>
                 <sl-option value="row dense">row dense</sl-option>
                 <sl-option value="column">column</sl-option>
@@ -326,7 +325,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
                       .value as GridSettings["justifyItems"],
                   })}
               >
-                <span slot="label">${msg("Justify items")} <span class="css-prop">(<code>justify-items</code>)</span></span>
+                <span slot="label">${host.msg("Justify items")} <span class="css-prop">(<code>justify-items</code>)</span></span>
                 <sl-option value="stretch">stretch</sl-option>
                 <sl-option value="start">start</sl-option>
                 <sl-option value="center">center</sl-option>
@@ -342,7 +341,7 @@ export function renderLayoutSettings(host: WebwriterWebsiteBuilder) {
                     alignItems: e.target.value as GridSettings["alignItems"],
                   })}
               >
-                <span slot="label">${msg("Align items")} <span class="css-prop">(<code>align-items</code>)</span></span>
+                <span slot="label">${host.msg("Align items")} <span class="css-prop">(<code>align-items</code>)</span></span>
                 <sl-option value="start">start</sl-option>
                 <sl-option value="center">center</sl-option>
                 <sl-option value="end">end</sl-option>
@@ -388,14 +387,14 @@ export function renderSelectedComponentSettings(
           });
           host.requestUpdate();
         },
-      })
+      }, host.msg)
     : null;
 
   const flowDisplayUI =
     host.layoutMode === "flow" && !parentContainer
       ? html`
           <div style="margin-top:1rem">
-            <h2 style="margin-top:0">${msg("Flow")}</h2>
+            <h2 style="margin-top:0">${host.msg("Flow")}</h2>
             <div class="setting-row">
               <sl-select
                 value=${node.display ?? "block"}
@@ -404,7 +403,7 @@ export function renderSelectedComponentSettings(
                     display: e.target.value as "block" | "inline",
                   })}
               >
-                <span slot="label">${msg("Display")} <span class="css-prop">(<code>display</code>)</span></span>
+                <span slot="label">${host.msg("Display")} <span class="css-prop">(<code>display</code>)</span></span>
                 <sl-option value="block">block</sl-option>
                 <sl-option value="inline">inline</sl-option>
               </sl-select>
@@ -428,11 +427,11 @@ export function renderSelectedComponentSettings(
       ? renderGridPlacementUI(host, node)
       : null;
 
-  const resolvedBindings = component.bindings?.();
+  const resolvedBindings = component.bindings?.(host.msg);
   const bindingsUI = resolvedBindings?.length
     ? html`
         <div style="margin-top:1rem">
-          <h2 style="margin-top:0">${msg("Content")}</h2>
+          <h2 style="margin-top:0">${host.msg("Content")}</h2>
           ${resolvedBindings.map((b) => {
             const current =
               node.data?.[b.key] == null ? "" : String(node.data[b.key]);
@@ -467,7 +466,7 @@ export function renderSelectedComponentSettings(
   }
 
   return html`
-    <sl-details summary=${msg("Component")}>
+    <sl-details summary=${host.msg("Component")}>
       <div style="margin-top:1rem">${content}</div>
     </sl-details>
   `;
@@ -481,24 +480,24 @@ function renderContainerSettings(
 ) {
   const layout = node.containerLayout ?? "flex";
   return html`
-    <sl-details summary=${msg("Container")} open>
+    <sl-details summary=${host.msg("Container")} open>
       <div style="margin-top:1rem">
         <div
           style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;"
         >
-          <h2 style="margin:0; font-size:0.95rem;">${msg("Container")}</h2>
+          <h2 style="margin:0; font-size:0.95rem;">${host.msg("Container")}</h2>
           <sl-button
             size="small"
             variant="danger"
             outline
             @click=${() => host.ungroupContainer(node.id)}
-            >${msg("Ungroup")}</sl-button
+            >${host.msg("Ungroup")}</sl-button
           >
         </div>
 
         <div class="setting-row">
           <sl-select
-            label=${msg("Container layout")}
+            label=${host.msg("Container layout")}
             value=${layout}
             @sl-change=${(e: any) =>
               host.updateNode(node.id, {
@@ -529,14 +528,14 @@ function renderContainerFlexSettings(
   return html`
     <div class="setting-row">
       <sl-select value=${f.direction ?? "row"} @sl-change=${(e: any) => set({ direction: e.target.value as FlexSettings["direction"] })}>
-        <span slot="label">${msg("Direction")} <span class="css-prop">(<code>flex-direction</code>)</span></span>
+        <span slot="label">${host.msg("Direction")} <span class="css-prop">(<code>flex-direction</code>)</span></span>
         <sl-option value="row">row</sl-option>
         <sl-option value="column">column</sl-option>
       </sl-select>
     </div>
     <div class="setting-row">
       <sl-select value=${f.justify ?? "flex-start"} @sl-change=${(e: any) => set({ justify: e.target.value })}>
-        <span slot="label">${msg("Justify content")} <span class="css-prop">(<code>justify-content</code>)</span></span>
+        <span slot="label">${host.msg("Justify content")} <span class="css-prop">(<code>justify-content</code>)</span></span>
         <sl-option value="flex-start">flex-start</sl-option>
         <sl-option value="center">center</sl-option>
         <sl-option value="flex-end">flex-end</sl-option>
@@ -547,7 +546,7 @@ function renderContainerFlexSettings(
     </div>
     <div class="setting-row">
       <sl-select value=${f.align ?? "stretch"} @sl-change=${(e: any) => set({ align: e.target.value })}>
-        <span slot="label">${msg("Align items")} <span class="css-prop">(<code>align-items</code>)</span></span>
+        <span slot="label">${host.msg("Align items")} <span class="css-prop">(<code>align-items</code>)</span></span>
         <sl-option value="stretch">stretch</sl-option>
         <sl-option value="flex-start">flex-start</sl-option>
         <sl-option value="center">center</sl-option>
@@ -557,14 +556,14 @@ function renderContainerFlexSettings(
     </div>
     <div class="setting-row">
       <sl-select value=${f.wrap ?? "nowrap"} @sl-change=${(e: any) => set({ wrap: e.target.value as FlexSettings["wrap"] })}>
-        <span slot="label">${msg("Wrap")} <span class="css-prop">(<code>flex-wrap</code>)</span></span>
+        <span slot="label">${host.msg("Wrap")} <span class="css-prop">(<code>flex-wrap</code>)</span></span>
         <sl-option value="nowrap">nowrap</sl-option>
         <sl-option value="wrap">wrap</sl-option>
       </sl-select>
     </div>
     <div class="setting-row">
-      <sl-input placeholder=${`${msg("e.g.")} 12px`} .value=${f.gap ?? "12px"} @sl-input=${(e: any) => set({ gap: String(e.target.value ?? "") })}>
-        <span slot="label">${msg("Gap")} <span class="css-prop">(<code>gap</code>)</span></span>
+      <sl-input placeholder=${`${host.msg("e.g.")} 12px`} .value=${f.gap ?? "12px"} @sl-input=${(e: any) => set({ gap: String(e.target.value ?? "") })}>
+        <span slot="label">${host.msg("Gap")} <span class="css-prop">(<code>gap</code>)</span></span>
       </sl-input>
     </div>
   `;
@@ -580,23 +579,23 @@ function renderContainerGridSettings(
 
   return html`
     <div class="setting-row">
-      <sl-input placeholder=${`${msg("e.g.")} repeat(3, 1fr)`} .value=${g.columns ?? "repeat(3, 1fr)"} @sl-input=${(e: any) => set({ columns: String(e.target.value ?? "") })}>
-        <span slot="label">${msg("Columns")} <span class="css-prop">(<code>grid-template-columns</code>)</span></span>
+      <sl-input placeholder=${`${host.msg("e.g.")} repeat(3, 1fr)`} .value=${g.columns ?? "repeat(3, 1fr)"} @sl-input=${(e: any) => set({ columns: String(e.target.value ?? "") })}>
+        <span slot="label">${host.msg("Columns")} <span class="css-prop">(<code>grid-template-columns</code>)</span></span>
       </sl-input>
     </div>
     <div class="setting-row">
-      <sl-input placeholder=${`${msg("e.g.")} auto`} .value=${g.rows ?? "auto"} @sl-input=${(e: any) => set({ rows: String(e.target.value ?? "") })}>
-        <span slot="label">${msg("Rows")} <span class="css-prop">(<code>grid-template-rows</code>)</span></span>
+      <sl-input placeholder=${`${host.msg("e.g.")} auto`} .value=${g.rows ?? "auto"} @sl-input=${(e: any) => set({ rows: String(e.target.value ?? "") })}>
+        <span slot="label">${host.msg("Rows")} <span class="css-prop">(<code>grid-template-rows</code>)</span></span>
       </sl-input>
     </div>
     <div class="setting-row">
-      <sl-input placeholder=${`${msg("e.g.")} 12px`} .value=${g.gap ?? "12px"} @sl-input=${(e: any) => set({ gap: String(e.target.value ?? "") })}>
-        <span slot="label">${msg("Gap")} <span class="css-prop">(<code>gap</code>)</span></span>
+      <sl-input placeholder=${`${host.msg("e.g.")} 12px`} .value=${g.gap ?? "12px"} @sl-input=${(e: any) => set({ gap: String(e.target.value ?? "") })}>
+        <span slot="label">${host.msg("Gap")} <span class="css-prop">(<code>gap</code>)</span></span>
       </sl-input>
     </div>
     <div class="setting-row">
       <sl-select value=${g.autoFlow ?? "row"} @sl-change=${(e: any) => set({ autoFlow: e.target.value as GridSettings["autoFlow"] })}>
-        <span slot="label">${msg("Auto flow")} <span class="css-prop">(<code>grid-auto-flow</code>)</span></span>
+        <span slot="label">${host.msg("Auto flow")} <span class="css-prop">(<code>grid-auto-flow</code>)</span></span>
         <sl-option value="row">row</sl-option>
         <sl-option value="row dense">row dense</sl-option>
         <sl-option value="column">column</sl-option>
@@ -605,7 +604,7 @@ function renderContainerGridSettings(
     </div>
     <div class="setting-row">
       <sl-select value=${g.justifyItems ?? "stretch"} @sl-change=${(e: any) => set({ justifyItems: e.target.value as GridSettings["justifyItems"] })}>
-        <span slot="label">${msg("Justify items")} <span class="css-prop">(<code>justify-items</code>)</span></span>
+        <span slot="label">${host.msg("Justify items")} <span class="css-prop">(<code>justify-items</code>)</span></span>
         <sl-option value="stretch">stretch</sl-option>
         <sl-option value="start">start</sl-option>
         <sl-option value="center">center</sl-option>
@@ -614,7 +613,7 @@ function renderContainerGridSettings(
     </div>
     <div class="setting-row">
       <sl-select value=${g.alignItems ?? "start"} @sl-change=${(e: any) => set({ alignItems: e.target.value as GridSettings["alignItems"] })}>
-        <span slot="label">${msg("Align items")} <span class="css-prop">(<code>align-items</code>)</span></span>
+        <span slot="label">${host.msg("Align items")} <span class="css-prop">(<code>align-items</code>)</span></span>
         <sl-option value="start">start</sl-option>
         <sl-option value="center">center</sl-option>
         <sl-option value="end">end</sl-option>
@@ -633,16 +632,16 @@ function renderGridPlacementUI(host: WebwriterWebsiteBuilder, node: BuilderNode)
 
   return html`
     <div style="margin-top:1rem">
-      <h2 style="margin-top:0">${msg("Grid placement")}</h2>
+      <h2 style="margin-top:0">${host.msg("Grid placement")}</h2>
       <div class="setting-row">
-        <sl-input placeholder=${`${msg("e.g.")} hero`} .value=${String(g.area ?? "")} @sl-input=${(e: any) => update({ area: String(e.target.value ?? "") })}>
-          <span slot="label">${msg("Area")} <span class="css-prop">(<code>grid-area</code>)</span></span>
+        <sl-input placeholder=${`${host.msg("e.g.")} hero`} .value=${String(g.area ?? "")} @sl-input=${(e: any) => update({ area: String(e.target.value ?? "") })}>
+          <span slot="label">${host.msg("Area")} <span class="css-prop">(<code>grid-area</code>)</span></span>
         </sl-input>
       </div>
-      ${gridNumberInput(msg("Column start"), "grid-column-start", g.colStart, (v) => update({ colStart: v }))}
-      ${gridNumberInput(msg("Column span"),  "grid-column",       g.colSpan,  (v) => update({ colSpan: v }))}
-      ${gridNumberInput(msg("Row start"),    "grid-row-start",    g.rowStart, (v) => update({ rowStart: v }))}
-      ${gridNumberInput(msg("Row span"),     "grid-row",          g.rowSpan,  (v) => update({ rowSpan: v }))}
+      ${gridNumberInput(host.msg("Column start"), "grid-column-start", g.colStart, (v) => update({ colStart: v }))}
+      ${gridNumberInput(host.msg("Column span"),  "grid-column",       g.colSpan,  (v) => update({ colSpan: v }))}
+      ${gridNumberInput(host.msg("Row start"),    "grid-row-start",    g.rowStart, (v) => update({ rowStart: v }))}
+      ${gridNumberInput(host.msg("Row span"),     "grid-row",          g.rowSpan,  (v) => update({ rowSpan: v }))}
     </div>
   `;
 }
@@ -673,14 +672,14 @@ function renderFlexItemSettings(host: WebwriterWebsiteBuilder, node: BuilderNode
 
   return html`
     <div style="margin-top:1rem">
-      <h2 style="margin-top:0">${msg("Flex item")}</h2>
+      <h2 style="margin-top:0">${host.msg("Flex item")}</h2>
       <div style="font-size:0.78rem;color:var(--sl-color-neutral-500);margin-bottom:0.5rem;">
-        ${msg("Parent direction:")} <strong>${parent.containerFlexSettings?.direction ?? "row"}</strong>
+        ${host.msg("Parent direction:")} <strong>${parent.containerFlexSettings?.direction ?? "row"}</strong>
       </div>
       <div class="setting-row">
         <sl-select value=${fi.alignSelf ?? "auto"} @sl-change=${(e: any) => set({ alignSelf: e.target.value as FlexItemSettings["alignSelf"] })}>
-          <span slot="label">${msg("Align self")} <span class="css-prop">(<code>align-self</code>)</span></span>
-          <sl-option value="auto">auto (${msg("inherit parent")})</sl-option>
+          <span slot="label">${host.msg("Align self")} <span class="css-prop">(<code>align-self</code>)</span></span>
+          <sl-option value="auto">auto (${host.msg("inherit parent")})</sl-option>
           <sl-option value="flex-start">flex-start</sl-option>
           <sl-option value="center">center</sl-option>
           <sl-option value="flex-end">flex-end</sl-option>
@@ -688,11 +687,11 @@ function renderFlexItemSettings(host: WebwriterWebsiteBuilder, node: BuilderNode
           <sl-option value="baseline">baseline</sl-option>
         </sl-select>
       </div>
-      ${flexNumberInput(msg("Flex grow"),   "flex-grow",   fi.flexGrow,   "0", (v) => set({ flexGrow: v }))}
-      ${flexNumberInput(msg("Flex shrink"), "flex-shrink", fi.flexShrink, "1", (v) => set({ flexShrink: v }))}
+      ${flexNumberInput(host.msg("Flex grow"),   "flex-grow",   fi.flexGrow,   "0", (v) => set({ flexGrow: v }))}
+      ${flexNumberInput(host.msg("Flex shrink"), "flex-shrink", fi.flexShrink, "1", (v) => set({ flexShrink: v }))}
       <div class="setting-row">
         <sl-input placeholder="auto" .value=${fi.flexBasis ?? ""} @sl-input=${(e: any) => set({ flexBasis: String(e.target.value ?? "") || undefined })}>
-          <span slot="label">${msg("Flex basis")} <span class="css-prop">(<code>flex-basis</code>)</span></span>
+          <span slot="label">${host.msg("Flex basis")} <span class="css-prop">(<code>flex-basis</code>)</span></span>
         </sl-input>
       </div>
     </div>
@@ -724,18 +723,18 @@ export function renderLayersPanel(host: WebwriterWebsiteBuilder) {
 
   // Background color presets
   const presets = [
-    { label: msg("White"),     value: "#ffffff" },
-    { label: msg("Off-white"), value: "#f8fafc" },
-    { label: msg("Light grey"),value: "#f1f5f9" },
-    { label: msg("Dark"),      value: "#0f172a" },
-    { label: msg("Midnight"),  value: "#1e293b" },
-    { label: msg("Charcoal"),  value: "#18181b" },
+    { label: host.msg("White"),     value: "#ffffff" },
+    { label: host.msg("Off-white"), value: "#f8fafc" },
+    { label: host.msg("Light grey"),value: "#f1f5f9" },
+    { label: host.msg("Dark"),      value: "#0f172a" },
+    { label: host.msg("Midnight"),  value: "#1e293b" },
+    { label: host.msg("Charcoal"),  value: "#18181b" },
   ];
 
   const bgSection = html`
     <div style="margin-bottom: 0.75rem;">
       <div style="font-size:0.8rem;color:var(--sl-color-neutral-600);margin-bottom:0.4rem;font-weight:600;">
-        ${msg("Background color")}
+        ${host.msg("Background color")}
       </div>
 
       <!-- Color input row: swatch + hex input + reset -->
@@ -778,7 +777,7 @@ export function renderLayersPanel(host: WebwriterWebsiteBuilder) {
         <sl-button
           size="small"
           variant="default"
-          title=${msg("Reset to white")}
+          title=${host.msg("Reset to white")}
           @click=${() => {
             host.canvasBackground = "#ffffff";
             host.requestUpdate();
@@ -830,13 +829,13 @@ export function renderLayersPanel(host: WebwriterWebsiteBuilder) {
   return html`
     ${bgSection}
 
-    <sl-details summary=${msg("Layers")} style="margin-top:0.25rem;">
+    <sl-details summary=${host.msg("Layers")} style="margin-top:0.25rem;">
       <div style="font-size:0.78rem;color:var(--sl-color-neutral-600);margin-bottom:0.5rem;">
-        ${msg("Higher = in front. Click to select.")}
+        ${host.msg("Higher = in front. Click to select.")}
       </div>
       ${nodes.map((n) => {
         const comp = n.isContainer ? null : ComponentRegistry[n.type];
-        const label = comp?.label?.() ?? n.type;
+        const label = comp?.label?.(host.msg) ?? n.type;
         const selected = host.selectedNodeId === n.id;
         const zIdx = n.zIndex ?? 0;
 
@@ -848,10 +847,10 @@ export function renderLayersPanel(host: WebwriterWebsiteBuilder) {
             <span class="layer-glyph">${tileGlyph(n.type)}</span>
             <span class="layer-label">${label}</span>
             <div class="layer-z-controls">
-              <button class="layer-z-btn" title=${msg("Bring forward")}
+              <button class="layer-z-btn" title=${host.msg("Bring forward")}
                 @click=${(e: MouseEvent) => { e.stopPropagation(); host.updateNode(n.id, { zIndex: zIdx + 1 }); }}>▲</button>
               <span class="layer-z-val">${zIdx}</span>
-              <button class="layer-z-btn" title=${msg("Send back")}
+              <button class="layer-z-btn" title=${host.msg("Send back")}
                 @click=${(e: MouseEvent) => { e.stopPropagation(); host.updateNode(n.id, { zIndex: Math.max(0, zIdx - 1) }); }}>▼</button>
             </div>
           </div>

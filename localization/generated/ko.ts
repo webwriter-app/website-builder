@@ -181,5 +181,5 @@
 'sfcebd18506f1e535': `흐름`,
 'sff9d51b6c5a73163': `대체 텍스트`,
 'sffdadf0a576fd802': `높이`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
-  

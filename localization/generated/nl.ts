@@ -181,5 +181,5 @@
 'sfcebd18506f1e535': `Stroom`,
 'sff9d51b6c5a73163': `Alternatieve tekst`,
 'sffdadf0a576fd802': `Hoogte`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
-  

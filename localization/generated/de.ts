@@ -9,9 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Halten Sie 
-          <kbd>T</kbd> gedrückt, um die Symbolleisten-Einblendung vorübergehend auszublenden.
-        `,
+      'hee3c66c7df58c59e': html`<kbd>T</kbd> gedrückt halten, um die eingeblendete Werkzeugleiste vorübergehend auszublenden.`,
 's0312976fe9da5951': `Button`,
 's03c44f5a1b0581d4': `ausgewählt`,
 's0442a59427632f08': `Alle Komponenten`,
@@ -75,9 +73,7 @@
 's536ea6b320f9600d': `Gruppierung aufheben`,
 's5590dbf7e425789d': `Beschriftung`,
 's56786c3f3e37cefa': `Geben Sie den Platzhalter für das Textfeld ein …`,
-'s569ed106bd3565e4': str`Layout wechseln zu 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Layout zu ${0} wechseln`,
 's56b2da93a4b8874e': `Audio hochladen`,
 's599dcd2472c75c19': `Absatz`,
 's5a053ed77fa9c1bc': `Selbst ausrichten`,
@@ -106,6 +102,7 @@
 's861fdb0670b22561': `Spaltenbreite`,
 's88f5053fccdf0a61': `Rahmen ausblenden`,
 's89ba1ee1ccee063b': `Beschreiben Sie das Video (Barrierefreiheit)`,
+'s8dfcedb8b2d680cd': `Baukasten-Einstellungen`,
 's8e43508f1392e94d': `Textfarbe`,
 's8e985aeeca6a8166': `Weiß`,
 's8f18916860db5d80': `Auswahl löschen`,
@@ -181,4 +178,3 @@
 'sff9d51b6c5a73163': `Alternativtext`,
 'sffdadf0a576fd802': `Höhe`,
     };
-  

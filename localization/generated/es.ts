@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Mantén pulsadas las teclas 
-          <kbd> T
-          </kbd> para ocultar temporalmente la superposición de la barra de herramientas.
-        `,
+      'hee3c66c7df58c59e': html`Mantén pulsada <kbd>T</kbd> para ocultar temporalmente la barra de herramientas superpuesta.`,
 's0312976fe9da5951': `Botón`,
 's03c44f5a1b0581d4': `seleccionado`,
 's0442a59427632f08': `Todos los componentes`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Desagrupar`,
 's5590dbf7e425789d': `Etiqueta`,
 's56786c3f3e37cefa': `Introduce el texto de relleno del campo de texto...`,
-'s569ed106bd3565e4': str`Cambiar la disposición a 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Cambiar a la disposición ${0}`,
 's56b2da93a4b8874e': `Subir audio`,
 's599dcd2472c75c19': `Párrafo`,
 's5a053ed77fa9c1bc': `Alinear`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Longitud de la columna`,
 's88f5053fccdf0a61': `ocultar el borde`,
 's89ba1ee1ccee063b': `Describe el vídeo (accesibilidad)`,
+'s8dfcedb8b2d680cd': `Configuración del creador`,
 's8e43508f1392e94d': `Color del texto`,
 's8e985aeeca6a8166': `Blanco`,
 's8f18916860db5d80': `Borrar selección`,
@@ -182,4 +178,3 @@
 'sff9d51b6c5a73163': `Texto alternativo`,
 'sffdadf0a576fd802': `Altura`,
     };
-  

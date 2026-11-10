@@ -1,4 +1,5 @@
-<xliff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd" version="1.2">
   <file original="lit-localize-inputs" datatype="plaintext" source-language="en" target-language="fr">
     <body>
       <trans-unit id="s4a5341646123f8ce">
@@ -250,13 +251,8 @@
         <target>Effacer la sélection</target>
       </trans-unit>
       <trans-unit id="s569ed106bd3565e4">
-        <source>Switch layout to 
-          <x id="0" equiv-text="${mode}"/>
-        </source>
-        <target>Changer la disposition du clavier pour 
-          <x id="0" equiv-text="${mode}"/>
-        </target>
-      </trans-unit>
+        <source>Switch layout to <x id="0" equiv-text="${mode}" /></source>
+<target>Passer à la disposition <x id="0" equiv-text="${mode}" /></target></trans-unit>
       <trans-unit id="s0bdef849e0480d0e">
         <source>Drag to canvas · Click for info</source>
         <target>Faites glisser vers la zone de travail · Cliquez pour plus d'informations</target>
@@ -510,15 +506,8 @@
         <target>Code</target>
       </trans-unit>
       <trans-unit id="hee3c66c7df58c59e">
-        <source>Hold 
-          <x id="0" equiv-text="&lt;kbd&gt;"/>T
-          <x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.
-        </source>
-        <target>Maintenez enfoncées les touches 
-          <x id="0" equiv-text="&lt;kbd&gt;"/> T
-          <x id="1" equiv-text="&lt;/kbd&gt;"/> pour masquer temporairement la barre d'outils.
-        </target>
-      </trans-unit>
+        <source>Hold <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> to temporarily hide the toolbar overlay.</source>
+<target>Maintenez <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> enfoncée pour masquer temporairement la barre d’outils superposée.</target></trans-unit>
       <trans-unit id="s33054d1d675674c9">
         <source>Freeform</source>
         <target>Forme libre</target>
@@ -679,6 +668,9 @@
         <source>Fullscreen</source>
         <target>Plein écran</target>
       </trans-unit>
-    </body>
+    <trans-unit id="s8dfcedb8b2d680cd">
+  <source>Builder settings</source>
+<target>Paramètres du constructeur</target></trans-unit>
+</body>
   </file>
 </xliff>

@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
+import { sourceMsg } from "../../../localization/localizer";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 
 const DEFAULT_WIDTH = "300px";
@@ -7,7 +7,7 @@ const DEFAULT_HEIGHT = "1px";
 
 export const DividerComponent: BuilderComponent = {
   type: "divider",
-  label: () => msg("Divider"),
+  label: (msg) => msg("Divider"),
   group: "dividers",
 
   defaultData: {
@@ -43,7 +43,7 @@ export const DividerComponent: BuilderComponent = {
   bindings: () => [
     {
       key: "width",
-      label: msg("Width (e.g. 300px, 20rem)"),
+      label: sourceMsg("Width (e.g. 300px, 20rem)"),
       kind: "style",
       target: "hr",
       name: "width",
@@ -51,7 +51,7 @@ export const DividerComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: msg("Height (e.g. 10px, 0.5rem)"),
+      label: sourceMsg("Height (e.g. 10px, 0.5rem)"),
       kind: "style",
       target: "hr",
       name: "height",
@@ -59,7 +59,7 @@ export const DividerComponent: BuilderComponent = {
     },
   ],
 
-  settings: ({ setData }) => {
+  settings: ({ setData }, msg) => {
     const reset = () => setData({ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT });
 
     return html`

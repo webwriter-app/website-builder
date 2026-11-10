@@ -181,5 +181,5 @@
 'sfcebd18506f1e535': `Debit`,
 'sff9d51b6c5a73163': `Text alternativ`,
 'sffdadf0a576fd802': `Înălțime`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
-  

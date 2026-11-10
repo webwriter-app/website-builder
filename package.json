@@ -1,6 +1,6 @@
 {
   "name": "@webwriter/website-builder",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).",
   "keywords": [
     "webwriter-widget",
@@ -43,8 +43,13 @@
     "widget-lang-ko",
     "widget-lang-ja",
     "widget-lang-id",
-    "widget-lang-zh-hans",
-    "widget-lang-zh-hant"
+    "widget-lang-zh-Hans",
+    "widget-lang-zh-Hant",
+    "widget-lang-en-US",
+    "widget-lang-en-GB",
+    "widget-lang-en-CA",
+    "widget-lang-en-AU",
+    "widget-lang-en-IN"
   ],
   "license": "MIT",
   "author": "Moritz Langenhan <moritz.langenhan@rwth-aachen.de>",
