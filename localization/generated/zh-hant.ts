@@ -178,4 +178,3 @@
 's6f44d1ec40b5eb0d': `Component settings`,
 's4b10acae683d2978': `Fullscreen`,
     };
-  

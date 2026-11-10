@@ -178,4 +178,3 @@
 'sff9d51b6c5a73163': `Texte alternatif`,
 'sffdadf0a576fd802': `Hauteur`,
     };
-  

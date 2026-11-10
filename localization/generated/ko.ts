@@ -183,4 +183,3 @@
 'sffdadf0a576fd802': `높이`,
 's8dfcedb8b2d680cd': `Builder settings`,
     };
-  
