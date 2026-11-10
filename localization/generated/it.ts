@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Tieni premuto 
-          <kbd> T
-          </kbd> per nascondere temporaneamente la barra degli strumenti sovrapposta.
-        `,
+      'hee3c66c7df58c59e': html`Tieni premuto <kbd>T</kbd> per nascondere temporaneamente la barra degli strumenti mobile.`,
 's0312976fe9da5951': `Pulsante`,
 's03c44f5a1b0581d4': `selezionato`,
 's0442a59427632f08': `Tutti i componenti`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Separa`,
 's5590dbf7e425789d': `Etichetta`,
 's56786c3f3e37cefa': `Inserisci il testo di esempio per l'area di testo…`,
-'s569ed106bd3565e4': str`Cambia la disposizione della tastiera in 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Passa al layout ${0}`,
 's56b2da93a4b8874e': `Carica audio`,
 's599dcd2472c75c19': `Paragrafo`,
 's5a053ed77fa9c1bc': `Allineare se stessi`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Larghezza della colonna`,
 's88f5053fccdf0a61': `nascondi il bordo`,
 's89ba1ee1ccee063b': `Descrivi il video (accessibilità)`,
+'s8dfcedb8b2d680cd': `Impostazioni del creatore di siti`,
 's8e43508f1392e94d': `Colore del testo`,
 's8e985aeeca6a8166': `Bianco`,
 's8f18916860db5d80': `Cancella selezione`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Flusso`,
 'sff9d51b6c5a73163': `Testo alternativo`,
 'sffdadf0a576fd802': `Altezza`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

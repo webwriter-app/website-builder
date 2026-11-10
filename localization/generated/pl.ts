@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Przytrzymaj 
-          <kbd> T
-          </kbd> , aby tymczasowo ukryć nakładkę paska narzędzi.
-        `,
+      'hee3c66c7df58c59e': html`Przytrzymaj <kbd>T</kbd>, aby tymczasowo ukryć pływający pasek narzędzi.`,
 's0312976fe9da5951': `Przycisk`,
 's03c44f5a1b0581d4': `wybrane`,
 's0442a59427632f08': `Wszystkie elementy`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Rozgrupuj`,
 's5590dbf7e425789d': `Etykieta`,
 's56786c3f3e37cefa': `Wpisz tekst zastępczy w polu tekstowym…`,
-'s569ed106bd3565e4': str`Zmień układ na 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Zmień układ na ${0}`,
 's56b2da93a4b8874e': `Prześlij plik audio`,
 's599dcd2472c75c19': `Akapit`,
 's5a053ed77fa9c1bc': `Wyrównaj`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Rozpiętość kolumny`,
 's88f5053fccdf0a61': `ukryj ramkę`,
 's89ba1ee1ccee063b': `Opisz film (dostępność)`,
+'s8dfcedb8b2d680cd': `Ustawienia kreatora stron`,
 's8e43508f1392e94d': `Kolor tekstu`,
 's8e985aeeca6a8166': `Biały`,
 's8f18916860db5d80': `Wyczyść wybór`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Przepływ`,
 'sff9d51b6c5a73163': `Tekst alternatywny`,
 'sffdadf0a576fd802': `Wysokość`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

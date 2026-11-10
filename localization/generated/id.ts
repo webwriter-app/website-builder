@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Tekan dan tahan 
-          <kbd> T
-          </kbd> untuk menyembunyikan sementara lapisan bilah alat.
-        `,
+      'hee3c66c7df58c59e': html`Tahan <kbd>T</kbd> untuk menyembunyikan sementara bilah alat mengambang.`,
 's0312976fe9da5951': `Tombol`,
 's03c44f5a1b0581d4': `yang dipilih`,
 's0442a59427632f08': `Semua komponen`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Batalkan pengelompokan`,
 's5590dbf7e425789d': `Label`,
 's56786c3f3e37cefa': `Masukkan teks tempatholder…`,
-'s569ed106bd3565e4': str`Ubah tata letak ke 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Ganti tata letak ke ${0}`,
 's56b2da93a4b8874e': `Unggah Audio`,
 's599dcd2472c75c19': `Paragraf`,
 's5a053ed77fa9c1bc': `Menyesuaikan diri`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Jarak kolom`,
 's88f5053fccdf0a61': `sembunyikan batas`,
 's89ba1ee1ccee063b': `Jelaskan video tersebut (aksesibilitas)`,
+'s8dfcedb8b2d680cd': `Pengaturan pembuat situs`,
 's8e43508f1392e94d': `Warna teks`,
 's8e985aeeca6a8166': `Putih`,
 's8f18916860db5d80': `Hapus pilihan`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Aliran`,
 'sff9d51b6c5a73163': `Teks Alternatif`,
 'sffdadf0a576fd802': `Tinggi`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

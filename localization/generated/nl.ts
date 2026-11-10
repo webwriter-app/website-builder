@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Houd 
-          <kbd> T
-          </kbd> ingedrukt om de werkbalk tijdelijk te verbergen.
-        `,
+      'hee3c66c7df58c59e': html`Houd <kbd>T</kbd> ingedrukt om de zwevende werkbalk tijdelijk te verbergen.`,
 's0312976fe9da5951': `Knop`,
 's03c44f5a1b0581d4': `geselecteerd`,
 's0442a59427632f08': `Alle onderdelen`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Groep opheffen`,
 's5590dbf7e425789d': `Etiket`,
 's56786c3f3e37cefa': `Voer de tijdelijke tekst voor het tekstveld in…`,
-'s569ed106bd3565e4': str`Schakel de indeling over naar 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Indeling wijzigen naar ${0}`,
 's56b2da93a4b8874e': `Audio uploaden`,
 's599dcd2472c75c19': `Alinea`,
 's5a053ed77fa9c1bc': `Zichzelf afstemmen`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Kolomafstand`,
 's88f5053fccdf0a61': `rand verbergen`,
 's89ba1ee1ccee063b': `Beschrijf de video (toegankelijkheid)`,
+'s8dfcedb8b2d680cd': `Instellingen van de websitebouwer`,
 's8e43508f1392e94d': `Tekstkleur`,
 's8e985aeeca6a8166': `Wit`,
 's8f18916860db5d80': `Selectie wissen`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Stroom`,
 'sff9d51b6c5a73163': `Alternatieve tekst`,
 'sffdadf0a576fd802': `Hoogte`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

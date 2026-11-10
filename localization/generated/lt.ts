@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Laikykite 
-          <kbd> T
-          </kbd> , kad laikinai paslėptumėte įrankių juostos perdangą.
-        `,
+      'hee3c66c7df58c59e': html`Laikykite nuspaudę <kbd>T</kbd>, kad laikinai paslėptumėte slankiąją įrankių juostą.`,
 's0312976fe9da5951': `Mygtukas`,
 's03c44f5a1b0581d4': `pasirinkta`,
 's0442a59427632f08': `Visi komponentai`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Atšaukti grupavimą`,
 's5590dbf7e425789d': `Etiketė`,
 's56786c3f3e37cefa': `Įveskite teksto laukelio vietos užpildą…`,
-'s569ed106bd3565e4': str`Pakeisti išdėstymą į 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Pakeisti išdėstymą į ${0}`,
 's56b2da93a4b8874e': `Įkelti garso įrašą`,
 's599dcd2472c75c19': `Skiltyje`,
 's5a053ed77fa9c1bc': `Suderinti save`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Stulpelio plotis`,
 's88f5053fccdf0a61': `paslėpti rėmelį`,
 's89ba1ee1ccee063b': `Aprašykite vaizdo įrašą (prieinamumas)`,
+'s8dfcedb8b2d680cd': `Svetainių kūrimo priemonės nuostatos`,
 's8e43508f1392e94d': `Teksto spalva`,
 's8e985aeeca6a8166': `Balta`,
 's8f18916860db5d80': `Išvalyti pasirinkimą`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Srautas`,
 'sff9d51b6c5a73163': `Alternatyvusis tekstas`,
 'sffdadf0a576fd802': `Aukštis`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

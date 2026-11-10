@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Podržte 
-          <kbd> T
-          </kbd> , aby ste dočasne skryli prekrývací panel nástrojov.
-        `,
+      'hee3c66c7df58c59e': html`Podržte kláves <kbd>T</kbd>, ak chcete dočasne skryť plávajúci panel nástrojov.`,
 's0312976fe9da5951': `Tlačidlo`,
 's03c44f5a1b0581d4': `vybrané`,
 's0442a59427632f08': `Všetky komponenty`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Rozbaliť skupinu`,
 's5590dbf7e425789d': `Názov`,
 's56786c3f3e37cefa': `Zadajte text do textového poľa…`,
-'s569ed106bd3565e4': str`Zmeniť rozloženie na 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Prepnúť rozloženie na ${0}`,
 's56b2da93a4b8874e': `Nahrať zvuk`,
 's599dcd2472c75c19': `Odsek`,
 's5a053ed77fa9c1bc': `Zosúlaď sa`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Rozpätie stĺpov`,
 's88f5053fccdf0a61': `skryť ohraničenie`,
 's89ba1ee1ccee063b': `Popíšte video (prístupnosť)`,
+'s8dfcedb8b2d680cd': `Nastavenia tvorcu webov`,
 's8e43508f1392e94d': `Farba textu`,
 's8e985aeeca6a8166': `Biela`,
 's8f18916860db5d80': `Vymazať výber`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Prúdenie`,
 'sff9d51b6c5a73163': `Alternatívny text`,
 'sffdadf0a576fd802': `Výška`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

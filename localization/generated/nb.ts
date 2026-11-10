@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Hold 
-          <kbd> T
-          </kbd> nede for å skjule verktøylinjeoverlegget midlertidig.
-        `,
+      'hee3c66c7df58c59e': html`Hold <kbd>T</kbd> nede for å skjule den flytende verktøylinjen midlertidig.`,
 's0312976fe9da5951': `Knapp`,
 's03c44f5a1b0581d4': `valgt`,
 's0442a59427632f08': `Alle komponenter`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Opphev gruppering`,
 's5590dbf7e425789d': `Etikett`,
 's56786c3f3e37cefa': `Skriv inn plassholdertekst i tekstfeltet…`,
-'s569ed106bd3565e4': str`Bytt oppsett til 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Bytt oppsett til ${0}`,
 's56b2da93a4b8874e': `Last opp lyd`,
 's599dcd2472c75c19': `Avsnitt`,
 's5a053ed77fa9c1bc': `Juster selv`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Kolonneavstand`,
 's88f5053fccdf0a61': `skjul kant`,
 's89ba1ee1ccee063b': `Beskriv videoen (tilgjengelighet)`,
+'s8dfcedb8b2d680cd': `Innstillinger for nettstedbygger`,
 's8e43508f1392e94d': `Tekstfarge`,
 's8e985aeeca6a8166': `Hvit`,
 's8f18916860db5d80': `Fjern valget`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Strømning`,
 'sff9d51b6c5a73163': `Alternativ tekst`,
 'sffdadf0a576fd802': `Høyde`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

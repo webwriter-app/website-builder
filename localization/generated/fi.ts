@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Pidä 
-          <kbd> T
-          </kbd> painettuna, jotta työkalurivin peittokuva piilotetaan väliaikaisesti.
-        `,
+      'hee3c66c7df58c59e': html`Piilota kelluva työkalupalkki tilapäisesti pitämällä <kbd>T</kbd>-näppäintä painettuna.`,
 's0312976fe9da5951': `Painike`,
 's03c44f5a1b0581d4': `valittu`,
 's0442a59427632f08': `Kaikki osat`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Poista ryhmä`,
 's5590dbf7e425789d': `Etiketti`,
 's56786c3f3e37cefa': `Kirjoita tekstikentän paikkamerkki…`,
-'s569ed106bd3565e4': str`Vaihda asetteluun 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Vaihda asetteluksi ${0}`,
 's56b2da93a4b8874e': `Lataa ääni`,
 's599dcd2472c75c19': `Kappale`,
 's5a053ed77fa9c1bc': `Kohdista itsesi`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Sarakkeen leveys`,
 's88f5053fccdf0a61': `piilota reunus`,
 's89ba1ee1ccee063b': `Kuvaile videota (esteettömyys)`,
+'s8dfcedb8b2d680cd': `Sivunrakentajan asetukset`,
 's8e43508f1392e94d': `Tekstin väri`,
 's8e985aeeca6a8166': `Valkoinen`,
 's8f18916860db5d80': `Tyhjennä valinta`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Virtaus`,
 'sff9d51b6c5a73163': `Vaihtoehtoinen teksti`,
 'sffdadf0a576fd802': `Korkeus`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

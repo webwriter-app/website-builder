@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Hoidke 
-          <kbd> T
-          </kbd> all, et tööriistariba ajutiselt peita.
-        `,
+      'hee3c66c7df58c59e': html`Ujuva tööriistariba ajutiseks peitmiseks hoia all klahvi <kbd>T</kbd>.`,
 's0312976fe9da5951': `Nupp`,
 's03c44f5a1b0581d4': `valitud`,
 's0442a59427632f08': `Kõik komponendid`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Rühma lahti`,
 's5590dbf7e425789d': `Silt`,
 's56786c3f3e37cefa': `Sisesta tekstivälja asendustekst…`,
-'s569ed106bd3565e4': str`Muuda paigutust 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Muuda paigutuseks ${0}`,
 's56b2da93a4b8874e': `Laadi heli üles`,
 's599dcd2472c75c19': `Lõik`,
 's5a053ed77fa9c1bc': `Kohanda ise`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Veeru laius`,
 's88f5053fccdf0a61': `peida piirjoon`,
 's89ba1ee1ccee063b': `Kirjeldage videot (juurdepääsetavus)`,
+'s8dfcedb8b2d680cd': `Koostaja seaded`,
 's8e43508f1392e94d': `Teksti värv`,
 's8e985aeeca6a8166': `Valge`,
 's8f18916860db5d80': `Tühista valik`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Vool`,
 'sff9d51b6c5a73163': `Alternatiivtekst`,
 'sffdadf0a576fd802': `Kõrgus`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

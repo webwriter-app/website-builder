@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Tartsa lenyomva 
-          <kbd> T
-          </kbd> gombokat az eszköztár átfedésének ideiglenes elrejtéséhez.
-        `,
+      'hee3c66c7df58c59e': html`A lebegő eszköztár ideiglenes elrejtéséhez tartsd lenyomva a <kbd>T</kbd> billentyűt.`,
 's0312976fe9da5951': `Gomb`,
 's03c44f5a1b0581d4': `kiválasztott`,
 's0442a59427632f08': `Minden alkatrész`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Csoport feloldása`,
 's5590dbf7e425789d': `Címke`,
 's56786c3f3e37cefa': `Írja be a szövegmező helyőrzőjét…`,
-'s569ed106bd3565e4': str`Az elrendezés váltása 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Váltás erre az elrendezésre: ${0}`,
 's56b2da93a4b8874e': `Hangfájl feltöltése`,
 's599dcd2472c75c19': `Bekezdés`,
 's5a053ed77fa9c1bc': `Összehangolás`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Oszlopok közötti távolság`,
 's88f5053fccdf0a61': `keret elrejtése`,
 's89ba1ee1ccee063b': `A videó leírása (akadálymentesség)`,
+'s8dfcedb8b2d680cd': `A weboldalkészítő beállításai`,
 's8e43508f1392e94d': `A szöveg színe`,
 's8e985aeeca6a8166': `Fehér`,
 's8f18916860db5d80': `Kiválasztás törlése`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Áramlás`,
 'sff9d51b6c5a73163': `Alternatív szöveg`,
 'sffdadf0a576fd802': `Magasság`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

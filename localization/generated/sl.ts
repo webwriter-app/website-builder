@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Držite 
-          <kbd> T
-          </kbd> , da začasno skrijete prekrivni pas z orodji.
-        `,
+      'hee3c66c7df58c59e': html`Držite <kbd>T</kbd>, da začasno skrijete plavajočo orodno vrstico.`,
 's0312976fe9da5951': `Gumb`,
 's03c44f5a1b0581d4': `izbrano`,
 's0442a59427632f08': `Vse sestavne dele`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Razveljavi združitev`,
 's5590dbf7e425789d': `Oznaka`,
 's56786c3f3e37cefa': `Vnesite začasno besedilo v polje za vnos besedila…`,
-'s569ed106bd3565e4': str`Preklopi razpored tipk na 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Preklopi postavitev na ${0}`,
 's56b2da93a4b8874e': `Naloži avdio datoteko`,
 's599dcd2472c75c19': `Odstavek`,
 's5a053ed77fa9c1bc': `Uskladi se`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Razpon stebrov`,
 's88f5053fccdf0a61': `skrij rob`,
 's89ba1ee1ccee063b': `Opišite videoposnetek (dostopnost)`,
+'s8dfcedb8b2d680cd': `Nastavitve izdelovalnika`,
 's8e43508f1392e94d': `Barva besedila`,
 's8e985aeeca6a8166': `Bela`,
 's8f18916860db5d80': `Počisti izbor`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Pretok`,
 'sff9d51b6c5a73163': `Alternativni tekst`,
 'sffdadf0a576fd802': `Višina`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

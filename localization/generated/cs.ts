@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Podržte 
-          <kbd> T
-          </kbd> , abyste dočasně skryli překryvnou lištu nástrojů.
-        `,
+      'hee3c66c7df58c59e': html`Podržením klávesy <kbd>T</kbd> dočasně skryjete překryvný panel nástrojů.`,
 's0312976fe9da5951': `Tlačítko`,
 's03c44f5a1b0581d4': `vybrané`,
 's0442a59427632f08': `Všechny součásti`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Rozbalit`,
 's5590dbf7e425789d': `Štítek`,
 's56786c3f3e37cefa': `Zadejte text do textového pole…`,
-'s569ed106bd3565e4': str`Změnit rozložení na 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Přepnout rozvržení na ${0}`,
 's56b2da93a4b8874e': `Nahrát zvuk`,
 's599dcd2472c75c19': `Odstavec`,
 's5a053ed77fa9c1bc': `Srovnat se`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Rozpětí sloupu`,
 's88f5053fccdf0a61': `skrýt ohraničení`,
 's89ba1ee1ccee063b': `Popište video (přístupnost)`,
+'s8dfcedb8b2d680cd': `Nastavení tvůrce webů`,
 's8e43508f1392e94d': `Barva textu`,
 's8e985aeeca6a8166': `Bílá`,
 's8f18916860db5d80': `Vymazat výběr`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Průtok`,
 'sff9d51b6c5a73163': `Alternativní text`,
 'sffdadf0a576fd802': `Výška`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

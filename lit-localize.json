@@ -33,7 +33,9 @@
         "id",
         "zh-hans",
         "zh-hant",
-        "zh"
+        "zh",
+        "pt",
+        "no"
     ],
     "tsConfig": "./tsconfig.json",
     "output": {

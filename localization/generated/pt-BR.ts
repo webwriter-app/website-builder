@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Mantenha pressionadas as teclas 
-          <kbd> T
-          </kbd> para ocultar temporariamente a sobreposição da barra de ferramentas.
-        `,
+      'hee3c66c7df58c59e': html`Mantenha <kbd>T</kbd> pressionado para ocultar temporariamente a barra de ferramentas flutuante.`,
 's0312976fe9da5951': `Botão`,
 's03c44f5a1b0581d4': `selecionado`,
 's0442a59427632f08': `Todos os componentes`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Desagrupar`,
 's5590dbf7e425789d': `Etiqueta`,
 's56786c3f3e37cefa': `Insira o texto de preenchimento da área de texto…`,
-'s569ed106bd3565e4': str`Alterar o layout para 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Mudar o layout para ${0}`,
 's56b2da93a4b8874e': `Carregar áudio`,
 's599dcd2472c75c19': `Parágrafo`,
 's5a053ed77fa9c1bc': `Alinhar-se`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Extensão da coluna`,
 's88f5053fccdf0a61': `ocultar borda`,
 's89ba1ee1ccee063b': `Descreva o vídeo (acessibilidade)`,
+'s8dfcedb8b2d680cd': `Configurações do criador de sites`,
 's8e43508f1392e94d': `Cor do texto`,
 's8e985aeeca6a8166': `Branco`,
 's8f18916860db5d80': `Limpar seleção`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Fluxo`,
 'sff9d51b6c5a73163': `Texto alternativo`,
 'sffdadf0a576fd802': `Altura`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

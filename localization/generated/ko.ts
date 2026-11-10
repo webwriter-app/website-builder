@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`
-          <kbd>T
-          </kbd> 키를 길게 누르면 도구 모음 오버레이가 일시적으로 숨겨집니다.
-        `,
+      'hee3c66c7df58c59e': html`<kbd>T</kbd> 키를 누르고 있으면 떠 있는 도구 모음을 잠시 숨길 수 있습니다.`,
 's0312976fe9da5951': `버튼`,
 's03c44f5a1b0581d4': `선택됨`,
 's0442a59427632f08': `모든 구성 요소`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `그룹 해제`,
 's5590dbf7e425789d': `라벨`,
 's56786c3f3e37cefa': `텍스트 영역의 기본 텍스트를 입력하세요…`,
-'s569ed106bd3565e4': str`레이아웃을 다음으로 변경 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`레이아웃을 ${0}(으)로 전환`,
 's56b2da93a4b8874e': `오디오 업로드`,
 's599dcd2472c75c19': `문단`,
 's5a053ed77fa9c1bc': `자세 바로잡기`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `기둥 스팬`,
 's88f5053fccdf0a61': `테두리 숨기기`,
 's89ba1ee1ccee063b': `동영상 설명 (접근성)`,
+'s8dfcedb8b2d680cd': `빌더 설정`,
 's8e43508f1392e94d': `글자 색상`,
 's8e985aeeca6a8166': `흰색`,
 's8f18916860db5d80': `선택 취소`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `흐름`,
 'sff9d51b6c5a73163': `대체 텍스트`,
 'sffdadf0a576fd802': `높이`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

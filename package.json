@@ -24,9 +24,16 @@
     "widget-lang-zh",
     "widget-lang-zh-Hans",
     "widget-lang-zh-Hant",
+    "widget-lang-cs",
+    "widget-lang-da",
+    "widget-lang-nl",
     "widget-lang-fr",
     "widget-lang-de",
-    "widget-lang-es"
+    "widget-lang-pt",
+    "widget-lang-pt-PT",
+    "widget-lang-pt-BR",
+    "widget-lang-es",
+    "widget-lang-sv"
   ],
   "license": "MIT",
   "author": "Moritz Langenhan <moritz.langenhan@rwth-aachen.de>",

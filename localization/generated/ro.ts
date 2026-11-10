@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Țineți apăsate 
-          <kbd> T
-          </kbd> pentru a ascunde temporar bara de instrumente.
-        `,
+      'hee3c66c7df58c59e': html`Ține apăsată tasta <kbd>T</kbd> pentru a ascunde temporar bara de instrumente flotantă.`,
 's0312976fe9da5951': `Buton`,
 's03c44f5a1b0581d4': `selectat`,
 's0442a59427632f08': `Toate componentele`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Desfă gruparea`,
 's5590dbf7e425789d': `Etichetă`,
 's56786c3f3e37cefa': `Introduceți textul de substituție pentru câmpul text…`,
-'s569ed106bd3565e4': str`Schimbă dispunerea la 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Schimbă aspectul la ${0}`,
 's56b2da93a4b8874e': `Încărcați fișierul audio`,
 's599dcd2472c75c19': `Paragraf`,
 's5a053ed77fa9c1bc': `Aliniază-te`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Distanța dintre coloane`,
 's88f5053fccdf0a61': `ascunde marginea`,
 's89ba1ee1ccee063b': `Descrieți videoclipul (accesibilitate)`,
+'s8dfcedb8b2d680cd': `Setările creatorului de site-uri`,
 's8e43508f1392e94d': `Culoarea textului`,
 's8e985aeeca6a8166': `Alb`,
 's8f18916860db5d80': `Șterge selecția`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Debit`,
 'sff9d51b6c5a73163': `Text alternativ`,
 'sffdadf0a576fd802': `Înălțime`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

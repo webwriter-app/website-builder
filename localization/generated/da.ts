@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Hold 
-          <kbd> T
-          </kbd> nede for midlertidigt at skjule værktøjslinjens overlay.
-        `,
+      'hee3c66c7df58c59e': html`Hold <kbd>T</kbd> nede for midlertidigt at skjule den flydende værktøjslinje.`,
 's0312976fe9da5951': `Knap`,
 's03c44f5a1b0581d4': `valgt`,
 's0442a59427632f08': `Alle komponenter`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Ophæv gruppering`,
 's5590dbf7e425789d': `Etiket`,
 's56786c3f3e37cefa': `Indtast tekstfeltets stedholder…`,
-'s569ed106bd3565e4': str`Skift layout til 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Skift layout til ${0}`,
 's56b2da93a4b8874e': `Upload lyd`,
 's599dcd2472c75c19': `Afsnit`,
 's5a053ed77fa9c1bc': `Juster mig selv`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Kolonneafstand`,
 's88f5053fccdf0a61': `skjul kant`,
 's89ba1ee1ccee063b': `Beskriv videoen (tilgængelighed)`,
+'s8dfcedb8b2d680cd': `Indstillinger for webstedsbygger`,
 's8e43508f1392e94d': `Tekstfarve`,
 's8e985aeeca6a8166': `Hvid`,
 's8f18916860db5d80': `Ryd valg`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Flow`,
 'sff9d51b6c5a73163': `Alternativ tekst`,
 'sffdadf0a576fd802': `Højde`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };

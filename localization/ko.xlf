@@ -1,4 +1,5 @@
-<xliff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd" version="1.2">
   <file original="lit-localize-inputs" datatype="plaintext" source-language="en" target-language="ko">
     <body>
       <trans-unit id="s4a5341646123f8ce">
@@ -250,13 +251,8 @@
         <target>선택 취소</target>
       </trans-unit>
       <trans-unit id="s569ed106bd3565e4">
-        <source>Switch layout to 
-          <x id="0" equiv-text="${mode}"/>
-        </source>
-        <target>레이아웃을 다음으로 변경 
-          <x id="0" equiv-text="${mode}"/>
-        </target>
-      </trans-unit>
+        <source>Switch layout to <x id="0" equiv-text="${mode}" /></source>
+<target>레이아웃을 <x id="0" equiv-text="${mode}" />(으)로 전환</target></trans-unit>
       <trans-unit id="s0bdef849e0480d0e">
         <source>Drag to canvas · Click for info</source>
         <target>캔버스로 드래그 · 정보를 보려면 클릭</target>
@@ -510,15 +506,8 @@
         <target>코드</target>
       </trans-unit>
       <trans-unit id="hee3c66c7df58c59e">
-        <source>Hold 
-          <x id="0" equiv-text="&lt;kbd&gt;"/>T
-          <x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.
-        </source>
-        <target>
-          <x id="0" equiv-text="&lt;kbd&gt;"/>T
-          <x id="1" equiv-text="&lt;/kbd&gt;"/> 키를 길게 누르면 도구 모음 오버레이가 일시적으로 숨겨집니다.
-        </target>
-      </trans-unit>
+        <source>Hold <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> to temporarily hide the toolbar overlay.</source>
+<target><x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> 키를 누르고 있으면 떠 있는 도구 모음을 잠시 숨길 수 있습니다.</target></trans-unit>
       <trans-unit id="s33054d1d675674c9">
         <source>Freeform</source>
         <target>자유형</target>
@@ -679,6 +668,9 @@
         <source>Fullscreen</source>
         <target>전체 화면</target>
       </trans-unit>
-    </body>
+    <trans-unit id="s8dfcedb8b2d680cd">
+  <source>Builder settings</source>
+<target>빌더 설정</target></trans-unit>
+</body>
   </file>
 </xliff>

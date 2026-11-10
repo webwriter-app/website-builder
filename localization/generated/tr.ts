@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Araç çubuğu katmanını geçici olarak gizlemek için 
-          <kbd> T
-          </kbd> tuşlarına basın.
-        `,
+      'hee3c66c7df58c59e': html`Kayan araç çubuğunu geçici olarak gizlemek için <kbd>T</kbd> tuşunu basılı tut.`,
 's0312976fe9da5951': `Düğme`,
 's03c44f5a1b0581d4': `seçilen`,
 's0442a59427632f08': `Tüm bileşenler`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Grubu kaldır`,
 's5590dbf7e425789d': `Etiket`,
 's56786c3f3e37cefa': `Metin alanı yer tutucusunu girin…`,
-'s569ed106bd3565e4': str`Düzeni şuna değiştir 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Düzeni ${0} olarak değiştir`,
 's56b2da93a4b8874e': `Ses Dosyası Yükle`,
 's599dcd2472c75c19': `Paragraf`,
 's5a053ed77fa9c1bc': `Kendini hizala`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Sütun aralığı`,
 's88f5053fccdf0a61': `kenarlığı gizle`,
 's89ba1ee1ccee063b': `Videoyu tanımlayın (erişilebilirlik)`,
+'s8dfcedb8b2d680cd': `Site oluşturucu ayarları`,
 's8e43508f1392e94d': `Metin rengi`,
 's8e985aeeca6a8166': `Beyaz`,
 's8f18916860db5d80': `Seçimi temizle`,
@@ -181,5 +177,4 @@
 'sfcebd18506f1e535': `Akış`,
 'sff9d51b6c5a73163': `Alternatif Metin`,
 'sffdadf0a576fd802': `Yükseklik`,
-'s8dfcedb8b2d680cd': `Builder settings`,
     };
