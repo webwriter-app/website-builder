@@ -20,7 +20,7 @@ const getLayoutLabels = (msg: MsgFn): Record<LayoutMode, string> => ({
   freeform: msg("Freeform"),
   flow: msg("Flow"),
   flex: "Flex",
-  grid: "Grid",
+  grid: msg("Grid"),
 });
 
 const getToolbarQuickItems = (msg: MsgFn) => [

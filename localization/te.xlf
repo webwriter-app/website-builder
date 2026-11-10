@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+<file target-language="te" source-language="en" original="lit-localize-inputs" datatype="plaintext">
+<body>
+<trans-unit id="sdaf07664dbfc95c5">
+  <source>Choose icon…</source>
+<target>ఐకాన్ ఎంచుకోండి…</target></trans-unit>
+<trans-unit id="s4a5341646123f8ce">
+  <source>drop components here</source>
+<target>కాంపోనెంట్‌లను ఇక్కడ వదలండి</target></trans-unit>
+<trans-unit id="seb9a18743f5c0535">
+  <source>Empty container — add items via the sidebar</source>
+<target>ఖాళీ కంటైనర్ — సైడ్‌బార్ ద్వారా అంశాలను జోడించండి</target></trans-unit>
+<trans-unit id="sbb59e2127a113990">
+  <source>Choose an icon</source>
+<target>ఐకాన్ ఎంచుకోండి</target></trans-unit>
+<trans-unit id="s8059a22698307577">
+  <source>Search icons…</source>
+<target>ఐకాన్‌లను వెతకండి…</target></trans-unit>
+<trans-unit id="s188927533d6c9987">
+  <source>Icon color</source>
+<target>ఐకాన్ రంగు</target></trans-unit>
+<trans-unit id="s2ceb11be2290bb1b">
+  <source>Cancel</source>
+<target>రద్దు చేయండి</target></trans-unit>
+<trans-unit id="s47ba0113da523b8d">
+  <source>Use icon</source>
+<target>ఐకాన్ ఉపయోగించండి</target></trans-unit>
+<trans-unit id="s0442a59427632f08">
+  <source>All components</source>
+<target>అన్ని కాంపోనెంట్‌లు</target></trans-unit>
+<trans-unit id="s5d929ff1619ac0c9">
+  <source>Search</source>
+<target>వెతకండి</target></trans-unit>
+<trans-unit id="s6bb965855fa5c1ab">
+  <source>Search components…</source>
+<target>కాంపోనెంట్‌లను వెతకండి…</target></trans-unit>
+<trans-unit id="s2841a0c596d6f426">
+  <source>item</source>
+<target>అంశం</target></trans-unit>
+<trans-unit id="s3e7884bf4f412c6f">
+  <source>items</source>
+<target>అంశాలు</target></trans-unit>
+<trans-unit id="sa7d404b9283351e9">
+  <source>Drag tiles from the palette, or insert here at default position.</source>
+<target>ప్యాలెట్ నుంచి టైల్స్‌ను లాగండి లేదా ఇక్కడ డిఫాల్ట్ స్థానంలో చొప్పించండి.</target></trans-unit>
+<trans-unit id="s1219d97b49650c05">
+  <source>Visibility</source>
+<target>దృశ్యమానత</target></trans-unit>
+<trans-unit id="s2ea4f3816cb3eaab">
+  <source>Layout modes</source>
+<target>లేఅవుట్ మోడ్‌లు</target></trans-unit>
+<trans-unit id="s3e580baec12c5cf8">
+  <source>Code tabs</source>
+<target>కోడ్ ట్యాబ్‌లు</target></trans-unit>
+<trans-unit id="sc40ba85758f16fca">
+  <source>Combined</source>
+<target>సంయుక్తం</target></trans-unit>
+<trans-unit id="s7c2386fe775b2853">
+  <source>Student mode</source>
+<target>విద్యార్థి మోడ్</target></trans-unit>
+<trans-unit id="s514f361e5688d094">
+  <source>Show component settings</source>
+<target>కాంపోనెంట్ సెట్టింగ్‌లను చూపండి</target></trans-unit>
+<trans-unit id="s4b05ac1126ccd6c0">
+  <source>Show sidebar</source>
+<target>సైడ్‌బార్ చూపండి</target></trans-unit>
+<trans-unit id="s47e91aa5cba9dc97">
+  <source>Show toolbar</source>
+<target>టూల్‌బార్ చూపండి</target></trans-unit>
+<trans-unit id="sd607d6d103ce5431">
+  <source>Allow delete</source>
+<target>తొలగించడానికి అనుమతించండి</target></trans-unit>
+<trans-unit id="s4abf432fc76a8ec9">
+  <source>Author mode</source>
+<target>రచయిత మోడ్</target></trans-unit>
+<trans-unit id="s2e4818861000b13f">
+  <source>Layout</source>
+<target>లేఅవుట్</target></trans-unit>
+<trans-unit id="sd23ee5e66df8400a">
+  <source>Direction</source>
+<target>దిశ</target></trans-unit>
+<trans-unit id="sbe6283ffe834c65a">
+  <source>Justify content</source>
+<target>కంటెంట్ అమరిక</target></trans-unit>
+<trans-unit id="sb4d3986485cf1326">
+  <source>Align items</source>
+<target>అంశాలను అమర్చండి</target></trans-unit>
+<trans-unit id="se619a501d1bfe6a5">
+  <source>Wrap</source>
+<target>చుట్టండి</target></trans-unit>
+<trans-unit id="seaf97719986faf4f">
+  <source>Gap</source>
+<target>ఖాళీ</target></trans-unit>
+<trans-unit id="sb0f3327210fe18fc">
+  <source>Columns</source>
+<target>కాలమ్‌లు</target></trans-unit>
+<trans-unit id="scace072bef961918">
+  <source>Rows</source>
+<target>వరుసలు</target></trans-unit>
+<trans-unit id="s33b8dc0523428dde">
+  <source>Auto flow</source>
+<target>స్వయంచాలక ఫ్లో</target></trans-unit>
+<trans-unit id="s915caf9e3dad37f7">
+  <source>Justify items</source>
+<target>అంశాల అమరిక</target></trans-unit>
+<trans-unit id="s1125d159f7e64df5">
+  <source>Display</source>
+<target>ప్రదర్శన</target></trans-unit>
+<trans-unit id="s642a4070f6bcfee2">
+  <source>Content</source>
+<target>కంటెంట్</target></trans-unit>
+<trans-unit id="sa6d4361f17423080">
+  <source>Component</source>
+<target>కాంపోనెంట్</target></trans-unit>
+<trans-unit id="sc1034375f5a9f098">
+  <source>Container</source>
+<target>కంటైనర్</target></trans-unit>
+<trans-unit id="s536ea6b320f9600d">
+  <source>Ungroup</source>
+<target>గ్రూప్ నుంచి విడదీయండి</target></trans-unit>
+<trans-unit id="se2c449472f2d611e">
+  <source>Container layout</source>
+<target>కంటైనర్ లేఅవుట్</target></trans-unit>
+<trans-unit id="sa300750295f9a36a">
+  <source>Grid placement</source>
+<target>గ్రిడ్ స్థానం</target></trans-unit>
+<trans-unit id="s06fd2f8b555158a4">
+  <source>Area</source>
+<target>ప్రాంతం</target></trans-unit>
+<trans-unit id="s4525d914120bba9f">
+  <source>Column start</source>
+<target>కాలమ్ ప్రారంభం</target></trans-unit>
+<trans-unit id="s861fdb0670b22561">
+  <source>Column span</source>
+<target>కాలమ్ విస్తృతి</target></trans-unit>
+<trans-unit id="s62fbafa74a42f033">
+  <source>Row start</source>
+<target>వరుస ప్రారంభం</target></trans-unit>
+<trans-unit id="s46b90b74670a1865">
+  <source>Row span</source>
+<target>వరుస విస్తృతి</target></trans-unit>
+<trans-unit id="s177d1b8ad205f175">
+  <source>Flex item</source>
+<target>ఫ్లెక్స్ అంశం</target></trans-unit>
+<trans-unit id="s8fa8b0a18d4320de">
+  <source>Parent direction:</source>
+<target>పేరెంట్ దిశ:</target></trans-unit>
+<trans-unit id="s5a053ed77fa9c1bc">
+  <source>Align self</source>
+<target>స్వయంగా అమర్చుకోండి</target></trans-unit>
+<trans-unit id="sd95af958ff5ee320">
+  <source>inherit parent</source>
+<target>పేరెంట్ నుంచి వారసత్వంగా పొందండి</target></trans-unit>
+<trans-unit id="sbfa01f189a68d3e9">
+  <source>Flex grow</source>
+<target>ఫ్లెక్స్ పెరుగుదల</target></trans-unit>
+<trans-unit id="sef24caccbd4645ef">
+  <source>Flex shrink</source>
+<target>ఫ్లెక్స్ కుదింపు</target></trans-unit>
+<trans-unit id="saced41ddda8b2354">
+  <source>Flex basis</source>
+<target>ఫ్లెక్స్ ఆధారం</target></trans-unit>
+<trans-unit id="s8e985aeeca6a8166">
+  <source>White</source>
+<target>తెలుపు</target></trans-unit>
+<trans-unit id="s6399d92a898bc466">
+  <source>Off-white</source>
+<target>ఆఫ్-వైట్</target></trans-unit>
+<trans-unit id="sae0e215d6564e14e">
+  <source>Light grey</source>
+<target>లేత బూడిద</target></trans-unit>
+<trans-unit id="sac895c732f350ac5">
+  <source>Dark</source>
+<target>ముదురు</target></trans-unit>
+<trans-unit id="s795999a39e6aae81">
+  <source>Midnight</source>
+<target>అర్ధరాత్రి రంగు</target></trans-unit>
+<trans-unit id="s5d838598f78157f2">
+  <source>Charcoal</source>
+<target>బొగ్గు రంగు</target></trans-unit>
+<trans-unit id="s5bf5477d6a2ad856">
+  <source>Background color</source>
+<target>నేపథ్య రంగు</target></trans-unit>
+<trans-unit id="s45fff5d2e28db1a4">
+  <source>Reset to white</source>
+<target>తెలుపుకు రీసెట్ చేయండి</target></trans-unit>
+<trans-unit id="sdab38385e185e9bf">
+  <source>Layers</source>
+<target>లేయర్లు</target></trans-unit>
+<trans-unit id="s76bb11989a7ba03e">
+  <source>Higher = in front. Click to select.</source>
+<target>ఎత్తుగా ఉంటే ముందుంటుంది. ఎంచుకోవడానికి క్లిక్ చేయండి.</target></trans-unit>
+<trans-unit id="sa00beff1c266a23e">
+  <source>Bring forward</source>
+<target>ముందుకు తీసుకురండి</target></trans-unit>
+<trans-unit id="s50b60b4970cbd9ea">
+  <source>Send back</source>
+<target>వెనక్కి పంపండి</target></trans-unit>
+<trans-unit id="s33054d1d675674c9">
+  <source>Freeform</source>
+<target>ఫ్రీఫార్మ్</target></trans-unit>
+<trans-unit id="sfcebd18506f1e535">
+  <source>Flow</source>
+<target>ఫ్లో</target></trans-unit>
+<trans-unit id="s2492f5fb1b05b45e">
+  <source>Text</source>
+<target>వచనం</target></trans-unit>
+<trans-unit id="sd65fa257917527a8">
+  <source>Browse all components</source>
+<target>అన్ని కాంపోనెంట్‌లను చూడండి</target></trans-unit>
+<trans-unit id="s5e8250fb85d64c23">
+  <source>Close</source>
+<target>మూసివేయండి</target></trans-unit>
+<trans-unit id="sfc5542fcfe78b99b">
+  <source>Add component</source>
+<target>కాంపోనెంట్ జోడించండి</target></trans-unit>
+<trans-unit id="sdc673e73b5c13aea">
+  <source>Delete</source>
+<target>తొలగించండి</target></trans-unit>
+<trans-unit id="s25e1a07e454c2c11">
+  <source>Grid</source>
+<target>గ్రిడ్</target></trans-unit>
+<trans-unit id="see1a91137da362cf">
+  <source>Interact</source>
+<target>ఇంటరాక్ట్ చేయండి</target></trans-unit>
+<trans-unit id="s03c44f5a1b0581d4">
+  <source>selected</source>
+<target>ఎంచుకున్నది</target></trans-unit>
+<trans-unit id="s8354160a1fe59b16">
+  <source>Wrap selected nodes in a container</source>
+<target>ఎంచుకున్న నోడ్‌లను కంటైనర్‌లో చుట్టండి</target></trans-unit>
+<trans-unit id="s98b1cb8fb62909ec">
+  <source>Group</source>
+<target>గ్రూప్ చేయండి</target></trans-unit>
+<trans-unit id="s8f18916860db5d80">
+  <source>Clear selection</source>
+<target>ఎంపికను క్లియర్ చేయండి</target></trans-unit>
+<trans-unit id="s569ed106bd3565e4">
+  <source>Switch layout to <x id="0" equiv-text="${mode}" /></source>
+<target>లేఅవుట్‌ను <x id="0" equiv-text="${mode}" />కి మార్చండి</target></trans-unit>
+<trans-unit id="s0bdef849e0480d0e">
+  <source>Drag to canvas · Click for info</source>
+<target>క్యాన్వాస్‌పైకి లాగండి · సమాచారం కోసం క్లిక్ చేయండి</target></trans-unit>
+<trans-unit id="s5ada999b33ccc808">
+  <source>Insert</source>
+<target>చొప్పించండి</target></trans-unit>
+<trans-unit id="s0d2f74dc9c0833a2">
+  <source>Drag to place on canvas. Click Insert to add at default position.</source>
+<target>క్యాన్వాస్‌పై ఉంచడానికి లాగండి. డిఫాల్ట్ స్థానంలో జోడించడానికి “చొప్పించండి” క్లిక్ చేయండి.</target></trans-unit>
+<trans-unit id="s6d9c15e46caed9ad">
+  <source>Syntax (preview)</source>
+<target>సింటాక్స్ (ప్రివ్యూ)</target></trans-unit>
+<trans-unit id="s13685d515f24f806">
+  <source>Two Columns</source>
+<target>రెండు కాలమ్‌లు</target></trans-unit>
+<trans-unit id="s9f35b422aa707a80">
+  <source>Equal-width side-by-side columns</source>
+<target>సమాన వెడల్పు పక్కపక్కన కాలమ్‌లు</target></trans-unit>
+<trans-unit id="se6b9f0707592d7f4">
+  <source>Hero + Sidebar</source>
+<target>హీరో + సైడ్‌బార్</target></trans-unit>
+<trans-unit id="sf60963b73764eca2">
+  <source>Wide main area with a narrow sidebar</source>
+<target>సన్నని సైడ్‌బార్‌తో వెడల్పైన ప్రధాన ప్రాంతం</target></trans-unit>
+<trans-unit id="s50cf51c05f0d4f09">
+  <source>Card Grid</source>
+<target>కార్డ్ గ్రిడ్</target></trans-unit>
+<trans-unit id="sbd2f3cd9e56e40c3">
+  <source>Responsive 3-column card layout</source>
+<target>ప్రతిస్పందించే 3-కాలమ్ కార్డ్ లేఅవుట్</target></trans-unit>
+<trans-unit id="sfc83e9eb133d7361">
+  <source>Centered Stack</source>
+<target>కేంద్రంగా అమర్చిన వరుస</target></trans-unit>
+<trans-unit id="s79f4e6731ad3be45">
+  <source>Vertically stacked, centered items</source>
+<target>నిలువుగా పేర్చిన, మధ్యలో అమర్చిన అంశాలు</target></trans-unit>
+<trans-unit id="s0312976fe9da5951">
+  <source>Button</source>
+<target>బటన్</target></trans-unit>
+<trans-unit id="sbba25f7b32fdf484">
+  <source>Button text</source>
+<target>బటన్ వచనం</target></trans-unit>
+<trans-unit id="s96b8133d45d9108b">
+  <source>Button label</source>
+<target>బటన్ లేబుల్</target></trans-unit>
+<trans-unit id="se4a2a305de890ead">
+  <source>Pick icon…</source>
+<target>ఐకాన్ ఎంచుకోండి…</target></trans-unit>
+<trans-unit id="sd5b036cc13fb77b4">
+  <source>Reset button</source>
+<target>బటన్‌ను రీసెట్ చేయండి</target></trans-unit>
+<trans-unit id="s88f5053fccdf0a61">
+  <source>hide border</source>
+<target>అంచును దాచండి</target></trans-unit>
+<trans-unit id="s3cf89cb47fdde7e9">
+  <source>Link</source>
+<target>లింక్</target></trans-unit>
+<trans-unit id="sf43739275a48c99c">
+  <source>Link text</source>
+<target>లింక్ వచనం</target></trans-unit>
+<trans-unit id="s6ecb7a2f9be48443">
+  <source>Link label</source>
+<target>లింక్ లేబుల్</target></trans-unit>
+<trans-unit id="s47bc103b7d41ad9c">
+  <source>Link URL</source>
+<target>లింక్ URL</target></trans-unit>
+<trans-unit id="sd2b47d8cc09e0dfe">
+  <source>Icon name (optional)</source>
+<target>ఐకాన్ పేరు (ఐచ్ఛికం)</target></trans-unit>
+<trans-unit id="sc7cae0914551bb10">
+  <source>Reset link</source>
+<target>లింక్‌ను రీసెట్ చేయండి</target></trans-unit>
+<trans-unit id="sd6fb5bdee45e7967">
+  <source>Press "A" while clicking to follow the link.</source>
+<target>లింక్‌ను అనుసరించడానికి క్లిక్ చేస్తున్నప్పుడు “A” నొక్కండి.</target></trans-unit>
+<trans-unit id="s4616fdc48b092f86">
+  <source>Divider</source>
+<target>విభజకం</target></trans-unit>
+<trans-unit id="s0fef364f29f8ffc1">
+  <source>Width (e.g. 300px, 20rem)</source>
+<target>వెడల్పు (ఉదా. 300px, 20rem)</target></trans-unit>
+<trans-unit id="s09d3e1c6cc8700b9">
+  <source>Height (e.g. 10px, 0.5rem)</source>
+<target>ఎత్తు (ఉదా. 10px, 0.5rem)</target></trans-unit>
+<trans-unit id="s5172602152d8a620">
+  <source>Reset width and height</source>
+<target>వెడల్పు మరియు ఎత్తును రీసెట్ చేయండి</target></trans-unit>
+<trans-unit id="s08e6bd98452e6bb9">
+  <source>Audio</source>
+<target>ఆడియో</target></trans-unit>
+<trans-unit id="sbfe81a957a15772c">
+  <source>Audio URL</source>
+<target>ఆడియో URL</target></trans-unit>
+<trans-unit id="s56b2da93a4b8874e">
+  <source>Upload Audio</source>
+<target>ఆడియోను అప్‌లోడ్ చేయండి</target></trans-unit>
+<trans-unit id="s068d4dd16d9106d0">
+  <source>Icon</source>
+<target>ఐకాన్</target></trans-unit>
+<trans-unit id="s78789724e789221c">
+  <source>Size</source>
+<target>పరిమాణం</target></trans-unit>
+<trans-unit id="s344ea8f4939cdc98">
+  <source>Color</source>
+<target>రంగు</target></trans-unit>
+<trans-unit id="s3d93f9ea0c5a13fa">
+  <source>Image</source>
+<target>చిత్రం</target></trans-unit>
+<trans-unit id="sef5caf7c3cf24b03">
+  <source>Placeholder image</source>
+<target>ప్లేస్‌హోల్డర్ చిత్రం</target></trans-unit>
+<trans-unit id="se09e3dc382fe557f">
+  <source>Image URL</source>
+<target>చిత్రం URL</target></trans-unit>
+<trans-unit id="sff9d51b6c5a73163">
+  <source>Alt Text</source>
+<target>ప్రత్యామ్నాయ వచనం</target></trans-unit>
+<trans-unit id="s3adbbe7967b559b5">
+  <source>Describe the image (accessibility)</source>
+<target>చిత్రాన్ని వివరించండి (అందుబాటు)</target></trans-unit>
+<trans-unit id="sf79bbcb9f92e4d35">
+  <source>Object Fit</source>
+<target>ఆబ్జెక్ట్ ఫిట్</target></trans-unit>
+<trans-unit id="sba64d8954d027206">
+  <source>Opacity</source>
+<target>అపారదర్శకత</target></trans-unit>
+<trans-unit id="s0b786a0e85eb6783">
+  <source>Border Radius</source>
+<target>అంచు వ్యాసార్థం</target></trans-unit>
+<trans-unit id="s15f1c890a4d45381">
+  <source>Upload Image</source>
+<target>చిత్రాన్ని అప్‌లోడ్ చేయండి</target></trans-unit>
+<trans-unit id="s5fc61cdf86138f38">
+  <source>Reset to placeholder</source>
+<target>ప్లేస్‌హోల్డర్‌కు రీసెట్ చేయండి</target></trans-unit>
+<trans-unit id="s85186a61e0d55bac">
+  <source>Video</source>
+<target>వీడియో</target></trans-unit>
+<trans-unit id="s3936a6d9094737dd">
+  <source>Video URL</source>
+<target>వీడియో URL</target></trans-unit>
+<trans-unit id="s89ba1ee1ccee063b">
+  <source>Describe the video (accessibility)</source>
+<target>వీడియోను వివరించండి (అందుబాటు)</target></trans-unit>
+<trans-unit id="s288dd43090a568af">
+  <source>Upload Video</source>
+<target>వీడియోను అప్‌లోడ్ చేయండి</target></trans-unit>
+<trans-unit id="sbc5f2f81604bb81a">
+  <source>Heading 1</source>
+<target>శీర్షిక 1</target></trans-unit>
+<trans-unit id="s094eb0fadccf24d8">
+  <source>Heading text</source>
+<target>శీర్షిక వచనం</target></trans-unit>
+<trans-unit id="s072c3c42e24456af">
+  <source>Enter heading…</source>
+<target>శీర్షిక నమోదు చేయండి…</target></trans-unit>
+<trans-unit id="sbc5f2e81604bb667">
+  <source>Heading 2</source>
+<target>శీర్షిక 2</target></trans-unit>
+<trans-unit id="sbc5f2d81604bb4b4">
+  <source>Heading 3</source>
+<target>శీర్షిక 3</target></trans-unit>
+<trans-unit id="sbc5f2c81604bb301">
+  <source>Heading 4</source>
+<target>శీర్షిక 4</target></trans-unit>
+<trans-unit id="sbc5f2b81604bb14e">
+  <source>Heading 5</source>
+<target>శీర్షిక 5</target></trans-unit>
+<trans-unit id="sbc5f2a81604baf9b">
+  <source>Heading 6</source>
+<target>శీర్షిక 6</target></trans-unit>
+<trans-unit id="s5590dbf7e425789d">
+  <source>Label</source>
+<target>లేబుల్</target></trans-unit>
+<trans-unit id="s6ce2cd4c021d67c0">
+  <source>Label text</source>
+<target>లేబుల్ వచనం</target></trans-unit>
+<trans-unit id="sb7fd199d895f2ee0">
+  <source>Enter label text…</source>
+<target>లేబుల్ వచనం నమోదు చేయండి…</target></trans-unit>
+<trans-unit id="s599dcd2472c75c19">
+  <source>Paragraph</source>
+<target>పేరా</target></trans-unit>
+<trans-unit id="s506f0816b38dd34c">
+  <source>Paragraph text</source>
+<target>పేరా వచనం</target></trans-unit>
+<trans-unit id="s28674808a6dbbd5f">
+  <source>Enter paragraph…</source>
+<target>పేరా నమోదు చేయండి…</target></trans-unit>
+<trans-unit id="sf21fb4f4b9e8911f">
+  <source>Width</source>
+<target>వెడల్పు</target></trans-unit>
+<trans-unit id="sb9cdc961961c6ddb">
+  <source>e.g.</source>
+<target>ఉదా.</target></trans-unit>
+<trans-unit id="sffdadf0a576fd802">
+  <source>Height</source>
+<target>ఎత్తు</target></trans-unit>
+<trans-unit id="s8e43508f1392e94d">
+  <source>Text color</source>
+<target>వచన రంగు</target></trans-unit>
+<trans-unit id="s236ed7ba747099b0">
+  <source>Font weight</source>
+<target>ఫాంట్ బరువు</target></trans-unit>
+<trans-unit id="s08b05407b5565ca4">
+  <source>or</source>
+<target>లేదా</target></trans-unit>
+<trans-unit id="sa30f1981fd1cd441">
+  <source>Font size</source>
+<target>ఫాంట్ పరిమాణం</target></trans-unit>
+<trans-unit id="s9d1a9174ca15faad">
+  <source>Choose font</source>
+<target>ఫాంట్ ఎంచుకోండి</target></trans-unit>
+<trans-unit id="s4b4afa8bcb02d5ac">
+  <source>Typography</source>
+<target>టైపోగ్రఫీ</target></trans-unit>
+<trans-unit id="s079cf7850d9327f0">
+  <source>Font</source>
+<target>ఫాంట్</target></trans-unit>
+<trans-unit id="sc480ad5cd5e098ed">
+  <source>Reset font</source>
+<target>ఫాంట్‌ను రీసెట్ చేయండి</target></trans-unit>
+<trans-unit id="s9abadcc828884d7b">
+  <source>Textarea</source>
+<target>టెక్స్ట్ ఏరియా</target></trans-unit>
+<trans-unit id="s2d5ed76c30d38322">
+  <source>Enter text…</source>
+<target>వచనం నమోదు చేయండి…</target></trans-unit>
+<trans-unit id="sb688a1d8ede5c08e">
+  <source>Textarea placeholder</source>
+<target>టెక్స్ట్ ఏరియా ప్లేస్‌హోల్డర్</target></trans-unit>
+<trans-unit id="s56786c3f3e37cefa">
+  <source>Enter textarea placeholder…</source>
+<target>టెక్స్ట్ ఏరియా ప్లేస్‌హోల్డర్ నమోదు చేయండి…</target></trans-unit>
+<trans-unit id="s4e03726ad458f1f2">
+  <source>Width (e.g. 320px, 60%)</source>
+<target>వెడల్పు (ఉదా. 320px, 60%)</target></trans-unit>
+<trans-unit id="sa40e933fba661284">
+  <source>Height (e.g. 120px)</source>
+<target>ఎత్తు (ఉదా. 120px)</target></trans-unit>
+<trans-unit id="s931cc4d30fead4de">
+  <source>This will remove all elements from the canvas. Continue?</source>
+<target>దీనివల్ల క్యాన్వాస్‌లోని అన్ని అంశాలు తొలగిపోతాయి. కొనసాగించాలా?</target></trans-unit>
+<trans-unit id="s9d8b8aa2b404c2c8">
+  <source>Settings</source>
+<target>సెట్టింగ్‌లు</target></trans-unit>
+<trans-unit id="s9ffe1bbe64712bf1">
+  <source>Canvas</source>
+<target>క్యాన్వాస్</target></trans-unit>
+<trans-unit id="s1e06a953386318ac">
+  <source>Reset Canvas</source>
+<target>క్యాన్వాస్‌ను రీసెట్ చేయండి</target></trans-unit>
+<trans-unit id="hee3c66c7df58c59e">
+  <source>Hold <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> to temporarily hide the toolbar overlay.</source>
+<target>టూల్‌బార్ ఓవర్‌లేను తాత్కాలికంగా దాచడానికి <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> నొక్కి ఉంచండి.</target></trans-unit>
+<trans-unit id="s3643189d1abbb7f4">
+  <source>Code</source>
+<target>కోడ్</target></trans-unit>
+<trans-unit id="s6f44d1ec40b5eb0d">
+  <source>Component settings</source>
+<target>కాంపోనెంట్ సెట్టింగ్‌లు</target></trans-unit>
+<trans-unit id="s4b10acae683d2978">
+  <source>Fullscreen</source>
+<target>పూర్తి తెర</target></trans-unit>
+<trans-unit id="s8dfcedb8b2d680cd">
+  <source>Builder settings</source>
+<target>బిల్డర్ సెట్టింగ్‌లు</target></trans-unit>
+</body>
+</file>
+</xliff>

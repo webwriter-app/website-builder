@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+<file target-language="bn" source-language="en" original="lit-localize-inputs" datatype="plaintext">
+<body>
+<trans-unit id="sdaf07664dbfc95c5">
+  <source>Choose icon…</source>
+<target>আইকন বেছে নিন…</target></trans-unit>
+<trans-unit id="s4a5341646123f8ce">
+  <source>drop components here</source>
+<target>এখানে কম্পোনেন্ট ছেড়ে দিন</target></trans-unit>
+<trans-unit id="seb9a18743f5c0535">
+  <source>Empty container — add items via the sidebar</source>
+<target>খালি কনটেইনার — সাইডবার থেকে আইটেম যোগ করুন</target></trans-unit>
+<trans-unit id="sbb59e2127a113990">
+  <source>Choose an icon</source>
+<target>একটি আইকন বেছে নিন</target></trans-unit>
+<trans-unit id="s8059a22698307577">
+  <source>Search icons…</source>
+<target>আইকন খুঁজুন…</target></trans-unit>
+<trans-unit id="s188927533d6c9987">
+  <source>Icon color</source>
+<target>আইকনের রং</target></trans-unit>
+<trans-unit id="s2ceb11be2290bb1b">
+  <source>Cancel</source>
+<target>বাতিল</target></trans-unit>
+<trans-unit id="s47ba0113da523b8d">
+  <source>Use icon</source>
+<target>আইকন ব্যবহার করুন</target></trans-unit>
+<trans-unit id="s0442a59427632f08">
+  <source>All components</source>
+<target>সব কম্পোনেন্ট</target></trans-unit>
+<trans-unit id="s5d929ff1619ac0c9">
+  <source>Search</source>
+<target>খুঁজুন</target></trans-unit>
+<trans-unit id="s6bb965855fa5c1ab">
+  <source>Search components…</source>
+<target>কম্পোনেন্ট খুঁজুন…</target></trans-unit>
+<trans-unit id="s2841a0c596d6f426">
+  <source>item</source>
+<target>আইটেম</target></trans-unit>
+<trans-unit id="s3e7884bf4f412c6f">
+  <source>items</source>
+<target>আইটেমগুলো</target></trans-unit>
+<trans-unit id="sa7d404b9283351e9">
+  <source>Drag tiles from the palette, or insert here at default position.</source>
+<target>প্যালেট থেকে টাইল টেনে আনুন, অথবা এখানে ডিফল্ট অবস্থানে যোগ করুন।</target></trans-unit>
+<trans-unit id="s1219d97b49650c05">
+  <source>Visibility</source>
+<target>দৃশ্যমানতা</target></trans-unit>
+<trans-unit id="s2ea4f3816cb3eaab">
+  <source>Layout modes</source>
+<target>লেআউট মোড</target></trans-unit>
+<trans-unit id="s3e580baec12c5cf8">
+  <source>Code tabs</source>
+<target>কোড ট্যাব</target></trans-unit>
+<trans-unit id="sc40ba85758f16fca">
+  <source>Combined</source>
+<target>সমন্বিত</target></trans-unit>
+<trans-unit id="s7c2386fe775b2853">
+  <source>Student mode</source>
+<target>শিক্ষার্থী মোড</target></trans-unit>
+<trans-unit id="s514f361e5688d094">
+  <source>Show component settings</source>
+<target>কম্পোনেন্ট সেটিংস দেখান</target></trans-unit>
+<trans-unit id="s4b05ac1126ccd6c0">
+  <source>Show sidebar</source>
+<target>সাইডবার দেখান</target></trans-unit>
+<trans-unit id="s47e91aa5cba9dc97">
+  <source>Show toolbar</source>
+<target>টুলবার দেখান</target></trans-unit>
+<trans-unit id="sd607d6d103ce5431">
+  <source>Allow delete</source>
+<target>মুছে ফেলার অনুমতি দিন</target></trans-unit>
+<trans-unit id="s4abf432fc76a8ec9">
+  <source>Author mode</source>
+<target>লেখক মোড</target></trans-unit>
+<trans-unit id="s2e4818861000b13f">
+  <source>Layout</source>
+<target>লেআউট</target></trans-unit>
+<trans-unit id="sd23ee5e66df8400a">
+  <source>Direction</source>
+<target>দিক</target></trans-unit>
+<trans-unit id="sbe6283ffe834c65a">
+  <source>Justify content</source>
+<target>কনটেন্ট সাজানোর ধরন</target></trans-unit>
+<trans-unit id="sb4d3986485cf1326">
+  <source>Align items</source>
+<target>আইটেম সারিবদ্ধ করুন</target></trans-unit>
+<trans-unit id="se619a501d1bfe6a5">
+  <source>Wrap</source>
+<target>মোড়ানো</target></trans-unit>
+<trans-unit id="seaf97719986faf4f">
+  <source>Gap</source>
+<target>ফাঁক</target></trans-unit>
+<trans-unit id="sb0f3327210fe18fc">
+  <source>Columns</source>
+<target>কলাম</target></trans-unit>
+<trans-unit id="scace072bef961918">
+  <source>Rows</source>
+<target>সারি</target></trans-unit>
+<trans-unit id="s33b8dc0523428dde">
+  <source>Auto flow</source>
+<target>স্বয়ংক্রিয় প্রবাহ</target></trans-unit>
+<trans-unit id="s915caf9e3dad37f7">
+  <source>Justify items</source>
+<target>আইটেম সাজানোর ধরন</target></trans-unit>
+<trans-unit id="s1125d159f7e64df5">
+  <source>Display</source>
+<target>প্রদর্শন</target></trans-unit>
+<trans-unit id="s642a4070f6bcfee2">
+  <source>Content</source>
+<target>কনটেন্ট</target></trans-unit>
+<trans-unit id="sa6d4361f17423080">
+  <source>Component</source>
+<target>কম্পোনেন্ট</target></trans-unit>
+<trans-unit id="sc1034375f5a9f098">
+  <source>Container</source>
+<target>কনটেইনার</target></trans-unit>
+<trans-unit id="s536ea6b320f9600d">
+  <source>Ungroup</source>
+<target>গ্রুপমুক্ত করুন</target></trans-unit>
+<trans-unit id="se2c449472f2d611e">
+  <source>Container layout</source>
+<target>কনটেইনার লেআউট</target></trans-unit>
+<trans-unit id="sa300750295f9a36a">
+  <source>Grid placement</source>
+<target>গ্রিডে অবস্থান</target></trans-unit>
+<trans-unit id="s06fd2f8b555158a4">
+  <source>Area</source>
+<target>এলাকা</target></trans-unit>
+<trans-unit id="s4525d914120bba9f">
+  <source>Column start</source>
+<target>কলাম শুরু</target></trans-unit>
+<trans-unit id="s861fdb0670b22561">
+  <source>Column span</source>
+<target>কলাম বিস্তার</target></trans-unit>
+<trans-unit id="s62fbafa74a42f033">
+  <source>Row start</source>
+<target>সারি শুরু</target></trans-unit>
+<trans-unit id="s46b90b74670a1865">
+  <source>Row span</source>
+<target>সারি বিস্তার</target></trans-unit>
+<trans-unit id="s177d1b8ad205f175">
+  <source>Flex item</source>
+<target>ফ্লেক্স আইটেম</target></trans-unit>
+<trans-unit id="s8fa8b0a18d4320de">
+  <source>Parent direction:</source>
+<target>অভিভাবকের দিক:</target></trans-unit>
+<trans-unit id="s5a053ed77fa9c1bc">
+  <source>Align self</source>
+<target>নিজে সারিবদ্ধ করুন</target></trans-unit>
+<trans-unit id="sd95af958ff5ee320">
+  <source>inherit parent</source>
+<target>অভিভাবক থেকে উত্তরাধিকার</target></trans-unit>
+<trans-unit id="sbfa01f189a68d3e9">
+  <source>Flex grow</source>
+<target>ফ্লেক্স বৃদ্ধি</target></trans-unit>
+<trans-unit id="sef24caccbd4645ef">
+  <source>Flex shrink</source>
+<target>ফ্লেক্স সংকোচন</target></trans-unit>
+<trans-unit id="saced41ddda8b2354">
+  <source>Flex basis</source>
+<target>ফ্লেক্স ভিত্তি</target></trans-unit>
+<trans-unit id="s8e985aeeca6a8166">
+  <source>White</source>
+<target>সাদা</target></trans-unit>
+<trans-unit id="s6399d92a898bc466">
+  <source>Off-white</source>
+<target>অফ-হোয়াইট</target></trans-unit>
+<trans-unit id="sae0e215d6564e14e">
+  <source>Light grey</source>
+<target>হালকা ধূসর</target></trans-unit>
+<trans-unit id="sac895c732f350ac5">
+  <source>Dark</source>
+<target>গাঢ়</target></trans-unit>
+<trans-unit id="s795999a39e6aae81">
+  <source>Midnight</source>
+<target>মধ্যরাত্রির নীল</target></trans-unit>
+<trans-unit id="s5d838598f78157f2">
+  <source>Charcoal</source>
+<target>কয়লা রং</target></trans-unit>
+<trans-unit id="s5bf5477d6a2ad856">
+  <source>Background color</source>
+<target>পটভূমির রং</target></trans-unit>
+<trans-unit id="s45fff5d2e28db1a4">
+  <source>Reset to white</source>
+<target>সাদায় ফিরিয়ে নিন</target></trans-unit>
+<trans-unit id="sdab38385e185e9bf">
+  <source>Layers</source>
+<target>স্তর</target></trans-unit>
+<trans-unit id="s76bb11989a7ba03e">
+  <source>Higher = in front. Click to select.</source>
+<target>উচ্চতর স্তর সামনে থাকে। বেছে নিতে ক্লিক করুন।</target></trans-unit>
+<trans-unit id="sa00beff1c266a23e">
+  <source>Bring forward</source>
+<target>সামনে আনুন</target></trans-unit>
+<trans-unit id="s50b60b4970cbd9ea">
+  <source>Send back</source>
+<target>পেছনে পাঠান</target></trans-unit>
+<trans-unit id="s33054d1d675674c9">
+  <source>Freeform</source>
+<target>ফ্রিফর্ম</target></trans-unit>
+<trans-unit id="sfcebd18506f1e535">
+  <source>Flow</source>
+<target>ফ্লো</target></trans-unit>
+<trans-unit id="s2492f5fb1b05b45e">
+  <source>Text</source>
+<target>টেক্সট</target></trans-unit>
+<trans-unit id="sd65fa257917527a8">
+  <source>Browse all components</source>
+<target>সব কম্পোনেন্ট দেখুন</target></trans-unit>
+<trans-unit id="s5e8250fb85d64c23">
+  <source>Close</source>
+<target>বন্ধ করুন</target></trans-unit>
+<trans-unit id="sfc5542fcfe78b99b">
+  <source>Add component</source>
+<target>কম্পোনেন্ট যোগ করুন</target></trans-unit>
+<trans-unit id="sdc673e73b5c13aea">
+  <source>Delete</source>
+<target>মুছুন</target></trans-unit>
+<trans-unit id="s25e1a07e454c2c11">
+  <source>Grid</source>
+<target>গ্রিড</target></trans-unit>
+<trans-unit id="see1a91137da362cf">
+  <source>Interact</source>
+<target>ইন্টারঅ্যাক্ট করুন</target></trans-unit>
+<trans-unit id="s03c44f5a1b0581d4">
+  <source>selected</source>
+<target>নির্বাচিত</target></trans-unit>
+<trans-unit id="s8354160a1fe59b16">
+  <source>Wrap selected nodes in a container</source>
+<target>নির্বাচিত নোডগুলো একটি কনটেইনারে রাখুন</target></trans-unit>
+<trans-unit id="s98b1cb8fb62909ec">
+  <source>Group</source>
+<target>গ্রুপ করুন</target></trans-unit>
+<trans-unit id="s8f18916860db5d80">
+  <source>Clear selection</source>
+<target>নির্বাচন মুছে ফেলুন</target></trans-unit>
+<trans-unit id="s569ed106bd3565e4">
+  <source>Switch layout to <x id="0" equiv-text="${mode}" /></source>
+<target>লেআউট <x id="0" equiv-text="${mode}" />-এ বদলান</target></trans-unit>
+<trans-unit id="s0bdef849e0480d0e">
+  <source>Drag to canvas · Click for info</source>
+<target>ক্যানভাসে টানুন · তথ্যের জন্য ক্লিক করুন</target></trans-unit>
+<trans-unit id="s5ada999b33ccc808">
+  <source>Insert</source>
+<target>যোগ করুন</target></trans-unit>
+<trans-unit id="s0d2f74dc9c0833a2">
+  <source>Drag to place on canvas. Click Insert to add at default position.</source>
+<target>ক্যানভাসে বসাতে টানুন। ডিফল্ট অবস্থানে যোগ করতে “যোগ করুন” ক্লিক করুন।</target></trans-unit>
+<trans-unit id="s6d9c15e46caed9ad">
+  <source>Syntax (preview)</source>
+<target>সিনট্যাক্স (পূর্বরূপ)</target></trans-unit>
+<trans-unit id="s13685d515f24f806">
+  <source>Two Columns</source>
+<target>দুই কলাম</target></trans-unit>
+<trans-unit id="s9f35b422aa707a80">
+  <source>Equal-width side-by-side columns</source>
+<target>সমান প্রস্থের পাশাপাশি দুটি কলাম</target></trans-unit>
+<trans-unit id="se6b9f0707592d7f4">
+  <source>Hero + Sidebar</source>
+<target>হিরো + সাইডবার</target></trans-unit>
+<trans-unit id="sf60963b73764eca2">
+  <source>Wide main area with a narrow sidebar</source>
+<target>সরু সাইডবারসহ প্রশস্ত প্রধান এলাকা</target></trans-unit>
+<trans-unit id="s50cf51c05f0d4f09">
+  <source>Card Grid</source>
+<target>কার্ড গ্রিড</target></trans-unit>
+<trans-unit id="sbd2f3cd9e56e40c3">
+  <source>Responsive 3-column card layout</source>
+<target>প্রতিক্রিয়াশীল তিন-কলামের কার্ড লেআউট</target></trans-unit>
+<trans-unit id="sfc83e9eb133d7361">
+  <source>Centered Stack</source>
+<target>কেন্দ্রিক স্তূপ</target></trans-unit>
+<trans-unit id="s79f4e6731ad3be45">
+  <source>Vertically stacked, centered items</source>
+<target>উল্লম্বভাবে সাজানো, কেন্দ্রে সারিবদ্ধ আইটেম</target></trans-unit>
+<trans-unit id="s0312976fe9da5951">
+  <source>Button</source>
+<target>বোতাম</target></trans-unit>
+<trans-unit id="sbba25f7b32fdf484">
+  <source>Button text</source>
+<target>বোতামের টেক্সট</target></trans-unit>
+<trans-unit id="s96b8133d45d9108b">
+  <source>Button label</source>
+<target>বোতামের লেবেল</target></trans-unit>
+<trans-unit id="se4a2a305de890ead">
+  <source>Pick icon…</source>
+<target>আইকন বেছে নিন…</target></trans-unit>
+<trans-unit id="sd5b036cc13fb77b4">
+  <source>Reset button</source>
+<target>বোতাম রিসেট করুন</target></trans-unit>
+<trans-unit id="s88f5053fccdf0a61">
+  <source>hide border</source>
+<target>সীমানা লুকান</target></trans-unit>
+<trans-unit id="s3cf89cb47fdde7e9">
+  <source>Link</source>
+<target>লিংক</target></trans-unit>
+<trans-unit id="sf43739275a48c99c">
+  <source>Link text</source>
+<target>লিংকের টেক্সট</target></trans-unit>
+<trans-unit id="s6ecb7a2f9be48443">
+  <source>Link label</source>
+<target>লিংকের লেবেল</target></trans-unit>
+<trans-unit id="s47bc103b7d41ad9c">
+  <source>Link URL</source>
+<target>লিংক URL</target></trans-unit>
+<trans-unit id="sd2b47d8cc09e0dfe">
+  <source>Icon name (optional)</source>
+<target>আইকনের নাম (ঐচ্ছিক)</target></trans-unit>
+<trans-unit id="sc7cae0914551bb10">
+  <source>Reset link</source>
+<target>লিংক রিসেট করুন</target></trans-unit>
+<trans-unit id="sd6fb5bdee45e7967">
+  <source>Press "A" while clicking to follow the link.</source>
+<target>লিংক অনুসরণ করতে ক্লিক করার সময় “A” চাপুন।</target></trans-unit>
+<trans-unit id="s4616fdc48b092f86">
+  <source>Divider</source>
+<target>বিভাজক</target></trans-unit>
+<trans-unit id="s0fef364f29f8ffc1">
+  <source>Width (e.g. 300px, 20rem)</source>
+<target>প্রস্থ (যেমন 300px, 20rem)</target></trans-unit>
+<trans-unit id="s09d3e1c6cc8700b9">
+  <source>Height (e.g. 10px, 0.5rem)</source>
+<target>উচ্চতা (যেমন 10px, 0.5rem)</target></trans-unit>
+<trans-unit id="s5172602152d8a620">
+  <source>Reset width and height</source>
+<target>প্রস্থ ও উচ্চতা রিসেট করুন</target></trans-unit>
+<trans-unit id="s08e6bd98452e6bb9">
+  <source>Audio</source>
+<target>অডিও</target></trans-unit>
+<trans-unit id="sbfe81a957a15772c">
+  <source>Audio URL</source>
+<target>অডিও URL</target></trans-unit>
+<trans-unit id="s56b2da93a4b8874e">
+  <source>Upload Audio</source>
+<target>অডিও আপলোড করুন</target></trans-unit>
+<trans-unit id="s068d4dd16d9106d0">
+  <source>Icon</source>
+<target>আইকন</target></trans-unit>
+<trans-unit id="s78789724e789221c">
+  <source>Size</source>
+<target>আকার</target></trans-unit>
+<trans-unit id="s344ea8f4939cdc98">
+  <source>Color</source>
+<target>রং</target></trans-unit>
+<trans-unit id="s3d93f9ea0c5a13fa">
+  <source>Image</source>
+<target>ছবি</target></trans-unit>
+<trans-unit id="sef5caf7c3cf24b03">
+  <source>Placeholder image</source>
+<target>স্থানধারক ছবি</target></trans-unit>
+<trans-unit id="se09e3dc382fe557f">
+  <source>Image URL</source>
+<target>ছবির URL</target></trans-unit>
+<trans-unit id="sff9d51b6c5a73163">
+  <source>Alt Text</source>
+<target>বিকল্প পাঠ্য</target></trans-unit>
+<trans-unit id="s3adbbe7967b559b5">
+  <source>Describe the image (accessibility)</source>
+<target>ছবিটি বর্ণনা করুন (অ্যাক্সেসিবিলিটি)</target></trans-unit>
+<trans-unit id="sf79bbcb9f92e4d35">
+  <source>Object Fit</source>
+<target>অবজেক্ট ফিট</target></trans-unit>
+<trans-unit id="sba64d8954d027206">
+  <source>Opacity</source>
+<target>অস্বচ্ছতা</target></trans-unit>
+<trans-unit id="s0b786a0e85eb6783">
+  <source>Border Radius</source>
+<target>সীমানার ব্যাসার্ধ</target></trans-unit>
+<trans-unit id="s15f1c890a4d45381">
+  <source>Upload Image</source>
+<target>ছবি আপলোড করুন</target></trans-unit>
+<trans-unit id="s5fc61cdf86138f38">
+  <source>Reset to placeholder</source>
+<target>স্থানধারকে ফিরিয়ে নিন</target></trans-unit>
+<trans-unit id="s85186a61e0d55bac">
+  <source>Video</source>
+<target>ভিডিও</target></trans-unit>
+<trans-unit id="s3936a6d9094737dd">
+  <source>Video URL</source>
+<target>ভিডিও URL</target></trans-unit>
+<trans-unit id="s89ba1ee1ccee063b">
+  <source>Describe the video (accessibility)</source>
+<target>ভিডিওটি বর্ণনা করুন (অ্যাক্সেসিবিলিটি)</target></trans-unit>
+<trans-unit id="s288dd43090a568af">
+  <source>Upload Video</source>
+<target>ভিডিও আপলোড করুন</target></trans-unit>
+<trans-unit id="sbc5f2f81604bb81a">
+  <source>Heading 1</source>
+<target>শিরোনাম ১</target></trans-unit>
+<trans-unit id="s094eb0fadccf24d8">
+  <source>Heading text</source>
+<target>শিরোনামের টেক্সট</target></trans-unit>
+<trans-unit id="s072c3c42e24456af">
+  <source>Enter heading…</source>
+<target>শিরোনাম লিখুন…</target></trans-unit>
+<trans-unit id="sbc5f2e81604bb667">
+  <source>Heading 2</source>
+<target>শিরোনাম ২</target></trans-unit>
+<trans-unit id="sbc5f2d81604bb4b4">
+  <source>Heading 3</source>
+<target>শিরোনাম ৩</target></trans-unit>
+<trans-unit id="sbc5f2c81604bb301">
+  <source>Heading 4</source>
+<target>শিরোনাম ৪</target></trans-unit>
+<trans-unit id="sbc5f2b81604bb14e">
+  <source>Heading 5</source>
+<target>শিরোনাম ৫</target></trans-unit>
+<trans-unit id="sbc5f2a81604baf9b">
+  <source>Heading 6</source>
+<target>শিরোনাম ৬</target></trans-unit>
+<trans-unit id="s5590dbf7e425789d">
+  <source>Label</source>
+<target>লেবেল</target></trans-unit>
+<trans-unit id="s6ce2cd4c021d67c0">
+  <source>Label text</source>
+<target>লেবেলের টেক্সট</target></trans-unit>
+<trans-unit id="sb7fd199d895f2ee0">
+  <source>Enter label text…</source>
+<target>লেবেলের টেক্সট লিখুন…</target></trans-unit>
+<trans-unit id="s599dcd2472c75c19">
+  <source>Paragraph</source>
+<target>অনুচ্ছেদ</target></trans-unit>
+<trans-unit id="s506f0816b38dd34c">
+  <source>Paragraph text</source>
+<target>অনুচ্ছেদের টেক্সট</target></trans-unit>
+<trans-unit id="s28674808a6dbbd5f">
+  <source>Enter paragraph…</source>
+<target>অনুচ্ছেদ লিখুন…</target></trans-unit>
+<trans-unit id="sf21fb4f4b9e8911f">
+  <source>Width</source>
+<target>প্রস্থ</target></trans-unit>
+<trans-unit id="sb9cdc961961c6ddb">
+  <source>e.g.</source>
+<target>যেমন</target></trans-unit>
+<trans-unit id="sffdadf0a576fd802">
+  <source>Height</source>
+<target>উচ্চতা</target></trans-unit>
+<trans-unit id="s8e43508f1392e94d">
+  <source>Text color</source>
+<target>টেক্সটের রং</target></trans-unit>
+<trans-unit id="s236ed7ba747099b0">
+  <source>Font weight</source>
+<target>ফন্টের ওজন</target></trans-unit>
+<trans-unit id="s08b05407b5565ca4">
+  <source>or</source>
+<target>অথবা</target></trans-unit>
+<trans-unit id="sa30f1981fd1cd441">
+  <source>Font size</source>
+<target>ফন্টের আকার</target></trans-unit>
+<trans-unit id="s9d1a9174ca15faad">
+  <source>Choose font</source>
+<target>ফন্ট বেছে নিন</target></trans-unit>
+<trans-unit id="s4b4afa8bcb02d5ac">
+  <source>Typography</source>
+<target>টাইপোগ্রাফি</target></trans-unit>
+<trans-unit id="s079cf7850d9327f0">
+  <source>Font</source>
+<target>ফন্ট</target></trans-unit>
+<trans-unit id="sc480ad5cd5e098ed">
+  <source>Reset font</source>
+<target>ফন্ট রিসেট করুন</target></trans-unit>
+<trans-unit id="s9abadcc828884d7b">
+  <source>Textarea</source>
+<target>টেক্সটএরিয়া</target></trans-unit>
+<trans-unit id="s2d5ed76c30d38322">
+  <source>Enter text…</source>
+<target>টেক্সট লিখুন…</target></trans-unit>
+<trans-unit id="sb688a1d8ede5c08e">
+  <source>Textarea placeholder</source>
+<target>টেক্সটএরিয়ার স্থানধারক</target></trans-unit>
+<trans-unit id="s56786c3f3e37cefa">
+  <source>Enter textarea placeholder…</source>
+<target>টেক্সটএরিয়ার স্থানধারক লিখুন…</target></trans-unit>
+<trans-unit id="s4e03726ad458f1f2">
+  <source>Width (e.g. 320px, 60%)</source>
+<target>প্রস্থ (যেমন 320px, 60%)</target></trans-unit>
+<trans-unit id="sa40e933fba661284">
+  <source>Height (e.g. 120px)</source>
+<target>উচ্চতা (যেমন 120px)</target></trans-unit>
+<trans-unit id="s931cc4d30fead4de">
+  <source>This will remove all elements from the canvas. Continue?</source>
+<target>এতে ক্যানভাসের সব উপাদান মুছে যাবে। চালিয়ে যাবেন?</target></trans-unit>
+<trans-unit id="s9d8b8aa2b404c2c8">
+  <source>Settings</source>
+<target>সেটিংস</target></trans-unit>
+<trans-unit id="s9ffe1bbe64712bf1">
+  <source>Canvas</source>
+<target>ক্যানভাস</target></trans-unit>
+<trans-unit id="s1e06a953386318ac">
+  <source>Reset Canvas</source>
+<target>ক্যানভাস রিসেট করুন</target></trans-unit>
+<trans-unit id="hee3c66c7df58c59e">
+  <source>Hold <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> to temporarily hide the toolbar overlay.</source>
+<target>টুলবারের ওভারলে সাময়িকভাবে লুকাতে <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> ধরে রাখুন।</target></trans-unit>
+<trans-unit id="s3643189d1abbb7f4">
+  <source>Code</source>
+<target>কোড</target></trans-unit>
+<trans-unit id="s6f44d1ec40b5eb0d">
+  <source>Component settings</source>
+<target>কম্পোনেন্ট সেটিংস</target></trans-unit>
+<trans-unit id="s4b10acae683d2978">
+  <source>Fullscreen</source>
+<target>পূর্ণপর্দা</target></trans-unit>
+<trans-unit id="s8dfcedb8b2d680cd">
+  <source>Builder settings</source>
+<target>নির্মাতার সেটিংস</target></trans-unit>
+</body>
+</file>
+</xliff>

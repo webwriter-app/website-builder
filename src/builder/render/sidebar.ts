@@ -41,7 +41,7 @@ export function renderVisibilitySettings(host: WebwriterWebsiteBuilder) {
           ${layoutModeChip(host, "freeform", host.msg("Freeform"), "arrows-move")}
           ${layoutModeChip(host, "flow", host.msg("Flow"), "arrow-down")}
           ${layoutModeChip(host, "flex", "Flex", "distribute-horizontal")}
-          ${layoutModeChip(host, "grid", "Grid", "grid")}
+          ${layoutModeChip(host, "grid", host.msg("Grid"), "grid")}
         </div>
       </div>
 
@@ -504,9 +504,9 @@ function renderContainerSettings(
                 containerLayout: e.target.value as LayoutMode,
               })}
           >
-            <sl-option value="flow">Flow</sl-option>
+            <sl-option value="flow">${host.msg("Flow")}</sl-option>
             <sl-option value="flex">Flex</sl-option>
-            <sl-option value="grid">Grid</sl-option>
+            <sl-option value="grid">${host.msg("Grid")}</sl-option>
           </sl-select>
         </div>
 
