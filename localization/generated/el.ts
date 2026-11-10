@@ -181,5 +181,5 @@
 'sfcebd18506f1e535': `Ροή`,
 'sff9d51b6c5a73163': `Εναλλακτικό κείμενο`,
 'sffdadf0a576fd802': `Ύψος`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
-  

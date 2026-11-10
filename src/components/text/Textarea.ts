@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
+import { sourceMsg } from "../../../localization/localizer";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import { FONT_OPTIONS } from "../../builder/data/data";
 
@@ -11,20 +11,20 @@ const DEFAULT_HEIGHT = "40px";
 
 export const TextareaComponent: BuilderComponent = {
   type: "textarea",
-  label: () => msg("Textarea"),
+  label: (msg) => msg("Textarea"),
   group: "text",
 
   defaultData: {
     font: DEFAULT_FONT,
     color: "#000000",
-    placeholder: msg("Enter text…"),
+    placeholder: sourceMsg("Enter text…"),
     "font-weight": "normal",
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,
     "font-size": "1em",
   },
 
-  render: (data) => {
+  render: (data, msg) => {
     const font =
       typeof data?.font === "string" && data.font.trim()
         ? data.font
@@ -69,17 +69,17 @@ export const TextareaComponent: BuilderComponent = {
     `;
   },
 
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "placeholder",
-      label: msg("Textarea placeholder"),
+      label: sourceMsg("Textarea placeholder"),
       kind: "text",
       target: "sl-textarea",
       placeholder: msg("Enter textarea placeholder…"),
     },
     {
       key: "color",
-      label: msg("Text color"),
+      label: sourceMsg("Text color"),
       kind: "style",
       target: "sl-textarea",
       name: "color",
@@ -87,7 +87,7 @@ export const TextareaComponent: BuilderComponent = {
     },
     {
       key: "font-weight",
-      label: msg("Font weight"),
+      label: sourceMsg("Font weight"),
       kind: "style",
       target: "sl-textarea",
       name: "font-weight",
@@ -95,7 +95,7 @@ export const TextareaComponent: BuilderComponent = {
     },
     {
       key: "width",
-      label: msg("Width (e.g. 320px, 60%)"),
+      label: sourceMsg("Width (e.g. 320px, 60%)"),
       kind: "style",
       target: "sl-textarea",
       name: "width",
@@ -103,7 +103,7 @@ export const TextareaComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: msg("Height (e.g. 120px)"),
+      label: sourceMsg("Height (e.g. 120px)"),
       kind: "style",
       target: "sl-textarea",
       name: "height",
@@ -111,7 +111,7 @@ export const TextareaComponent: BuilderComponent = {
     },
     {
       key: "font-size",
-      label: msg("Font size"),
+      label: sourceMsg("Font size"),
       kind: "style",
       target: "sl-textarea",
       name: "font-size",
@@ -119,7 +119,7 @@ export const TextareaComponent: BuilderComponent = {
     }
   ],
 
-  settings: ({ data, setData }) => {
+  settings: ({ data, setData }, msg) => {
     const current = (data?.font as string) ?? DEFAULT_FONT;
     const currentLabel =
       FONT_OPTIONS.find((f) => f.value === current)?.label ?? msg("Choose font");

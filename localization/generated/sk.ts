@@ -181,5 +181,6 @@
 'sfcebd18506f1e535': `Prúdenie`,
 'sff9d51b6c5a73163': `Alternatívny text`,
 'sffdadf0a576fd802': `Výška`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
   

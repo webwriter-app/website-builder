@@ -181,5 +181,6 @@
 'sfcebd18506f1e535': `Flusso`,
 'sff9d51b6c5a73163': `Testo alternativo`,
 'sffdadf0a576fd802': `Altezza`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
   

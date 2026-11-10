@@ -181,5 +181,6 @@
 'sfcebd18506f1e535': `フロー`,
 'sff9d51b6c5a73163': `代替テキスト`,
 'sffdadf0a576fd802': `高さ`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
   

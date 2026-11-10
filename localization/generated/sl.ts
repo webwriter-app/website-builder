@@ -181,5 +181,6 @@
 'sfcebd18506f1e535': `Pretok`,
 'sff9d51b6c5a73163': `Alternativni tekst`,
 'sffdadf0a576fd802': `Višina`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
   

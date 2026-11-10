@@ -168,6 +168,7 @@
 's3e7884bf4f412c6f': `items`,
 'sa7d404b9283351e9': `Drag tiles from the palette, or insert here at default position.`,
 'sdaf07664dbfc95c5': `Choose icon…`,
+'s8dfcedb8b2d680cd': `Builder settings`,
 's931cc4d30fead4de': `This will remove all elements from the canvas. Continue?`,
 's9d8b8aa2b404c2c8': `Settings`,
 's9ffe1bbe64712bf1': `Canvas`,

@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
+import { sourceMsg } from "../../../localization/localizer";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 
 /**
@@ -10,7 +10,7 @@ const PLACEHOLDER_VIDEO =
 
 export const VideoComponent: BuilderComponent = {
   type: "video",
-  label: () => msg("Video"),
+  label: (msg) => msg("Video"),
   group: "media",
 
   defaultData: {
@@ -68,10 +68,10 @@ export const VideoComponent: BuilderComponent = {
     `;
   },
 
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "src",
-      label: msg("Video URL"),
+      label: sourceMsg("Video URL"),
       kind: "attr",
       target: "video",
       name: "src",
@@ -79,7 +79,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "alt",
-      label: msg("Alt Text"),
+      label: sourceMsg("Alt Text"),
       kind: "attr",
       target: "video",
       name: "alt",
@@ -87,7 +87,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "width",
-      label: msg("Width"),
+      label: sourceMsg("Width"),
       kind: "style",
       target: "video",
       name: "width",
@@ -95,7 +95,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: msg("Height"),
+      label: sourceMsg("Height"),
       kind: "style",
       target: "video",
       name: "height",
@@ -103,7 +103,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "object-fit",
-      label: msg("Object Fit"),
+      label: sourceMsg("Object Fit"),
       kind: "style",
       target: "video",
       name: "object-fit",
@@ -111,7 +111,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "opacity",
-      label: msg("Opacity"),
+      label: sourceMsg("Opacity"),
       kind: "style",
       target: "video",
       name: "opacity",
@@ -119,7 +119,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "border-radius",
-      label: msg("Border Radius"),
+      label: sourceMsg("Border Radius"),
       kind: "style",
       target: "video",
       name: "border-radius",
@@ -128,7 +128,7 @@ export const VideoComponent: BuilderComponent = {
   ],
 
   // Upload and reset belong into custom settings
-  settings: ({ setData }) => {
+  settings: ({ setData }, msg) => {
     const onFileChange = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       const file = input.files?.[0];

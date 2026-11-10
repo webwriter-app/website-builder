@@ -181,5 +181,6 @@
 'sfcebd18506f1e535': `Fluxo`,
 'sff9d51b6c5a73163': `Texto alternativo`,
 'sffdadf0a576fd802': `Altura`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
   

@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
+import { sourceMsg } from "../../../localization/localizer";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import { FONT_OPTIONS } from "../../builder/data/data";
 
@@ -8,14 +8,14 @@ const DEFAULT_FONT =
 
 export const ParagraphComponent: BuilderComponent = {
   type: "p",
-  label: () => msg("Paragraph"),
+  label: (msg) => msg("Paragraph"),
   group: "text",
 
   defaultData: {
     font: DEFAULT_FONT,
   },
 
-  render: (data) => {
+  render: (data, msg) => {
     const font = data?.font ?? DEFAULT_FONT;
     const color = data?.color ?? "#000000";
     const content = data?.content ?? msg("Paragraph");
@@ -42,17 +42,17 @@ export const ParagraphComponent: BuilderComponent = {
     `;
   },
 
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "content",
-      label: msg("Paragraph text"),
+      label: sourceMsg("Paragraph text"),
       kind: "text",
       target: "p",
       placeholder: msg("Enter paragraph…"),
     },
     {
       key: "width",
-      label: msg("Width"),
+      label: sourceMsg("Width"),
       kind: "style",
       target: "p",
       name: "width",
@@ -60,7 +60,7 @@ export const ParagraphComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: msg("Height"),
+      label: sourceMsg("Height"),
       kind: "style",
       target: "p",
       name: "height",
@@ -68,7 +68,7 @@ export const ParagraphComponent: BuilderComponent = {
     },
     {
       key: "color",
-      label: msg("Text color"),
+      label: sourceMsg("Text color"),
       kind: "style",
       target: "p",
       name: "color",
@@ -76,7 +76,7 @@ export const ParagraphComponent: BuilderComponent = {
     },
     {
       key: "font-weight",
-      label: msg("Font weight"),
+      label: sourceMsg("Font weight"),
       kind: "style",
       target: "p",
       name: "font-weight",
@@ -84,14 +84,14 @@ export const ParagraphComponent: BuilderComponent = {
     },
     {
       key: "font-size",
-      label: msg("Font size"),
+      label: sourceMsg("Font size"),
       kind: "style",
       target: "p",
       name: "font-size",
       placeholder: `${msg("e.g.")} 32px ${msg("or")} 2em`,
     }
   ],
-  settings: ({ data, setData }) => {
+  settings: ({ data, setData }, msg) => {
     const current = (data?.font as string) ?? DEFAULT_FONT;
     const currentLabel =
       FONT_OPTIONS.find((f) => f.value === current)?.label ?? msg("Choose font");

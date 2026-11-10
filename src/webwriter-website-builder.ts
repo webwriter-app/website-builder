@@ -1,9 +1,8 @@
+import type { MsgFn } from "@lit/localize";
+import { effectiveLanguage, localizeElement, nativeLanguageAttributes, sourceMsg } from "../localization/localizer";
 import { html, nothing } from "lit";
 import { LitElementWw } from "@webwriter/lit";
 import { customElement, state } from "lit/decorators.js";
-import { msg } from "@lit/localize";
-// @ts-ignore
-import LOCALIZE from "../localization/generated";
 import { wbGear } from "./assets/icons";
 import { shoelaceScoped } from "./assets/shoelaceImports";
 
@@ -60,8 +59,11 @@ import type { ComponentBinding } from "./types/BuilderComponent";
 
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElementWw {
-  // ─── i18n ────────────────────────────────────────────────────────────────
-  protected localize = LOCALIZE;
+  static override get observedAttributes() { return nativeLanguageAttributes(this, super.observedAttributes); }
+
+  override get lang(): string { return effectiveLanguage(this); }
+  override set lang(value: string) { this.setAttribute("lang", value); }
+  public readonly msg = localizeElement(this, true);
 
   // ─── Controllers ─────────────────────────────────────────────────────────
   /** @internal Handles all drag-and-drop logic */
@@ -74,11 +76,15 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   layout = new LayoutController(this);
 
   // ─── State persistence ───────────────────────────────────────────────────
-  static actions = {
-    configureBuilder: { label: { _: "Builder settings", de: "Baukasten-Einstellungen" } },
-  };
+  static get actions() { return this.buildActions(sourceMsg); }
 
-  readonly actions = WebwriterWebsiteBuilder.actions;
+  private static buildActions(msg: MsgFn) {
+    return {
+      configureBuilder: { label: { get _() { return msg("Builder settings"); } } },
+    };
+  }
+
+  readonly actions = WebwriterWebsiteBuilder.buildActions(this.msg);
 
   configureBuilder() {
     const dialog = this.renderRoot.querySelector<HTMLDialogElement>("#builder-settings");
@@ -412,13 +418,13 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     const allTypes = Object.keys(ComponentRegistry);
     const searched = q
       ? allTypes.filter((t) => {
-          const label = (ComponentRegistry[t]?.label() ?? t).toLowerCase();
+          const label = (ComponentRegistry[t]?.label(this.msg) ?? t).toLowerCase();
           return t.toLowerCase().includes(q) || label.includes(q);
         })
       : allTypes;
     return searched.sort((a, b) => {
-      const la = (ComponentRegistry[a]?.label() ?? a).toLowerCase();
-      const lb = (ComponentRegistry[b]?.label() ?? b).toLowerCase();
+      const la = (ComponentRegistry[a]?.label(this.msg) ?? a).toLowerCase();
+      const lb = (ComponentRegistry[b]?.label(this.msg) ?? b).toLowerCase();
       return la.localeCompare(lb);
     });
   }
@@ -461,7 +467,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   /** Group the selected nodes */
   groupSelected() {
     if (this.selectedIds.size < 2) return;
-    const CONTAINER_TEMPLATES = getContainerTemplates();
+    const CONTAINER_TEMPLATES = getContainerTemplates(this.msg);
     const template =
       CONTAINER_TEMPLATES.find((t) => t.id === this.groupTemplateId) ??
       CONTAINER_TEMPLATES[0];
@@ -594,7 +600,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   private async _confirmReset() {
     const confirmed = confirm(
-      msg("This will remove all elements from the canvas. Continue?"),
+      this.msg("This will remove all elements from the canvas. Continue?"),
     );
     if (confirmed) this._resetCanvas();
   }
@@ -771,9 +777,9 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   private _renderBuilderSettings() {
     return html`
             <div class="settings">
-              <h2>${wbGear} ${msg("Settings")}</h2>
+              <h2>${wbGear} ${this.msg("Settings")}</h2>
 
-              <sl-details summary=${msg("Canvas")}>
+              <sl-details summary=${this.msg("Canvas")}>
                 ${renderLayersPanel(this)}
 
                 <div class="settings-row">
@@ -783,7 +789,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                     @click=${this._confirmReset}
                     style="margin-left:auto;"
                   >
-                    ${msg("Reset Canvas")}
+                    ${this.msg("Reset Canvas")}
                   </sl-button>
                 </div>
 
@@ -792,7 +798,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
                             padding:0.4rem 0.6rem;background:var(--sl-color-neutral-50);
                             border-radius:8px;border:1px solid var(--sl-color-neutral-200);"
                 >
-                  ${msg(html`Hold <kbd>T</kbd> to temporarily hide the toolbar overlay.`)}
+                  ${this.msg(html`Hold <kbd>T</kbd> to temporarily hide the toolbar overlay.`)}
                 </div>
               </sl-details>
 
@@ -825,8 +831,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       <div class="layout" tabindex="-1">
         <div class="layout-row ${showCode ? "code-open" : ""}">
           ${isAuthor ? html`
-            <dialog id="builder-settings" aria-label=${msg("Settings")} style="width:min(34rem,calc(100% - 2rem));max-height:85%;box-sizing:border-box">
-              <form method="dialog"><button>${msg("Close")}</button></form>
+            <dialog id="builder-settings" aria-label=${this.msg("Settings")} style="width:min(34rem,calc(100% - 2rem));max-height:85%;box-sizing:border-box">
+              <form method="dialog"><button>${this.msg("Close")}</button></form>
               ${this._renderBuilderSettings()}
             </dialog>
           ` : showStudentSidebar ? this._renderBuilderSettings() : nothing}
@@ -852,17 +858,17 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
           <!-- Code panel -->
           ${showCode
             ? html`
-                <div class="code-panel" aria-label=${msg("Code")}>
+                <div class="code-panel" aria-label=${this.msg("Code")}>
                   <div class="code-header">
                     <sl-icon-button
                       name="x-lg"
                       library="system"
-                      label=${msg("Close")}
+                      label=${this.msg("Close")}
                       @click=${this._closeCodePanel}
                     >
                     </sl-icon-button>
-                    <div class="code-title">${msg("Code")}</div>
-                    <div class="code-tabs" role="tablist" aria-label=${msg("Code tabs")}>
+                    <div class="code-title">${this.msg("Code")}</div>
+                    <div class="code-tabs" role="tablist" aria-label=${this.msg("Code tabs")}>
                       ${this._renderCodeTabs()}
                     </div>
                   </div>
@@ -887,7 +893,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         ${showDrawer
           ? html`
               <sl-drawer
-                label=${msg("Component settings")}
+                label=${this.msg("Component settings")}
                 placement="end"
                 contained
                 .open=${true}
@@ -921,8 +927,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
         <sl-button
           size="small"
           variant="primary"
-          title=${msg("Code")}
-          aria-label=${msg("Code")}
+          title=${this.msg("Code")}
+          aria-label=${this.msg("Code")}
           aria-pressed=${showCode ? "true" : "false"}
           @click=${this._toggleCodePanel}
         >
@@ -933,10 +939,10 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
               <sl-button
                 size="small"
                 variant="primary"
-                title=${this.isFullscreen ? msg("Close") : msg("Fullscreen")}
+                title=${this.isFullscreen ? this.msg("Close") : this.msg("Fullscreen")}
                 aria-label=${this.isFullscreen
-                  ? msg("Close")
-                  : msg("Fullscreen")}
+                  ? this.msg("Close")
+                  : this.msg("Fullscreen")}
                 @click=${this._toggleFullscreen}
               >
                 <sl-icon
@@ -951,7 +957,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   private _renderCodeTabs() {
     const tabs: Array<[CodeTab, string]> = [
-      ["combined", msg("Combined")],
+      ["combined", this.msg("Combined")],
       ["html", "HTML"],
       ["css", "CSS"],
     ];

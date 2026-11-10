@@ -181,5 +181,6 @@
 'sfcebd18506f1e535': `Потік`,
 'sff9d51b6c5a73163': `Альтернативний текст`,
 'sffdadf0a576fd802': `Висота`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
   

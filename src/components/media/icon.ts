@@ -1,6 +1,5 @@
 // Usage in IconComponent (src/builder/components/media/icon.ts)
 import { html } from "lit";
-import { msg } from "@lit/localize";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import "../../assets/shoelaceImports";
 
@@ -9,7 +8,7 @@ const DEFAULT_COLOR = "#0f172a";
 
 export const IconComponent: BuilderComponent = {
   type: "icon",
-  label: () => msg("Icon"),
+  label: (msg) => msg("Icon"),
   group: "media",
 
   defaultData: {
@@ -54,7 +53,7 @@ export const IconComponent: BuilderComponent = {
     `;
   },
 
-  settings: ({ data, setData }) => {
+  settings: ({ data, setData }, msg) => {
     const name = data?.name ?? DEFAULT_ICON;
     const size = data?.size ?? "32px";
     const color = data?.color ?? DEFAULT_COLOR;

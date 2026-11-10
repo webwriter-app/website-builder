@@ -1,3 +1,4 @@
+import type { MsgFn } from "@lit/localize";
 import { TemplateResult } from "lit";
 
 export type BindingKind = "text" | "html" | "attr" | "style";
@@ -22,14 +23,14 @@ export type ComponentSettingsCtx = {
 // maps names (named it "type" here since it better matches the purpose) to builder components
 export interface BuilderComponent {
   type: string;
-  label: () => string;
+  label: (msg: MsgFn) => string;
   group: "text" | "media" | "buttons" | "dividers";
   defaultData?: any;
 
-  render(data: any): TemplateResult;
+  render(data: any, msg: MsgFn): TemplateResult;
 
   // CHANGED: was (element: HTMLElement) => TemplateResult
-  settings?: (ctx: ComponentSettingsCtx) => TemplateResult;
+  settings?: (ctx: ComponentSettingsCtx, msg: MsgFn) => TemplateResult;
 
-  bindings?: () => ComponentBinding[];
+  bindings?: (msg: MsgFn) => ComponentBinding[];
 }

@@ -181,5 +181,6 @@
 'sfcebd18506f1e535': `Virtaus`,
 'sff9d51b6c5a73163': `Vaihtoehtoinen teksti`,
 'sffdadf0a576fd802': `Korkeus`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
   

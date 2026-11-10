@@ -181,5 +181,6 @@
 'sfcebd18506f1e535': `Przepływ`,
 'sff9d51b6c5a73163': `Tekst alternatywny`,
 'sffdadf0a576fd802': `Wysokość`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
   

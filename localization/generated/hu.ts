@@ -181,5 +181,6 @@
 'sfcebd18506f1e535': `Áramlás`,
 'sff9d51b6c5a73163': `Alternatív szöveg`,
 'sffdadf0a576fd802': `Magasság`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
   

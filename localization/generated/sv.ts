@@ -181,5 +181,6 @@
 'sfcebd18506f1e535': `Flöde`,
 'sff9d51b6c5a73163': `Alternativtext`,
 'sffdadf0a576fd802': `Höjd`,
+'s8dfcedb8b2d680cd': `Builder settings`,
     };
   
