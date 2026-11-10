@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+<file target-language="ha" source-language="en" original="lit-localize-inputs" datatype="plaintext">
+<body>
+<trans-unit id="sdaf07664dbfc95c5">
+  <source>Choose icon…</source>
+<target>Zaɓi alama…</target></trans-unit>
+<trans-unit id="s4a5341646123f8ce">
+  <source>drop components here</source>
+<target>saki ɓangarori a nan</target></trans-unit>
+<trans-unit id="seb9a18743f5c0535">
+  <source>Empty container — add items via the sidebar</source>
+<target>Akwatin babu komai — ƙara abubuwa ta sashen gefe</target></trans-unit>
+<trans-unit id="sbb59e2127a113990">
+  <source>Choose an icon</source>
+<target>Zaɓi wata alama</target></trans-unit>
+<trans-unit id="s8059a22698307577">
+  <source>Search icons…</source>
+<target>Nemi alamomi…</target></trans-unit>
+<trans-unit id="s188927533d6c9987">
+  <source>Icon color</source>
+<target>Launin alama</target></trans-unit>
+<trans-unit id="s2ceb11be2290bb1b">
+  <source>Cancel</source>
+<target>Soke</target></trans-unit>
+<trans-unit id="s47ba0113da523b8d">
+  <source>Use icon</source>
+<target>Yi amfani da alama</target></trans-unit>
+<trans-unit id="s0442a59427632f08">
+  <source>All components</source>
+<target>Duk ɓangarori</target></trans-unit>
+<trans-unit id="s5d929ff1619ac0c9">
+  <source>Search</source>
+<target>Nema</target></trans-unit>
+<trans-unit id="s6bb965855fa5c1ab">
+  <source>Search components…</source>
+<target>Nemi ɓangarori…</target></trans-unit>
+<trans-unit id="s2841a0c596d6f426">
+  <source>item</source>
+<target>abu</target></trans-unit>
+<trans-unit id="s3e7884bf4f412c6f">
+  <source>items</source>
+<target>abubuwa</target></trans-unit>
+<trans-unit id="sa7d404b9283351e9">
+  <source>Drag tiles from the palette, or insert here at default position.</source>
+<target>Ja tayal daga jerin kayan aiki ko saka su a nan a wurin da aka riga aka zaɓa.</target></trans-unit>
+<trans-unit id="s1219d97b49650c05">
+  <source>Visibility</source>
+<target>Ganuwa</target></trans-unit>
+<trans-unit id="s2ea4f3816cb3eaab">
+  <source>Layout modes</source>
+<target>Yanayin tsari</target></trans-unit>
+<trans-unit id="s3e580baec12c5cf8">
+  <source>Code tabs</source>
+<target>Shafukan lamba</target></trans-unit>
+<trans-unit id="sc40ba85758f16fca">
+  <source>Combined</source>
+<target>A haɗe</target></trans-unit>
+<trans-unit id="s7c2386fe775b2853">
+  <source>Student mode</source>
+<target>Yanayin ɗalibi</target></trans-unit>
+<trans-unit id="s514f361e5688d094">
+  <source>Show component settings</source>
+<target>Nuna saitunan ɓangare</target></trans-unit>
+<trans-unit id="s4b05ac1126ccd6c0">
+  <source>Show sidebar</source>
+<target>Nuna sashen gefe</target></trans-unit>
+<trans-unit id="s47e91aa5cba9dc97">
+  <source>Show toolbar</source>
+<target>Nuna sandar kayan aiki</target></trans-unit>
+<trans-unit id="sd607d6d103ce5431">
+  <source>Allow delete</source>
+<target>Ba da izinin gogewa</target></trans-unit>
+<trans-unit id="s4abf432fc76a8ec9">
+  <source>Author mode</source>
+<target>Yanayin marubuci</target></trans-unit>
+<trans-unit id="s2e4818861000b13f">
+  <source>Layout</source>
+<target>Tsari</target></trans-unit>
+<trans-unit id="sd23ee5e66df8400a">
+  <source>Direction</source>
+<target>Alƙibla</target></trans-unit>
+<trans-unit id="sbe6283ffe834c65a">
+  <source>Justify content</source>
+<target>Rarraba abun ciki</target></trans-unit>
+<trans-unit id="sb4d3986485cf1326">
+  <source>Align items</source>
+<target>Daidaita abubuwa</target></trans-unit>
+<trans-unit id="se619a501d1bfe6a5">
+  <source>Wrap</source>
+<target>Matsar zuwa layi na gaba</target></trans-unit>
+<trans-unit id="seaf97719986faf4f">
+  <source>Gap</source>
+<target>Tazara</target></trans-unit>
+<trans-unit id="sb0f3327210fe18fc">
+  <source>Columns</source>
+<target>Ginshikai</target></trans-unit>
+<trans-unit id="scace072bef961918">
+  <source>Rows</source>
+<target>Layuka</target></trans-unit>
+<trans-unit id="s33b8dc0523428dde">
+  <source>Auto flow</source>
+<target>Gudana ta atomatik</target></trans-unit>
+<trans-unit id="s915caf9e3dad37f7">
+  <source>Justify items</source>
+<target>Rarraba abubuwa</target></trans-unit>
+<trans-unit id="s1125d159f7e64df5">
+  <source>Display</source>
+<target>Nuni</target></trans-unit>
+<trans-unit id="s642a4070f6bcfee2">
+  <source>Content</source>
+<target>Abun ciki</target></trans-unit>
+<trans-unit id="sa6d4361f17423080">
+  <source>Component</source>
+<target>Ɓangare</target></trans-unit>
+<trans-unit id="sc1034375f5a9f098">
+  <source>Container</source>
+<target>Akwati</target></trans-unit>
+<trans-unit id="s536ea6b320f9600d">
+  <source>Ungroup</source>
+<target>Warware rukuni</target></trans-unit>
+<trans-unit id="se2c449472f2d611e">
+  <source>Container layout</source>
+<target>Tsarin akwatin</target></trans-unit>
+<trans-unit id="sa300750295f9a36a">
+  <source>Grid placement</source>
+<target>Matsayi a raga</target></trans-unit>
+<trans-unit id="s06fd2f8b555158a4">
+  <source>Area</source>
+<target>Yanki</target></trans-unit>
+<trans-unit id="s4525d914120bba9f">
+  <source>Column start</source>
+<target>Ginshikin farawa</target></trans-unit>
+<trans-unit id="s861fdb0670b22561">
+  <source>Column span</source>
+<target>Yawan ginshikan da ya rufe</target></trans-unit>
+<trans-unit id="s62fbafa74a42f033">
+  <source>Row start</source>
+<target>Layin farawa</target></trans-unit>
+<trans-unit id="s46b90b74670a1865">
+  <source>Row span</source>
+<target>Yawan layukan da ya rufe</target></trans-unit>
+<trans-unit id="s177d1b8ad205f175">
+  <source>Flex item</source>
+<target>Abun Flex</target></trans-unit>
+<trans-unit id="s8fa8b0a18d4320de">
+  <source>Parent direction:</source>
+<target>Alƙiblar akwatin da ke waje:</target></trans-unit>
+<trans-unit id="s5a053ed77fa9c1bc">
+  <source>Align self</source>
+<target>Daidaita wannan abu</target></trans-unit>
+<trans-unit id="sd95af958ff5ee320">
+  <source>inherit parent</source>
+<target>Bi akwatin da ke waje</target></trans-unit>
+<trans-unit id="sbfa01f189a68d3e9">
+  <source>Flex grow</source>
+<target>Ma’aunin faɗaɗawa</target></trans-unit>
+<trans-unit id="sef24caccbd4645ef">
+  <source>Flex shrink</source>
+<target>Ma’aunin ƙuntatawa</target></trans-unit>
+<trans-unit id="saced41ddda8b2354">
+  <source>Flex basis</source>
+<target>Girman asali</target></trans-unit>
+<trans-unit id="s8e985aeeca6a8166">
+  <source>White</source>
+<target>Fari</target></trans-unit>
+<trans-unit id="s6399d92a898bc466">
+  <source>Off-white</source>
+<target>Fari mai ɗan ruwan kirim</target></trans-unit>
+<trans-unit id="sae0e215d6564e14e">
+  <source>Light grey</source>
+<target>Ruwan toka mai haske</target></trans-unit>
+<trans-unit id="sac895c732f350ac5">
+  <source>Dark</source>
+<target>Duhu</target></trans-unit>
+<trans-unit id="s795999a39e6aae81">
+  <source>Midnight</source>
+<target>Shuɗi mai matuƙar duhu</target></trans-unit>
+<trans-unit id="s5d838598f78157f2">
+  <source>Charcoal</source>
+<target>Ruwan toka na gawayi</target></trans-unit>
+<trans-unit id="s5bf5477d6a2ad856">
+  <source>Background color</source>
+<target>Launin bango</target></trans-unit>
+<trans-unit id="s45fff5d2e28db1a4">
+  <source>Reset to white</source>
+<target>Mayar zuwa fari</target></trans-unit>
+<trans-unit id="sdab38385e185e9bf">
+  <source>Layers</source>
+<target>Matakai</target></trans-unit>
+<trans-unit id="s76bb11989a7ba03e">
+  <source>Higher = in front. Click to select.</source>
+<target>Mataki mafi sama yana gaba. Danna domin zaɓa.</target></trans-unit>
+<trans-unit id="sa00beff1c266a23e">
+  <source>Bring forward</source>
+<target>Matsar gaba da mataki ɗaya</target></trans-unit>
+<trans-unit id="s50b60b4970cbd9ea">
+  <source>Send back</source>
+<target>Matsar baya da mataki ɗaya</target></trans-unit>
+<trans-unit id="s33054d1d675674c9">
+  <source>Freeform</source>
+<target>’Yantacce</target></trans-unit>
+<trans-unit id="sfcebd18506f1e535">
+  <source>Flow</source>
+<target>Gudana</target></trans-unit>
+<trans-unit id="s2492f5fb1b05b45e">
+  <source>Text</source>
+<target>Rubutu</target></trans-unit>
+<trans-unit id="sd65fa257917527a8">
+  <source>Browse all components</source>
+<target>Duba duk ɓangarori</target></trans-unit>
+<trans-unit id="s5e8250fb85d64c23">
+  <source>Close</source>
+<target>Rufe</target></trans-unit>
+<trans-unit id="sfc5542fcfe78b99b">
+  <source>Add component</source>
+<target>Ƙara ɓangare</target></trans-unit>
+<trans-unit id="sdc673e73b5c13aea">
+  <source>Delete</source>
+<target>Goge</target></trans-unit>
+<trans-unit id="s25e1a07e454c2c11">
+  <source>Grid</source>
+<target>Raga</target></trans-unit>
+<trans-unit id="see1a91137da362cf">
+  <source>Interact</source>
+<target>Mu’amala</target></trans-unit>
+<trans-unit id="s03c44f5a1b0581d4">
+  <source>selected</source>
+<target>da aka zaɓa</target></trans-unit>
+<trans-unit id="s8354160a1fe59b16">
+  <source>Wrap selected nodes in a container</source>
+<target>Saka abubuwan da aka zaɓa a akwatin guda</target></trans-unit>
+<trans-unit id="s98b1cb8fb62909ec">
+  <source>Group</source>
+<target>Haɗa rukuni</target></trans-unit>
+<trans-unit id="s8f18916860db5d80">
+  <source>Clear selection</source>
+<target>Cire zaɓi</target></trans-unit>
+<trans-unit id="s569ed106bd3565e4">
+  <source>Switch layout to <x id="0" equiv-text="${mode}" /></source>
+<target>Canja tsari zuwa <x id="0" equiv-text="${mode}" /></target></trans-unit>
+<trans-unit id="s0bdef849e0480d0e">
+  <source>Drag to canvas · Click for info</source>
+<target>Ja zuwa filin aiki · Danna don samun bayani</target></trans-unit>
+<trans-unit id="s5ada999b33ccc808">
+  <source>Insert</source>
+<target>Saka</target></trans-unit>
+<trans-unit id="s0d2f74dc9c0833a2">
+  <source>Drag to place on canvas. Click Insert to add at default position.</source>
+<target>Ja don ajiyewa a filin aiki. Danna Saka don ƙara a wurin da aka riga aka zaɓa.</target></trans-unit>
+<trans-unit id="s6d9c15e46caed9ad">
+  <source>Syntax (preview)</source>
+<target>Nahawun lamba (dubawa)</target></trans-unit>
+<trans-unit id="s13685d515f24f806">
+  <source>Two Columns</source>
+<target>Ginshikai biyu</target></trans-unit>
+<trans-unit id="s9f35b422aa707a80">
+  <source>Equal-width side-by-side columns</source>
+<target>Ginshikai biyu masu faɗi iri ɗaya a gefe da gefe</target></trans-unit>
+<trans-unit id="se6b9f0707592d7f4">
+  <source>Hero + Sidebar</source>
+<target>Babban sashe da sashen gefe</target></trans-unit>
+<trans-unit id="sf60963b73764eca2">
+  <source>Wide main area with a narrow sidebar</source>
+<target>Babban wuri mai faɗi da sashen gefe mai ƙunci</target></trans-unit>
+<trans-unit id="s50cf51c05f0d4f09">
+  <source>Card Grid</source>
+<target>Ragar katuna</target></trans-unit>
+<trans-unit id="sbd2f3cd9e56e40c3">
+  <source>Responsive 3-column card layout</source>
+<target>Tsarin katuna na ginshikai 3 mai dacewa da girman allo</target></trans-unit>
+<trans-unit id="sfc83e9eb133d7361">
+  <source>Centered Stack</source>
+<target>Jere a tsakiya</target></trans-unit>
+<trans-unit id="s79f4e6731ad3be45">
+  <source>Vertically stacked, centered items</source>
+<target>Abubuwa a jere daga sama zuwa ƙasa a tsakiya</target></trans-unit>
+<trans-unit id="s0312976fe9da5951">
+  <source>Button</source>
+<target>Maɓalli</target></trans-unit>
+<trans-unit id="sbba25f7b32fdf484">
+  <source>Button text</source>
+<target>Rubutun maɓalli</target></trans-unit>
+<trans-unit id="s96b8133d45d9108b">
+  <source>Button label</source>
+<target>Lakabin maɓalli</target></trans-unit>
+<trans-unit id="se4a2a305de890ead">
+  <source>Pick icon…</source>
+<target>Zaɓi alama…</target></trans-unit>
+<trans-unit id="sd5b036cc13fb77b4">
+  <source>Reset button</source>
+<target>Sake saita maɓalli</target></trans-unit>
+<trans-unit id="s88f5053fccdf0a61">
+  <source>hide border</source>
+<target>ɓoye iyaka</target></trans-unit>
+<trans-unit id="s3cf89cb47fdde7e9">
+  <source>Link</source>
+<target>Mahada</target></trans-unit>
+<trans-unit id="sf43739275a48c99c">
+  <source>Link text</source>
+<target>Rubutun mahada</target></trans-unit>
+<trans-unit id="s6ecb7a2f9be48443">
+  <source>Link label</source>
+<target>Lakabin mahada</target></trans-unit>
+<trans-unit id="s47bc103b7d41ad9c">
+  <source>Link URL</source>
+<target>URL na mahada</target></trans-unit>
+<trans-unit id="sd2b47d8cc09e0dfe">
+  <source>Icon name (optional)</source>
+<target>Sunan alama (na zaɓi)</target></trans-unit>
+<trans-unit id="sc7cae0914551bb10">
+  <source>Reset link</source>
+<target>Sake saita mahada</target></trans-unit>
+<trans-unit id="sd6fb5bdee45e7967">
+  <source>Press "A" while clicking to follow the link.</source>
+<target>Riƙe A yayin dannawa don buɗe mahada.</target></trans-unit>
+<trans-unit id="s4616fdc48b092f86">
+  <source>Divider</source>
+<target>Mai rabawa</target></trans-unit>
+<trans-unit id="s0fef364f29f8ffc1">
+  <source>Width (e.g. 300px, 20rem)</source>
+<target>Faɗi (misali 300px, 20rem)</target></trans-unit>
+<trans-unit id="s09d3e1c6cc8700b9">
+  <source>Height (e.g. 10px, 0.5rem)</source>
+<target>Tsawo (misali 10px, 0.5rem)</target></trans-unit>
+<trans-unit id="s5172602152d8a620">
+  <source>Reset width and height</source>
+<target>Sake saita faɗi da tsawo</target></trans-unit>
+<trans-unit id="s08e6bd98452e6bb9">
+  <source>Audio</source>
+<target>Sauti</target></trans-unit>
+<trans-unit id="sbfe81a957a15772c">
+  <source>Audio URL</source>
+<target>URL na sauti</target></trans-unit>
+<trans-unit id="s56b2da93a4b8874e">
+  <source>Upload Audio</source>
+<target>Loda sauti</target></trans-unit>
+<trans-unit id="s068d4dd16d9106d0">
+  <source>Icon</source>
+<target>Alama</target></trans-unit>
+<trans-unit id="s78789724e789221c">
+  <source>Size</source>
+<target>Girma</target></trans-unit>
+<trans-unit id="s344ea8f4939cdc98">
+  <source>Color</source>
+<target>Launi</target></trans-unit>
+<trans-unit id="s3d93f9ea0c5a13fa">
+  <source>Image</source>
+<target>Hoto</target></trans-unit>
+<trans-unit id="sef5caf7c3cf24b03">
+  <source>Placeholder image</source>
+<target>Hoton riƙe wuri</target></trans-unit>
+<trans-unit id="se09e3dc382fe557f">
+  <source>Image URL</source>
+<target>URL na hoto</target></trans-unit>
+<trans-unit id="sff9d51b6c5a73163">
+  <source>Alt Text</source>
+<target>Madadin rubutu</target></trans-unit>
+<trans-unit id="s3adbbe7967b559b5">
+  <source>Describe the image (accessibility)</source>
+<target>Bayyana hoton don samun damar amfani</target></trans-unit>
+<trans-unit id="sf79bbcb9f92e4d35">
+  <source>Object Fit</source>
+<target>Yadda hoto yake shiga cikin firam</target></trans-unit>
+<trans-unit id="sba64d8954d027206">
+  <source>Opacity</source>
+<target>Rashin haske ta ciki</target></trans-unit>
+<trans-unit id="s0b786a0e85eb6783">
+  <source>Border Radius</source>
+<target>Lanƙwasar kusurwa</target></trans-unit>
+<trans-unit id="s15f1c890a4d45381">
+  <source>Upload Image</source>
+<target>Loda hoto</target></trans-unit>
+<trans-unit id="s5fc61cdf86138f38">
+  <source>Reset to placeholder</source>
+<target>Mayar da hoton riƙe wuri</target></trans-unit>
+<trans-unit id="s85186a61e0d55bac">
+  <source>Video</source>
+<target>Bidiyo</target></trans-unit>
+<trans-unit id="s3936a6d9094737dd">
+  <source>Video URL</source>
+<target>URL na bidiyo</target></trans-unit>
+<trans-unit id="s89ba1ee1ccee063b">
+  <source>Describe the video (accessibility)</source>
+<target>Bayyana bidiyon don samun damar amfani</target></trans-unit>
+<trans-unit id="s288dd43090a568af">
+  <source>Upload Video</source>
+<target>Loda bidiyo</target></trans-unit>
+<trans-unit id="sbc5f2f81604bb81a">
+  <source>Heading 1</source>
+<target>Take 1</target></trans-unit>
+<trans-unit id="s094eb0fadccf24d8">
+  <source>Heading text</source>
+<target>Rubutun take</target></trans-unit>
+<trans-unit id="s072c3c42e24456af">
+  <source>Enter heading…</source>
+<target>Shigar da take…</target></trans-unit>
+<trans-unit id="sbc5f2e81604bb667">
+  <source>Heading 2</source>
+<target>Take 2</target></trans-unit>
+<trans-unit id="sbc5f2d81604bb4b4">
+  <source>Heading 3</source>
+<target>Take 3</target></trans-unit>
+<trans-unit id="sbc5f2c81604bb301">
+  <source>Heading 4</source>
+<target>Take 4</target></trans-unit>
+<trans-unit id="sbc5f2b81604bb14e">
+  <source>Heading 5</source>
+<target>Take 5</target></trans-unit>
+<trans-unit id="sbc5f2a81604baf9b">
+  <source>Heading 6</source>
+<target>Take 6</target></trans-unit>
+<trans-unit id="s5590dbf7e425789d">
+  <source>Label</source>
+<target>Lakabi</target></trans-unit>
+<trans-unit id="s6ce2cd4c021d67c0">
+  <source>Label text</source>
+<target>Rubutun lakabi</target></trans-unit>
+<trans-unit id="sb7fd199d895f2ee0">
+  <source>Enter label text…</source>
+<target>Shigar da rubutun lakabi…</target></trans-unit>
+<trans-unit id="s599dcd2472c75c19">
+  <source>Paragraph</source>
+<target>Sakin layi</target></trans-unit>
+<trans-unit id="s506f0816b38dd34c">
+  <source>Paragraph text</source>
+<target>Rubutun sakin layi</target></trans-unit>
+<trans-unit id="s28674808a6dbbd5f">
+  <source>Enter paragraph…</source>
+<target>Shigar da sakin layi…</target></trans-unit>
+<trans-unit id="sf21fb4f4b9e8911f">
+  <source>Width</source>
+<target>Faɗi</target></trans-unit>
+<trans-unit id="sb9cdc961961c6ddb">
+  <source>e.g.</source>
+<target>misali</target></trans-unit>
+<trans-unit id="sffdadf0a576fd802">
+  <source>Height</source>
+<target>Tsawo</target></trans-unit>
+<trans-unit id="s8e43508f1392e94d">
+  <source>Text color</source>
+<target>Launin rubutu</target></trans-unit>
+<trans-unit id="s236ed7ba747099b0">
+  <source>Font weight</source>
+<target>Kaurin haruffa</target></trans-unit>
+<trans-unit id="s08b05407b5565ca4">
+  <source>or</source>
+<target>ko</target></trans-unit>
+<trans-unit id="sa30f1981fd1cd441">
+  <source>Font size</source>
+<target>Girman haruffa</target></trans-unit>
+<trans-unit id="s9d1a9174ca15faad">
+  <source>Choose font</source>
+<target>Zaɓi nau’in haruffa</target></trans-unit>
+<trans-unit id="s4b4afa8bcb02d5ac">
+  <source>Typography</source>
+<target>Tsarin rubutu</target></trans-unit>
+<trans-unit id="s079cf7850d9327f0">
+  <source>Font</source>
+<target>Nau’in haruffa</target></trans-unit>
+<trans-unit id="sc480ad5cd5e098ed">
+  <source>Reset font</source>
+<target>Sake saita nau’in haruffa</target></trans-unit>
+<trans-unit id="s9abadcc828884d7b">
+  <source>Textarea</source>
+<target>Filin rubutu</target></trans-unit>
+<trans-unit id="s2d5ed76c30d38322">
+  <source>Enter text…</source>
+<target>Shigar da rubutu…</target></trans-unit>
+<trans-unit id="sb688a1d8ede5c08e">
+  <source>Textarea placeholder</source>
+<target>Rubutun taimako a filin rubutu</target></trans-unit>
+<trans-unit id="s56786c3f3e37cefa">
+  <source>Enter textarea placeholder…</source>
+<target>Shigar da rubutun taimako…</target></trans-unit>
+<trans-unit id="s4e03726ad458f1f2">
+  <source>Width (e.g. 320px, 60%)</source>
+<target>Faɗi (misali 320px, 60%)</target></trans-unit>
+<trans-unit id="sa40e933fba661284">
+  <source>Height (e.g. 120px)</source>
+<target>Tsawo (misali 120px)</target></trans-unit>
+<trans-unit id="s931cc4d30fead4de">
+  <source>This will remove all elements from the canvas. Continue?</source>
+<target>Wannan zai cire duk abubuwa daga filin aiki. A ci gaba?</target></trans-unit>
+<trans-unit id="s9d8b8aa2b404c2c8">
+  <source>Settings</source>
+<target>Saituna</target></trans-unit>
+<trans-unit id="s9ffe1bbe64712bf1">
+  <source>Canvas</source>
+<target>Filin aiki</target></trans-unit>
+<trans-unit id="s1e06a953386318ac">
+  <source>Reset Canvas</source>
+<target>Sake saita filin aiki</target></trans-unit>
+<trans-unit id="hee3c66c7df58c59e">
+  <source>Hold <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> to temporarily hide the toolbar overlay.</source>
+<target>Riƙe <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> don ɓoye sandar kayan aiki mai iyo na ɗan lokaci.</target></trans-unit>
+<trans-unit id="s3643189d1abbb7f4">
+  <source>Code</source>
+<target>Lamba</target></trans-unit>
+<trans-unit id="s6f44d1ec40b5eb0d">
+  <source>Component settings</source>
+<target>Saitunan ɓangare</target></trans-unit>
+<trans-unit id="s4b10acae683d2978">
+  <source>Fullscreen</source>
+<target>Cikakken allo</target></trans-unit>
+<trans-unit id="s8dfcedb8b2d680cd">
+  <source>Builder settings</source>
+<target>Saitunan mai gina shafuka</target></trans-unit>
+</body>
+</file>
+</xliff>

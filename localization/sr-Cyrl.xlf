@@ -334,7 +334,7 @@
 <target>URL звука</target></trans-unit>
 <trans-unit id="s56b2da93a4b8874e">
   <source>Upload Audio</source>
-<target>Отпremи аудио</target></trans-unit>
+<target>Отпреми аудио</target></trans-unit>
 <trans-unit id="s068d4dd16d9106d0">
   <source>Icon</source>
 <target>Икона</target></trans-unit>
@@ -370,7 +370,7 @@
 <target>Полупречник ивице</target></trans-unit>
 <trans-unit id="s15f1c890a4d45381">
   <source>Upload Image</source>
-<target>Отпremи слику</target></trans-unit>
+<target>Отпреми слику</target></trans-unit>
 <trans-unit id="s5fc61cdf86138f38">
   <source>Reset to placeholder</source>
 <target>Врати резервну слику</target></trans-unit>
@@ -385,7 +385,7 @@
 <target>Опишите видео (приступачност)</target></trans-unit>
 <trans-unit id="s288dd43090a568af">
   <source>Upload Video</source>
-<target>Отпremи видео</target></trans-unit>
+<target>Отпреми видео</target></trans-unit>
 <trans-unit id="sbc5f2f81604bb81a">
   <source>Heading 1</source>
 <target>Наслов 1</target></trans-unit>
@@ -493,7 +493,7 @@
 <target>Ресетуј платно</target></trans-unit>
 <trans-unit id="hee3c66c7df58c59e">
   <source>Hold <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> to temporarily hide the toolbar overlay.</source>
-<target>Држите <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> да привremено сакријете преклоп траке са алаткама.</target></trans-unit>
+<target>Држите <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> да привремено сакријете преклоп траке са алаткама.</target></trans-unit>
 <trans-unit id="s3643189d1abbb7f4">
   <source>Code</source>
 <target>Код</target></trans-unit>
