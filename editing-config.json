@@ -105,7 +105,16 @@
       "om": "Marsariitiiwwan dhaabbataa qindaa’ina garaagaraa qaban (Freeform, Flow, Flex, Grid) ijaari, sakatta’i, hubadhu.",
       "so": "Dhis, sahami oo faham mareegaha taagan ee leh qaabab kala duwan (Freeform, Flow, Flex, Grid).",
       "ti": "ብዝተፈላለየ ኣቀማምጣታት (Freeform, Flow, Flex, Grid) ዘለዎም ስታቲክ ድረገጻት ሃንጹ፣ መርምሩን ተረድኡን።",
-      "ha": "Gina, bincika, ka kuma fahimci shafukan yanar gizo marasa canjin abun ciki masu tsaruka dabam-dabam (’Yantacce, Gudana, Flex da Raga)."
+      "ha": "Gina, bincika, ka kuma fahimci shafukan yanar gizo marasa canjin abun ciki masu tsaruka dabam-dabam (’Yantacce, Gudana, Flex da Raga).",
+      "yue-Hans": "建立、探索同了解唔同版面（Freeform、Flow、Flex、Grid）嘅静态网站。",
+      "yue-Hant": "建立、探索同了解唔同版面（Freeform、Flow、Flex、Grid）嘅靜態網站。",
+      "kmr": "Malperên statîk bi rêzkirinên cuda (Freeform, Flow, Flex, Grid) ava bike, keşf bike û fêm bike.",
+      "kmr-Latn": "Malperên statîk bi rêzkirinên cuda (Freeform, Flow, Flex, Grid) ava bike, keşf bike û fêm bike.",
+      "kmr-Arab": "مالپەرێن ستاتیک ب رێزکرنێن cuda (فرەەفۆرم, فلۆو, فلەخ, گرد) ئاڤا بکە, کەشف بکە ئوو فێم بکە.",
+      "ckb": "ماڵپەڕی وەستاو بە شێوازی جیاواز (Freeform، Flow، Flex، Grid) دروست بکە، بیپشکنە و تێی بگە.",
+      "ckb-Arab": "ماڵپەڕی وەستاو بە شێوازی جیاواز (Freeform، Flow، Flex، Grid) دروست بکە، بیپشکنە و تێی بگە.",
+      "af-ZA": "Bou, verken en verstaan statiese webwerwe met verskillende uitlegte (Freeform, Flow, Flex, Grid).",
+      "af-NA": "Bou, verken en verstaan statiese webwerwe met verskillende uitlegte (Freeform, Flow, Flex, Grid)."
     },
     "label": {
       "_": "Website Builder",
@@ -210,7 +219,16 @@
       "om": "Ijaartuu Marsariitii",
       "so": "Dhisaha Mareegta",
       "ti": "ድረገጽ ሃናጺ",
-      "ha": "Mai Gina Shafukan Yanar Gizo"
+      "ha": "Mai Gina Shafukan Yanar Gizo",
+      "yue-Hans": "网站建立器",
+      "yue-Hant": "網站建立器",
+      "kmr": "Avakerê Malperê",
+      "kmr-Latn": "Avakerê Malperê",
+      "kmr-Arab": "ئاڤاکەرێ مالپەرێ",
+      "ckb": "دروستکەری ماڵپەڕ",
+      "ckb-Arab": "دروستکەری ماڵپەڕ",
+      "af-ZA": "Webwerfbouer",
+      "af-NA": "Webwerfbouer"
     }
   },
   "./widgets/webwriter-website-builder": {
@@ -317,7 +335,16 @@
       "om": "Ijaartuu Marsariitii",
       "so": "Dhisaha Mareegta",
       "ti": "ድረገጽ ሃናጺ",
-      "ha": "Mai Gina Shafukan Yanar Gizo"
+      "ha": "Mai Gina Shafukan Yanar Gizo",
+      "yue-Hans": "网站建立器",
+      "yue-Hant": "網站建立器",
+      "kmr": "Avakerê Malperê",
+      "kmr-Latn": "Avakerê Malperê",
+      "kmr-Arab": "ئاڤاکەرێ مالپەرێ",
+      "ckb": "دروستکەری ماڵپەڕ",
+      "ckb-Arab": "دروستکەری ماڵپەڕ",
+      "af-ZA": "Webwerfbouer",
+      "af-NA": "Webwerfbouer"
     }
   },
   "./snippets/flex-starter": {
@@ -424,7 +451,16 @@
       "om": "Flex jalqabaa",
       "so": "Flex Bilow",
       "ti": "Flex ጀማሪ",
-      "ha": "Flex na masu farawa"
+      "ha": "Flex na masu farawa",
+      "yue-Hans": "Flex 入门",
+      "yue-Hant": "Flex 入門",
+      "kmr": "Destpêka Flex",
+      "kmr-Latn": "Destpêka Flex",
+      "kmr-Arab": "دەستپێکا فلەخ",
+      "ckb": "Flex دەستپێک",
+      "ckb-Arab": "Flex دەستپێک",
+      "af-ZA": "Flex Beginner",
+      "af-NA": "Flex Beginner"
     }
   },
   "./snippets/flex-advanced": {
@@ -531,7 +567,16 @@
       "om": "Flex sadarkaa ol’aanaa",
       "so": "Flex Sare",
       "ti": "Flex ዝለዓለ",
-      "ha": "Flex na gaba"
+      "ha": "Flex na gaba",
+      "yue-Hans": "Flex 进阶",
+      "yue-Hant": "Flex 進階",
+      "kmr": "Flex ya Pêşketî",
+      "kmr-Latn": "Flex ya Pêşketî",
+      "kmr-Arab": "فلەخ یا پێشکەتی",
+      "ckb": "Flex پێشکەوتوو",
+      "ckb-Arab": "Flex پێشکەوتوو",
+      "af-ZA": "Gevorderde Flex",
+      "af-NA": "Gevorderde Flex"
     }
   },
   "./snippets/grid-starter": {
@@ -638,7 +683,16 @@
       "om": "Grid jalqabaa",
       "so": "Grid Bilow",
       "ti": "Grid ጀማሪ",
-      "ha": "Raga na masu farawa"
+      "ha": "Raga na masu farawa",
+      "yue-Hans": "Grid 入门",
+      "yue-Hant": "Grid 入門",
+      "kmr": "Destpêka Grid",
+      "kmr-Latn": "Destpêka Grid",
+      "kmr-Arab": "دەستپێکا گرد",
+      "ckb": "Grid دەستپێک",
+      "ckb-Arab": "Grid دەستپێک",
+      "af-ZA": "Grid Beginner",
+      "af-NA": "Grid Beginner"
     }
   },
   "./snippets/grid-advanced": {
@@ -745,7 +799,16 @@
       "om": "Grid sadarkaa ol’aanaa",
       "so": "Grid Sare",
       "ti": "Grid ዝለዓለ",
-      "ha": "Raga na gaba"
+      "ha": "Raga na gaba",
+      "yue-Hans": "Grid 进阶",
+      "yue-Hant": "Grid 進階",
+      "kmr": "Grid ya Pêşketî",
+      "kmr-Latn": "Grid ya Pêşketî",
+      "kmr-Arab": "گرد یا پێشکەتی",
+      "ckb": "Grid پێشکەوتوو",
+      "ckb-Arab": "Grid پێشکەوتوو",
+      "af-ZA": "Gevorderde Grid",
+      "af-NA": "Gevorderde Grid"
     }
   },
   "./snippets/freeform-starter": {
@@ -852,7 +915,16 @@
       "om": "Freeform jalqabaa",
       "so": "Freeform Bilow",
       "ti": "Freeform ጀማሪ",
-      "ha": "Tsari ’yantacce na masu farawa"
+      "ha": "Tsari ’yantacce na masu farawa",
+      "yue-Hans": "Freeform 入门",
+      "yue-Hant": "Freeform 入門",
+      "kmr": "Destpêka Freeform",
+      "kmr-Latn": "Destpêka Freeform",
+      "kmr-Arab": "دەستپێکا فرەەفۆرم",
+      "ckb": "Freeform دەستپێک",
+      "ckb-Arab": "Freeform دەستپێک",
+      "af-ZA": "Freeform Beginner",
+      "af-NA": "Freeform Beginner"
     }
   },
   "./snippets/freeform-advanced": {
@@ -959,7 +1031,16 @@
       "om": "Freeform sadarkaa ol’aanaa",
       "so": "Freeform Sare",
       "ti": "Freeform ዝለዓለ",
-      "ha": "Tsari ’yantacce na gaba"
+      "ha": "Tsari ’yantacce na gaba",
+      "yue-Hans": "Freeform 进阶",
+      "yue-Hant": "Freeform 進階",
+      "kmr": "Freeform ya Pêşketî",
+      "kmr-Latn": "Freeform ya Pêşketî",
+      "kmr-Arab": "فرەەفۆرم یا پێشکەتی",
+      "ckb": "Freeform پێشکەوتوو",
+      "ckb-Arab": "Freeform پێشکەوتوو",
+      "af-ZA": "Gevorderde Freeform",
+      "af-NA": "Gevorderde Freeform"
     }
   },
   "./snippets/flow-starter": {
@@ -1066,7 +1147,16 @@
       "om": "Flow jalqabaa",
       "so": "Flow Bilow",
       "ti": "Flow ጀማሪ",
-      "ha": "Tsarin gudana na masu farawa"
+      "ha": "Tsarin gudana na masu farawa",
+      "yue-Hans": "Flow 入门",
+      "yue-Hant": "Flow 入門",
+      "kmr": "Destpêka Flow",
+      "kmr-Latn": "Destpêka Flow",
+      "kmr-Arab": "دەستپێکا فلۆو",
+      "ckb": "Flow دەستپێک",
+      "ckb-Arab": "Flow دەستپێک",
+      "af-ZA": "Flow Beginner",
+      "af-NA": "Flow Beginner"
     }
   },
   "./snippets/flow-advanced": {
@@ -1173,7 +1263,16 @@
       "om": "Flow sadarkaa ol’aanaa",
       "so": "Flow Sare",
       "ti": "Flow ዝለዓለ",
-      "ha": "Tsarin gudana na gaba"
+      "ha": "Tsarin gudana na gaba",
+      "yue-Hans": "Flow 进阶",
+      "yue-Hant": "Flow 進階",
+      "kmr": "Flow ya Pêşketî",
+      "kmr-Latn": "Flow ya Pêşketî",
+      "kmr-Arab": "فلۆو یا پێشکەتی",
+      "ckb": "Flow پێشکەوتوو",
+      "ckb-Arab": "Flow پێشکەوتوو",
+      "af-ZA": "Gevorderde Flow",
+      "af-NA": "Gevorderde Flow"
     }
   }
 }
