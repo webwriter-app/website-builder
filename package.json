@@ -136,10 +136,11 @@
   "dependencies": {
     "@lit/localize": "^0.12.2",
     "@shoelace-style/shoelace": "^2.20.1",
-    "@webwriter/lit": "^2",
+    "@webwriter/lit": "^3.0.0",
     "lit": "^3.3.2"
   },
   "devDependencies": {
+    "@webwriter/build": "^1.13.1",
     "@lit/localize-tools": "^0.8"
   },
   "exports": {
