@@ -9,10 +9,7 @@
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Maintenez enfoncées les touches 
-          <kbd> T
-          </kbd> pour masquer temporairement la barre d'outils.
-        `,
+      'hee3c66c7df58c59e': html`Maintenez <kbd>T</kbd> enfoncée pour masquer temporairement la barre d’outils superposée.`,
 's0312976fe9da5951': `Bouton`,
 's03c44f5a1b0581d4': `sélectionné`,
 's0442a59427632f08': `Tous les composants`,
@@ -76,9 +73,7 @@
 's536ea6b320f9600d': `Dégrouper`,
 's5590dbf7e425789d': `Étiquette`,
 's56786c3f3e37cefa': `Saisissez le texte de remplacement de la zone de texte…`,
-'s569ed106bd3565e4': str`Changer la disposition du clavier pour 
-          ${0}
-        `,
+'s569ed106bd3565e4': str`Passer à la disposition ${0}`,
 's56b2da93a4b8874e': `Télécharger un fichier audio`,
 's599dcd2472c75c19': `Paragraphe`,
 's5a053ed77fa9c1bc': `S'aligner`,
@@ -107,6 +102,7 @@
 's861fdb0670b22561': `Portée de la colonne`,
 's88f5053fccdf0a61': `masquer la bordure`,
 's89ba1ee1ccee063b': `Décrivez la vidéo (accessibilité)`,
+'s8dfcedb8b2d680cd': `Paramètres du constructeur`,
 's8e43508f1392e94d': `Couleur du texte`,
 's8e985aeeca6a8166': `Blanc`,
 's8f18916860db5d80': `Effacer la sélection`,
@@ -182,4 +178,3 @@
 'sff9d51b6c5a73163': `Texte alternatif`,
 'sffdadf0a576fd802': `Hauteur`,
     };
-  

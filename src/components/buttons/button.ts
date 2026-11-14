@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
+import { sourceMsg } from "../../../localization/localizer";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import "../../assets/shoelaceImports";
 
@@ -10,7 +10,7 @@ const DEFAULT_LABEL_COLOR = "#0f172a";
 
 export const ButtonComponent: BuilderComponent = {
   type: "button",
-  label: () => msg("Button"),
+  label: (msg) => msg("Button"),
   group: "buttons",
 
   defaultData: {
@@ -89,17 +89,17 @@ export const ButtonComponent: BuilderComponent = {
     `;
   },
 
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "label",
-      label: msg("Button text"),
+      label: sourceMsg("Button text"),
       kind: "text",
       target: "span",
       placeholder: msg("Button label"),
     },
   ],
 
-  settings: ({ data, setData }) => {
+  settings: ({ data, setData }, msg) => {
     const icon = data?.icon ?? DEFAULT_ICON;
     const iconColor = data?.iconColor ?? DEFAULT_ICON_COLOR;
     const labelColor = data?.labelColor ?? DEFAULT_LABEL_COLOR;

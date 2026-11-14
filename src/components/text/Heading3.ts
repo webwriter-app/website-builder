@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
+import { sourceMsg } from "../../../localization/localizer";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import { FONT_OPTIONS } from "../../builder/data/data";
 
@@ -8,14 +8,14 @@ const DEFAULT_FONT =
 
 export const Heading3: BuilderComponent = {
   type: "h3",
-  label: () => msg("Heading 3"),
+  label: (msg) => msg("Heading 3"),
   group: "text",
 
   defaultData: {
     font: DEFAULT_FONT,
   },
 
-  render: (data) => {
+  render: (data, msg) => {
     const font = data?.font ?? DEFAULT_FONT;
     const color = data?.color ?? "#000000";
     const content = data?.content ?? msg("Heading 3");
@@ -38,17 +38,17 @@ export const Heading3: BuilderComponent = {
     `;
   },
 
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "content",
-      label: msg("Heading text"),
+      label: sourceMsg("Heading text"),
       kind: "text",
       target: "h3",
       placeholder: msg("Enter heading…"),
     },
     {
       key: "color",
-      label: msg("Text color"),
+      label: sourceMsg("Text color"),
       kind: "style",
       target: "h3",
       name: "color",
@@ -56,7 +56,7 @@ export const Heading3: BuilderComponent = {
     },
     {
       key: "font-weight",
-      label: msg("Font weight"),
+      label: sourceMsg("Font weight"),
       kind: "style",
       target: "h3",
       name: "font-weight",
@@ -64,14 +64,14 @@ export const Heading3: BuilderComponent = {
     },
     {
       key: "font-size",
-      label: msg("Font size"),
+      label: sourceMsg("Font size"),
       kind: "style",
       target: "h3",
       name: "font-size",
       placeholder: `${msg("e.g.")} 32px ${msg("or")} 2em`,
     }
   ],
-  settings: ({ data, setData }) => {
+  settings: ({ data, setData }, msg) => {
     const current = (data?.font as string) ?? DEFAULT_FONT;
     const currentLabel =
       FONT_OPTIONS.find((f) => f.value === current)?.label ?? msg("Choose font");

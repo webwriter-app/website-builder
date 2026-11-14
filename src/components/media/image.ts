@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
+import { sourceMsg } from "../../../localization/localizer";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import { wbPlaceholderIMG } from "../../assets/icons";
 
@@ -7,12 +7,12 @@ const PLACEHOLDER_SRC = wbPlaceholderIMG;
 
 export const ImageComponent: BuilderComponent = {
   type: "image",
-  label: () => msg("Image"),
+  label: (msg) => msg("Image"),
   group: "media",
 
   defaultData: {
     src: PLACEHOLDER_SRC,
-    alt: msg("Placeholder image"),
+    alt: sourceMsg("Placeholder image"),
   },
 
   render(data) {
@@ -43,10 +43,10 @@ export const ImageComponent: BuilderComponent = {
   },
 
   // Only fields that are useful in the generic "Content" section
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "src",
-      label: msg("Image URL"),
+      label: sourceMsg("Image URL"),
       kind: "attr",
       target: "img",
       name: "src",
@@ -54,7 +54,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "alt",
-      label: msg("Alt Text"),
+      label: sourceMsg("Alt Text"),
       kind: "attr",
       target: "img",
       name: "alt",
@@ -62,7 +62,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "width",
-      label: msg("Width"),
+      label: sourceMsg("Width"),
       kind: "style", 
       target: "img",
       name: "width",
@@ -70,7 +70,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: msg("Height"),
+      label: sourceMsg("Height"),
       kind: "style",
       target: "img",
       name: "height",
@@ -78,7 +78,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "object-fit",
-      label: msg("Object Fit"),
+      label: sourceMsg("Object Fit"),
       kind: "style",
       target: "img",
       name: "object-fit",
@@ -86,7 +86,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "opacity",
-      label: msg("Opacity"),
+      label: sourceMsg("Opacity"),
       kind: "style",
       target: "img",
       name: "opacity",
@@ -94,7 +94,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "border-radius",
-      label: msg("Border Radius"),
+      label: sourceMsg("Border Radius"),
       kind: "style",
       target: "img",
       name: "border-radius",
@@ -103,7 +103,7 @@ export const ImageComponent: BuilderComponent = {
   ],
 
   // Upload is now grouped with the other image-related controls
-  settings: ({ data, setData }) => {
+  settings: ({ data, setData }, msg) => {
     const onFileChange = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       const file = input.files?.[0];

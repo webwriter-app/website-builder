@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
+import { sourceMsg } from "../../../localization/localizer";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 import "../../assets/shoelaceImports";
 
@@ -9,7 +9,7 @@ const DEFAULT_ICON = "";
 
 export const LinkComponent: BuilderComponent = {
   type: "link",
-  label: () => msg("Link"),
+  label: (msg) => msg("Link"),
   group: "buttons",
 
   defaultData: {
@@ -59,17 +59,17 @@ export const LinkComponent: BuilderComponent = {
     `;
   },
 
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "label",
-      label: msg("Link text"),
+      label: sourceMsg("Link text"),
       kind: "text",
       target: "span",
       placeholder: msg("Link label"),
     },
     {
       key: "href",
-      label: msg("Link URL"),
+      label: sourceMsg("Link URL"),
       kind: "attr",
       target: "a",
       name: "href",
@@ -77,7 +77,7 @@ export const LinkComponent: BuilderComponent = {
     },
     {
       key: "icon",
-      label: msg("Icon name (optional)"),
+      label: sourceMsg("Icon name (optional)"),
       kind: "attr",
       target: "sl-icon",
       name: "name",
@@ -85,7 +85,7 @@ export const LinkComponent: BuilderComponent = {
     },
   ],
 
-  settings: ({ setData }) => {
+  settings: ({ setData }, msg) => {
     const reset = () => {
       setData({ label: DEFAULT_LABEL, href: DEFAULT_HREF, icon: DEFAULT_ICON });
     };

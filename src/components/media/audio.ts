@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
+import { sourceMsg } from "../../../localization/localizer";
 import type { BuilderComponent } from "../../types/BuilderComponent";
 
 const PLACEHOLDER_AUDIO =
@@ -7,7 +7,7 @@ const PLACEHOLDER_AUDIO =
 
 export const AudioComponent: BuilderComponent = {
   type: "audio",
-  label: () => msg("Audio"),
+  label: (msg) => msg("Audio"),
   group: "media",
 
   defaultData: {
@@ -42,10 +42,10 @@ export const AudioComponent: BuilderComponent = {
   },
 
   // Generic sidebar field
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "src",
-      label: msg("Audio URL"),
+      label: sourceMsg("Audio URL"),
       kind: "attr",
       target: "audio",
       name: "src",
@@ -54,7 +54,7 @@ export const AudioComponent: BuilderComponent = {
   ],
 
   // Upload + reset grouped consistently with other media components
-  settings: ({ setData }) => {
+  settings: ({ setData }, msg) => {
     const onFileChange = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       const file = input.files?.[0];

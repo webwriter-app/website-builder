@@ -1,4 +1,4 @@
-import { msg } from "@lit/localize";
+import type { MsgFn } from "@lit/localize";
 
 export type LayoutMode = "freeform" | "flow" | "flex" | "grid";
 
@@ -98,7 +98,7 @@ export type ContainerTemplate = {
   containerGridSettings?: GridSettings;
 };
 
-export const getContainerTemplates: () => ContainerTemplate[] = () => [
+export const getContainerTemplates = (msg: MsgFn): ContainerTemplate[] => [
   {
     id: "two-column",
     label: msg("Two Columns"),

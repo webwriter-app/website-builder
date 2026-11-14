@@ -3,7 +3,6 @@ import type { WebwriterWebsiteBuilder } from "../../webwriter-website-builder";
 import { ComponentRegistry } from "../../components/registry";
 import { SHOELACE_ICON_NAMES } from "../data/shoelaceIcons";
 import { componentSyntaxHint, tileGlyph } from "../palette-helpers";
-import { msg } from "@lit/localize";
 
 // ─── Icon Dialog ──────────────────────────────────────────────────────────────
 
@@ -16,7 +15,7 @@ export function renderIconDialog(host: WebwriterWebsiteBuilder) {
   return html`
     <sl-dialog
       id="ww-icon-dialog"
-      label=${msg("Choose an icon")}
+      label=${host.msg("Choose an icon")}
       .open=${host.iconDialogOpen}
       @sl-after-show=${host.onIconDialogAfterShow}
       @sl-after-hide=${host.onIconDialogAfterHide}
@@ -28,7 +27,7 @@ export function renderIconDialog(host: WebwriterWebsiteBuilder) {
             class="icon-search"
             size="small"
             clearable
-            placeholder=${msg("Search icons…")}
+            placeholder=${host.msg("Search icons…")}
             .value=${host.iconQuery}
             @sl-input=${(e: Event) => {
               const input = e.currentTarget as any;
@@ -43,7 +42,7 @@ export function renderIconDialog(host: WebwriterWebsiteBuilder) {
           <sl-input
             class="icon-color"
             size="small"
-            label=${msg("Icon color")}
+            label=${host.msg("Icon color")}
             placeholder="#0f172a"
             .value=${host.iconDraftColor}
             @sl-input=${(e: any) => {
@@ -66,7 +65,7 @@ export function renderIconDialog(host: WebwriterWebsiteBuilder) {
               variant="default"
               @click=${() =>
                 (host.renderRoot.querySelector("#ww-icon-dialog") as any)?.hide?.()}
-            >${msg("Cancel")}</sl-button>
+            >${host.msg("Cancel")}</sl-button>
 
             <sl-button
               size="small"
@@ -82,7 +81,7 @@ export function renderIconDialog(host: WebwriterWebsiteBuilder) {
                 );
                 (host.renderRoot.querySelector("#ww-icon-dialog") as any)?.hide?.();
               }}
-            >${msg("Use icon")}</sl-button>
+            >${host.msg("Use icon")}</sl-button>
           </div>
         </div>
       </div>
@@ -146,20 +145,20 @@ export function renderAllComponentsDialog(host: WebwriterWebsiteBuilder) {
   const types = (
     q
       ? allTypes.filter((t) => {
-          const label = (ComponentRegistry[t]?.label() ?? t).toLowerCase();
+          const label = (ComponentRegistry[t]?.label(host.msg) ?? t).toLowerCase();
           return t.toLowerCase().includes(q) || label.includes(q);
         })
       : allTypes
   ).sort((a, b) => {
-    const la = (ComponentRegistry[a]?.label() ?? a).toLowerCase();
-    const lb = (ComponentRegistry[b]?.label() ?? b).toLowerCase();
+    const la = (ComponentRegistry[a]?.label(host.msg) ?? a).toLowerCase();
+    const lb = (ComponentRegistry[b]?.label(host.msg) ?? b).toLowerCase();
     return la.localeCompare(lb);
   });
 
   return html`
     <sl-dialog
       id="ww-all-components-dialog"
-      label=${msg("All components")}
+      label=${host.msg("All components")}
       .open=${host.allComponentsDialogOpen}
       @sl-after-show=${(e: any) => {
         const dlg = e.target as HTMLElement;
@@ -176,8 +175,8 @@ export function renderAllComponentsDialog(host: WebwriterWebsiteBuilder) {
           id="ww-all-components-search"
           size="small"
           clearable
-          label=${msg("Search")}
-          placeholder=${msg("Search components…")}
+          label=${host.msg("Search")}
+          placeholder=${host.msg("Search components…")}
           .value=${host.allComponentsQuery}
           @sl-input=${(e: any) => {
             host.allComponentsQuery = String(
@@ -190,14 +189,14 @@ export function renderAllComponentsDialog(host: WebwriterWebsiteBuilder) {
         ></sl-input>
 
         <div style="font-size:0.85rem;color:var(--sl-color-neutral-600);padding-bottom:0.25rem;">
-          ${types.length} ${types.length === 1 ? msg("item") : msg("items")}
+          ${types.length} ${types.length === 1 ? host.msg("item") : host.msg("items")}
         </div>
       </div>
 
       <div style="max-height:60vh;overflow:auto;display:grid;gap:0.75rem;">
         ${types.map((type) => {
           const comp = ComponentRegistry[type];
-          const label = comp?.label?.() ?? type;
+          const label = comp?.label?.(host.msg) ?? type;
           const syntax = componentSyntaxHint(type);
 
           return html`
@@ -214,16 +213,16 @@ export function renderAllComponentsDialog(host: WebwriterWebsiteBuilder) {
                     host.quickAdd(type);
                     host.requestUpdate();
                   }}
-                >${msg("Insert")}</sl-button>
+                >${host.msg("Insert")}</sl-button>
               </div>
 
               <div style="margin-top:0.35rem;font-size:0.8rem;color:var(--sl-color-neutral-600);">
-                ${msg("Drag tiles from the palette, or insert here at default position.")}
+                ${host.msg("Drag tiles from the palette, or insert here at default position.")}
               </div>
 
               <div style="margin-top:0.6rem;">
                 <div style="font-size:0.75rem;color:var(--sl-color-neutral-500);margin-bottom:0.25rem;">
-                  ${msg("Syntax (preview)")}
+                  ${host.msg("Syntax (preview)")}
                 </div>
                 <pre style="margin:0;padding:0.6rem;border-radius:10px;background:var(--sl-color-neutral-50);border:1px solid var(--sl-color-neutral-200);font-size:0.75rem;overflow:auto;">${syntax}</pre>
               </div>
@@ -238,7 +237,7 @@ export function renderAllComponentsDialog(host: WebwriterWebsiteBuilder) {
           variant="default"
           @click=${() =>
             (host.renderRoot.querySelector("#ww-all-components-dialog") as any)?.hide?.()}
-        >${msg("Close")}</sl-button>
+        >${host.msg("Close")}</sl-button>
       </div>
     </sl-dialog>
   `;

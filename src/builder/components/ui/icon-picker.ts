@@ -1,12 +1,17 @@
+import { effectiveLanguage, localizeElement, nativeLanguageAttributes } from "../../../../localization/localizer";
 import { css, html, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
-import { msg } from "@lit/localize";
 import { LitElementWw } from "@webwriter/lit";
 import "../../../assets/shoelaceImports";
 import { shoelaceScoped } from "../../../assets/shoelaceImports";
 import { SHOELACE_ICON_NAMES } from "../../data/shoelaceIcons";
 
 export class WwIconPicker extends LitElementWw {
+  static override get observedAttributes() { return nativeLanguageAttributes(this, super.observedAttributes); }
+
+  override get lang(): string { return effectiveLanguage(this); }
+  override set lang(value: string) { this.setAttribute("lang", value); }
+  private readonly msg = localizeElement(this);
   static get scopedElements() {
     return {
       ...shoelaceScoped,
@@ -68,10 +73,9 @@ export class WwIconPicker extends LitElementWw {
   @property({ type: String }) color = "#0f172a";
   @property({ type: String }) size = "18px";
 
-  @property({ type: String, attribute: "button-label" }) buttonLabel =
-    msg("Choose icon…");
+  @property({ type: String, attribute: "button-label" }) buttonLabel?: string;
   @property({ type: String, attribute: "search-placeholder" })
-  searchPlaceholder = msg("Search icons…");
+  searchPlaceholder?: string;
 
   private _openDialog() {
     this.dispatchEvent(
@@ -91,7 +95,7 @@ export class WwIconPicker extends LitElementWw {
       <div class="row">
 
         <sl-button size="small" variant="default" @click=${this._openDialog}>
-          ${this.buttonLabel}
+          ${this.buttonLabel ?? this.msg("Choose icon…")}
         </sl-button>
       </div>
     `;
