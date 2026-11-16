@@ -1,6 +1,5 @@
 import { html } from "lit";
-import { sourceMsg } from "../../../localization/localizer";
-import type { BuilderComponent } from "../../types/BuilderComponent";
+import type { BuilderComponent } from "../builder-component";
 
 /**
  * Small default placeholder video (MDN demo, can be replaced later)
@@ -71,7 +70,7 @@ export const VideoComponent: BuilderComponent = {
   bindings: (msg) => [
     {
       key: "src",
-      label: sourceMsg("Video URL"),
+      label: msg("Video URL"),
       kind: "attr",
       target: "video",
       name: "src",
@@ -79,7 +78,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "alt",
-      label: sourceMsg("Alt Text"),
+      label: msg("Alt Text"),
       kind: "attr",
       target: "video",
       name: "alt",
@@ -87,7 +86,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "width",
-      label: sourceMsg("Width"),
+      label: msg("Width"),
       kind: "style",
       target: "video",
       name: "width",
@@ -95,7 +94,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: sourceMsg("Height"),
+      label: msg("Height"),
       kind: "style",
       target: "video",
       name: "height",
@@ -103,7 +102,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "object-fit",
-      label: sourceMsg("Object Fit"),
+      label: msg("Object Fit"),
       kind: "style",
       target: "video",
       name: "object-fit",
@@ -111,7 +110,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "opacity",
-      label: sourceMsg("Opacity"),
+      label: msg("Opacity"),
       kind: "style",
       target: "video",
       name: "opacity",
@@ -119,7 +118,7 @@ export const VideoComponent: BuilderComponent = {
     },
     {
       key: "border-radius",
-      label: sourceMsg("Border Radius"),
+      label: msg("Border Radius"),
       kind: "style",
       target: "video",
       name: "border-radius",

@@ -1,7 +1,6 @@
 import { html } from "lit";
-import { sourceMsg } from "../../../localization/localizer";
-import type { BuilderComponent } from "../../types/BuilderComponent";
-import "../../assets/shoelaceImports";
+import type { BuilderComponent } from "../builder-component";
+import "../shoelace-imports";
 
 const DEFAULT_LABEL = "Button";
 const DEFAULT_ICON = "";
@@ -92,7 +91,7 @@ export const ButtonComponent: BuilderComponent = {
   bindings: (msg) => [
     {
       key: "label",
-      label: sourceMsg("Button text"),
+      label: msg("Button text"),
       kind: "text",
       target: "span",
       placeholder: msg("Button label"),
@@ -162,7 +161,7 @@ export const ButtonComponent: BuilderComponent = {
               placeholder="${DEFAULT_LABEL_COLOR}"
               .value=${labelColor}
               style="flex:1;"
-              @sl-input=${(e: any) => {
+              @sl-input=${(e: ControlEvent) => {
                 const val = String(e.target.value ?? "").trim();
                 if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(val)) {
                   setData({ labelColor: val });
@@ -175,7 +174,7 @@ export const ButtonComponent: BuilderComponent = {
         <div class="setting-row">
           <sl-switch
             .checked=${borderless}
-            @sl-change=${(e: any) =>
+            @sl-change=${(e: ControlEvent) =>
               setData({ borderless: Boolean(e.target.checked) })}
           >
             ${msg("hide border")}

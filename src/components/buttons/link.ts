@@ -1,7 +1,6 @@
 import { html } from "lit";
-import { sourceMsg } from "../../../localization/localizer";
-import type { BuilderComponent } from "../../types/BuilderComponent";
-import "../../assets/shoelaceImports";
+import type { BuilderComponent } from "../builder-component";
+import "../shoelace-imports";
 
 const DEFAULT_LABEL = "Link";
 const DEFAULT_HREF = "#";
@@ -62,14 +61,14 @@ export const LinkComponent: BuilderComponent = {
   bindings: (msg) => [
     {
       key: "label",
-      label: sourceMsg("Link text"),
+      label: msg("Link text"),
       kind: "text",
       target: "span",
       placeholder: msg("Link label"),
     },
     {
       key: "href",
-      label: sourceMsg("Link URL"),
+      label: msg("Link URL"),
       kind: "attr",
       target: "a",
       name: "href",
@@ -77,7 +76,7 @@ export const LinkComponent: BuilderComponent = {
     },
     {
       key: "icon",
-      label: sourceMsg("Icon name (optional)"),
+      label: msg("Icon name (optional)"),
       kind: "attr",
       target: "sl-icon",
       name: "name",

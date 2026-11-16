@@ -1,5 +1,5 @@
-# Website Builder (`@webwriter/website-builder@1.0.1`)
-[License: MIT](LICENSE) | Version: 1.0.1
+# Website Builder (`@webwriter/website-builder@2.0.0`)
+[License: MIT](LICENSE) | Version: 2.0.0
 
 Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).
 
@@ -20,7 +20,12 @@ Build, explore and understand static websites with different layouts (Freeform, 
 
 
 ## `WebwriterWebsiteBuilder` (`<webwriter-website-builder>`)
+Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).
 
+To add a component that authors can place on the canvas, add a file implementing
+`BuilderComponent` under `src/components/` and register it under its type name
+(for example "h1") in `src/components/registry.ts`. The type is what the document
+stores for a placed node.
 
 ### Usage
 
@@ -46,13 +51,30 @@ npm install @webwriter/website-builder
 ## Fields
 | Name (Attribute Name) | Type | Description | Default | Reflects |
 | :-------------------: | :--: | :---------: | :-----: | :------: |
-| `wwState` (`ww-state`) | `string` | Saves the widget data in an attribute | `""` | ✗ |
+| `WebwriterWebsiteBuilder.scopedElements` | `object` | - | `{ ...shoelaceScoped, "ww-icon-picker": WwIconPicker }` | ✗ |
+| `WebwriterWebsiteBuilder.actions` | `object` | - | `{ configureBuilder: { label: (widget: { msg: MsgFn }) => widget.msg("Builder settings") }, // Keys of the canvas: hidden, they only run from the keyboard. cancel: { shortcut: "Escape", hidden: true }, removeSelected: { shortcut: ["Delete", "Backspace"], hidden: true }, nudgeUp: { shortcut: "ArrowUp", hidden: true }, nudgeDown: { shortcut: "ArrowDown", hidden: true }, nudgeLeft: { shortcut: "ArrowLeft", hidden: true }, nudgeRight: { shortcut: "ArrowRight", hidden: true }, }` | ✗ |
+| `localize` | - | - | - | ✗ |
+| `msg` | - | - | - | ✗ |
+| `showGrid` | `boolean` | Whether the grid overlay should be shown all the time | `false` | ✗ |
+| `_studentDrawerOpen` | `boolean` | - | `false` | ✗ |
+| `_codePanelOpen` | `boolean` | - | `false` | ✗ |
+| `_codeTab` | `CodeTab` | - | `"html"` | ✗ |
+| `isFullscreen` | - | Whether the widget is in fullscreen mode | - | ✗ |
+| `_toggleCodePanel` | - | - | - | ✗ |
+| `_closeCodePanel` | - | - | - | ✗ |
 
 *Fields including [properties](https://developer.mozilla.org/en-US/docs/Glossary/Property/JavaScript) and [attributes](https://developer.mozilla.org/en-US/docs/Glossary/Attribute) define the current state of the widget and offer customization options.*
 
 ## Methods
 | Name | Description | Parameters |
 | :--: | :---------: | :-------: |
+| `configureBuilder` | - | -
+| `cancel` | Escape: leaves the focused container, otherwise clears the selection. | -
+| `removeSelected` | Delete or Backspace: removes the selected node. | -
+| `nudgeUp` | - | -
+| `nudgeDown` | - | -
+| `nudgeLeft` | - | -
+| `nudgeRight` | - | -
 | `setActiveNodes` | Set the freeform or ordered nodes array, depending on the current layout mode | `next: BuilderNode[]`
 | `normalizeOrder` | Sets the order attribute of each node to its position in the array | -
 | `selectNodeId` | Select a node based on its id | `id: string`
@@ -63,17 +85,18 @@ npm install @webwriter/website-builder
 | `blurActive` | Blur the active element | -
 | `isEditingWithinComponent` | Returns whether the focus is currently on an element that accepts typing text | -
 | `isInteractiveTarget` | Returns whether the event target is an "interactive" element, that requires clicking for interaction | `target: EventTarget | null`
-| `allowInteractEvent` | Returns whether the interact key is pressed | `_e: any`
-| `selectNodeFromWrapper` | Select node from a wrapper click. Prevents link navigation unless ctrl/meta held.<br>Uses _allowInteract (ctrl/meta key), NOT allowInteractEvent (A key). | `e: MouseEvent`, `id: string`
+| `allowInteractEvent` | Returns whether the interact key is pressed | `_e: Event`
 | `isAuthorMode` | Whether the widget is currently in author mode (contenteditable) | -
 | `isStudentMode` | Whether the widget is currently in student mode | -
 | `gridPlacementFromPointer` | Get grid placement from pointer position | `root: HTMLElement`, `clientX: number`, `clientY: number`
-| `getPaletteItems` | Returns sorted, filtered list of component type IDs for the palette | -
-| `quickAdd` | Quickly add a node by type via the elements palette | `type: string`
 | `groupSelected` | Group the selected nodes | -
 | `ungroupContainer` | Ungroups the selected group of nodes | `containerId: string`
 | `setCodeTabVisible` | Set visibility of the code tab | `tab: CodeTab`, `visible: boolean`
 | `openAllComponentsDialog` | Open the all components dialog | -
+| `_toggleFullscreen` | - | -
+| `_confirmReset` | - | -
+| `_closeStudentDrawer` | - | -
+| `_generateExport` | - | -
 
 *[Methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Method_definitions) allow programmatic access to the widget.*
 

@@ -1,6 +1,5 @@
 import { html } from "lit";
-import { sourceMsg } from "../../../localization/localizer";
-import type { BuilderComponent } from "../../types/BuilderComponent";
+import type { BuilderComponent } from "../builder-component";
 
 const DEFAULT_WIDTH = "300px";
 const DEFAULT_HEIGHT = "1px";
@@ -40,10 +39,10 @@ export const DividerComponent: BuilderComponent = {
     `;
   },
 
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "width",
-      label: sourceMsg("Width (e.g. 300px, 20rem)"),
+      label: msg("Width (e.g. 300px, 20rem)"),
       kind: "style",
       target: "hr",
       name: "width",
@@ -51,7 +50,7 @@ export const DividerComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: sourceMsg("Height (e.g. 10px, 0.5rem)"),
+      label: msg("Height (e.g. 10px, 0.5rem)"),
       kind: "style",
       target: "hr",
       name: "height",

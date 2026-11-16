@@ -1,9 +1,6 @@
 import { html } from "lit";
-import { sourceMsg } from "../../../localization/localizer";
-import type { BuilderComponent } from "../../types/BuilderComponent";
-import { wbPlaceholderIMG } from "../../assets/icons";
-
-const PLACEHOLDER_SRC = wbPlaceholderIMG;
+import type { BuilderComponent } from "../builder-component";
+import PLACEHOLDER_SRC from "../../assets/placeholder-image.svg";
 
 export const ImageComponent: BuilderComponent = {
   type: "image",
@@ -12,7 +9,7 @@ export const ImageComponent: BuilderComponent = {
 
   defaultData: {
     src: PLACEHOLDER_SRC,
-    alt: sourceMsg("Placeholder image"),
+    alt: "Placeholder image",
   },
 
   render(data) {
@@ -46,7 +43,7 @@ export const ImageComponent: BuilderComponent = {
   bindings: (msg) => [
     {
       key: "src",
-      label: sourceMsg("Image URL"),
+      label: msg("Image URL"),
       kind: "attr",
       target: "img",
       name: "src",
@@ -54,7 +51,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "alt",
-      label: sourceMsg("Alt Text"),
+      label: msg("Alt Text"),
       kind: "attr",
       target: "img",
       name: "alt",
@@ -62,7 +59,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "width",
-      label: sourceMsg("Width"),
+      label: msg("Width"),
       kind: "style", 
       target: "img",
       name: "width",
@@ -70,7 +67,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "height",
-      label: sourceMsg("Height"),
+      label: msg("Height"),
       kind: "style",
       target: "img",
       name: "height",
@@ -78,7 +75,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "object-fit",
-      label: sourceMsg("Object Fit"),
+      label: msg("Object Fit"),
       kind: "style",
       target: "img",
       name: "object-fit",
@@ -86,7 +83,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "opacity",
-      label: sourceMsg("Opacity"),
+      label: msg("Opacity"),
       kind: "style",
       target: "img",
       name: "opacity",
@@ -94,7 +91,7 @@ export const ImageComponent: BuilderComponent = {
     },
     {
       key: "border-radius",
-      label: sourceMsg("Border Radius"),
+      label: msg("Border Radius"),
       kind: "style",
       target: "img",
       name: "border-radius",

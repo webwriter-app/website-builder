@@ -1,6 +1,5 @@
 import { html } from "lit";
-import { sourceMsg } from "../../../localization/localizer";
-import type { BuilderComponent } from "../../types/BuilderComponent";
+import type { BuilderComponent } from "../builder-component";
 
 const PLACEHOLDER_AUDIO =
   "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3";
@@ -45,7 +44,7 @@ export const AudioComponent: BuilderComponent = {
   bindings: (msg) => [
     {
       key: "src",
-      label: sourceMsg("Audio URL"),
+      label: msg("Audio URL"),
       kind: "attr",
       target: "audio",
       name: "src",

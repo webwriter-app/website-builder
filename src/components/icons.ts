@@ -1,0 +1,43 @@
+import { html } from "lit";
+
+import wbH1IconSrc from "@tabler/icons/outline/h-1.svg";
+import wbH2IconSrc from "@tabler/icons/outline/h-2.svg";
+import wbH3IconSrc from "@tabler/icons/outline/h-3.svg";
+import wbH4IconSrc from "@tabler/icons/outline/h-4.svg";
+import wbH5IconSrc from "@tabler/icons/outline/h-5.svg";
+import wbH6IconSrc from "@tabler/icons/outline/h-6.svg";
+import wbTextIconSrc from "@tabler/icons/outline/typography.svg";
+import wbLabelIconSrc from "@tabler/icons/outline/tag.svg";
+import wbImageIconSrc from "@tabler/icons/outline/photo.svg";
+import wbVideoIconSrc from "@tabler/icons/outline/video.svg";
+import wbAudioIconSrc from "@tabler/icons/outline/volume.svg";
+import wbIconIconSrc from "@tabler/icons/outline/star.svg";
+import wbButtonIconSrc from "@tabler/icons/outline/rectangle.svg";
+import wbLinkIconSrc from "@tabler/icons/outline/link.svg";
+import wbDividerIconSrc from "@tabler/icons/outline/separator-horizontal.svg";
+import wbTextareaIconSrc from "@tabler/icons/outline/forms.svg";
+import wbCloseIconSrc from "@tabler/icons/outline/x.svg";
+import wbSearchIconSrc from "@tabler/icons/outline/search.svg";
+import wbGearSrc from "@tabler/icons/outline/settings.svg";
+
+const glyph = (src: string) => html`<sl-icon src=${src}></sl-icon>`;
+
+export const wbH1Icon = glyph(wbH1IconSrc);
+export const wbH2Icon = glyph(wbH2IconSrc);
+export const wbH3Icon = glyph(wbH3IconSrc);
+export const wbH4Icon = glyph(wbH4IconSrc);
+export const wbH5Icon = glyph(wbH5IconSrc);
+export const wbH6Icon = glyph(wbH6IconSrc);
+export const wbTextIcon = glyph(wbTextIconSrc);
+export const wbLabelIcon = glyph(wbLabelIconSrc);
+export const wbImageIcon = glyph(wbImageIconSrc);
+export const wbVideoIcon = glyph(wbVideoIconSrc);
+export const wbAudioIcon = glyph(wbAudioIconSrc);
+export const wbIconIcon = glyph(wbIconIconSrc);
+export const wbButtonIcon = glyph(wbButtonIconSrc);
+export const wbLinkIcon = glyph(wbLinkIconSrc);
+export const wbDividerIcon = glyph(wbDividerIconSrc);
+export const wbTextareaIcon = glyph(wbTextareaIconSrc);
+export const wbCloseIcon = glyph(wbCloseIconSrc);
+export const wbSearchIcon = glyph(wbSearchIconSrc);
+export const wbGear = glyph(wbGearSrc);

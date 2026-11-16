@@ -1,7 +1,6 @@
 import { html } from "lit";
-import { sourceMsg } from "../../../localization/localizer";
-import type { BuilderComponent } from "../../types/BuilderComponent";
-import { FONT_OPTIONS } from "../../builder/data/data";
+import type { BuilderComponent } from "../builder-component";
+import { FONT_OPTIONS } from "../../model/font-options";
 
 const DEFAULT_FONT =
   "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif";
@@ -41,14 +40,14 @@ export const LabelComponent: BuilderComponent = {
   bindings: (msg) => [
     {
       key: "content",
-      label: sourceMsg("Label text"),
+      label: msg("Label text"),
       kind: "text",
       target: "label",
       placeholder: msg("Enter label text…"),
     },
     {
       key: "color",
-      label: sourceMsg("Text color"),
+      label: msg("Text color"),
       kind: "style",
       target: "label",
       name: "color",
@@ -56,7 +55,7 @@ export const LabelComponent: BuilderComponent = {
     },
     {
       key: "font-weight",
-      label: sourceMsg("Font weight"),
+      label: msg("Font weight"),
       kind: "style",
       target: "h1",
       name: "font-weight",
@@ -64,7 +63,7 @@ export const LabelComponent: BuilderComponent = {
     },
     {
       key: "font-size",
-      label: sourceMsg("Font size"),
+      label: msg("Font size"),
       kind: "style",
       target: "label",
       name: "font-size",
@@ -95,7 +94,7 @@ export const LabelComponent: BuilderComponent = {
             <sl-menu
               style="max-height: 220px; overflow: auto; min-width: 260px;"
               @sl-select=${(e: CustomEvent) => {
-                const item = e.detail.item as any;
+                const item = e.detail.item as HTMLElement & { value?: string };
                 const next = String(item?.value ?? "");
                 if (next) setData({ font: next });
               }}

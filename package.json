@@ -129,36 +129,47 @@
   "author": "Moritz Langenhan <moritz.langenhan@rwth-aachen.de>",
   "repository": "github:webwriter-app/website-builder",
   "scripts": {
-    "prepublishOnly": "npx @webwriter/build",
-    "dev": "npx @webwriter/build dev",
+    "prepublishOnly": "npx @webwriter/build --shared-dependencies",
+    "dev": "npx @webwriter/build dev --shared-dependencies",
     "localize": "lit-localize extract && npx @webwriter/build localize && lit-localize build"
   },
   "dependencies": {
     "@lit/localize": "^0.12.2",
     "@shoelace-style/shoelace": "^2.20.1",
-    "@webwriter/lit": "^3.0.0",
-    "lit": "^3.3.2"
+    "@tabler/icons": "^3.52.0",
+    "@webwriter/lit": "^3.2.0",
+    "@webwriter/widget": "^1.2.0",
+    "lit": "^3.3.0"
   },
   "devDependencies": {
-    "@webwriter/build": "^1.13.1",
-    "@lit/localize-tools": "^0.8"
+    "@lit/localize-tools": "^0.8",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "@webwriter/build": "^1.14.0",
+    "chai": "^6.3.0",
+    "mocha": "^12.0.3",
+    "typescript": "^7.0.2"
   },
   "exports": {
     "./widgets/webwriter-website-builder.*": {
-      "source": "./src/webwriter-website-builder.ts",
+      "source": "./src/widgets/webwriter-website-builder.ts",
       "default": "./dist/widgets/webwriter-website-builder.*"
     },
-    "./snippets/flex-starter.html": "./snippets/flex/example-flex-starter.html",
-    "./snippets/flex-advanced.html": "./snippets/flex/example-flex-advanced.html",
-    "./snippets/grid-starter.html": "./snippets/grid/example-grid-starter.html",
-    "./snippets/grid-advanced.html": "./snippets/grid/example-grid-advanced.html",
-    "./snippets/freeform-starter.html": "./snippets/freeform/example-freeform-starter.html",
-    "./snippets/freeform-advanced.html": "./snippets/freeform/example-freeform-advanced.html",
-    "./snippets/flow-starter.html": "./snippets/flow/example-flow-starter.html",
-    "./snippets/flow-advanced.html": "./snippets/flow/example-flow-advanced.html",
+    "./snippets/flex-starter.html": "./snippets/flex-starter.html",
+    "./snippets/flex-advanced.html": "./snippets/flex-advanced.html",
+    "./snippets/grid-starter.html": "./snippets/grid-starter.html",
+    "./snippets/grid-advanced.html": "./snippets/grid-advanced.html",
+    "./snippets/freeform-starter.html": "./snippets/freeform-starter.html",
+    "./snippets/freeform-advanced.html": "./snippets/freeform-advanced.html",
+    "./snippets/flow-starter.html": "./snippets/flow-starter.html",
+    "./snippets/flow-advanced.html": "./snippets/flow-advanced.html",
     "./icon": "./icon.svg",
     "./editing-config.json": "./editing-config.json",
-    "./custom-elements.json": "./custom-elements.json"
+    "./custom-elements.json": "./custom-elements.json",
+    "./tests/functionality.*": {
+      "source": "./tests/functionality.test.ts",
+      "default": "./dist/tests/functionality.*"
+    }
   },
   "editingConfig": {
     ".": {},
@@ -170,7 +181,8 @@
     "./snippets/freeform-starter": {},
     "./snippets/freeform-advanced": {},
     "./snippets/flow-starter": {},
-    "./snippets/flow-advanced": {}
+    "./snippets/flow-advanced": {},
+    "./tests/functionality": {}
   },
   "customElements": "custom-elements.json"
 }
