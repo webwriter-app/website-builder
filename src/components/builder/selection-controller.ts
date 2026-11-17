@@ -11,7 +11,7 @@ export class SelectionController {
     this.host = host;
   }
 
-  handleNodeSelect(e: PointerEvent | MouseEvent, nodeId: string) {
+  handleNodeSelect(nodeId: string) {
     if (this.host.shiftPressed) {
       this.toggleInSelection(nodeId);
       return;
@@ -74,9 +74,9 @@ export class SelectionController {
     }
   }
 
-  onWrapperClick(e: MouseEvent, _nodeId: string) {
+  onWrapperClick(e: MouseEvent) {
     const interactive = this.host.isInteractiveTarget(e.target);
-    const allowInteract = this.host.allowInteractEvent(e);
+    const allowInteract = this.host.allowInteractEvent();
     if (interactive && allowInteract) return;
     if (interactive && !allowInteract) {
       e.preventDefault();
@@ -86,7 +86,7 @@ export class SelectionController {
 
   onWrapperPointerDown(e: PointerEvent, nodeId: string) {
     const interactive = this.host.isInteractiveTarget(e.target);
-    const allowInteract = this.host.allowInteractEvent(e);
+    const allowInteract = this.host.allowInteractEvent();
 
     if (interactive && allowInteract) return;
     if (interactive && !allowInteract) {
@@ -107,7 +107,7 @@ export class SelectionController {
       return;
     }
 
-    this.handleNodeSelect(e, nodeId);
+    this.handleNodeSelect(nodeId);
 
     if (this.host.layoutMode === "freeform") {
       this.host.drag.beginPendingFreeformDrag(e, nodeId);

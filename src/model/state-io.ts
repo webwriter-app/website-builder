@@ -1,6 +1,5 @@
 import type {
   BuilderNode,
-  BuilderStatePayload,
   FlexSettings,
   GridSettings,
   LayoutMode,
@@ -28,7 +27,7 @@ function migrateNodeChildren(n: BuilderNode): BuilderNode {
   return { ...n, children: n.children.map(migrateNodeGrid) };
 }
 
-export type ParsedBuilderState = {
+type ParsedBuilderState = {
   layoutMode: LayoutMode;
   freeformNodes: BuilderNode[];
   orderedNodes: BuilderNode[];

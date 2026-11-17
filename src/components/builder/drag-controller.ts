@@ -43,7 +43,6 @@ export class DragController {
   private _sortDragging = false;
   private _sortDragId: string | null = null;
   private _sortPointerId: number | null = null;
-  private _sortStartIndex = -1;
   private _sortCurrentIndex = -1;
   private _sortReleaseGesture?: () => void;
 
@@ -537,7 +536,6 @@ export class DragController {
     this._sortDragging = true;
     this._sortDragId = nodeId;
     this._sortPointerId = e.pointerId;
-    this._sortStartIndex = startIndex;
     this._sortCurrentIndex = startIndex;
     this._dragEl = el;
     this._placeholderEl = placeholder;
@@ -781,7 +779,6 @@ export class DragController {
     this._sortDragging = false;
     this._sortDragId = null;
     this._sortPointerId = null;
-    this._sortStartIndex = -1;
     this._sortCurrentIndex = -1;
     this._dragEl = null;
     this._placeholderEl = null;

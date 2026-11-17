@@ -1,4 +1,3 @@
-import type { LayoutMode } from "../../model/types";
 import { wbAudioIcon, wbButtonIcon, wbDividerIcon, wbH1Icon, wbH2Icon, wbH4Icon, wbH3Icon, wbIconIcon, wbImageIcon, wbTextIcon, wbH6Icon, wbH5Icon, wbLabelIcon, wbVideoIcon, wbLinkIcon, wbTextareaIcon } from "../icons";
 import { TemplateResult } from "lit";
 
@@ -113,22 +112,5 @@ export function componentSyntaxHint(type: string): string {
 
     default:
       return `<!-- ${type} -->`;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// layoutTitle
-// ---------------------------------------------------------------------------
-
-export function layoutTitle(mode: LayoutMode): string {
-  switch (mode) {
-    case "freeform":
-      return "Freeform";
-    case "flow":
-      return "Flow";
-    case "flex":
-      return "Flex";
-    case "grid":
-      return "Grid";
   }
 }

@@ -42,22 +42,6 @@ export function convertOrderedToFreeform(nodes: BuilderNode[]): BuilderNode[] {
 // ── Recursive tree helpers ────────────────────────────────────────────────────
 
 /**
- * Walk all nodes in the tree (root-level + all nested children), depth-first.
- */
-export function walkNodes(
-  nodes: BuilderNode[],
-  visitor: (node: BuilderNode, parent: BuilderNode | null) => void,
-  parent: BuilderNode | null = null,
-): void {
-  for (const node of nodes) {
-    visitor(node, parent);
-    if (node.children?.length) {
-      walkNodes(node.children, visitor, node);
-    }
-  }
-}
-
-/**
  * Find a node anywhere in the tree by id. Returns the node or null.
  */
 export function findNodeById(

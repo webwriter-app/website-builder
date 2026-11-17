@@ -100,7 +100,7 @@ export const ImageComponent: BuilderComponent = {
   ],
 
   // Upload is now grouped with the other image-related controls
-  settings: ({ data, setData }, msg) => {
+  settings: ({ setData }, msg) => {
     const onFileChange = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       const file = input.files?.[0];

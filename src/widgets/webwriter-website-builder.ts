@@ -146,16 +146,6 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   /** @internal The id of the currently selected grouping template ("two-column", "hero-sidebar", "card-grid" or "centered-stack") */
   groupTemplateId = "two-column";
 
-  // Palette state: tray, info popup, search, suppress-click guard, favourites
-  /** @internal Never gets set? Can probably be removed */
-  trayOpen = false;
-  /** @internal Which element type to show the info popup for */
-  infoForType: string | null = null;
-  /** @internal The DOM element the info popup is anchored to */
-  infoAnchorEl: HTMLElement | null = null;
-  /** @internal Prevents double trigger clicking issues */
-  suppressNextClick = false;
-
   // ─── Author visibility toggles ───────────────────────────────────────────
   /** @internal Which layout modes to show */
   @state() accessor visibleLayoutModes: Record<LayoutMode, boolean> = {
@@ -235,7 +225,6 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this.addEventListener("keydown", this.keyboard.onKeyDown, { signal });
     this.addEventListener("keyup", this.keyboard.onKeyUp, { signal });
     this.addEventListener("focusout", this.keyboard.onFocusOut, { signal });
-    this.addEventListener("mousedown", this._onMouseDown, { signal });
     window.addEventListener("blur", this.keyboard.onWindowBlur, { signal });
     this.ownerDocument.addEventListener("fullscreenchange", this._onFsChange, { signal });
   }
@@ -384,7 +373,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   }
 
   /** Returns whether the interact key is pressed */
-  allowInteractEvent(_e: Event): boolean {
+  allowInteractEvent(): boolean {
     return this.interactKeyPressed;
   }
 
@@ -566,19 +555,6 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     }
     this._wasFullscreen = isFullscreen;
     this.requestUpdate();
-  };
-
-  /** Closes the palette popup on a press outside the palette. */
-  private _onMouseDown = (e: MouseEvent) => {
-    const palette = this.shadowRoot?.querySelector(".palette");
-    const clickedInsidePalette = palette ? e.composedPath().includes(palette) : false;
-
-    if (!clickedInsidePalette && (this.trayOpen || this.infoForType)) {
-      this.trayOpen = false;
-      this.infoForType = null;
-      this.infoAnchorEl = null;
-      this.requestUpdate();
-    }
   };
 
   _toggleCodePanel = () => {

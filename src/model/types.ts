@@ -61,15 +61,6 @@ export type GridSettings = {
   alignItems?: "start" | "center" | "end" | "stretch";
 };
 
-export type BuilderStatePayload = {
-  layoutMode: LayoutMode;
-  nodes: BuilderNode[];
-  showGrid: boolean;
-  gridSize: number;
-  flexSettings: FlexSettings;
-  gridSettings: GridSettings;
-};
-
 export const defaultFlexSettings = (): FlexSettings => ({
   direction: "row",
   justify: "flex-start",

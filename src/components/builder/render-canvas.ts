@@ -11,7 +11,6 @@ import { defaultFlexSettings, defaultGridSettings } from "../../model/types";
  */
 export function renderCanvasInner(host: WebwriterWebsiteBuilder) {
   const nodes = host.activeNodes;
-  const bg = host.canvasBackground ?? "#ffffff";   // ← reads from host
 
   if (nodes.length === 0) {
     return html`<div class="drop-zone">${host.msg("drop components here")}</div>`;
@@ -64,7 +63,7 @@ export function renderNodeFreeform(host: WebwriterWebsiteBuilder, n: BuilderNode
       data-component-type=${n.type}
       style="position:absolute;left:${pos.x}px;top:${pos.y}px;cursor:grab;z-index:${zIdx};"
       @pointerdown=${(e: PointerEvent) => host.selection.onWrapperPointerDown(e, n.id)}
-      @click=${(e: MouseEvent) => host.selection.onWrapperClick(e, n.id)}
+      @click=${(e: MouseEvent) => host.selection.onWrapperClick(e)}
       @dblclick=${(e: MouseEvent) => host.selection.handleNodeDblClick(e, n.id)}
     >
       <div class="drag-shell">
@@ -92,7 +91,7 @@ export function renderNodeFlow(host: WebwriterWebsiteBuilder, n: BuilderNode) {
       data-display=${display}
       style=${style}
       @pointerdown=${(e: PointerEvent) => host.selection.onWrapperPointerDown(e, n.id)}
-      @click=${(e: MouseEvent) => host.selection.onWrapperClick(e, n.id)}
+      @click=${(e: MouseEvent) => host.selection.onWrapperClick(e)}
       @dblclick=${(e: MouseEvent) => host.selection.handleNodeDblClick(e, n.id)}
     >
       <div class="drag-shell">
@@ -153,7 +152,7 @@ export function renderNestedNode(
       @click=${(e: MouseEvent) => {
         if (parentIsFocused) {
           e.stopPropagation();
-          host.selection.onWrapperClick(e, n.id);
+          host.selection.onWrapperClick(e);
         }
       }}
       @dblclick=${(e: MouseEvent) => {

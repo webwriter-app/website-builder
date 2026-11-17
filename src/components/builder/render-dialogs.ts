@@ -141,7 +141,8 @@ export function renderAllComponentsDialog(host: WebwriterWebsiteBuilder) {
   const q = host.allComponentsQuery.trim().toLowerCase();
   const allTypes = Object.keys(ComponentRegistry);
 
-  const types = (
+  // While the dialog is closed no cards are built.
+  const types = !host.allComponentsDialogOpen ? [] : (
     q
       ? allTypes.filter((t) => {
           const label = (ComponentRegistry[t]?.label(host.msg) ?? t).toLowerCase();

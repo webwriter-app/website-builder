@@ -9,7 +9,6 @@ import { wbGear } from "../icons";
 import { renderCanvasInner } from "./render-canvas";
 import {
   renderFloatingToolbar,
-  renderInfoPopup,
   renderTouchToolbar,
 } from "./render-toolbar";
 import {
@@ -70,7 +69,8 @@ export function renderBuilder(host: WebwriterWebsiteBuilder) {
   const showDrawer =
     canShowStudentDrawer && hasSingleSelection && host._studentDrawerOpen;
 
-  const { html: outHtml, css: outCss, combined } = host._generateExport();
+  // The export is only needed while the code panel shows it.
+  const exported = showCode ? host._generateExport() : null;
   const showStudentSidebar = isStudent && !showCode && host.showSidebarInStudent;
 
   return html`
@@ -95,14 +95,13 @@ export function renderBuilder(host: WebwriterWebsiteBuilder) {
           >
             ${showGridOverlay ? html`<div class="grid-overlay"></div>` : null}
             ${renderCanvasInner(host)} ${renderFloatingToolbar(host)}
-            ${renderInfoPopup(host)}
 
             ${renderViewControls(host, canFullscreen, showCode)}
           </div>
         </div>
 
         <!-- Code panel -->
-        ${showCode
+        ${exported
           ? html`
               <div class="code-panel" aria-label=${host.msg("Code")}>
                 <div class="code-header">
@@ -119,10 +118,10 @@ export function renderBuilder(host: WebwriterWebsiteBuilder) {
                 </div>
                 <pre class="code-body" tabindex="0">
                   ${host._codeTab === "combined"
-                    ? combined
+                    ? exported.combined
                     : host._codeTab === "html"
-                      ? outHtml
-                      : outCss}
+                      ? exported.html
+                      : exported.css}
                 </pre
                 >
                 ${renderViewControls(host, canFullscreen, showCode, true)}
