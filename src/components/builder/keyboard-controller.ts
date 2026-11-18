@@ -1,4 +1,5 @@
 import type { WebwriterWebsiteBuilder } from "../../widgets/webwriter-website-builder";
+import { moveNodeInOrder } from "../../model/layout";
 
 /**
  * Handles the keys that are held down while the focus is inside the widget:
@@ -14,6 +15,25 @@ export class KeyboardController {
 
   constructor(host: WebwriterWebsiteBuilder) {
     this.host = host;
+  }
+
+  /** Moves the selected node by one pixel in freeform layout. */
+  nudge(dx: number, dy: number) {
+    if (this.host.layoutMode !== "freeform") return false;
+    const node = this.host.getSelectedNode();
+    if (!node) return false;
+    const { x, y } = node.pos ?? { x: 0, y: 0 };
+    this.host.updateNode(node.id, { pos: { x: x + dx, y: y + dy } });
+  }
+
+  /** Moves the selected node one place earlier or later in flow, flex and grid layout. */
+  move(delta: number) {
+    const { selectedNodeId, layoutMode, activeNodes } = this.host;
+    const next = selectedNodeId && layoutMode !== "freeform"
+      ? moveNodeInOrder(activeNodes, selectedNodeId, delta)
+      : null;
+    if (!next) return false;
+    this.host.setActiveNodes(next);
   }
 
   onKeyDown = (e: KeyboardEvent) => {

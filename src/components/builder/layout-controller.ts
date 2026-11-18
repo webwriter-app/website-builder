@@ -2,7 +2,10 @@ import type { WebwriterWebsiteBuilder } from "../../widgets/webwriter-website-bu
 import {
   convertFreeformToOrdered,
   convertOrderedToFreeform,
+  groupNodes,
+  ungroupNodes,
 } from "../../model/layout";
+import { getContainerTemplates } from "../../model/types";
 import type { LayoutMode, FlexSettings, GridSettings } from "../../model/types";
 
 /**
@@ -13,6 +16,28 @@ export class LayoutController {
 
   constructor(host: WebwriterWebsiteBuilder) {
     this.host = host;
+  }
+
+  /** Groups the selected nodes into a container of the chosen template. */
+  groupSelected() {
+    const host = this.host;
+    if (host.selectedIds.size < 2) return;
+    const templates = getContainerTemplates(host.msg);
+    const template = templates.find((t) => t.id === host.groupTemplateId) ?? templates[0];
+    const { nodes, containerId } = groupNodes(host.activeNodes, [...host.selectedIds], {
+      containerLayout: template.containerLayout,
+      containerFlexSettings: template.containerFlexSettings,
+      containerGridSettings: template.containerGridSettings,
+    });
+    host.setActiveNodes(nodes);
+    host.clearSelection();
+    host.selectNodeId(containerId);
+  }
+
+  /** Ungroups the selected container. */
+  ungroupContainer(containerId: string) {
+    this.host.clearSelection();
+    this.host.setActiveNodes(ungroupNodes(this.host.activeNodes, containerId));
   }
 
   setLayoutMode(next: LayoutMode) {

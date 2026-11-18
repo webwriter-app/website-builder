@@ -137,8 +137,23 @@ export const layoutStyles = css`
   }
 
   .builder-element.selected {
-    outline: 2px solid var(--sl-color-primary-600);
+    outline: 2px solid var(--ww-theme-accent-1, var(--sl-color-primary-600));
     outline-offset: 2px;
+  }
+
+  /* Keyboard focus: a dashed ring that stays visible next to the solid selection ring */
+  .builder-element:focus-visible {
+    outline: 2px dashed var(--ww-theme-accent-1, var(--sl-color-primary-600));
+    outline-offset: 4px;
+  }
+
+  .builder-element.is-container:focus-visible {
+    outline: none;
+  }
+
+  .builder-element.is-container:focus-visible > .drag-shell {
+    outline: 2px dashed var(--ww-theme-accent-1, var(--sl-color-primary-600));
+    outline-offset: 5px;
   }
 
   .grid-overlay {
@@ -234,7 +249,7 @@ export const layoutStyles = css`
   }
 
   .builder-element.is-container.selected > .drag-shell {
-    outline: 2px solid var(--sl-color-primary-600);
+    outline: 2px solid var(--ww-theme-accent-1, var(--sl-color-primary-600));
     outline-offset: 3px;
   }
 
@@ -286,6 +301,7 @@ export const layoutStyles = css`
 
   .group-btn {
     font-size: 0.78rem;
+    min-height: 24px;
     padding: 2px 8px;
     border-radius: 6px;
     border: 1px solid var(--sl-color-primary-400);
@@ -323,6 +339,7 @@ export const layoutStyles = css`
     align-items: center;
     gap: 6px;
     padding: 4px 6px;
+    min-height: 28px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.82rem;
@@ -330,6 +347,20 @@ export const layoutStyles = css`
 
   .layer-row:hover {
     background: var(--sl-color-neutral-50);
+  }
+
+  .layer-row:focus-visible,
+  .layer-z-btn:focus-visible,
+  .group-btn:focus-visible,
+  .toolbar-icon-btn:focus-visible,
+  .toolbar-toggle:focus-visible,
+  .layout-dropdown-btn:focus-visible,
+  .layout-dropdown-item:focus-visible,
+  .code-tab:focus-visible,
+  .code-body:focus-visible,
+  .group-template-select:focus-visible {
+    outline: 2px solid var(--ww-theme-accent-1, var(--sl-color-primary-600));
+    outline-offset: 2px;
   }
 
   .layer-row--selected {
@@ -361,13 +392,157 @@ export const layoutStyles = css`
     border: 1px solid var(--sl-color-neutral-200);
     border-radius: 4px;
     padding: 0 3px;
+    min-width: 24px;
+    min-height: 24px;
     cursor: pointer;
     line-height: 1.4;
+    color: inherit;
   }
 
   .layer-z-val {
     font-size: 0.72rem;
     min-width: 16px;
     text-align: center;
+  }
+
+  /* ── Touch ─────────────────────────────────────────────────────────── */
+
+  @media (pointer: coarse) {
+    .layer-row {
+      min-height: 44px;
+    }
+
+    .layer-z-btn,
+    .group-btn {
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    .group-toolbar {
+      height: auto;
+      flex-wrap: wrap;
+    }
+
+    .code-tab {
+      min-height: 36px;
+    }
+  }
+
+  /* ── Narrow containers ─────────────────────────────────────────────── */
+
+  /* Freeform nodes keep their authored position; below this width the page scrolls inside the canvas */
+  @container (max-width: 900px) {
+    .freeform-root {
+      overflow: auto;
+    }
+  }
+
+  @container (max-width: 520px) {
+    .canvas {
+      padding: 0.5rem;
+    }
+
+    /* Keeps the floating toolbar clear of the page in flowing layouts */
+    .layout:not([data-mode="freeform"]) .canvas {
+      padding-top: 5rem;
+    }
+
+    .group-toolbar {
+      height: auto;
+      flex-wrap: wrap;
+    }
+
+    .group-template-select::part(combobox) {
+      width: 100px;
+    }
+
+    .view-controls {
+      right: 8px;
+      bottom: 8px;
+    }
+
+    .touch-toolbar {
+      flex-wrap: wrap;
+    }
+  }
+
+  /* ── Print ─────────────────────────────────────────────────────────── */
+
+  .print-note {
+    display: none;
+  }
+
+  @media print {
+    :host {
+      height: auto;
+      min-height: 0;
+      max-width: none;
+      overflow: visible;
+      border-color: #999;
+      break-inside: avoid;
+    }
+
+    /* Freeform nodes are placed absolutely and need a fixed canvas height */
+    .layout[data-mode="freeform"] {
+      height: 850px;
+    }
+
+    /* Freeform pages are placed for a 768px canvas; narrower paper scales them down */
+    .freeform-root {
+      zoom: min(1, calc(100cqw / 768px));
+    }
+
+    .layout-row.code-open {
+      display: flex;
+      padding: 0;
+    }
+
+    .layout-row.code-open .editor {
+      display: block;
+    }
+
+    .code-panel,
+    .floating-toolbar-wrap,
+    .view-controls,
+    .touch-toolbar,
+    .grid-overlay,
+    .layout-row > .settings,
+    #builder-settings,
+    sl-drawer,
+    .drop-zone,
+    .container-empty-hint {
+      display: none !important;
+    }
+
+    .canvas {
+      border: 0;
+      overflow: visible;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+
+    .flow-root,
+    .flex-root,
+    .grid-root {
+      overflow: visible;
+      height: auto;
+    }
+
+    .builder-element,
+    .builder-element.selected,
+    .builder-element.is-container.selected > .drag-shell {
+      outline: none;
+    }
+
+    .builder-element {
+      break-inside: avoid;
+    }
+
+    .print-note {
+      display: block;
+      margin: 0;
+      padding: 1rem;
+      border: 1px dashed currentColor;
+    }
   }
 `;

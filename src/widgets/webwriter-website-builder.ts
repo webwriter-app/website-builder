@@ -1,5 +1,5 @@
 import { sourceLocale, targetLocales } from "../../localization/generated/locale-codes.js";
-import { LitElementWw } from "@webwriter/lit";
+import { LitElementWw, computed, signal } from "@webwriter/lit";
 import { jsonData } from "@webwriter/lit/data";
 import { localizer } from "@webwriter/lit/localize";
 import { Permissions } from "@webwriter/lit/permissions";
@@ -9,6 +9,7 @@ import { shoelaceScoped } from "../components/shoelace-imports";
 
 import { builderStyles } from "../components/builder/builder.styles";
 import { BuilderExporter } from "../model/exporter";
+import { htmlFile, readStateFile, stateFile } from "../model/conversions";
 import {
   mergeParsedState,
   parseBuilderState,
@@ -21,9 +22,7 @@ import {
   deleteNodeById,
   findNodeById,
 } from "../model/layout";
-import { groupNodes, ungroupNodes } from "../model/layout";
 import {
-  getContainerTemplates,
   defaultFlexSettings,
   defaultGridSettings,
 } from "../model/types";
@@ -56,12 +55,37 @@ import { WwIconPicker } from "../components/builder/icon-picker";
  * `BuilderComponent` under `src/components/` and register it under its type name
  * (for example "h1") in `src/components/registry.ts`. The type is what the document
  * stores for a placed node.
+ *
+ * Keyboard: Tab reaches each placed element, Enter or Space selects it (Shift adds to the
+ * selection) and Enter opens a selected container. Arrow keys nudge by one pixel in freeform
+ * layout, Alt with an arrow key moves one place in flow, flex and grid layout, Delete removes,
+ * Escape closes menus, leaves a container or clears the selection. Hold G for the grid, T to
+ * hide the toolbar, A to use the elements. Touch devices get a bar for delete, grid and interact.
+ *
+ * Theme: text follows `--ww-text-color` and `--ww-font-family`, accents `--ww-theme-accent-1`.
+ * Print: controls are hidden, the canvas prints as it is, an empty canvas prints a short note.
+ *
+ * Conversions: exports the page as a standalone HTML document (`text/html`) and the whole builder
+ * state as `.json`, which imports again without loss. HTML cannot be imported, and uploaded media
+ * without a public address is left out of the HTML. Signal `html`: the generated page markup.
+ *
+ * @part canvas - The area the page is built on.
+ * @part code - The panel with the generated HTML and CSS.
  */
 @customElement("webwriter-website-builder")
 export class WebwriterWebsiteBuilder extends LitElementWw {
   static styles = builderStyles;
 
   static scopedElements = { ...shoelaceScoped, "ww-icon-picker": WwIconPicker };
+
+  static convertTo = {
+    "text/html": "exportHtml",
+    ".json": "exportJson",
+  };
+
+  static convertFrom = {
+    ".json": "importJson",
+  };
 
   static actions = {
     configureBuilder: { label: (widget: { msg: MsgFn }) => widget.msg("Builder settings") },
@@ -72,6 +96,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     nudgeDown: { shortcut: "ArrowDown", hidden: true },
     nudgeLeft: { shortcut: "ArrowLeft", hidden: true },
     nudgeRight: { shortcut: "ArrowRight", hidden: true },
+    moveEarlier: { shortcut: ["Alt+ArrowUp", "Alt+ArrowLeft"], hidden: true },
+    moveLater: { shortcut: ["Alt+ArrowDown", "Alt+ArrowRight"], hidden: true },
   };
 
   localize = localizer(this, {
@@ -89,8 +115,8 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
   drag = new DragController(this);
   /** @internal Handles node selection, multi-select, drill-in (double-click), and canvas click */
   selection = new SelectionController(this);
-  /** Handles the keys that are held down: grid, toolbar, interact and shift */
-  private keyboard = new KeyboardController(this);
+  /** @internal Handles the held keys and the moves by key: grid, toolbar, interact, shift, nudge and reorder */
+  keyboard = new KeyboardController(this);
   /** @internal Handles layout mode switching and global flex/grid settings */
   layout = new LayoutController(this);
   private exporter = new BuilderExporter();
@@ -213,6 +239,13 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     changed: (value) => this._blockChanged(value),
   });
 
+  #version = signal(0);
+  #versionCount = 0;
+  #connected = signal(false);
+  #publishedFor = "";
+  /** The generated page markup, exported when read (empty while disconnected). */
+  signals = { html: computed(() => (this.#version.get(), this.#connected.get() ? this._generateExport().html : "")) };
+
   #listeners?: AbortController;
 
   connectedCallback() {
@@ -227,6 +260,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this.addEventListener("focusout", this.keyboard.onFocusOut, { signal });
     window.addEventListener("blur", this.keyboard.onWindowBlur, { signal });
     this.ownerDocument.addEventListener("fullscreenchange", this._onFsChange, { signal });
+    this.#connected.set(true);
   }
 
   updated(changed: Map<string, unknown>) {
@@ -236,12 +270,17 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
       this.#data.set(JSON.parse(next));
       this._lastSerialized = next;
     }
+    if (next !== this.#publishedFor) {
+      this.#publishedFor = next;
+      this.#version.set(++this.#versionCount);
+    }
   }
 
   disconnectedCallback() {
     this.drag.dispose();
     this.#listeners?.abort();
     this.#listeners = undefined;
+    this.#connected.set(false);
     super.disconnectedCallback();
   }
 
@@ -252,9 +291,13 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     if (dialog && !dialog.open) dialog.showModal();
   }
 
-  /** Escape: leaves the focused container, otherwise clears the selection. */
+  /** Escape: closes an open menu, leaves the focused container, otherwise clears the selection. */
   cancel() {
-    if (this.focusedContainerId) {
+    if (this.layoutDropdownOpen || this.toolbarOpen) {
+      this.layoutDropdownOpen = false;
+      this.toolbarOpen = false;
+      this.requestUpdate();
+    } else if (this.focusedContainerId) {
       this.focusedContainerId = null;
     } else if (this.selectedNodeId || this.selectedIds.size) {
       this.clearSelection();
@@ -270,18 +313,29 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     this.deleteSelectedNode();
   }
 
-  nudgeUp() { return this._nudge(0, -1); }
-  nudgeDown() { return this._nudge(0, 1); }
-  nudgeLeft() { return this._nudge(-1, 0); }
-  nudgeRight() { return this._nudge(1, 0); }
+  nudgeUp() { return this.keyboard.nudge(0, -1); }
+  nudgeDown() { return this.keyboard.nudge(0, 1); }
+  nudgeLeft() { return this.keyboard.nudge(-1, 0); }
+  nudgeRight() { return this.keyboard.nudge(1, 0); }
+  moveEarlier() { return this.keyboard.move(-1); }
+  moveLater() { return this.keyboard.move(1); }
 
-  /** Moves the selected node by one pixel in freeform layout. */
-  private _nudge(dx: number, dy: number) {
-    if (this.layoutMode !== "freeform") return false;
-    const node = this.getSelectedNode();
-    if (!node) return false;
-    const { x, y } = node.pos ?? { x: 0, y: 0 };
-    this.updateNode(node.id, { pos: { x: x + dx, y: y + dy } });
+  /** Exports the built page as a standalone HTML document. */
+  exportHtml() {
+    const { html, css } = this._generateExport();
+    const lang = this.closest("[lang]")?.getAttribute("lang") || this.ownerDocument.documentElement.lang || "en";
+    return htmlFile(html, css, lang);
+  }
+
+  /** Exports the whole builder state; `importJson` reads it back. */
+  exportJson() {
+    return stateFile(this._serializeState());
+  }
+
+  /** Reads a builder state file; the widget changes only when the returned function runs. */
+  async importJson(file: File) {
+    const text = await readStateFile(file, this.msg("The file is not a website builder file."));
+    return () => this._applyState(text);
   }
 
   /** Reapplies the state of the data block when it changes from outside: load, remote change, undo. */
@@ -352,6 +406,13 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     );
   }
 
+  /** Moves the focus to the first placed element, or to the add button on an empty canvas. */
+  focus(options?: FocusOptions) {
+    const target = this.renderRoot.querySelector<HTMLElement>(".builder-element, .toolbar-toggle");
+    if (target) target.focus(options);
+    else super.focus(options);
+  }
+
   /** Blur the active element */
   blurActive() {
     const root = this.renderRoot as ShadowRoot;
@@ -395,37 +456,6 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
     clientY: number,
   ) {
     return this.layout.gridPlacementFromPointer(root, clientX, clientY);
-  }
-
-  // ─── Grouping ─────────────────────────────────────────────────────────────
-
-  /** Group the selected nodes */
-  groupSelected() {
-    if (this.selectedIds.size < 2) return;
-    const CONTAINER_TEMPLATES = getContainerTemplates(this.msg);
-    const template =
-      CONTAINER_TEMPLATES.find((t) => t.id === this.groupTemplateId) ??
-      CONTAINER_TEMPLATES[0];
-    const { nodes: next, containerId } = groupNodes(
-      this.activeNodes,
-      [...this.selectedIds],
-      {
-        containerLayout: template.containerLayout,
-        containerFlexSettings: template.containerFlexSettings,
-        containerGridSettings: template.containerGridSettings,
-      },
-    );
-    this.setActiveNodes(next);
-    this.clearSelection();
-    this.selectNodeId(containerId);
-    this.requestUpdate();
-  }
-
-  /** Ungroups the selected group of nodes */
-  ungroupContainer(containerId: string) {
-    this.clearSelection();
-    this.setActiveNodes(ungroupNodes(this.activeNodes, containerId));
-    this.requestUpdate();
   }
 
   // ─── Code tab visibility ──────────────────────────────────────────────────
@@ -547,12 +577,7 @@ export class WebwriterWebsiteBuilder extends LitElementWw {
 
   private _onFsChange = () => {
     const isFullscreen = this.isFullscreen;
-    if (
-      this._wasFullscreen &&
-      !isFullscreen
-    ) {
-      this._codePanelOpen = false;
-    }
+    if (this._wasFullscreen && !isFullscreen) this._codePanelOpen = false;
     this._wasFullscreen = isFullscreen;
     this.requestUpdate();
   };

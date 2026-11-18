@@ -394,3 +394,21 @@ ${gridAreas}
     return { html: htmlOut, css: cssOut, combined };
   }
 }
+/** A standalone HTML document with the generated markup and styles. */
+export function buildDocument(html: string, css: string, lang = "en"): string {
+  return `<!doctype html>
+<html lang="${lang.replace(/[^A-Za-z0-9-]/g, "") || "en"}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website</title>
+<style>
+${css}
+</style>
+</head>
+<body>
+${html}
+</body>
+</html>
+`;
+}

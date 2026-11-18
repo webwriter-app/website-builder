@@ -227,3 +227,18 @@ export function mergeParsedState(
     canvasBackground: parsed.canvasBackground ?? "#ffffff",
   };
 }
+
+/** Checks that a text holds a builder state with well-formed nodes. */
+export function validateBuilderState(text: string): boolean {
+  let parsed: unknown;
+  try { parsed = JSON.parse(text); } catch { return false; }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return false;
+  const state = parsed as Record<string, unknown>;
+  const lists = [state.freeformNodes, state.orderedNodes, state.nodes].filter((l) => l !== undefined);
+  if (!lists.length) return false;
+  const wellFormed = (list: unknown): boolean =>
+    Array.isArray(list) &&
+    list.every((n) => n && typeof n === "object" && typeof n.id === "string" && typeof n.type === "string" &&
+      (n.children === undefined || wellFormed(n.children)));
+  return lists.every(wellFormed);
+}

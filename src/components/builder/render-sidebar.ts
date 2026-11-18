@@ -137,6 +137,7 @@ function layoutModeChip(
     <button
       class="vis-chip"
       data-active=${active ? "true" : "false"}
+      aria-pressed=${active ? "true" : "false"}
       type="button"
       @click=${() => host.layout.setLayoutModeVisible(mode, !active)}
     >
@@ -156,6 +157,7 @@ function codeTabChip(
     <button
       class="vis-chip"
       data-active=${active ? "true" : "false"}
+      aria-pressed=${active ? "true" : "false"}
       type="button"
       @click=${() => host.setCodeTabVisible(tab, !active)}
     >

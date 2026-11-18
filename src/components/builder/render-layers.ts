@@ -83,6 +83,7 @@ export function renderLayersPanel(host: WebwriterWebsiteBuilder) {
             <button
               type="button"
               title=${p.label}
+              aria-label=${p.label}
               @click=${() => {
                 host.canvasBackground = p.value;
                 host.requestUpdate();
@@ -131,15 +132,23 @@ export function renderLayersPanel(host: WebwriterWebsiteBuilder) {
         return html`
           <div
             class="layer-row ${selected ? "layer-row--selected" : ""}"
+            role="button"
+            tabindex="0"
+            aria-pressed=${selected ? "true" : "false"}
             @click=${() => host.selectNodeId(n.id)}
+            @keydown=${(e: KeyboardEvent) => {
+              if (e.target !== e.currentTarget || (e.key !== "Enter" && e.key !== " ")) return;
+              e.preventDefault();
+              host.selectNodeId(n.id);
+            }}
           >
             <span class="layer-glyph">${tileGlyph(n.type)}</span>
             <span class="layer-label">${label}</span>
             <div class="layer-z-controls">
-              <button class="layer-z-btn" title=${host.msg("Bring forward")}
+              <button class="layer-z-btn" type="button" title=${host.msg("Bring forward")} aria-label=${host.msg("Bring forward")}
                 @click=${(e: MouseEvent) => { e.stopPropagation(); host.updateNode(n.id, { zIndex: zIdx + 1 }); }}>▲</button>
               <span class="layer-z-val">${zIdx}</span>
-              <button class="layer-z-btn" title=${host.msg("Send back")}
+              <button class="layer-z-btn" type="button" title=${host.msg("Send back")} aria-label=${host.msg("Send back")}
                 @click=${(e: MouseEvent) => { e.stopPropagation(); host.updateNode(n.id, { zIndex: Math.max(0, zIdx - 1) }); }}>▼</button>
             </div>
           </div>

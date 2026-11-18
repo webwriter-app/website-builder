@@ -4,7 +4,7 @@ export const settingsStyles = css`
   /* ===== Settings (sidebar + drawers) ===== */
 
   .settings {
-    color: var(--sl-color-neutral-700);
+    color: var(--ww-text-color, var(--sl-color-neutral-700));
     font-size: var(--sl-font-size-medium);
     line-height: var(--sl-line-height-medium);
     font-weight: 400;

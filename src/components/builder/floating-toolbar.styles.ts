@@ -12,6 +12,9 @@ export const floatingToolbarStyles = css`
     flex-direction: column;
     align-items: flex-end;
     gap: 13px;
+    max-width: calc(100% - 24px);
+    --wb-accent: var(--ww-theme-accent-1, #2196f3);
+    --wb-accent-strong: var(--ww-theme-accent-1, #1976d2);
     transition: opacity 120ms ease;
   }
 
@@ -38,7 +41,7 @@ export const floatingToolbarStyles = css`
     width: 36px;
     height: 36px;
     border-radius: 999px;
-    background: #2196f3;
+    background: var(--wb-accent);
     border: none;
     color: #fff;
     font-size: 22px;
@@ -56,11 +59,11 @@ export const floatingToolbarStyles = css`
   }
 
   .toolbar-toggle:hover {
-    background: #1976d2;
+    background: var(--wb-accent-strong);
   }
   .toolbar-toggle.open {
     transform: rotate(45deg);
-    background: #1976d2;
+    background: var(--wb-accent-strong);
   }
 
   /* Pill — same height as toggle; slides out from behind the + button */
@@ -169,7 +172,8 @@ export const floatingToolbarStyles = css`
     align-items: center;
     gap: 6px;
     padding: 5px 10px 5px 13px;
-    background: #2196f3;
+    min-height: 28px;
+    background: var(--wb-accent);
     color: #fff;
     border: none;
     border-radius: 999px;
@@ -183,7 +187,7 @@ export const floatingToolbarStyles = css`
   }
 
   .layout-dropdown-btn:hover {
-    background: #1976d2;
+    background: var(--wb-accent-strong);
   }
 
   .layout-dropdown-btn .dd-arrow {
@@ -246,5 +250,52 @@ export const floatingToolbarStyles = css`
     background: #e3f2fd;
     color: #1565c0;
     font-weight: 600;
+  }
+
+  /* ===== Touch and narrow containers ===== */
+
+  @media (pointer: coarse) {
+    .toolbar-toggle {
+      width: 44px;
+      height: 44px;
+    }
+
+    .toolbar-top-row {
+      height: 44px;
+    }
+
+    .toolbar-icon-btn {
+      width: 44px;
+      height: 44px;
+    }
+
+    .toolbar-pill {
+      height: 52px;
+    }
+
+    .layout-dropdown-btn {
+      min-height: 44px;
+    }
+
+    .layout-dropdown-item {
+      min-height: 44px;
+    }
+  }
+
+  @container (max-width: 520px) {
+    .toolbar-top-row {
+      height: auto;
+      min-height: 36px;
+      align-items: flex-start;
+    }
+
+    .toolbar-pill {
+      flex-wrap: wrap;
+      justify-content: center;
+      height: auto;
+      min-height: 45px;
+      max-width: calc(100cqw - 90px);
+      border-radius: 22px;
+    }
   }
 `;

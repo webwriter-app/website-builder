@@ -126,8 +126,9 @@ export class DragController {
     if (!canvasEl) return;
 
     const rect = canvasEl.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const scroller = canvasEl.querySelector<HTMLElement>(".freeform-root");
+    const x = event.clientX - rect.left + (scroller?.scrollLeft ?? 0);
+    const y = event.clientY - rect.top + (scroller?.scrollTop ?? 0);
 
     const node: BuilderNode = {
       id: crypto.randomUUID(),
@@ -321,8 +322,9 @@ export class DragController {
       if (ev.pointerId !== pointerId) return;
 
       const containerRect = canvas.getBoundingClientRect();
-      let newX = ev.clientX - containerRect.left - offsetX;
-      let newY = ev.clientY - containerRect.top - offsetY;
+      const scroller = canvas.querySelector<HTMLElement>(".freeform-root");
+      let newX = ev.clientX - containerRect.left - offsetX + (scroller?.scrollLeft ?? 0);
+      let newY = ev.clientY - containerRect.top - offsetY + (scroller?.scrollTop ?? 0);
 
       if (this.host.shiftPressed) {
         newX = Math.round(newX / this.host.gridSize) * this.host.gridSize;

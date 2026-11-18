@@ -74,7 +74,7 @@ export function renderBuilder(host: WebwriterWebsiteBuilder) {
   const showStudentSidebar = isStudent && !showCode && host.showSidebarInStudent;
 
   return html`
-    <div class="layout" tabindex="-1">
+    <div class="layout" tabindex="-1" data-mode=${host.layoutMode}>
       <div class="layout-row ${showCode ? "code-open" : ""}">
         ${isAuthor ? html`
           <dialog id="builder-settings" aria-label=${host.msg("Settings")} style="width:min(34rem,calc(100% - 2rem));max-height:85%;box-sizing:border-box">
@@ -87,6 +87,7 @@ export function renderBuilder(host: WebwriterWebsiteBuilder) {
         <div class="editor" style=${showCode ? "height:100%;" : ""}>
           <div
             class="canvas ${host.activeNodes.length > 0 ? "has-nodes" : ""}"
+            part="canvas"
             @dragover=${host.drag.onDragOver.bind(host.drag)}
             @drop=${host.drag.onDrop.bind(host.drag)}
             style="--grid-size:${host.gridSize}px; background:${host
@@ -103,7 +104,7 @@ export function renderBuilder(host: WebwriterWebsiteBuilder) {
         <!-- Code panel -->
         ${exported
           ? html`
-              <div class="code-panel" aria-label=${host.msg("Code")}>
+              <div class="code-panel" part="code" role="region" aria-label=${host.msg("Code")}>
                 <div class="code-header">
                   <sl-icon-button
                     src=${iconX}

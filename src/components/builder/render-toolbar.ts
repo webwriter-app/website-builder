@@ -68,6 +68,8 @@ function renderAddRow(host: WebwriterWebsiteBuilder) {
             <div class="toolbar-pill">
               <button
                 class="toolbar-icon-btn search-btn"
+                type="button"
+                aria-label=${host.msg("Browse all components")}
                 title=${host.msg("Browse all components")}
                 @click=${() => {
                   host.openAllComponentsDialog();
@@ -81,6 +83,7 @@ function renderAddRow(host: WebwriterWebsiteBuilder) {
                 (item) => html`
                   <button
                     class="toolbar-icon-btn"
+                    type="button"
                     title=${item.label}
                     draggable="true"
                     data-component-type=${item.type}
@@ -104,6 +107,9 @@ function renderAddRow(host: WebwriterWebsiteBuilder) {
         : null}
       <button
         class="toolbar-toggle ${host.toolbarOpen ? "open" : ""}"
+        type="button"
+        aria-expanded=${host.toolbarOpen ? "true" : "false"}
+        aria-label=${host.toolbarOpen ? host.msg("Close") : host.msg("Add component")}
         title=${host.toolbarOpen ? host.msg("Close") : host.msg("Add component")}
         @click=${() => {
           host.toolbarOpen = !host.toolbarOpen;
@@ -125,6 +131,9 @@ function renderLayoutDropdown(
     <div class="layout-dropdown-wrap">
       <button
         class="layout-dropdown-btn"
+        type="button"
+        aria-haspopup="true"
+        aria-expanded=${host.layoutDropdownOpen ? "true" : "false"}
         @click=${(e: MouseEvent) => {
           e.stopPropagation();
           host.layoutDropdownOpen = !host.layoutDropdownOpen;
@@ -143,6 +152,8 @@ function renderLayoutDropdown(
                     class="layout-dropdown-item ${host.layoutMode === mode
                       ? "active"
                       : ""}"
+                    type="button"
+                    aria-pressed=${host.layoutMode === mode ? "true" : "false"}
                     @click=${() => {
                       host.layout.setLayoutMode(mode);
                       host.layoutDropdownOpen = false;
@@ -233,7 +244,7 @@ export function renderGroupToolbar(host: WebwriterWebsiteBuilder) {
 
       <button
         class="group-btn"
-        @click=${() => host.groupSelected()}
+        @click=${() => host.layout.groupSelected()}
         title=${host.msg("Wrap selected nodes in a container")}
       >
         ${host.msg("Group")}

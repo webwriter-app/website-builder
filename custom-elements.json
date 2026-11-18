@@ -8,8 +8,18 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).\n\nTo add a component that authors can place on the canvas, add a file implementing\n`BuilderComponent` under `src/components/` and register it under its type name\n(for example \"h1\") in `src/components/registry.ts`. The type is what the document\nstores for a placed node.",
+          "description": "Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).\n\nTo add a component that authors can place on the canvas, add a file implementing\n`BuilderComponent` under `src/components/` and register it under its type name\n(for example \"h1\") in `src/components/registry.ts`. The type is what the document\nstores for a placed node.\n\nKeyboard: Tab reaches each placed element, Enter or Space selects it (Shift adds to the\nselection) and Enter opens a selected container. Arrow keys nudge by one pixel in freeform\nlayout, Alt with an arrow key moves one place in flow, flex and grid layout, Delete removes,\nEscape closes menus, leaves a container or clears the selection. Hold G for the grid, T to\nhide the toolbar, A to use the elements. Touch devices get a bar for delete, grid and interact.\n\nTheme: text follows `--ww-text-color` and `--ww-font-family`, accents `--ww-theme-accent-1`.\nPrint: controls are hidden, the canvas prints as it is, an empty canvas prints a short note.\n\nConversions: exports the page as a standalone HTML document (`text/html`) and the whole builder\nstate as `.json`, which imports again without loss. HTML cannot be imported, and uploaded media\nwithout a public address is left out of the HTML. Signal `html`: the generated page markup.",
           "name": "WebwriterWebsiteBuilder",
+          "cssParts": [
+            {
+              "description": "The area the page is built on.",
+              "name": "canvas"
+            },
+            {
+              "description": "The panel with the generated HTML and CSS.",
+              "name": "code"
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -22,12 +32,30 @@
             },
             {
               "kind": "field",
+              "name": "convertTo",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ \"text/html\": \"exportHtml\", \".json\": \"exportJson\", }"
+            },
+            {
+              "kind": "field",
+              "name": "convertFrom",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ \".json\": \"importJson\", }"
+            },
+            {
+              "kind": "field",
               "name": "actions",
               "type": {
                 "text": "object"
               },
               "static": true,
-              "default": "{ configureBuilder: { label: (widget: { msg: MsgFn }) => widget.msg(\"Builder settings\") }, // Keys of the canvas: hidden, they only run from the keyboard. cancel: { shortcut: \"Escape\", hidden: true }, removeSelected: { shortcut: [\"Delete\", \"Backspace\"], hidden: true }, nudgeUp: { shortcut: \"ArrowUp\", hidden: true }, nudgeDown: { shortcut: \"ArrowDown\", hidden: true }, nudgeLeft: { shortcut: \"ArrowLeft\", hidden: true }, nudgeRight: { shortcut: \"ArrowRight\", hidden: true }, }"
+              "default": "{ configureBuilder: { label: (widget: { msg: MsgFn }) => widget.msg(\"Builder settings\") }, // Keys of the canvas: hidden, they only run from the keyboard. cancel: { shortcut: \"Escape\", hidden: true }, removeSelected: { shortcut: [\"Delete\", \"Backspace\"], hidden: true }, nudgeUp: { shortcut: \"ArrowUp\", hidden: true }, nudgeDown: { shortcut: \"ArrowDown\", hidden: true }, nudgeLeft: { shortcut: \"ArrowLeft\", hidden: true }, nudgeRight: { shortcut: \"ArrowRight\", hidden: true }, moveEarlier: { shortcut: [\"Alt+ArrowUp\", \"Alt+ArrowLeft\"], hidden: true }, moveLater: { shortcut: [\"Alt+ArrowDown\", \"Alt+ArrowRight\"], hidden: true }, }"
             },
             {
               "kind": "field",
@@ -50,13 +78,6 @@
               "name": "#shortcuts",
               "privacy": "private",
               "default": "new Shortcuts(this)"
-            },
-            {
-              "kind": "field",
-              "name": "keyboard",
-              "privacy": "private",
-              "default": "new KeyboardController(this)",
-              "description": "Handles the keys that are held down: grid, toolbar, interact and shift"
             },
             {
               "kind": "field",
@@ -108,15 +129,6 @@
             },
             {
               "kind": "field",
-              "name": "_containerSettingsId",
-              "type": {
-                "text": "string | null"
-              },
-              "privacy": "private",
-              "default": "null"
-            },
-            {
-              "kind": "field",
               "name": "_defaultSerialized",
               "privacy": "private"
             },
@@ -129,6 +141,43 @@
               "kind": "field",
               "name": "#data",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "#version",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "#versionCount",
+              "privacy": "private",
+              "type": {
+                "text": "number"
+              },
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "#connected",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "#publishedFor",
+              "privacy": "private",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "signals",
+              "type": {
+                "text": "object"
+              },
+              "default": "{ html: computed(() => (this.#version.get(), this.#connected.get() ? this._generateExport().html : \"\")) }",
+              "description": "The generated page markup, exported when read (empty while disconnected)."
             },
             {
               "kind": "field",
@@ -145,7 +194,7 @@
             {
               "kind": "method",
               "name": "cancel",
-              "description": "Escape: leaves the focused container, otherwise clears the selection."
+              "description": "Escape: closes an open menu, leaves the focused container, otherwise clears the selection."
             },
             {
               "kind": "method",
@@ -170,23 +219,34 @@
             },
             {
               "kind": "method",
-              "name": "_nudge",
-              "privacy": "private",
+              "name": "moveEarlier"
+            },
+            {
+              "kind": "method",
+              "name": "moveLater"
+            },
+            {
+              "kind": "method",
+              "name": "exportHtml",
+              "description": "Exports the built page as a standalone HTML document."
+            },
+            {
+              "kind": "method",
+              "name": "exportJson",
+              "description": "Exports the whole builder state; `importJson` reads it back."
+            },
+            {
+              "kind": "method",
+              "name": "importJson",
               "parameters": [
                 {
-                  "name": "dx",
+                  "name": "file",
                   "type": {
-                    "text": "number"
-                  }
-                },
-                {
-                  "name": "dy",
-                  "type": {
-                    "text": "number"
+                    "text": "File"
                   }
                 }
               ],
-              "description": "Moves the selected node by one pixel in freeform layout."
+              "description": "Reads a builder state file; the widget changes only when the returned function runs."
             },
             {
               "kind": "method",
@@ -274,6 +334,20 @@
             },
             {
               "kind": "method",
+              "name": "focus",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Moves the focus to the first placed element, or to the add button on an empty canvas."
+            },
+            {
+              "kind": "method",
               "name": "blurActive",
               "description": "Blur the active element"
             },
@@ -313,14 +387,6 @@
                   "text": "boolean"
                 }
               },
-              "parameters": [
-                {
-                  "name": "_e",
-                  "type": {
-                    "text": "Event"
-                  }
-                }
-              ],
               "description": "Returns whether the interact key is pressed"
             },
             {
@@ -357,24 +423,6 @@
                 }
               ],
               "description": "Get grid placement from pointer position"
-            },
-            {
-              "kind": "method",
-              "name": "groupSelected",
-              "description": "Group the selected nodes"
-            },
-            {
-              "kind": "method",
-              "name": "ungroupContainer",
-              "parameters": [
-                {
-                  "name": "containerId",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "description": "Ungroups the selected group of nodes"
             },
             {
               "kind": "method",
@@ -469,12 +517,6 @@
               "kind": "field",
               "name": "_onFsChange",
               "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_onMouseDown",
-              "privacy": "private",
-              "description": "Closes the palette popup on a press outside the palette."
             },
             {
               "kind": "field",

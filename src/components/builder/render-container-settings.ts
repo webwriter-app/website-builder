@@ -26,7 +26,7 @@ export function renderContainerSettings(
             size="small"
             variant="danger"
             outline
-            @click=${() => host.ungroupContainer(node.id)}
+            @click=${() => host.layout.ungroupContainer(node.id)}
             >${host.msg("Ungroup")}</sl-button
           >
         </div>

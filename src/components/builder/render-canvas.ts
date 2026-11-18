@@ -1,4 +1,4 @@
-import { html, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import type { WebwriterWebsiteBuilder } from "../../widgets/webwriter-website-builder";
 import { sortedNodes } from "../../model/layout";
@@ -13,7 +13,10 @@ export function renderCanvasInner(host: WebwriterWebsiteBuilder) {
   const nodes = host.activeNodes;
 
   if (nodes.length === 0) {
-    return html`<div class="drop-zone">${host.msg("drop components here")}</div>`;
+    return html`
+      <div class="drop-zone">${host.msg("drop components here")}</div>
+      <p class="print-note">${host.msg("Interactive content: open the document online")}</p>
+    `;
   }
 
   if (host.layoutMode === "freeform") {
@@ -61,6 +64,11 @@ export function renderNodeFreeform(host: WebwriterWebsiteBuilder, n: BuilderNode
       class="builder-element ${selected ? "selected" : ""} ${n.isContainer ? "is-container" : ""}"
       data-node-id=${n.id}
       data-component-type=${n.type}
+      tabindex="0"
+      role="group"
+      aria-label=${nodeLabel(host, n)}
+      aria-current=${selected ? "true" : nothing}
+      @keydown=${(e: KeyboardEvent) => host.selection.onWrapperKeyDown(e, n.id)}
       style="position:absolute;left:${pos.x}px;top:${pos.y}px;cursor:grab;z-index:${zIdx};"
       @pointerdown=${(e: PointerEvent) => host.selection.onWrapperPointerDown(e, n.id)}
       @click=${(e: MouseEvent) => host.selection.onWrapperClick(e)}
@@ -88,6 +96,11 @@ export function renderNodeFlow(host: WebwriterWebsiteBuilder, n: BuilderNode) {
       class="builder-element flow-item ${selected ? "selected" : ""} ${n.isContainer ? "is-container" : ""}"
       data-node-id=${n.id}
       data-component-type=${n.type}
+      tabindex="0"
+      role="group"
+      aria-label=${nodeLabel(host, n)}
+      aria-current=${selected ? "true" : nothing}
+      @keydown=${(e: KeyboardEvent) => host.selection.onWrapperKeyDown(e, n.id)}
       data-display=${display}
       style=${style}
       @pointerdown=${(e: PointerEvent) => host.selection.onWrapperPointerDown(e, n.id)}
@@ -141,6 +154,13 @@ export function renderNestedNode(
         ${parentIsFocused ? "drillable" : ""}"
       data-node-id=${n.id}
       data-component-type=${n.type}
+      tabindex=${parentIsFocused ? "0" : nothing}
+      role="group"
+      aria-label=${nodeLabel(host, n)}
+      aria-current=${selected ? "true" : nothing}
+      @keydown=${(e: KeyboardEvent) => {
+        if (parentIsFocused) host.selection.onWrapperKeyDown(e, n.id);
+      }}
       data-display=${display}
       style=${combinedStyle}
       @pointerdown=${(e: PointerEvent) => {
@@ -166,6 +186,14 @@ export function renderNestedNode(
       </div>
     </div>
   `;
+}
+
+// ─── Keyboard access ──────────────────────────────────────────────────────────
+
+/** The accessible name of a placed node. */
+function nodeLabel(host: WebwriterWebsiteBuilder, n: BuilderNode): string {
+  if (n.isContainer) return host.msg("Container");
+  return ComponentRegistry[n.type]?.label?.(host.msg) ?? n.type;
 }
 
 // ─── Style helpers ────────────────────────────────────────────────────────────

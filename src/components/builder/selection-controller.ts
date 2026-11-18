@@ -59,6 +59,26 @@ export class SelectionController {
     this.host.requestUpdate();
   }
 
+  /**
+   * Enter or Space on a focused node selects it (with Shift: adds it to the selection).
+   * Enter on a node that is already selected opens a container, like a double click.
+   */
+  onWrapperKeyDown(e: KeyboardEvent, nodeId: string) {
+    if (e.target !== e.currentTarget) return;
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
+    e.stopPropagation();
+    const node = findNodeById(this.host.activeNodes, nodeId);
+    const selected = this.host.selectedNodeId === nodeId && this.host.selectedIds.size <= 1;
+    if (e.key === "Enter" && selected && node?.isContainer && !e.shiftKey) {
+      this.host.focusedContainerId = nodeId;
+      this.host.requestUpdate();
+      return;
+    }
+    if (e.shiftKey) this.toggleInSelection(nodeId);
+    else this.handleNodeSelect(nodeId);
+  }
+
   onCanvasClick(e: MouseEvent) {
     this.host.layoutDropdownOpen = false;
     this.host.blurActive();

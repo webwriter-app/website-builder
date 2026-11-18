@@ -14,6 +14,34 @@ export function normalizeOrder(nodes: BuilderNode[]): BuilderNode[] {
   return nodes.map((n, i) => ({ ...n, order: i }));
 }
 
+/**
+ * Swaps the node with its neighbour in the order of the list that holds it, at the top
+ * level or inside a container. Returns null when the node is missing or already at the end.
+ */
+export function moveNodeInOrder(
+  nodes: BuilderNode[],
+  id: string,
+  delta: number,
+): BuilderNode[] | null {
+  if (nodes.some((n) => n.id === id)) {
+    const sorted = sortedNodes(nodes);
+    const from = sorted.findIndex((n) => n.id === id);
+    const to = from + delta;
+    if (to < 0 || to >= sorted.length) return null;
+    [sorted[from], sorted[to]] = [sorted[to], sorted[from]];
+    const rank = new Map(sorted.map((n, i) => [n.id, i]));
+    return nodes.map((n) => ({ ...n, order: rank.get(n.id) }));
+  }
+  let moved = false;
+  const next = nodes.map((n) => {
+    const children = n.children?.length ? moveNodeInOrder(n.children, id, delta) : null;
+    if (!children) return n;
+    moved = true;
+    return { ...n, children };
+  });
+  return moved ? next : null;
+}
+
 export function convertFreeformToOrdered(nodes: BuilderNode[]): BuilderNode[] {
   const withPos = nodes.map((n) => ({
     ...n,

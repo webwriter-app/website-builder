@@ -345,7 +345,14 @@
       "ckb-Arab": "دروستکەری ماڵپەڕ",
       "af-ZA": "Webwerfbouer",
       "af-NA": "Webwerfbouer"
-    }
+    },
+    "importFormats": [
+      ".json"
+    ],
+    "exportFormats": [
+      "text/html",
+      ".json"
+    ]
   },
   "./snippets/flex-starter": {
     "label": {
