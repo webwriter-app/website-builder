@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Tous les composants`,
 's068d4dd16d9106d0': `Icône`,
 's06fd2f8b555158a4': `Zone`,
+'s0700f1d153359a0e': `Ce fichier n'est pas un fichier du créateur de sites Web.`,
 's072c3c42e24456af': `Entrez le titre…`,
 's079cf7850d9327f0': `Police`,
 's08b05407b5565ca4': `ou`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Texte de l'en-tête`,
 's09d3e1c6cc8700b9': `Hauteur (par exemple : 10 px, 0,5 rem)`,
 's0b786a0e85eb6783': `Rayon de bordure`,
-'s0bdef849e0480d0e': `Faites glisser vers la zone de travail · Cliquez pour plus d'informations`,
-'s0d2f74dc9c0833a2': `Faites glisser pour le placer sur le canevas. Cliquez sur « Insérer » pour l'ajouter à l'emplacement par défaut.`,
 's0fef364f29f8ffc1': `Largeur (par exemple 300 px, 20 rem)`,
 's1125d159f7e64df5': `Affichage`,
 's1219d97b49650c05': `Visibilité`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Dégrouper`,
 's5590dbf7e425789d': `Étiquette`,
 's56786c3f3e37cefa': `Saisissez le texte de remplacement de la zone de texte…`,
-'s569ed106bd3565e4': str`Passer à la disposition ${0}`,
 's56b2da93a4b8874e': `Télécharger un fichier audio`,
 's599dcd2472c75c19': `Paragraphe`,
 's5a053ed77fa9c1bc': `S'aligner`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Largeur`,
 'sf43739275a48c99c': `Texte du lien`,
 'sf60963b73764eca2': `Une zone principale large avec une barre latérale étroite`,
+'sf71c79de504af8f7': `Contenu interactif : ouvrez le document en ligne`,
 'sf79bbcb9f92e4d35': `Ajustement de l'objet`,
 'sfc5542fcfe78b99b': `Ajouter un composant`,
 'sfc83e9eb133d7361': `Pile centrée`,

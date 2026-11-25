@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Allir íhlutir`,
 's068d4dd16d9106d0': `Tákn`,
 's06fd2f8b555158a4': `Svæði`,
+'s0700f1d153359a0e': `Þetta er ekki skrá úr vefsíðusmiðnum.`,
 's072c3c42e24456af': `Sláðu inn fyrirsögn…`,
 's079cf7850d9327f0': `Letur`,
 's08b05407b5565ca4': `eða`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Fyrirsagnartexti`,
 's09d3e1c6cc8700b9': `Hæð (t.d. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Rúnnun ramma`,
-'s0bdef849e0480d0e': `Dragðu á striga · Smelltu til að fá upplýsingar`,
-'s0d2f74dc9c0833a2': `Dragðu til að staðsetja á striganum. Smelltu á Setja inn til að bæta við á sjálfgefnum stað.`,
 's0fef364f29f8ffc1': `Breidd (t.d. 300px, 20rem)`,
 's1125d159f7e64df5': `Birting`,
 's1219d97b49650c05': `Sýnileiki`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Aftengja hóp`,
 's5590dbf7e425789d': `Merki`,
 's56786c3f3e37cefa': `Sláðu inn staðgengilstexta…`,
-'s569ed106bd3565e4': str`Breyta uppsetningu í ${0}`,
 's56b2da93a4b8874e': `Hlaða upp hljóði`,
 's599dcd2472c75c19': `Málsgrein`,
 's5a053ed77fa9c1bc': `Jafna sjálft`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Breidd`,
 'sf43739275a48c99c': `Tenglatexti`,
 'sf60963b73764eca2': `Breitt aðalsvæði með mjórri hliðarstiku`,
+'sf71c79de504af8f7': `Gagnvirkt efni: opnaðu skjalið á netinu`,
 'sf79bbcb9f92e4d35': `Aðlögun hlutar`,
 'sfc5542fcfe78b99b': `Bæta við íhlut`,
 'sfc83e9eb133d7361': `Miðjuð röð`,

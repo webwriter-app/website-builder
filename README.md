@@ -1,7 +1,7 @@
 # Website Builder (`@webwriter/website-builder@2.0.0`)
 [License: MIT](LICENSE) | Version: 2.0.0
 
-Build, explore and understand static websites with different layouts (Freeform, Flow, Flex, Grid).
+Build and explore static websites with different layouts.
 
 ## Snippets
 [Snippets](https://webwriter.app/docs/snippets/snippets/) are examples and templates using the package's widgets.
@@ -139,4 +139,4 @@ npm install @webwriter/website-builder
 
 
 ---
-*Generated with @webwriter/build@1.14.0*
+*Generated with @webwriter/build@1.15.0*

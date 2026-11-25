@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Tots els components`,
 's068d4dd16d9106d0': `Icona`,
 's06fd2f8b555158a4': `Àrea`,
+'s0700f1d153359a0e': `El fitxer no és del creador de llocs web.`,
 's072c3c42e24456af': `Introdueix un encapçalament…`,
 's079cf7850d9327f0': `Tipus de lletra`,
 's08b05407b5565ca4': `o`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Text de l’encapçalament`,
 's09d3e1c6cc8700b9': `Alçada (p. ex., 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Radi de la vora`,
-'s0bdef849e0480d0e': `Arrossega al llenç · Fes clic per obtenir informació`,
-'s0d2f74dc9c0833a2': `Arrossega per col·locar al llenç. Fes clic a Insereix per afegir a la posició predeterminada.`,
 's0fef364f29f8ffc1': `Amplada (p. ex., 300px, 20rem)`,
 's1125d159f7e64df5': `Visualització`,
 's1219d97b49650c05': `Visibilitat`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Desagrupa`,
 's5590dbf7e425789d': `Etiqueta`,
 's56786c3f3e37cefa': `Introdueix el text de marcador de posició…`,
-'s569ed106bd3565e4': str`Canvia la distribució a ${0}`,
 's56b2da93a4b8874e': `Puja àudio`,
 's599dcd2472c75c19': `Paràgraf`,
 's5a053ed77fa9c1bc': `Alineació pròpia`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Amplada`,
 'sf43739275a48c99c': `Text de l’enllaç`,
 'sf60963b73764eca2': `Àrea principal ampla amb una barra lateral estreta`,
+'sf71c79de504af8f7': `Contingut interactiu: obriu el document en línia`,
 'sf79bbcb9f92e4d35': `Ajust de l’objecte`,
 'sfc5542fcfe78b99b': `Afegeix un component`,
 'sfc83e9eb133d7361': `Pila centrada`,

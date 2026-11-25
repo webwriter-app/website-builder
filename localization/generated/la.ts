@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Omnes componentes`,
 's068d4dd16d9106d0': `Icon`,
 's06fd2f8b555158a4': `Area`,
+'s0700f1d153359a0e': `Hic fasciculus ad instrumentum situs interretiales construendi non pertinet.`,
 's072c3c42e24456af': `Titulum inscribe…`,
 's079cf7850d9327f0': `Typus`,
 's08b05407b5565ca4': `aut`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Textus tituli`,
 's09d3e1c6cc8700b9': `Altitudo (ex. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Radius marginis`,
-'s0bdef849e0480d0e': `Ad tabulam trahe · Clica ad informationes`,
-'s0d2f74dc9c0833a2': `Trahe ut in tabula ponas. Clica Inserere ut in loco praedefinito addas.`,
 's0fef364f29f8ffc1': `Latitudo (ex. 300px, 20rem)`,
 's1125d159f7e64df5': `Ostentatio`,
 's1219d97b49650c05': `Visibilitas`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Solve gregem`,
 's5590dbf7e425789d': `Nota`,
 's56786c3f3e37cefa': `Textum loci tenentis inscribe…`,
-'s569ed106bd3565e4': str`Dispositionem ad ${0} muta`,
 's56b2da93a4b8874e': `Audio onerare`,
 's599dcd2472c75c19': `Paragraphus`,
 's5a053ed77fa9c1bc': `Te ipsum ordina`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Latitudo`,
 'sf43739275a48c99c': `Textus nexus`,
 'sf60963b73764eca2': `Area principalis lata cum tabula laterali angusta`,
+'sf71c79de504af8f7': `Materia interactiva: documentum in interreti aperi`,
 'sf79bbcb9f92e4d35': `Aptatio obiecti`,
 'sfc5542fcfe78b99b': `Componens adde`,
 'sfc83e9eb133d7361': `Acervus medius`,

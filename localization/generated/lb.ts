@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `All Komponenten`,
 's068d4dd16d9106d0': `Ikon`,
 's06fd2f8b555158a4': `Beräich`,
+'s0700f1d153359a0e': `Dës Datei ass keng Datei vum Websäitebaukasten.`,
 's072c3c42e24456af': `Iwwerschrëft aginn…`,
 's079cf7850d9327f0': `Schrëft`,
 's08b05407b5565ca4': `oder`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Iwwerschrëfttext`,
 's09d3e1c6cc8700b9': `Héicht (z. B. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Randradius`,
-'s0bdef849e0480d0e': `Op de Canvas zéien · Klickt fir Informatiounen`,
-'s0d2f74dc9c0833a2': `Zéien, fir um Canvas ze placéieren. Klickt op Asetzen, fir op der Standardpositioun derbäizesetzen.`,
 's0fef364f29f8ffc1': `Breet (z. B. 300px, 20rem)`,
 's1125d159f7e64df5': `Display`,
 's1219d97b49650c05': `Visibilitéit`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Gruppéierung opléisen`,
 's5590dbf7e425789d': `Etikett`,
 's56786c3f3e37cefa': `Plazhaltertext aginn…`,
-'s569ed106bd3565e4': str`Layout op ${0} wiesselen`,
 's56b2da93a4b8874e': `Audio eroplueden`,
 's599dcd2472c75c19': `Paragraph`,
 's5a053ed77fa9c1bc': `Selwer ausriichten`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Breet`,
 'sf43739275a48c99c': `Linktext`,
 'sf60963b73764eca2': `Breet Haaptberäich mat enger schmueler Säitleescht`,
+'sf71c79de504af8f7': `Interaktiven Inhalt: Maach d'Dokument online op`,
 'sf79bbcb9f92e4d35': `Objekt-Fit`,
 'sfc5542fcfe78b99b': `Komponent derbäisetzen`,
 'sfc83e9eb133d7361': `Zentréierte Stack`,

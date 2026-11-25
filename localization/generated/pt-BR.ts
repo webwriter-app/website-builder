@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Todos os componentes`,
 's068d4dd16d9106d0': `Ícone`,
 's06fd2f8b555158a4': `Área`,
+'s0700f1d153359a0e': `O arquivo não pertence ao criador de sites.`,
 's072c3c42e24456af': `Digite o título…`,
 's079cf7850d9327f0': `Fonte`,
 's08b05407b5565ca4': `ou`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Texto do título`,
 's09d3e1c6cc8700b9': `Altura (por exemplo, 10px, 0,5rem)`,
 's0b786a0e85eb6783': `Raio da borda`,
-'s0bdef849e0480d0e': `Arraste para a tela · Clique para obter informações`,
-'s0d2f74dc9c0833a2': `Arraste para colocar na tela. Clique em Inserir para adicionar na posição padrão.`,
 's0fef364f29f8ffc1': `Largura (por exemplo, 300px, 20rem)`,
 's1125d159f7e64df5': `Exibir`,
 's1219d97b49650c05': `Visibilidade`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Desagrupar`,
 's5590dbf7e425789d': `Etiqueta`,
 's56786c3f3e37cefa': `Insira o texto de preenchimento da área de texto…`,
-'s569ed106bd3565e4': str`Mudar o layout para ${0}`,
 's56b2da93a4b8874e': `Carregar áudio`,
 's599dcd2472c75c19': `Parágrafo`,
 's5a053ed77fa9c1bc': `Alinhar-se`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Largura`,
 'sf43739275a48c99c': `Texto do link`,
 'sf60963b73764eca2': `Área principal ampla com uma barra lateral estreita`,
+'sf71c79de504af8f7': `Conteúdo interativo: abra o documento online`,
 'sf79bbcb9f92e4d35': `Ajuste do objeto`,
 'sfc5542fcfe78b99b': `Adicionar componente`,
 'sfc83e9eb133d7361': `Pilha centralizada`,

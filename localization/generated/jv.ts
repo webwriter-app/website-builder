@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Kabeh komponen`,
 's068d4dd16d9106d0': `Lambang`,
 's06fd2f8b555158a4': `Area`,
+'s0700f1d153359a0e': `Berkas iki dudu berkas saka piranti panyipta situs web.`,
 's072c3c42e24456af': `Ketik irah-irahan…`,
 's079cf7850d9327f0': `Font`,
 's08b05407b5565ca4': `utawa`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Teks irah-irahan`,
 's09d3e1c6cc8700b9': `Dhuwur (umpamane 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Radius pinggiran`,
-'s0bdef849e0480d0e': `Seret menyang kanvas · Klik kanggo info`,
-'s0d2f74dc9c0833a2': `Seret kanggo nyelehake ing kanvas. Klik Lebokake kanggo nambah ing posisi gawan.`,
 's0fef364f29f8ffc1': `Jembar (umpamane 300px, 20rem)`,
 's1125d159f7e64df5': `Tampilan`,
 's1219d97b49650c05': `Visibilitas`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Copot klompok`,
 's5590dbf7e425789d': `Label`,
 's56786c3f3e37cefa': `Ketik teks panggantos…`,
-'s569ed106bd3565e4': str`Ganti tata letak dadi ${0}`,
 's56b2da93a4b8874e': `Unggah audio`,
 's599dcd2472c75c19': `Paragraf`,
 's5a053ed77fa9c1bc': `Rataake dhewe`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Jembar`,
 'sf43739275a48c99c': `Teks tautan`,
 'sf60963b73764eca2': `Area utama amba kanthi panel sisih ciyut`,
+'sf71c79de504af8f7': `Isi interaktif: bukak dokumen kanthi daring`,
 'sf79bbcb9f92e4d35': `Pas gambar`,
 'sfc5542fcfe78b99b': `Tambah komponen`,
 'sfc83e9eb133d7361': `Tumpukan tengah`,

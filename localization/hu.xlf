@@ -250,17 +250,6 @@
         <source>Clear selection</source>
         <target>Kiválasztás törlése</target>
       </trans-unit>
-      <trans-unit id="s569ed106bd3565e4">
-        <source>Switch layout to <x id="0" equiv-text="${mode}" /></source>
-<target>Váltás erre az elrendezésre: <x id="0" equiv-text="${mode}" /></target></trans-unit>
-      <trans-unit id="s0bdef849e0480d0e">
-        <source>Drag to canvas · Click for info</source>
-        <target>Húzza a vászonra · Kattintson az információkért</target>
-      </trans-unit>
-      <trans-unit id="s0d2f74dc9c0833a2">
-        <source>Drag to place on canvas. Click Insert to add at default position.</source>
-        <target>Húzza az elemet a vászonra. Kattintson a „Beszúrás” gombra az alapértelmezett helyre történő hozzáadáshoz.</target>
-      </trans-unit>
       <trans-unit id="sbba25f7b32fdf484">
         <source>Button text</source>
         <target>Gomb szövege</target>
@@ -506,8 +495,8 @@
         <target>Kód</target>
       </trans-unit>
       <trans-unit id="hee3c66c7df58c59e">
-        <source>Hold <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> to temporarily hide the toolbar overlay.</source>
-<target>A lebegő eszköztár ideiglenes elrejtéséhez tartsd lenyomva a <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> billentyűt.</target></trans-unit>
+        <source>Hold <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.</source>
+<target>A lebegő eszköztár ideiglenes elrejtéséhez tartsd lenyomva a <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> billentyűt.</target></trans-unit>
       <trans-unit id="s33054d1d675674c9">
         <source>Freeform</source>
         <target>Szabad formájú</target>
@@ -671,6 +660,14 @@
     <trans-unit id="s8dfcedb8b2d680cd">
   <source>Builder settings</source>
 <target>A weboldalkészítő beállításai</target></trans-unit>
+<trans-unit id="sf71c79de504af8f7">
+  <source>Interactive content: open the document online</source>
+  <target>Interaktív tartalom: nyisd meg a dokumentumot online</target>
+</trans-unit>
+<trans-unit id="s0700f1d153359a0e">
+  <source>The file is not a website builder file.</source>
+  <target>A fájl nem a webhelyszerkesztő fájlja.</target>
+</trans-unit>
 </body>
   </file>
 </xliff>

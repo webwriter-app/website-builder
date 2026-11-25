@@ -236,18 +236,9 @@
 <trans-unit id="s8f18916860db5d80">
   <source>Clear selection</source>
 <target>សម្អាតការជ្រើសរើស</target></trans-unit>
-<trans-unit id="s569ed106bd3565e4">
-  <source>Switch layout to <x id="0" equiv-text="${mode}" /></source>
-<target>ប្តូរប្លង់ទៅ <x id="0" equiv-text="${mode}" /></target></trans-unit>
-<trans-unit id="s0bdef849e0480d0e">
-  <source>Drag to canvas · Click for info</source>
-<target>អូសទៅផ្ទាំង · ចុចសម្រាប់ព័ត៌មាន</target></trans-unit>
 <trans-unit id="s5ada999b33ccc808">
   <source>Insert</source>
 <target>បញ្ចូល</target></trans-unit>
-<trans-unit id="s0d2f74dc9c0833a2">
-  <source>Drag to place on canvas. Click Insert to add at default position.</source>
-<target>អូសដើម្បីដាក់លើផ្ទាំង។ ចុច បញ្ចូល ដើម្បីបន្ថែមតាមទីតាំងលំនាំដើម។</target></trans-unit>
 <trans-unit id="s6d9c15e46caed9ad">
   <source>Syntax (preview)</source>
 <target>វាក្យសម្ព័ន្ធ (មើលជាមុន)</target></trans-unit>
@@ -492,8 +483,8 @@
   <source>Reset Canvas</source>
 <target>កំណត់ផ្ទាំងឡើងវិញ</target></trans-unit>
 <trans-unit id="hee3c66c7df58c59e">
-  <source>Hold <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> to temporarily hide the toolbar overlay.</source>
-<target>សង្កត់ <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> ដើម្បីលាក់ស្រទាប់របារឧបករណ៍ជាបណ្តោះអាសន្ន។</target></trans-unit>
+  <source>Hold <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.</source>
+<target>សង្កត់ <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> ដើម្បីលាក់ស្រទាប់របារឧបករណ៍ជាបណ្តោះអាសន្ន។</target></trans-unit>
 <trans-unit id="s3643189d1abbb7f4">
   <source>Code</source>
 <target>កូដ</target></trans-unit>
@@ -506,6 +497,14 @@
 <trans-unit id="s8dfcedb8b2d680cd">
   <source>Builder settings</source>
 <target>ការកំណត់អ្នកបង្កើត</target></trans-unit>
+<trans-unit id="sf71c79de504af8f7">
+  <source>Interactive content: open the document online</source>
+  <target>មាតិកាអន្តរកម្ម៖ បើកឯកសារតាមអ៊ីនធឺណិត</target>
+</trans-unit>
+<trans-unit id="s0700f1d153359a0e">
+  <source>The file is not a website builder file.</source>
+  <target>ឯកសារនេះមិនមែនជាឯកសាររបស់ឧបករណ៍បង្កើតគេហទំព័រទេ។</target>
+</trans-unit>
 </body>
 </file>
 </xliff>

@@ -236,18 +236,9 @@
 <trans-unit id="s8f18916860db5d80">
   <source>Clear selection</source>
 <target>Nadiifi xulashada</target></trans-unit>
-<trans-unit id="s569ed106bd3565e4">
-  <source>Switch layout to <x id="0" equiv-text="${mode}" /></source>
-<target>Qaabaynta u beddel <x id="0" equiv-text="${mode}" /></target></trans-unit>
-<trans-unit id="s0bdef849e0480d0e">
-  <source>Drag to canvas · Click for info</source>
-<target>U jiid canvas-ka · Guji xogta</target></trans-unit>
 <trans-unit id="s5ada999b33ccc808">
   <source>Insert</source>
 <target>Geli</target></trans-unit>
-<trans-unit id="s0d2f74dc9c0833a2">
-  <source>Drag to place on canvas. Click Insert to add at default position.</source>
-<target>U jiid si aad canvas-ka u dhigto. Guji Geli si loogu daro booska caadiga ah.</target></trans-unit>
 <trans-unit id="s6d9c15e46caed9ad">
   <source>Syntax (preview)</source>
 <target>Syntax (horudhac)</target></trans-unit>
@@ -492,8 +483,8 @@
   <source>Reset Canvas</source>
 <target>Dib u celi Canvas</target></trans-unit>
 <trans-unit id="hee3c66c7df58c59e">
-  <source>Hold <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> to temporarily hide the toolbar overlay.</source>
-<target>Hay <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> si ku-meel-gaar ah loo qariyo dul-saarka barta qalabka.</target></trans-unit>
+  <source>Hold <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.</source>
+<target>Hay <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> si ku-meel-gaar ah loo qariyo dul-saarka barta qalabka.</target></trans-unit>
 <trans-unit id="s3643189d1abbb7f4">
   <source>Code</source>
 <target>Koodh</target></trans-unit>
@@ -506,6 +497,14 @@
 <trans-unit id="s8dfcedb8b2d680cd">
   <source>Builder settings</source>
 <target>Dejinta dhisaha</target></trans-unit>
+<trans-unit id="sf71c79de504af8f7">
+  <source>Interactive content: open the document online</source>
+  <target>Nuxur isdhexgal ah: dukumentiga khadka internetka ka fur</target>
+</trans-unit>
+<trans-unit id="s0700f1d153359a0e">
+  <source>The file is not a website builder file.</source>
+  <target>Faylkani kama tirsana qalabka lagu dhiso mareegaha.</target>
+</trans-unit>
 </body>
 </file>
 </xliff>

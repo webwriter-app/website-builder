@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `所有元件`,
 's068d4dd16d9106d0': `圖示`,
 's06fd2f8b555158a4': `區域`,
+'s0700f1d153359a0e': `此檔案不是網站建構工具檔案。`,
 's072c3c42e24456af': `輸入標題…`,
 's079cf7850d9327f0': `字型`,
 's08b05407b5565ca4': `或`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `標題文字`,
 's09d3e1c6cc8700b9': `高度（例如 10px、0.5rem）`,
 's0b786a0e85eb6783': `邊框半徑`,
-'s0bdef849e0480d0e': `拖曳至畫布 · 點擊查看資訊`,
-'s0d2f74dc9c0833a2': `拖曳至畫布上。點擊「插入」即可在預設位置新增。`,
 's0fef364f29f8ffc1': `寬度（例如 300px、20rem）`,
 's1125d159f7e64df5': `顯示`,
 's1219d97b49650c05': `可見度`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `取消分組`,
 's5590dbf7e425789d': `標籤`,
 's56786c3f3e37cefa': `輸入文字區塊的預設文字…`,
-'s569ed106bd3565e4': str`切換至 ${0} 配置`,
 's56b2da93a4b8874e': `上傳音訊`,
 's599dcd2472c75c19': `段落`,
 's5a053ed77fa9c1bc': `調整自身`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `寬度`,
 'sf43739275a48c99c': `連結文字`,
 'sf60963b73764eca2': `寬闊的主內容區搭配窄邊欄`,
+'sf71c79de504af8f7': `互動內容：請在線上開啟文件`,
 'sf79bbcb9f92e4d35': `物件貼合`,
 'sfc5542fcfe78b99b': `新增元件`,
 'sfc83e9eb133d7361': `居中堆疊`,

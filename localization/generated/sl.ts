@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Vse sestavne dele`,
 's068d4dd16d9106d0': `Ikona`,
 's06fd2f8b555158a4': `Območje`,
+'s0700f1d153359a0e': `Datoteka ni datoteka orodja za izdelavo spletnih mest.`,
 's072c3c42e24456af': `Vnesite naslov…`,
 's079cf7850d9327f0': `Črkovna vrsta`,
 's08b05407b5565ca4': `ali`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Naslov`,
 's09d3e1c6cc8700b9': `Višina (npr. 10px, 0,5rem)`,
 's0b786a0e85eb6783': `Polmer robov`,
-'s0bdef849e0480d0e': `Povleci na platno · Klikni za več informacij`,
-'s0d2f74dc9c0833a2': `Povlecite in spustite na platno. Kliknite »Vstavi«, da element dodate na privzeto mesto.`,
 's0fef364f29f8ffc1': `Širina (npr. 300px, 20rem)`,
 's1125d159f7e64df5': `Zaslon`,
 's1219d97b49650c05': `Vidljivost`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Razveljavi združitev`,
 's5590dbf7e425789d': `Oznaka`,
 's56786c3f3e37cefa': `Vnesite začasno besedilo v polje za vnos besedila…`,
-'s569ed106bd3565e4': str`Preklopi postavitev na ${0}`,
 's56b2da93a4b8874e': `Naloži avdio datoteko`,
 's599dcd2472c75c19': `Odstavek`,
 's5a053ed77fa9c1bc': `Uskladi se`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Širina`,
 'sf43739275a48c99c': `Besedilo povezave`,
 'sf60963b73764eca2': `Široko glavno območje z ozkim stranskim stolpcem`,
+'sf71c79de504af8f7': `Interaktivna vsebina: odprite dokument v spletu`,
 'sf79bbcb9f92e4d35': `Prileganje predmeta`,
 'sfc5542fcfe78b99b': `Dodaj komponento`,
 'sfc83e9eb133d7361': `Poravnani stolpec`,

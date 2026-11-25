@@ -236,18 +236,9 @@
 <trans-unit id="s8f18916860db5d80">
   <source>Clear selection</source>
 <target>ਚੋਣ ਸਾਫ਼ ਕਰੋ</target></trans-unit>
-<trans-unit id="s569ed106bd3565e4">
-  <source>Switch layout to <x id="0" equiv-text="${mode}" /></source>
-<target>ਲੇਆਉਟ ਨੂੰ <x id="0" equiv-text="${mode}" /> ਵਿੱਚ ਬਦਲੋ</target></trans-unit>
-<trans-unit id="s0bdef849e0480d0e">
-  <source>Drag to canvas · Click for info</source>
-<target>ਕੈਨਵਸ 'ਤੇ ਖਿੱਚੋ · ਜਾਣਕਾਰੀ ਲਈ ਕਲਿੱਕ ਕਰੋ</target></trans-unit>
 <trans-unit id="s5ada999b33ccc808">
   <source>Insert</source>
 <target>ਸ਼ਾਮਲ ਕਰੋ</target></trans-unit>
-<trans-unit id="s0d2f74dc9c0833a2">
-  <source>Drag to place on canvas. Click Insert to add at default position.</source>
-<target>ਕੈਨਵਸ 'ਤੇ ਰੱਖਣ ਲਈ ਖਿੱਚੋ। ਡਿਫਾਲਟ ਸਥਿਤੀ 'ਤੇ ਜੋੜਨ ਲਈ ਸ਼ਾਮਲ ਕਰੋ ਕਲਿੱਕ ਕਰੋ।</target></trans-unit>
 <trans-unit id="s6d9c15e46caed9ad">
   <source>Syntax (preview)</source>
 <target>ਸਿੰਟੈਕਸ (ਝਲਕ)</target></trans-unit>
@@ -492,8 +483,8 @@
   <source>Reset Canvas</source>
 <target>ਕੈਨਵਸ ਰੀਸੈੱਟ ਕਰੋ</target></trans-unit>
 <trans-unit id="hee3c66c7df58c59e">
-  <source>Hold <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> to temporarily hide the toolbar overlay.</source>
-<target>ਟੂਲਬਾਰ ਓਵਰਲੇ ਨੂੰ ਅਸਥਾਈ ਤੌਰ 'ਤੇ ਲੁਕਾਉਣ ਲਈ <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> ਦਬਾ ਕੇ ਰੱਖੋ।</target></trans-unit>
+  <source>Hold <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.</source>
+<target>ਟੂਲਬਾਰ ਓਵਰਲੇ ਨੂੰ ਅਸਥਾਈ ਤੌਰ 'ਤੇ ਲੁਕਾਉਣ ਲਈ <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> ਦਬਾ ਕੇ ਰੱਖੋ।</target></trans-unit>
 <trans-unit id="s3643189d1abbb7f4">
   <source>Code</source>
 <target>ਕੋਡ</target></trans-unit>
@@ -506,6 +497,14 @@
 <trans-unit id="s8dfcedb8b2d680cd">
   <source>Builder settings</source>
 <target>ਨਿਰਮਾਤਾ ਸੈਟਿੰਗਾਂ</target></trans-unit>
+<trans-unit id="sf71c79de504af8f7">
+  <source>Interactive content: open the document online</source>
+  <target>ਇੰਟਰਐਕਟਿਵ ਸਮੱਗਰੀ: ਦਸਤਾਵੇਜ਼ ਆਨਲਾਈਨ ਖੋਲ੍ਹੋ</target>
+</trans-unit>
+<trans-unit id="s0700f1d153359a0e">
+  <source>The file is not a website builder file.</source>
+  <target>ਇਹ ਫ਼ਾਈਲ ਵੈੱਬਸਾਈਟ ਬਣਾਉਣ ਵਾਲੇ ਟੂਲ ਦੀ ਨਹੀਂ ਹੈ।</target>
+</trans-unit>
 </body>
 </file>
 </xliff>

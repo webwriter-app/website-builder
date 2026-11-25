@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Sve komponente`,
 's068d4dd16d9106d0': `Ikona`,
 's06fd2f8b555158a4': `Područje`,
+'s0700f1d153359a0e': `Datoteka ne pripada alatu za izradu veb-sajtova.`,
 's072c3c42e24456af': `Unesi naslov…`,
 's079cf7850d9327f0': `Font`,
 's08b05407b5565ca4': `ili`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Tekst naslova`,
 's09d3e1c6cc8700b9': `Visina (npr. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Zaobljenje okvira`,
-'s0bdef849e0480d0e': `Povuci na platno · Klikni za informacije`,
-'s0d2f74dc9c0833a2': `Povuci za postavljanje na platno. Klikni Umetni za dodavanje na zadanu poziciju.`,
 's0fef364f29f8ffc1': `Širina (npr. 300px, 20rem)`,
 's1125d159f7e64df5': `Prikaz`,
 's1219d97b49650c05': `Vidljivost`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Razgrupiraj`,
 's5590dbf7e425789d': `Oznaka`,
 's56786c3f3e37cefa': `Unesi zamjenski tekst…`,
-'s569ed106bd3565e4': str`Promijeni raspored na ${0}`,
 's56b2da93a4b8874e': `Otpremi zvuk`,
 's599dcd2472c75c19': `Pasus`,
 's5a053ed77fa9c1bc': `Samostalno poravnanje`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Širina`,
 'sf43739275a48c99c': `Tekst linka`,
 'sf60963b73764eca2': `Široki glavni prostor s uskom bočnom trakom`,
+'sf71c79de504af8f7': `Interaktivni sadržaj: otvorite dokument na mreži`,
 'sf79bbcb9f92e4d35': `Uklapanje objekta`,
 'sfc5542fcfe78b99b': `Dodaj komponentu`,
 'sfc83e9eb133d7361': `Centrirani niz`,

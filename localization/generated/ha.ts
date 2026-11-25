@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Duk ɓangarori`,
 's068d4dd16d9106d0': `Alama`,
 's06fd2f8b555158a4': `Yanki`,
+'s0700f1d153359a0e': `Wannan ba fayil na kayan gina shafukan yanar gizo ba ne.`,
 's072c3c42e24456af': `Shigar da take…`,
 's079cf7850d9327f0': `Nau’in haruffa`,
 's08b05407b5565ca4': `ko`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Rubutun take`,
 's09d3e1c6cc8700b9': `Tsawo (misali 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Lanƙwasar kusurwa`,
-'s0bdef849e0480d0e': `Ja zuwa filin aiki · Danna don samun bayani`,
-'s0d2f74dc9c0833a2': `Ja don ajiyewa a filin aiki. Danna Saka don ƙara a wurin da aka riga aka zaɓa.`,
 's0fef364f29f8ffc1': `Faɗi (misali 300px, 20rem)`,
 's1125d159f7e64df5': `Nuni`,
 's1219d97b49650c05': `Ganuwa`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Warware rukuni`,
 's5590dbf7e425789d': `Lakabi`,
 's56786c3f3e37cefa': `Shigar da rubutun taimako…`,
-'s569ed106bd3565e4': str`Canja tsari zuwa ${0}`,
 's56b2da93a4b8874e': `Loda sauti`,
 's599dcd2472c75c19': `Sakin layi`,
 's5a053ed77fa9c1bc': `Daidaita wannan abu`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Faɗi`,
 'sf43739275a48c99c': `Rubutun mahada`,
 'sf60963b73764eca2': `Babban wuri mai faɗi da sashen gefe mai ƙunci`,
+'sf71c79de504af8f7': `Abun ciki na hulɗa: buɗe takardar a intanet`,
 'sf79bbcb9f92e4d35': `Yadda hoto yake shiga cikin firam`,
 'sfc5542fcfe78b99b': `Ƙara ɓangare`,
 'sfc83e9eb133d7361': `Jere a tsakiya`,

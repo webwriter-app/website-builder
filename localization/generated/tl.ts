@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Lahat ng component`,
 's068d4dd16d9106d0': `Icon`,
 's06fd2f8b555158a4': `Lugar`,
+'s0700f1d153359a0e': `Hindi ito file ng tagabuo ng website.`,
 's072c3c42e24456af': `Ilagay ang pamagat…`,
 's079cf7850d9327f0': `Font`,
 's08b05407b5565ca4': `o`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Teksto ng pamagat`,
 's09d3e1c6cc8700b9': `Taas (hal. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Pagkabilog ng mga sulok`,
-'s0bdef849e0480d0e': `I-drag sa canvas · I-click para sa impormasyon`,
-'s0d2f74dc9c0833a2': `I-drag para ilagay sa canvas. I-click ang Isingit para idagdag sa default na posisyon.`,
 's0fef364f29f8ffc1': `Lapad (hal. 300px, 20rem)`,
 's1125d159f7e64df5': `Display`,
 's1219d97b49650c05': `Pagpapakita`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Alisin sa grupo`,
 's5590dbf7e425789d': `Label`,
 's56786c3f3e37cefa': `Ilagay ang gabay na teksto…`,
-'s569ed106bd3565e4': str`Palitan ang layout ng ${0}`,
 's56b2da93a4b8874e': `Mag-upload ng audio`,
 's599dcd2472c75c19': `Talata`,
 's5a053ed77fa9c1bc': `Sariling paghahanay`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Lapad`,
 'sf43739275a48c99c': `Teksto ng link`,
 'sf60963b73764eca2': `Malapad na pangunahing bahagi at makitid na sidebar`,
+'sf71c79de504af8f7': `Interaktibong nilalaman: buksan ang dokumento online`,
 'sf79bbcb9f92e4d35': `Pagkakasya ng larawan`,
 'sfc5542fcfe78b99b': `Magdagdag ng component`,
 'sfc83e9eb133d7361': `Patayong Hanay sa Gitna`,

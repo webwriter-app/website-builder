@@ -532,9 +532,7 @@
             "package": "@webwriter/lit"
           },
           "tagName": "webwriter-website-builder",
-          "customElement": true,
-          "modulePath": "src/widgets/webwriter-website-builder.ts",
-          "definitionPath": "src/widgets/webwriter-website-builder.ts"
+          "customElement": true
         }
       ],
       "exports": [

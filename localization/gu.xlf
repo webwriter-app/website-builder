@@ -236,18 +236,9 @@
 <trans-unit id="s8f18916860db5d80">
   <source>Clear selection</source>
 <target>પસંદગી સાફ કરો</target></trans-unit>
-<trans-unit id="s569ed106bd3565e4">
-  <source>Switch layout to <x id="0" equiv-text="${mode}" /></source>
-<target>લેઆઉટ <x id="0" equiv-text="${mode}" /> પર બદલો</target></trans-unit>
-<trans-unit id="s0bdef849e0480d0e">
-  <source>Drag to canvas · Click for info</source>
-<target>કૅનવાસ પર ખેંચો · માહિતી માટે ક્લિક કરો</target></trans-unit>
 <trans-unit id="s5ada999b33ccc808">
   <source>Insert</source>
 <target>દાખલ કરો</target></trans-unit>
-<trans-unit id="s0d2f74dc9c0833a2">
-  <source>Drag to place on canvas. Click Insert to add at default position.</source>
-<target>કૅનવાસ પર મૂકવા ખેંચો. ડિફૉલ્ટ સ્થાન પર ઉમેરવા “દાખલ કરો” ક્લિક કરો.</target></trans-unit>
 <trans-unit id="s6d9c15e46caed9ad">
   <source>Syntax (preview)</source>
 <target>સિન્ટેક્સ (પૂર્વાવલોકન)</target></trans-unit>
@@ -492,8 +483,8 @@
   <source>Reset Canvas</source>
 <target>કૅનવાસ રીસેટ કરો</target></trans-unit>
 <trans-unit id="hee3c66c7df58c59e">
-  <source>Hold <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> to temporarily hide the toolbar overlay.</source>
-<target>ટૂલબાર ઓવરલે અસ્થાયી રૂપે છુપાવવા <x id="0" equiv-text="&lt;kbd&gt;" />T<x id="1" equiv-text="&lt;/kbd&gt;" /> દબાવી રાખો.</target></trans-unit>
+  <source>Hold <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.</source>
+<target>ટૂલબાર ઓવરલે અસ્થાયી રૂપે છુપાવવા <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> દબાવી રાખો.</target></trans-unit>
 <trans-unit id="s3643189d1abbb7f4">
   <source>Code</source>
 <target>કોડ</target></trans-unit>
@@ -506,6 +497,14 @@
 <trans-unit id="s8dfcedb8b2d680cd">
   <source>Builder settings</source>
 <target>બિલ્ડર સેટિંગ્સ</target></trans-unit>
+<trans-unit id="sf71c79de504af8f7">
+  <source>Interactive content: open the document online</source>
+  <target>ઇન્ટરેક્ટિવ સામગ્રી: દસ્તાવેજ ઑનલાઇન ખોલો</target>
+</trans-unit>
+<trans-unit id="s0700f1d153359a0e">
+  <source>The file is not a website builder file.</source>
+  <target>આ ફાઇલ વેબસાઇટ બનાવવાના સાધનની નથી.</target>
+</trans-unit>
 </body>
 </file>
 </xliff>

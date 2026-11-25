@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `所有组件`,
 's068d4dd16d9106d0': `图标`,
 's06fd2f8b555158a4': `区域`,
+'s0700f1d153359a0e': `该文件不是网站构建器文件。`,
 's072c3c42e24456af': `输入标题……`,
 's079cf7850d9327f0': `字体`,
 's08b05407b5565ca4': `或`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `标题文本`,
 's09d3e1c6cc8700b9': `高度（例如 10px、0.5rem）`,
 's0b786a0e85eb6783': `边框半径`,
-'s0bdef849e0480d0e': `拖动至画布 · 点击查看详情`,
-'s0d2f74dc9c0833a2': `拖动至画布上。点击“插入”以在默认位置添加。`,
 's0fef364f29f8ffc1': `宽度（例如 300px、20rem）`,
 's1125d159f7e64df5': `显示`,
 's1219d97b49650c05': `可见性`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `取消分组`,
 's5590dbf7e425789d': `标签`,
 's56786c3f3e37cefa': `输入文本区域占位符……`,
-'s569ed106bd3565e4': str`切换到 ${0} 布局`,
 's56b2da93a4b8874e': `上传音频`,
 's599dcd2472c75c19': `段落`,
 's5a053ed77fa9c1bc': `调整自身`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `宽度`,
 'sf43739275a48c99c': `链接文本`,
 'sf60963b73764eca2': `宽大的主区域配以窄侧边栏`,
+'sf71c79de504af8f7': `交互内容：请在线打开文档`,
 'sf79bbcb9f92e4d35': `对象适配`,
 'sfc5542fcfe78b99b': `添加组件`,
 'sfc83e9eb133d7361': `居中堆叠`,

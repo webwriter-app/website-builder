@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Il-komponenti kollha`,
 's068d4dd16d9106d0': `Ikona`,
 's06fd2f8b555158a4': `Żona`,
+'s0700f1d153359a0e': `Dan mhuwiex fajl tal-għodda għall-bini ta’ siti web.`,
 's072c3c42e24456af': `Daħħal intestatura…`,
 's079cf7850d9327f0': `Tipa`,
 's08b05407b5565ca4': `jew`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Test tal-intestatura`,
 's09d3e1c6cc8700b9': `Għoli (eż. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Raġġ tal-bordura`,
-'s0bdef849e0480d0e': `Ġib fuq il-kanvas · Ikklikkja għall-informazzjoni`,
-'s0d2f74dc9c0833a2': `Ġib biex tqiegħed fuq il-kanvas. Ikklikkja Daħħal biex iżżid fil-pożizzjoni awtomatika.`,
 's0fef364f29f8ffc1': `Wisa’ (eż. 300px, 20rem)`,
 's1125d159f7e64df5': `Wiri`,
 's1219d97b49650c05': `Viżibbiltà`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Ħoll il-grupp`,
 's5590dbf7e425789d': `Tikketta`,
 's56786c3f3e37cefa': `Daħħal test temporanju…`,
-'s569ed106bd3565e4': str`Ibdel id-disinn għal ${0}`,
 's56b2da93a4b8874e': `Tella’ awdjo`,
 's599dcd2472c75c19': `Paragrafu`,
 's5a053ed77fa9c1bc': `Allinja lilek innifsek`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Wisa’`,
 'sf43739275a48c99c': `Test tal-link`,
 'sf60963b73764eca2': `Żona ewlenija wiesgħa bi strixxa dejqa tal-ġenb`,
+'sf71c79de504af8f7': `Kontenut interattiv: iftaħ id-dokument online`,
 'sf79bbcb9f92e4d35': `Adattament tal-oġġett`,
 'sfc5542fcfe78b99b': `Żid komponent`,
 'sfc83e9eb133d7361': `Munzell iċċentrat`,

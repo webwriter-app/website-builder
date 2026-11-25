@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Semua komponen`,
 's068d4dd16d9106d0': `Ikon`,
 's06fd2f8b555158a4': `Kawasan`,
+'s0700f1d153359a0e': `Fail ini bukan fail daripada pembina laman web.`,
 's072c3c42e24456af': `Masukkan tajuk…`,
 's079cf7850d9327f0': `Fon`,
 's08b05407b5565ca4': `atau`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Teks tajuk`,
 's09d3e1c6cc8700b9': `Tinggi (cth. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Jejari bucu`,
-'s0bdef849e0480d0e': `Seret ke kanvas · Klik untuk maklumat`,
-'s0d2f74dc9c0833a2': `Seret untuk meletakkan pada kanvas. Klik Sisipkan untuk menambah pada kedudukan lalai.`,
 's0fef364f29f8ffc1': `Lebar (cth. 300px, 20rem)`,
 's1125d159f7e64df5': `Paparan`,
 's1219d97b49650c05': `Keterlihatan`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Nyahkumpul`,
 's5590dbf7e425789d': `Label`,
 's56786c3f3e37cefa': `Masukkan petunjuk ruang teks…`,
-'s569ed106bd3565e4': str`Tukar reka letak kepada ${0}`,
 's56b2da93a4b8874e': `Muat naik audio`,
 's599dcd2472c75c19': `Perenggan`,
 's5a053ed77fa9c1bc': `Penjajaran sendiri`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Lebar`,
 'sf43739275a48c99c': `Teks pautan`,
 'sf60963b73764eca2': `Kawasan utama yang lebar dengan bar sisi yang sempit`,
+'sf71c79de504af8f7': `Kandungan interaktif: buka dokumen dalam talian`,
 'sf79bbcb9f92e4d35': `Cara imej dimuatkan dalam bingkai`,
 'sfc5542fcfe78b99b': `Tambah komponen`,
 'sfc83e9eb133d7361': `Susunan Menegak di Tengah`,

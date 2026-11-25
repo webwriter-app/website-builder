@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Vijenzi vyote`,
 's068d4dd16d9106d0': `Aikoni`,
 's06fd2f8b555158a4': `Eneo`,
+'s0700f1d153359a0e': `Faili hii si ya zana ya kuunda tovuti.`,
 's072c3c42e24456af': `Andika kichwa…`,
 's079cf7850d9327f0': `Fonti`,
 's08b05407b5565ca4': `au`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Maandishi ya kichwa`,
 's09d3e1c6cc8700b9': `Urefu (mf. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Kiwango cha kuzungusha pembe`,
-'s0bdef849e0480d0e': `Buruta hadi eneo la kazi · Bofya kwa maelezo`,
-'s0d2f74dc9c0833a2': `Buruta ili uweke kwenye eneo la kazi. Bofya Ingiza ili uongeze katika nafasi chaguomsingi.`,
 's0fef364f29f8ffc1': `Upana (mf. 300px, 20rem)`,
 's1125d159f7e64df5': `Onyesho`,
 's1219d97b49650c05': `Mwonekano`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Tenganisha kundi`,
 's5590dbf7e425789d': `Lebo`,
 's56786c3f3e37cefa': `Andika kidokezo cha sehemu ya maandishi…`,
-'s569ed106bd3565e4': str`Badili mpangilio uwe ${0}`,
 's56b2da93a4b8874e': `Pakia sauti`,
 's599dcd2472c75c19': `Aya`,
 's5a053ed77fa9c1bc': `Mpangilio wa kipengee`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Upana`,
 'sf43739275a48c99c': `Maandishi ya kiungo`,
 'sf60963b73764eca2': `Eneo kuu pana lenye utepe mwembamba wa kando`,
+'sf71c79de504af8f7': `Maudhui shirikishi: fungua hati mtandaoni`,
 'sf79bbcb9f92e4d35': `Jinsi picha inavyotoshea`,
 'sfc5542fcfe78b99b': `Ongeza kijenzi`,
 'sfc83e9eb133d7361': `Rundo lililowekwa katikati`,

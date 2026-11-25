@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Pob cydran`,
 's068d4dd16d9106d0': `Eicon`,
 's06fd2f8b555158a4': `Ardal`,
+'s0700f1d153359a0e': `Nid ffeil o'r adeiladydd gwefannau yw hon.`,
 's072c3c42e24456af': `Rho bennawd…`,
 's079cf7850d9327f0': `Ffont`,
 's08b05407b5565ca4': `neu`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Testun pennawd`,
 's09d3e1c6cc8700b9': `Uchder (e.e. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Radiws y ffin`,
-'s0bdef849e0480d0e': `Llusga i’r cynfas · Clicia am wybodaeth`,
-'s0d2f74dc9c0833a2': `Llusga i’w osod ar y cynfas. Clicia Mewnosod i’w ychwanegu yn y safle rhagosodedig.`,
 's0fef364f29f8ffc1': `Lled (e.e. 300px, 20rem)`,
 's1125d159f7e64df5': `Dangos`,
 's1219d97b49650c05': `Gwelededd`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Dadgrwpio`,
 's5590dbf7e425789d': `Label`,
 's56786c3f3e37cefa': `Rho destun dalfan…`,
-'s569ed106bd3565e4': str`Newid cynllun i ${0}`,
 's56b2da93a4b8874e': `Uwchlwytho sain`,
 's599dcd2472c75c19': `Paragraff`,
 's5a053ed77fa9c1bc': `Alinio eich hun`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Lled`,
 'sf43739275a48c99c': `Testun dolen`,
 'sf60963b73764eca2': `Prif ardal lydan gyda bar ochr cul`,
+'sf71c79de504af8f7': `Cynnwys rhyngweithiol: agorwch y ddogfen ar-lein`,
 'sf79bbcb9f92e4d35': `Ffit gwrthrych`,
 'sfc5542fcfe78b99b': `Ychwanegu cydran`,
 'sfc83e9eb133d7361': `Pentwr canolog`,

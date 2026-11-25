@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Gach comhpháirt`,
 's068d4dd16d9106d0': `Deilbhín`,
 's06fd2f8b555158a4': `Achar`,
+'s0700f1d153359a0e': `Ní comhad de chuid an uirlis tógála suíomhanna gréasáin é seo.`,
 's072c3c42e24456af': `Cuir ceannteideal isteach…`,
 's079cf7850d9327f0': `Cló`,
 's08b05407b5565ca4': `nó`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Téacs an cheannteidil`,
 's09d3e1c6cc8700b9': `Airde (m.sh. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Ga an imill`,
-'s0bdef849e0480d0e': `Tarraing chuig an chanbhás · Cliceáil le haghaidh eolais`,
-'s0d2f74dc9c0833a2': `Tarraing chun é a chur ar an gcanbhás. Cliceáil Ionsáigh chun é a chur ag an suíomh réamhshocraithe.`,
 's0fef364f29f8ffc1': `Leithead (m.sh. 300px, 20rem)`,
 's1125d159f7e64df5': `Taispeáint`,
 's1219d97b49650c05': `Infheictheacht`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Díghrúpáil`,
 's5590dbf7e425789d': `Lipéad`,
 's56786c3f3e37cefa': `Cuir ionadchoinneálaí an réimse téacs isteach…`,
-'s569ed106bd3565e4': str`Athraigh leagan amach go ${0}`,
 's56b2da93a4b8874e': `Uaslódáil fuaim`,
 's599dcd2472c75c19': `Alt`,
 's5a053ed77fa9c1bc': `Ailínigh tú féin`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Leithead`,
 'sf43739275a48c99c': `Téacs an naisc`,
 'sf60963b73764eca2': `Príomhlimistéar leathan le barra taoibh cúng`,
+'sf71c79de504af8f7': `Ábhar idirghníomhach: oscail an cháipéis ar líne`,
 'sf79bbcb9f92e4d35': `Oiriúnú an réada`,
 'sfc5542fcfe78b99b': `Cuir comhpháirt leis`,
 'sfc83e9eb133d7361': `Cruach lárnaithe`,

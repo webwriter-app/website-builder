@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Osagai guztiak`,
 's068d4dd16d9106d0': `Ikonoa`,
 's06fd2f8b555158a4': `Area`,
+'s0700f1d153359a0e': `Fitxategia ez da webguneak sortzeko tresnarena.`,
 's072c3c42e24456af': `Idatzi goiburua…`,
 's079cf7850d9327f0': `Letra-tipoa`,
 's08b05407b5565ca4': `edo`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Goiburuaren testua`,
 's09d3e1c6cc8700b9': `Altuera (adib., 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Ertzaren erradioa`,
-'s0bdef849e0480d0e': `Arrastatu mihisera · Egin klik informazioa ikusteko`,
-'s0d2f74dc9c0833a2': `Arrastatu mihisean kokatzeko. Egin klik Txertatu botoian kokapen lehenetsian gehitzeko.`,
 's0fef364f29f8ffc1': `Zabalera (adib., 300px, 20rem)`,
 's1125d159f7e64df5': `Bistaratzea`,
 's1219d97b49650c05': `Ikusgaitasuna`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Desmultzokatu`,
 's5590dbf7e425789d': `Etiketa`,
 's56786c3f3e37cefa': `Idatzi leku-markako testua…`,
-'s569ed106bd3565e4': str`Aldatu diseinua hona: ${0}`,
 's56b2da93a4b8874e': `Kargatu audioa`,
 's599dcd2472c75c19': `Paragrafoa`,
 's5a053ed77fa9c1bc': `Lerrokatu berez`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Zabalera`,
 'sf43739275a48c99c': `Estekaren testua`,
 'sf60963b73764eca2': `Eduki nagusiko area zabala alboko barra estuarekin`,
+'sf71c79de504af8f7': `Eduki interaktiboa: ireki dokumentua linean`,
 'sf79bbcb9f92e4d35': `Objektuaren doikuntza`,
 'sfc5542fcfe78b99b': `Gehitu osagaia`,
 'sfc83e9eb133d7361': `Pila zentratua`,

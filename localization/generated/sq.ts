@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Të gjithë komponentët`,
 's068d4dd16d9106d0': `Ikona`,
 's06fd2f8b555158a4': `Zona`,
+'s0700f1d153359a0e': `Skedari nuk është nga mjeti për ndërtimin e faqeve të internetit.`,
 's072c3c42e24456af': `Shkruaj titullin…`,
 's079cf7850d9327f0': `Fonti`,
 's08b05407b5565ca4': `ose`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Teksti i titullit`,
 's09d3e1c6cc8700b9': `Lartësia (p.sh. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Rrezja e kornizës`,
-'s0bdef849e0480d0e': `Tërhiqe në kanavacë · Kliko për informacion`,
-'s0d2f74dc9c0833a2': `Tërhiqe për ta vendosur në kanavacë. Kliko Fut për ta shtuar në pozicionin e paracaktuar.`,
 's0fef364f29f8ffc1': `Gjerësia (p.sh. 300px, 20rem)`,
 's1125d159f7e64df5': `Shfaqja`,
 's1219d97b49650c05': `Dukshmëria`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Shpërgrupo`,
 's5590dbf7e425789d': `Etiketa`,
 's56786c3f3e37cefa': `Shkruaj tekstin zëvendësues…`,
-'s569ed106bd3565e4': str`Ndrysho paraqitjen në ${0}`,
 's56b2da93a4b8874e': `Ngarko audio`,
 's599dcd2472c75c19': `Paragrafi`,
 's5a053ed77fa9c1bc': `Rreshto vetë`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Gjerësia`,
 'sf43739275a48c99c': `Teksti i lidhjes`,
 'sf60963b73764eca2': `Hapësirë e gjerë kryesore me shirit të ngushtë anësor`,
+'sf71c79de504af8f7': `Përmbajtje ndërvepruese: hape dokumentin në internet`,
 'sf79bbcb9f92e4d35': `Përshtatja e objektit`,
 'sfc5542fcfe78b99b': `Shto komponent`,
 'sfc83e9eb133d7361': `Grumbull i qendërzuar`,

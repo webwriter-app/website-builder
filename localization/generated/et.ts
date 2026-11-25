@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Kõik komponendid`,
 's068d4dd16d9106d0': `Ikoon`,
 's06fd2f8b555158a4': `Pindala`,
+'s0700f1d153359a0e': `See ei ole veebisaidi koostaja fail.`,
 's072c3c42e24456af': `Sisesta pealkiri…`,
 's079cf7850d9327f0': `Kirjasort`,
 's08b05407b5565ca4': `või`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Pealkirja tekst`,
 's09d3e1c6cc8700b9': `Kõrgus (nt 10px, 0,5rem)`,
 's0b786a0e85eb6783': `Serva raadius`,
-'s0bdef849e0480d0e': `Lohistage lõuendile · Klõpsake, et saada lisateavet`,
-'s0d2f74dc9c0833a2': `Lohistage see lõuendile. Klõpsake nuppu „Sisesta“, et lisada see vaikimisi asukohta.`,
 's0fef364f29f8ffc1': `Laius (nt 300px, 20rem)`,
 's1125d159f7e64df5': `Näita`,
 's1219d97b49650c05': `Nähtavus`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Rühma lahti`,
 's5590dbf7e425789d': `Silt`,
 's56786c3f3e37cefa': `Sisesta tekstivälja asendustekst…`,
-'s569ed106bd3565e4': str`Muuda paigutuseks ${0}`,
 's56b2da93a4b8874e': `Laadi heli üles`,
 's599dcd2472c75c19': `Lõik`,
 's5a053ed77fa9c1bc': `Kohanda ise`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Laius`,
 'sf43739275a48c99c': `Linki tekst`,
 'sf60963b73764eca2': `Lai põhiosa ja kitsas külgriba`,
+'sf71c79de504af8f7': `Interaktiivne sisu: ava dokument veebis`,
 'sf79bbcb9f92e4d35': `Objekti sobivus`,
 'sfc5542fcfe78b99b': `Lisa komponent`,
 'sfc83e9eb133d7361': `Keskjoonele paigutatud piltide rida`,

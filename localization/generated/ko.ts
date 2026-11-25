@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `모든 구성 요소`,
 's068d4dd16d9106d0': `아이콘`,
 's06fd2f8b555158a4': `지역`,
+'s0700f1d153359a0e': `웹사이트 제작 도구의 파일이 아닙니다.`,
 's072c3c42e24456af': `제목을 입력하세요…`,
 's079cf7850d9327f0': `글꼴`,
 's08b05407b5565ca4': `또는`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `제목`,
 's09d3e1c6cc8700b9': `높이 (예: 10px, 0.5rem)`,
 's0b786a0e85eb6783': `모서리 반경`,
-'s0bdef849e0480d0e': `캔버스로 드래그 · 정보를 보려면 클릭`,
-'s0d2f74dc9c0833a2': `캔버스 위로 드래그하여 배치하세요. ‘삽입’을 클릭하면 기본 위치에 추가됩니다.`,
 's0fef364f29f8ffc1': `너비 (예: 300px, 20rem)`,
 's1125d159f7e64df5': `표시`,
 's1219d97b49650c05': `가시성`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `그룹 해제`,
 's5590dbf7e425789d': `라벨`,
 's56786c3f3e37cefa': `텍스트 영역의 기본 텍스트를 입력하세요…`,
-'s569ed106bd3565e4': str`레이아웃을 ${0}(으)로 전환`,
 's56b2da93a4b8874e': `오디오 업로드`,
 's599dcd2472c75c19': `문단`,
 's5a053ed77fa9c1bc': `자세 바로잡기`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `너비`,
 'sf43739275a48c99c': `링크 텍스트`,
 'sf60963b73764eca2': `넓은 메인 영역과 좁은 사이드바`,
+'sf71c79de504af8f7': `대화형 콘텐츠: 문서를 온라인에서 여세요`,
 'sf79bbcb9f92e4d35': `객체 맞춤`,
 'sfc5542fcfe78b99b': `구성 요소 추가`,
 'sfc83e9eb133d7361': `중앙 정렬된 스택`,

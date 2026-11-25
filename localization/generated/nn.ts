@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Alle komponentar`,
 's068d4dd16d9106d0': `Ikon`,
 's06fd2f8b555158a4': `Område`,
+'s0700f1d153359a0e': `Fila er ikkje frå nettstadbyggjaren.`,
 's072c3c42e24456af': `Skriv inn overskrift…`,
 's079cf7850d9327f0': `Skrift`,
 's08b05407b5565ca4': `eller`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Overskriftstekst`,
 's09d3e1c6cc8700b9': `Høgd (t.d. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Kantradius`,
-'s0bdef849e0480d0e': `Dra til lerretet · Klikk for info`,
-'s0d2f74dc9c0833a2': `Dra for å plassere på lerretet. Klikk Set inn for å leggje til på standardplasseringa.`,
 's0fef364f29f8ffc1': `Breidd (t.d. 300px, 20rem)`,
 's1125d159f7e64df5': `Vising`,
 's1219d97b49650c05': `Synlegheit`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Opphev gruppering`,
 's5590dbf7e425789d': `Etikett`,
 's56786c3f3e37cefa': `Skriv inn plasshaldar for tekstområdet…`,
-'s569ed106bd3565e4': str`Byt oppsett til ${0}`,
 's56b2da93a4b8874e': `Last opp lyd`,
 's599dcd2472c75c19': `Avsnitt`,
 's5a053ed77fa9c1bc': `Juster sjølv`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Breidd`,
 'sf43739275a48c99c': `Lenketekst`,
 'sf60963b73764eca2': `Breitt hovudområde med smalt sidefelt`,
+'sf71c79de504af8f7': `Interaktivt innhald: opne dokumentet på nettet`,
 'sf79bbcb9f92e4d35': `Objektpassform`,
 'sfc5542fcfe78b99b': `Legg til komponent`,
 'sfc83e9eb133d7361': `Midtstilt stabel`,

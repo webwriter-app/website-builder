@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Tutti i componenti`,
 's068d4dd16d9106d0': `Icona`,
 's06fd2f8b555158a4': `Area`,
+'s0700f1d153359a0e': `Il file non appartiene allo strumento di creazione di siti web.`,
 's072c3c42e24456af': `Inserisci titolo…`,
 's079cf7850d9327f0': `Carattere`,
 's08b05407b5565ca4': `oppure`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Titolo`,
 's09d3e1c6cc8700b9': `Altezza (ad es. 10px, 0,5rem)`,
 's0b786a0e85eb6783': `Raggio del bordo`,
-'s0bdef849e0480d0e': `Trascina sulla tela · Clicca per maggiori informazioni`,
-'s0d2f74dc9c0833a2': `Trascina per posizionarlo sulla tela. Fai clic su «Inserisci» per aggiungerlo nella posizione predefinita.`,
 's0fef364f29f8ffc1': `Larghezza (ad es. 300px, 20rem)`,
 's1125d159f7e64df5': `Visualizza`,
 's1219d97b49650c05': `Visibilità`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Separa`,
 's5590dbf7e425789d': `Etichetta`,
 's56786c3f3e37cefa': `Inserisci il testo di esempio per l'area di testo…`,
-'s569ed106bd3565e4': str`Passa al layout ${0}`,
 's56b2da93a4b8874e': `Carica audio`,
 's599dcd2472c75c19': `Paragrafo`,
 's5a053ed77fa9c1bc': `Allineare se stessi`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Larghezza`,
 'sf43739275a48c99c': `Testo del link`,
 'sf60963b73764eca2': `Ampia area principale con una barra laterale stretta`,
+'sf71c79de504af8f7': `Contenuto interattivo: apri il documento online`,
 'sf79bbcb9f92e4d35': `Adattamento dell'oggetto`,
 'sfc5542fcfe78b99b': `Aggiungi componente`,
 'sfc83e9eb133d7361': `Pila centrata`,

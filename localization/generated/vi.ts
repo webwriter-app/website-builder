@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Tất cả thành phần`,
 's068d4dd16d9106d0': `Biểu tượng`,
 's06fd2f8b555158a4': `Vùng`,
+'s0700f1d153359a0e': `Tệp này không phải là tệp của công cụ tạo trang web.`,
 's072c3c42e24456af': `Nhập tiêu đề…`,
 's079cf7850d9327f0': `Phông chữ`,
 's08b05407b5565ca4': `hoặc`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Văn bản tiêu đề`,
 's09d3e1c6cc8700b9': `Chiều cao (vd. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Bán kính bo góc`,
-'s0bdef849e0480d0e': `Kéo vào vùng thiết kế · Bấm để xem thông tin`,
-'s0d2f74dc9c0833a2': `Kéo để đặt vào vùng thiết kế. Bấm Chèn để thêm ở vị trí mặc định.`,
 's0fef364f29f8ffc1': `Chiều rộng (vd. 300px, 20rem)`,
 's1125d159f7e64df5': `Hiển thị`,
 's1219d97b49650c05': `Hiển thị`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Bỏ nhóm`,
 's5590dbf7e425789d': `Nhãn`,
 's56786c3f3e37cefa': `Nhập gợi ý trong vùng nhập…`,
-'s569ed106bd3565e4': str`Đổi bố cục sang ${0}`,
 's56b2da93a4b8874e': `Tải âm thanh lên`,
 's599dcd2472c75c19': `Đoạn văn`,
 's5a053ed77fa9c1bc': `Căn chỉnh riêng`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Chiều rộng`,
 'sf43739275a48c99c': `Văn bản liên kết`,
 'sf60963b73764eca2': `Vùng nội dung chính rộng với thanh bên hẹp`,
+'sf71c79de504af8f7': `Nội dung tương tác: mở tài liệu trực tuyến`,
 'sf79bbcb9f92e4d35': `Cách ảnh vừa khung`,
 'sfc5542fcfe78b99b': `Thêm thành phần`,
 'sfc83e9eb133d7361': `Xếp dọc căn giữa`,

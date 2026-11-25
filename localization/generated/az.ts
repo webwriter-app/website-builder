@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Bütün komponentlər`,
 's068d4dd16d9106d0': `İşarə`,
 's06fd2f8b555158a4': `Sahə`,
+'s0700f1d153359a0e': `Bu fayl veb-sayt yaratma alətinə aid deyil.`,
 's072c3c42e24456af': `Başlıq daxil edin…`,
 's079cf7850d9327f0': `Şrift`,
 's08b05407b5565ca4': `və ya`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Başlığın mətni`,
 's09d3e1c6cc8700b9': `Hündürlük (məs. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Künclərin yuvarlaqlıq radiusu`,
-'s0bdef849e0480d0e': `İş sahəsinə sürükləyin · Məlumat üçün klikləyin`,
-'s0d2f74dc9c0833a2': `İş sahəsində yerləşdirmək üçün sürükləyin. Standart mövqeyə əlavə etmək üçün «Yerləşdir» düyməsini klikləyin.`,
 's0fef364f29f8ffc1': `En (məs. 300px, 20rem)`,
 's1125d159f7e64df5': `Göstəriş`,
 's1219d97b49650c05': `Görünmə`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Qrupu ayır`,
 's5590dbf7e425789d': `Etiket`,
 's56786c3f3e37cefa': `Mətn sahəsinin ipucunu daxil edin…`,
-'s569ed106bd3565e4': str`Düzülüşü ${0} olaraq dəyiş`,
 's56b2da93a4b8874e': `Audio yüklə`,
 's599dcd2472c75c19': `Abzas`,
 's5a053ed77fa9c1bc': `Bu elementi düzləndir`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `En`,
 'sf43739275a48c99c': `Keçidin mətni`,
 'sf60963b73764eca2': `Dar yan panelli geniş əsas sahə`,
+'sf71c79de504af8f7': `İnteraktiv məzmun: sənədi onlayn açın`,
 'sf79bbcb9f92e4d35': `Şəklin çərçivəyə yerləşməsi`,
 'sfc5542fcfe78b99b': `Komponent əlavə et`,
 'sfc83e9eb133d7361': `Ortada şaquli sıra`,

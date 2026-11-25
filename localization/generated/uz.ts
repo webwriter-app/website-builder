@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Barcha komponentlar`,
 's068d4dd16d9106d0': `Belgi`,
 's06fd2f8b555158a4': `Maydon`,
+'s0700f1d153359a0e': `Bu fayl veb-sayt yaratish vositasiga tegishli emas.`,
 's072c3c42e24456af': `Sarlavha kiriting…`,
 's079cf7850d9327f0': `Shrift`,
 's08b05407b5565ca4': `yoki`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Sarlavha matni`,
 's09d3e1c6cc8700b9': `Balandlik (masalan, 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Chegara radiusi`,
-'s0bdef849e0480d0e': `Kanvasga sudrang · Ma’lumot uchun bosing`,
-'s0d2f74dc9c0833a2': `Kanvasga joylash uchun sudrang. Standart joyda qo‘shish uchun «Kiritish» tugmasini bosing.`,
 's0fef364f29f8ffc1': `Kenglik (masalan, 300px, 20rem)`,
 's1125d159f7e64df5': `Ko‘rinish`,
 's1219d97b49650c05': `Ko‘rinish`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Guruhdan chiqarish`,
 's5590dbf7e425789d': `Yorliq`,
 's56786c3f3e37cefa': `O‘rinbosar matnini kiriting…`,
-'s569ed106bd3565e4': str`Maketni ${0} ga o‘zgartirish`,
 's56b2da93a4b8874e': `Audio yuklash`,
 's599dcd2472c75c19': `Xatboshi`,
 's5a053ed77fa9c1bc': `O‘zini tekislash`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Kenglik`,
 'sf43739275a48c99c': `Havola matni`,
 'sf60963b73764eca2': `Tor yon paneli bo‘lgan keng asosiy maydon`,
+'sf71c79de504af8f7': `Interaktiv kontent: hujjatni onlayn oching`,
 'sf79bbcb9f92e4d35': `Obyektni joylashtirish`,
 'sfc5542fcfe78b99b': `Komponent qo‘shish`,
 'sfc83e9eb133d7361': `Markazlangan ustun`,

@@ -3,7 +3,7 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,7 @@
 's0442a59427632f08': `Dhammaan qaybaha`,
 's068d4dd16d9106d0': `Astaan`,
 's06fd2f8b555158a4': `Aag`,
+'s0700f1d153359a0e': `Faylkani kama tirsana qalabka lagu dhiso mareegaha.`,
 's072c3c42e24456af': `Geli cinwaan…`,
 's079cf7850d9327f0': `Far`,
 's08b05407b5565ca4': `ama`,
@@ -22,8 +23,6 @@
 's094eb0fadccf24d8': `Qoraalka cinwaanka`,
 's09d3e1c6cc8700b9': `Dherer (tusaale 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Wareegga xadka`,
-'s0bdef849e0480d0e': `U jiid canvas-ka · Guji xogta`,
-'s0d2f74dc9c0833a2': `U jiid si aad canvas-ka u dhigto. Guji Geli si loogu daro booska caadiga ah.`,
 's0fef364f29f8ffc1': `Ballac (tusaale 300px, 20rem)`,
 's1125d159f7e64df5': `Bandhig`,
 's1219d97b49650c05': `Muuqaal`,
@@ -73,7 +72,6 @@
 's536ea6b320f9600d': `Kala saar`,
 's5590dbf7e425789d': `Summad`,
 's56786c3f3e37cefa': `Geli qoraalka meel-buuxinta…`,
-'s569ed106bd3565e4': str`Qaabaynta u beddel ${0}`,
 's56b2da93a4b8874e': `Soo rar maqal`,
 's599dcd2472c75c19': `Faqrad`,
 's5a053ed77fa9c1bc': `Isu hagaaji nafta`,
@@ -171,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Ballac`,
 'sf43739275a48c99c': `Qoraalka xiriirka`,
 'sf60963b73764eca2': `Aag weyn iyo dhinac cidhiidhi ah`,
+'sf71c79de504af8f7': `Nuxur isdhexgal ah: dukumentiga khadka internetka ka fur`,
 'sf79bbcb9f92e4d35': `Object Fit`,
 'sfc5542fcfe78b99b': `Ku dar qayb`,
 'sfc83e9eb133d7361': `Isku-dubbarid dhexe`,
