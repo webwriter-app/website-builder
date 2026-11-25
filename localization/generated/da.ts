@@ -3,21 +3,19 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Hold 
-          <kbd> T
-          </kbd> nede for midlertidigt at skjule værktøjslinjens overlay.
-        `,
+      'hee3c66c7df58c59e': html`Hold <kbd>T</kbd> nede for midlertidigt at skjule den flydende værktøjslinje.`,
 's0312976fe9da5951': `Knap`,
 's03c44f5a1b0581d4': `valgt`,
 's0442a59427632f08': `Alle komponenter`,
 's068d4dd16d9106d0': `Ikon`,
 's06fd2f8b555158a4': `Område`,
+'s0700f1d153359a0e': `Filen er ikke en fil fra hjemmesidebyggeren.`,
 's072c3c42e24456af': `Indtast overskrift…`,
 's079cf7850d9327f0': `Skrifttype`,
 's08b05407b5565ca4': `eller`,
@@ -25,8 +23,6 @@
 's094eb0fadccf24d8': `Overskrift`,
 's09d3e1c6cc8700b9': `Højde (f.eks. 10px, 0,5rem)`,
 's0b786a0e85eb6783': `Kantradius`,
-'s0bdef849e0480d0e': `Træk til lærredet · Klik for mere info`,
-'s0d2f74dc9c0833a2': `Træk for at placere på lærredet. Klik på Indsæt for at tilføje på standardplaceringen.`,
 's0fef364f29f8ffc1': `Bredde (f.eks. 300px, 20rem)`,
 's1125d159f7e64df5': `Visning`,
 's1219d97b49650c05': `Synlighed`,
@@ -76,9 +72,6 @@
 's536ea6b320f9600d': `Ophæv gruppering`,
 's5590dbf7e425789d': `Etiket`,
 's56786c3f3e37cefa': `Indtast tekstfeltets stedholder…`,
-'s569ed106bd3565e4': str`Skift layout til 
-          ${0}
-        `,
 's56b2da93a4b8874e': `Upload lyd`,
 's599dcd2472c75c19': `Afsnit`,
 's5a053ed77fa9c1bc': `Juster mig selv`,
@@ -107,6 +100,7 @@
 's861fdb0670b22561': `Kolonneafstand`,
 's88f5053fccdf0a61': `skjul kant`,
 's89ba1ee1ccee063b': `Beskriv videoen (tilgængelighed)`,
+'s8dfcedb8b2d680cd': `Indstillinger for webstedsbygger`,
 's8e43508f1392e94d': `Tekstfarve`,
 's8e985aeeca6a8166': `Hvid`,
 's8f18916860db5d80': `Ryd valg`,
@@ -175,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Bredde`,
 'sf43739275a48c99c': `Linktekst`,
 'sf60963b73764eca2': `Bredt hovedområde med en smal sidebjælke`,
+'sf71c79de504af8f7': `Interaktivt indhold: Åbn dokumentet online`,
 'sf79bbcb9f92e4d35': `Objektets pasform`,
 'sfc5542fcfe78b99b': `Tilføj komponent`,
 'sfc83e9eb133d7361': `Centreret stak`,
@@ -182,4 +177,3 @@
 'sff9d51b6c5a73163': `Alternativ tekst`,
 'sffdadf0a576fd802': `Højde`,
     };
-  

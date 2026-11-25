@@ -3,20 +3,19 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Halten Sie 
-          <kbd>T</kbd> gedrückt, um die Symbolleisten-Einblendung vorübergehend auszublenden.
-        `,
+      'hee3c66c7df58c59e': html`<kbd>T</kbd> gedrückt halten, um die eingeblendete Werkzeugleiste vorübergehend auszublenden.`,
 's0312976fe9da5951': `Button`,
 's03c44f5a1b0581d4': `ausgewählt`,
 's0442a59427632f08': `Alle Komponenten`,
 's068d4dd16d9106d0': `Icon`,
 's06fd2f8b555158a4': `Gebiet`,
+'s0700f1d153359a0e': `Die Datei stammt nicht aus dem Website-Baukasten.`,
 's072c3c42e24456af': `Überschrift eingeben…`,
 's079cf7850d9327f0': `Schriftart`,
 's08b05407b5565ca4': `oder`,
@@ -24,8 +23,6 @@
 's094eb0fadccf24d8': `Überschrift-Text`,
 's09d3e1c6cc8700b9': `Höhe (z. B. 10px, 0.5rem)`,
 's0b786a0e85eb6783': `Randradius`,
-'s0bdef849e0480d0e': `Auf die Arbeitsfläche ziehen · Für weitere Informationen hier klicken`,
-'s0d2f74dc9c0833a2': `Per Drag &amp; Drop auf die Arbeitsfläche ziehen. Klicken Sie auf „Einfügen“, um das Element an der Standardposition einzufügen.`,
 's0fef364f29f8ffc1': `Breite (z. B. 300px, 20rem)`,
 's1125d159f7e64df5': `Anzeige`,
 's1219d97b49650c05': `Sichtbarkeit`,
@@ -75,9 +72,6 @@
 's536ea6b320f9600d': `Gruppierung aufheben`,
 's5590dbf7e425789d': `Beschriftung`,
 's56786c3f3e37cefa': `Geben Sie den Platzhalter für das Textfeld ein …`,
-'s569ed106bd3565e4': str`Layout wechseln zu 
-          ${0}
-        `,
 's56b2da93a4b8874e': `Audio hochladen`,
 's599dcd2472c75c19': `Absatz`,
 's5a053ed77fa9c1bc': `Selbst ausrichten`,
@@ -106,6 +100,7 @@
 's861fdb0670b22561': `Spaltenbreite`,
 's88f5053fccdf0a61': `Rahmen ausblenden`,
 's89ba1ee1ccee063b': `Beschreiben Sie das Video (Barrierefreiheit)`,
+'s8dfcedb8b2d680cd': `Baukasten-Einstellungen`,
 's8e43508f1392e94d': `Textfarbe`,
 's8e985aeeca6a8166': `Weiß`,
 's8f18916860db5d80': `Auswahl löschen`,
@@ -174,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Breite`,
 'sf43739275a48c99c': `Linktext`,
 'sf60963b73764eca2': `Breiter Hauptbereich mit einer schmalen Seitenleiste`,
+'sf71c79de504af8f7': `Interaktiver Inhalt: Öffne das Dokument online`,
 'sf79bbcb9f92e4d35': `Objektanpassung`,
 'sfc5542fcfe78b99b': `Komponente hinzufügen`,
 'sfc83e9eb133d7361': `Zentrierter Stapel`,
@@ -181,4 +177,3 @@
 'sff9d51b6c5a73163': `Alternativtext`,
 'sffdadf0a576fd802': `Höhe`,
     };
-  

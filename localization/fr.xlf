@@ -1,4 +1,5 @@
-<xliff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd" xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd" version="1.2">
   <file original="lit-localize-inputs" datatype="plaintext" source-language="en" target-language="fr">
     <body>
       <trans-unit id="s4a5341646123f8ce">
@@ -249,22 +250,6 @@
         <source>Clear selection</source>
         <target>Effacer la sélection</target>
       </trans-unit>
-      <trans-unit id="s569ed106bd3565e4">
-        <source>Switch layout to 
-          <x id="0" equiv-text="${mode}"/>
-        </source>
-        <target>Changer la disposition du clavier pour 
-          <x id="0" equiv-text="${mode}"/>
-        </target>
-      </trans-unit>
-      <trans-unit id="s0bdef849e0480d0e">
-        <source>Drag to canvas · Click for info</source>
-        <target>Faites glisser vers la zone de travail · Cliquez pour plus d'informations</target>
-      </trans-unit>
-      <trans-unit id="s0d2f74dc9c0833a2">
-        <source>Drag to place on canvas. Click Insert to add at default position.</source>
-        <target>Faites glisser pour le placer sur le canevas. Cliquez sur « Insérer » pour l'ajouter à l'emplacement par défaut.</target>
-      </trans-unit>
       <trans-unit id="sbba25f7b32fdf484">
         <source>Button text</source>
         <target>Texte du bouton</target>
@@ -510,15 +495,8 @@
         <target>Code</target>
       </trans-unit>
       <trans-unit id="hee3c66c7df58c59e">
-        <source>Hold 
-          <x id="0" equiv-text="&lt;kbd&gt;"/>T
-          <x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.
-        </source>
-        <target>Maintenez enfoncées les touches 
-          <x id="0" equiv-text="&lt;kbd&gt;"/> T
-          <x id="1" equiv-text="&lt;/kbd&gt;"/> pour masquer temporairement la barre d'outils.
-        </target>
-      </trans-unit>
+        <source>Hold <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> to temporarily hide the toolbar overlay.</source>
+<target>Maintenez <x id="0" equiv-text="&lt;kbd&gt;"/>T<x id="1" equiv-text="&lt;/kbd&gt;"/> enfoncée pour masquer temporairement la barre d’outils superposée.</target></trans-unit>
       <trans-unit id="s33054d1d675674c9">
         <source>Freeform</source>
         <target>Forme libre</target>
@@ -679,6 +657,17 @@
         <source>Fullscreen</source>
         <target>Plein écran</target>
       </trans-unit>
-    </body>
+    <trans-unit id="s8dfcedb8b2d680cd">
+  <source>Builder settings</source>
+<target>Paramètres du constructeur</target></trans-unit>
+<trans-unit id="sf71c79de504af8f7">
+  <source>Interactive content: open the document online</source>
+  <target>Contenu interactif : ouvrez le document en ligne</target>
+</trans-unit>
+<trans-unit id="s0700f1d153359a0e">
+  <source>The file is not a website builder file.</source>
+  <target>Ce fichier n'est pas un fichier du créateur de sites Web.</target>
+</trans-unit>
+</body>
   </file>
 </xliff>

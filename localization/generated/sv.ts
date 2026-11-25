@@ -3,21 +3,19 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Håll ned 
-          <kbd> T
-          </kbd> för att tillfälligt dölja verktygsfältets överlägg.
-        `,
+      'hee3c66c7df58c59e': html`Håll <kbd>T</kbd> nedtryckt för att tillfälligt dölja det flytande verktygsfältet.`,
 's0312976fe9da5951': `Knapp`,
 's03c44f5a1b0581d4': `vald`,
 's0442a59427632f08': `Alla komponenter`,
 's068d4dd16d9106d0': `Ikon`,
 's06fd2f8b555158a4': `Område`,
+'s0700f1d153359a0e': `Filen är inte en fil från webbatsbyggaren.`,
 's072c3c42e24456af': `Ange rubrik…`,
 's079cf7850d9327f0': `Teckensnitt`,
 's08b05407b5565ca4': `eller`,
@@ -25,8 +23,6 @@
 's094eb0fadccf24d8': `Rubriktext`,
 's09d3e1c6cc8700b9': `Höjd (t.ex. 10px, 0,5rem)`,
 's0b786a0e85eb6783': `Kantradie`,
-'s0bdef849e0480d0e': `Dra till arbetsytan · Klicka för mer information`,
-'s0d2f74dc9c0833a2': `Dra för att placera på arbetsytan. Klicka på Infoga för att lägga till på standardpositionen.`,
 's0fef364f29f8ffc1': `Bredd (t.ex. 300px, 20rem)`,
 's1125d159f7e64df5': `Visning`,
 's1219d97b49650c05': `Synlighet`,
@@ -76,9 +72,6 @@
 's536ea6b320f9600d': `Avmarkera`,
 's5590dbf7e425789d': `Etikett`,
 's56786c3f3e37cefa': `Skriv in platshållare för textfältet…`,
-'s569ed106bd3565e4': str`Ändra layout till 
-          ${0}
-        `,
 's56b2da93a4b8874e': `Ladda upp ljud`,
 's599dcd2472c75c19': `Stycke`,
 's5a053ed77fa9c1bc': `Rikta in dig själv`,
@@ -107,6 +100,7 @@
 's861fdb0670b22561': `Kolumnavstånd`,
 's88f5053fccdf0a61': `dölj kantlinjen`,
 's89ba1ee1ccee063b': `Beskriv videon (tillgänglighet)`,
+'s8dfcedb8b2d680cd': `Inställningar för webbplatsbyggaren`,
 's8e43508f1392e94d': `Textfärg`,
 's8e985aeeca6a8166': `Vit`,
 's8f18916860db5d80': `Rensa urvalet`,
@@ -175,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Bredd`,
 'sf43739275a48c99c': `Länktext`,
 'sf60963b73764eca2': `Ett brett huvudområde med en smal sidofält`,
+'sf71c79de504af8f7': `Interaktivt innehåll: öppna dokumentet online`,
 'sf79bbcb9f92e4d35': `Objektpassning`,
 'sfc5542fcfe78b99b': `Lägg till komponent`,
 'sfc83e9eb133d7361': `Centrerad stapel`,
@@ -182,4 +177,3 @@
 'sff9d51b6c5a73163': `Alternativtext`,
 'sffdadf0a576fd802': `Höjd`,
     };
-  

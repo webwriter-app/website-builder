@@ -3,21 +3,19 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Laikykite 
-          <kbd> T
-          </kbd> , kad laikinai paslėptumėte įrankių juostos perdangą.
-        `,
+      'hee3c66c7df58c59e': html`Laikykite nuspaudę <kbd>T</kbd>, kad laikinai paslėptumėte slankiąją įrankių juostą.`,
 's0312976fe9da5951': `Mygtukas`,
 's03c44f5a1b0581d4': `pasirinkta`,
 's0442a59427632f08': `Visi komponentai`,
 's068d4dd16d9106d0': `Piktograma`,
 's06fd2f8b555158a4': `Plotas`,
+'s0700f1d153359a0e': `Tai nėra svetainių kūrimo įrankio failas.`,
 's072c3c42e24456af': `Įveskite antraštę…`,
 's079cf7850d9327f0': `Šriftas`,
 's08b05407b5565ca4': `arba`,
@@ -25,8 +23,6 @@
 's094eb0fadccf24d8': `Antraštės tekstas`,
 's09d3e1c6cc8700b9': `Aukštis (pvz., 10 pikselių, 0,5 rem)`,
 's0b786a0e85eb6783': `Kampų spindulys`,
-'s0bdef849e0480d0e': `Pervilkite ant drobės · Spustelėkite, norėdami gauti informacijos`,
-'s0d2f74dc9c0833a2': `Pervilkite ant drobės. Spustelėkite „Įterpti“, kad elementas būtų įterptas numatytoje vietoje.`,
 's0fef364f29f8ffc1': `Plotis (pvz., 300 pikselių, 20 rem)`,
 's1125d159f7e64df5': `Ekranas`,
 's1219d97b49650c05': `Matomumas`,
@@ -76,9 +72,6 @@
 's536ea6b320f9600d': `Atšaukti grupavimą`,
 's5590dbf7e425789d': `Etiketė`,
 's56786c3f3e37cefa': `Įveskite teksto laukelio vietos užpildą…`,
-'s569ed106bd3565e4': str`Pakeisti išdėstymą į 
-          ${0}
-        `,
 's56b2da93a4b8874e': `Įkelti garso įrašą`,
 's599dcd2472c75c19': `Skiltyje`,
 's5a053ed77fa9c1bc': `Suderinti save`,
@@ -107,6 +100,7 @@
 's861fdb0670b22561': `Stulpelio plotis`,
 's88f5053fccdf0a61': `paslėpti rėmelį`,
 's89ba1ee1ccee063b': `Aprašykite vaizdo įrašą (prieinamumas)`,
+'s8dfcedb8b2d680cd': `Svetainių kūrimo priemonės nuostatos`,
 's8e43508f1392e94d': `Teksto spalva`,
 's8e985aeeca6a8166': `Balta`,
 's8f18916860db5d80': `Išvalyti pasirinkimą`,
@@ -175,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Plotis`,
 'sf43739275a48c99c': `Nuorodos tekstas`,
 'sf60963b73764eca2': `Plati pagrindinė sritis su siauru šoniniu stulpeliu`,
+'sf71c79de504af8f7': `Interaktyvus turinys: atverkite dokumentą internete`,
 'sf79bbcb9f92e4d35': `Objekto pritaikymas`,
 'sfc5542fcfe78b99b': `Pridėti komponentą`,
 'sfc83e9eb133d7361': `Išlygintas stekas`,
@@ -182,4 +177,3 @@
 'sff9d51b6c5a73163': `Alternatyvusis tekstas`,
 'sffdadf0a576fd802': `Aukštis`,
     };
-  

@@ -3,21 +3,19 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Houd 
-          <kbd> T
-          </kbd> ingedrukt om de werkbalk tijdelijk te verbergen.
-        `,
+      'hee3c66c7df58c59e': html`Houd <kbd>T</kbd> ingedrukt om de zwevende werkbalk tijdelijk te verbergen.`,
 's0312976fe9da5951': `Knop`,
 's03c44f5a1b0581d4': `geselecteerd`,
 's0442a59427632f08': `Alle onderdelen`,
 's068d4dd16d9106d0': `Pictogram`,
 's06fd2f8b555158a4': `Gebied`,
+'s0700f1d153359a0e': `Het bestand is geen bestand van de websitebouwer.`,
 's072c3c42e24456af': `Voer een kop in…`,
 's079cf7850d9327f0': `Lettertype`,
 's08b05407b5565ca4': `of`,
@@ -25,8 +23,6 @@
 's094eb0fadccf24d8': `Koptekst`,
 's09d3e1c6cc8700b9': `Hoogte (bijv. 10px, 0,5rem)`,
 's0b786a0e85eb6783': `Hoekradius`,
-'s0bdef849e0480d0e': `Naar het werkvlak slepen · Klik voor meer informatie`,
-'s0d2f74dc9c0833a2': `Sleep het element naar het werkgebied. Klik op ‘Invoegen’ om het op de standaardpositie toe te voegen.`,
 's0fef364f29f8ffc1': `Breedte (bijv. 300px, 20rem)`,
 's1125d159f7e64df5': `Weergave`,
 's1219d97b49650c05': `Zichtbaarheid`,
@@ -76,9 +72,6 @@
 's536ea6b320f9600d': `Groep opheffen`,
 's5590dbf7e425789d': `Etiket`,
 's56786c3f3e37cefa': `Voer de tijdelijke tekst voor het tekstveld in…`,
-'s569ed106bd3565e4': str`Schakel de indeling over naar 
-          ${0}
-        `,
 's56b2da93a4b8874e': `Audio uploaden`,
 's599dcd2472c75c19': `Alinea`,
 's5a053ed77fa9c1bc': `Zichzelf afstemmen`,
@@ -107,6 +100,7 @@
 's861fdb0670b22561': `Kolomafstand`,
 's88f5053fccdf0a61': `rand verbergen`,
 's89ba1ee1ccee063b': `Beschrijf de video (toegankelijkheid)`,
+'s8dfcedb8b2d680cd': `Instellingen van de websitebouwer`,
 's8e43508f1392e94d': `Tekstkleur`,
 's8e985aeeca6a8166': `Wit`,
 's8f18916860db5d80': `Selectie wissen`,
@@ -175,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Breedte`,
 'sf43739275a48c99c': `Linktekst`,
 'sf60963b73764eca2': `Brede hoofdpagina met een smalle zijbalk`,
+'sf71c79de504af8f7': `Interactieve inhoud: open het document online`,
 'sf79bbcb9f92e4d35': `Objectaanpassing`,
 'sfc5542fcfe78b99b': `Component toevoegen`,
 'sfc83e9eb133d7361': `Gecentreerde stapel`,
@@ -182,4 +177,3 @@
 'sff9d51b6c5a73163': `Alternatieve tekst`,
 'sffdadf0a576fd802': `Hoogte`,
     };
-  

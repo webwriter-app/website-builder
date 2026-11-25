@@ -3,21 +3,19 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Pidä 
-          <kbd> T
-          </kbd> painettuna, jotta työkalurivin peittokuva piilotetaan väliaikaisesti.
-        `,
+      'hee3c66c7df58c59e': html`Piilota kelluva työkalupalkki tilapäisesti pitämällä <kbd>T</kbd>-näppäintä painettuna.`,
 's0312976fe9da5951': `Painike`,
 's03c44f5a1b0581d4': `valittu`,
 's0442a59427632f08': `Kaikki osat`,
 's068d4dd16d9106d0': `Kuvake`,
 's06fd2f8b555158a4': `Alue`,
+'s0700f1d153359a0e': `Tiedosto ei ole verkkosivuston rakennustyökalun tiedosto.`,
 's072c3c42e24456af': `Kirjoita otsikko…`,
 's079cf7850d9327f0': `Fontti`,
 's08b05407b5565ca4': `tai`,
@@ -25,8 +23,6 @@
 's094eb0fadccf24d8': `Otsikkoteksti`,
 's09d3e1c6cc8700b9': `Korkeus (esim. 10px, 0,5rem)`,
 's0b786a0e85eb6783': `Reunan kaarevuus`,
-'s0bdef849e0480d0e': `Vedä kankaalle · Napsauta saadaksesi lisätietoja`,
-'s0d2f74dc9c0833a2': `Vedä ja pudota kankaalle. Napsauta Lisää, jotta se lisätään oletuskohtaan.`,
 's0fef364f29f8ffc1': `Leveys (esim. 300px, 20rem)`,
 's1125d159f7e64df5': `Näyttö`,
 's1219d97b49650c05': `Näkyvyys`,
@@ -76,9 +72,6 @@
 's536ea6b320f9600d': `Poista ryhmä`,
 's5590dbf7e425789d': `Etiketti`,
 's56786c3f3e37cefa': `Kirjoita tekstikentän paikkamerkki…`,
-'s569ed106bd3565e4': str`Vaihda asetteluun 
-          ${0}
-        `,
 's56b2da93a4b8874e': `Lataa ääni`,
 's599dcd2472c75c19': `Kappale`,
 's5a053ed77fa9c1bc': `Kohdista itsesi`,
@@ -107,6 +100,7 @@
 's861fdb0670b22561': `Sarakkeen leveys`,
 's88f5053fccdf0a61': `piilota reunus`,
 's89ba1ee1ccee063b': `Kuvaile videota (esteettömyys)`,
+'s8dfcedb8b2d680cd': `Sivunrakentajan asetukset`,
 's8e43508f1392e94d': `Tekstin väri`,
 's8e985aeeca6a8166': `Valkoinen`,
 's8f18916860db5d80': `Tyhjennä valinta`,
@@ -175,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Leveys`,
 'sf43739275a48c99c': `Linkin teksti`,
 'sf60963b73764eca2': `Laaja pääalue ja kapea sivupalkki`,
+'sf71c79de504af8f7': `Vuorovaikutteinen sisältö: avaa asiakirja verkossa`,
 'sf79bbcb9f92e4d35': `Objektin sovitus`,
 'sfc5542fcfe78b99b': `Lisää komponentti`,
 'sfc83e9eb133d7361': `Keskitetty pino`,
@@ -182,4 +177,3 @@
 'sff9d51b6c5a73163': `Vaihtoehtoinen teksti`,
 'sffdadf0a576fd802': `Korkeus`,
     };
-  

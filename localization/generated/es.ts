@@ -3,21 +3,19 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Mantén pulsadas las teclas 
-          <kbd> T
-          </kbd> para ocultar temporalmente la superposición de la barra de herramientas.
-        `,
+      'hee3c66c7df58c59e': html`Mantén pulsada <kbd>T</kbd> para ocultar temporalmente la barra de herramientas superpuesta.`,
 's0312976fe9da5951': `Botón`,
 's03c44f5a1b0581d4': `seleccionado`,
 's0442a59427632f08': `Todos los componentes`,
 's068d4dd16d9106d0': `Icono`,
 's06fd2f8b555158a4': `Área`,
+'s0700f1d153359a0e': `El archivo no pertenece al constructor de sitios web.`,
 's072c3c42e24456af': `Introduce el título…`,
 's079cf7850d9327f0': `Fuente`,
 's08b05407b5565ca4': `o`,
@@ -25,8 +23,6 @@
 's094eb0fadccf24d8': `Texto del encabezado`,
 's09d3e1c6cc8700b9': `Altura (p. ej., 10 píxeles, 0,5 rem)`,
 's0b786a0e85eb6783': `Radio del borde`,
-'s0bdef849e0480d0e': `Arrastra al lienzo · Haz clic para obtener más información`,
-'s0d2f74dc9c0833a2': `Arrastra para colocarlo en el lienzo. Haz clic en «Insertar» para añadirlo en la posición predeterminada.`,
 's0fef364f29f8ffc1': `Ancho (p. ej., 300 píxeles, 20 rem)`,
 's1125d159f7e64df5': `Pantalla`,
 's1219d97b49650c05': `Visibilidad`,
@@ -76,9 +72,6 @@
 's536ea6b320f9600d': `Desagrupar`,
 's5590dbf7e425789d': `Etiqueta`,
 's56786c3f3e37cefa': `Introduce el texto de relleno del campo de texto...`,
-'s569ed106bd3565e4': str`Cambiar la disposición a 
-          ${0}
-        `,
 's56b2da93a4b8874e': `Subir audio`,
 's599dcd2472c75c19': `Párrafo`,
 's5a053ed77fa9c1bc': `Alinear`,
@@ -107,6 +100,7 @@
 's861fdb0670b22561': `Longitud de la columna`,
 's88f5053fccdf0a61': `ocultar el borde`,
 's89ba1ee1ccee063b': `Describe el vídeo (accesibilidad)`,
+'s8dfcedb8b2d680cd': `Configuración del creador`,
 's8e43508f1392e94d': `Color del texto`,
 's8e985aeeca6a8166': `Blanco`,
 's8f18916860db5d80': `Borrar selección`,
@@ -175,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Ancho`,
 'sf43739275a48c99c': `Texto del enlace`,
 'sf60963b73764eca2': `Área principal amplia con una barra lateral estrecha`,
+'sf71c79de504af8f7': `Contenido interactivo: abre el documento en línea`,
 'sf79bbcb9f92e4d35': `Ajuste del objeto`,
 'sfc5542fcfe78b99b': `Añadir componente`,
 'sfc83e9eb133d7361': `Pila centrada`,
@@ -182,4 +177,3 @@
 'sff9d51b6c5a73163': `Texto alternativo`,
 'sffdadf0a576fd802': `Altura`,
     };
-  

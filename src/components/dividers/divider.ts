@@ -1,13 +1,12 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
-import type { BuilderComponent } from "../../types/BuilderComponent";
+import type { BuilderComponent } from "../builder-component";
 
 const DEFAULT_WIDTH = "300px";
 const DEFAULT_HEIGHT = "1px";
 
 export const DividerComponent: BuilderComponent = {
   type: "divider",
-  label: () => msg("Divider"),
+  label: (msg) => msg("Divider"),
   group: "dividers",
 
   defaultData: {
@@ -40,7 +39,7 @@ export const DividerComponent: BuilderComponent = {
     `;
   },
 
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "width",
       label: msg("Width (e.g. 300px, 20rem)"),
@@ -59,7 +58,7 @@ export const DividerComponent: BuilderComponent = {
     },
   ],
 
-  settings: ({ setData }) => {
+  settings: ({ setData }, msg) => {
     const reset = () => setData({ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT });
 
     return html`

@@ -1,15 +1,13 @@
-// Usage in IconComponent (src/builder/components/media/icon.ts)
 import { html } from "lit";
-import { msg } from "@lit/localize";
-import type { BuilderComponent } from "../../types/BuilderComponent";
-import "../../assets/shoelaceImports";
+import type { BuilderComponent } from "../builder-component";
+import "../shoelace-imports";
 
 const DEFAULT_ICON = "gear";
 const DEFAULT_COLOR = "#0f172a";
 
 export const IconComponent: BuilderComponent = {
   type: "icon",
-  label: () => msg("Icon"),
+  label: (msg) => msg("Icon"),
   group: "media",
 
   defaultData: {
@@ -54,7 +52,7 @@ export const IconComponent: BuilderComponent = {
     `;
   },
 
-  settings: ({ data, setData }) => {
+  settings: ({ data, setData }, msg) => {
     const name = data?.name ?? DEFAULT_ICON;
     const size = data?.size ?? "32px";
     const color = data?.color ?? DEFAULT_COLOR;
@@ -78,7 +76,7 @@ export const IconComponent: BuilderComponent = {
             label=${msg("Size")}
             placeholder="32px"
             .value=${String(size)}
-            @sl-input=${(e: any) =>
+            @sl-input=${(e: ControlEvent) =>
               setData({ size: String(e.target.value ?? "") })}
           ></sl-input>
         </div>
@@ -88,7 +86,7 @@ export const IconComponent: BuilderComponent = {
             label=${msg("Color")}
             placeholder="#0f172a"
             .value=${String(color)}
-            @sl-input=${(e: any) =>
+            @sl-input=${(e: ControlEvent) =>
               setData({ color: String(e.target.value ?? "") })}
           ></sl-input>
         </div>

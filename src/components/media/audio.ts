@@ -1,13 +1,12 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
-import type { BuilderComponent } from "../../types/BuilderComponent";
+import type { BuilderComponent } from "../builder-component";
 
 const PLACEHOLDER_AUDIO =
   "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3";
 
 export const AudioComponent: BuilderComponent = {
   type: "audio",
-  label: () => msg("Audio"),
+  label: (msg) => msg("Audio"),
   group: "media",
 
   defaultData: {
@@ -42,7 +41,7 @@ export const AudioComponent: BuilderComponent = {
   },
 
   // Generic sidebar field
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "src",
       label: msg("Audio URL"),
@@ -54,7 +53,7 @@ export const AudioComponent: BuilderComponent = {
   ],
 
   // Upload + reset grouped consistently with other media components
-  settings: ({ setData }) => {
+  settings: ({ setData }, msg) => {
     const onFileChange = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       const file = input.files?.[0];

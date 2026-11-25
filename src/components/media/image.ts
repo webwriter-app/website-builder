@@ -1,18 +1,15 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
-import type { BuilderComponent } from "../../types/BuilderComponent";
-import { wbPlaceholderIMG } from "../../assets/icons";
-
-const PLACEHOLDER_SRC = wbPlaceholderIMG;
+import type { BuilderComponent } from "../builder-component";
+import PLACEHOLDER_SRC from "../../assets/placeholder-image.svg";
 
 export const ImageComponent: BuilderComponent = {
   type: "image",
-  label: () => msg("Image"),
+  label: (msg) => msg("Image"),
   group: "media",
 
   defaultData: {
     src: PLACEHOLDER_SRC,
-    alt: msg("Placeholder image"),
+    alt: "Placeholder image",
   },
 
   render(data) {
@@ -43,7 +40,7 @@ export const ImageComponent: BuilderComponent = {
   },
 
   // Only fields that are useful in the generic "Content" section
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "src",
       label: msg("Image URL"),
@@ -103,7 +100,7 @@ export const ImageComponent: BuilderComponent = {
   ],
 
   // Upload is now grouped with the other image-related controls
-  settings: ({ data, setData }) => {
+  settings: ({ setData }, msg) => {
     const onFileChange = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       const file = input.files?.[0];

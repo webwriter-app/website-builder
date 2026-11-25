@@ -1,0 +1,9 @@
+{
+  "layoutMode": "flow",
+  "freeformNodes": [],
+  "orderedNodes": [
+    { "id": "t1", "type": "h1", "data": { "content": "Hello" }, "order": 0, "display": "block" },
+    { "id": "p1", "type": "paragraph", "data": { "content": "Some text" }, "order": 1, "display": "block" }
+  ],
+  "canvasBackground": "#ffeedd"
+}

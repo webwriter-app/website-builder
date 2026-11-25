@@ -1,7 +1,6 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
-import type { BuilderComponent } from "../../types/BuilderComponent";
-import "../../assets/shoelaceImports";
+import type { BuilderComponent } from "../builder-component";
+import "../shoelace-imports";
 
 const DEFAULT_LABEL = "Link";
 const DEFAULT_HREF = "#";
@@ -9,7 +8,7 @@ const DEFAULT_ICON = "";
 
 export const LinkComponent: BuilderComponent = {
   type: "link",
-  label: () => msg("Link"),
+  label: (msg) => msg("Link"),
   group: "buttons",
 
   defaultData: {
@@ -59,7 +58,7 @@ export const LinkComponent: BuilderComponent = {
     `;
   },
 
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "label",
       label: msg("Link text"),
@@ -85,7 +84,7 @@ export const LinkComponent: BuilderComponent = {
     },
   ],
 
-  settings: ({ setData }) => {
+  settings: ({ setData }, msg) => {
     const reset = () => {
       setData({ label: DEFAULT_LABEL, href: DEFAULT_HREF, icon: DEFAULT_ICON });
     };

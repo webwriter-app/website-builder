@@ -3,21 +3,19 @@
     // Re-generate this file by running lit-localize
 
     import {html} from 'lit';
-    import {str} from '@lit/localize';
+
 
     /* eslint-disable no-irregular-whitespace */
     /* eslint-disable @typescript-eslint/no-explicit-any */
 
     export const templates = {
-      'hee3c66c7df58c59e': html`Araç çubuğu katmanını geçici olarak gizlemek için 
-          <kbd> T
-          </kbd> tuşlarına basın.
-        `,
+      'hee3c66c7df58c59e': html`Kayan araç çubuğunu geçici olarak gizlemek için <kbd>T</kbd> tuşunu basılı tut.`,
 's0312976fe9da5951': `Düğme`,
 's03c44f5a1b0581d4': `seçilen`,
 's0442a59427632f08': `Tüm bileşenler`,
 's068d4dd16d9106d0': `Simge`,
 's06fd2f8b555158a4': `Alan`,
+'s0700f1d153359a0e': `Bu dosya web sitesi oluşturucuya ait değil.`,
 's072c3c42e24456af': `Başlık girin…`,
 's079cf7850d9327f0': `Yazı tipi`,
 's08b05407b5565ca4': `ya da`,
@@ -25,8 +23,6 @@
 's094eb0fadccf24d8': `Başlık metni`,
 's09d3e1c6cc8700b9': `Yükseklik (örn. 10 piksel, 0,5 rem)`,
 's0b786a0e85eb6783': `Kenar Yuvarlaklığı`,
-'s0bdef849e0480d0e': `Tuval üzerine sürükle · Bilgi için tıkla`,
-'s0d2f74dc9c0833a2': `Tuval üzerine sürükleyip bırakın. Varsayılan konuma eklemek için Ekle'ye tıklayın.`,
 's0fef364f29f8ffc1': `Genişlik (örn. 300 piksel, 20 rem)`,
 's1125d159f7e64df5': `Ekran`,
 's1219d97b49650c05': `Görünürlük`,
@@ -76,9 +72,6 @@
 's536ea6b320f9600d': `Grubu kaldır`,
 's5590dbf7e425789d': `Etiket`,
 's56786c3f3e37cefa': `Metin alanı yer tutucusunu girin…`,
-'s569ed106bd3565e4': str`Düzeni şuna değiştir 
-          ${0}
-        `,
 's56b2da93a4b8874e': `Ses Dosyası Yükle`,
 's599dcd2472c75c19': `Paragraf`,
 's5a053ed77fa9c1bc': `Kendini hizala`,
@@ -107,6 +100,7 @@
 's861fdb0670b22561': `Sütun aralığı`,
 's88f5053fccdf0a61': `kenarlığı gizle`,
 's89ba1ee1ccee063b': `Videoyu tanımlayın (erişilebilirlik)`,
+'s8dfcedb8b2d680cd': `Site oluşturucu ayarları`,
 's8e43508f1392e94d': `Metin rengi`,
 's8e985aeeca6a8166': `Beyaz`,
 's8f18916860db5d80': `Seçimi temizle`,
@@ -175,6 +169,7 @@
 'sf21fb4f4b9e8911f': `Genişlik`,
 'sf43739275a48c99c': `Bağlantı metni`,
 'sf60963b73764eca2': `Geniş ana alan ve dar bir kenar çubuğu`,
+'sf71c79de504af8f7': `Etkileşimli içerik: belgeyi çevrimiçi açın`,
 'sf79bbcb9f92e4d35': `Nesne Uyumu`,
 'sfc5542fcfe78b99b': `Bileşen ekle`,
 'sfc83e9eb133d7361': `Ortalanmış Yığın`,
@@ -182,4 +177,3 @@
 'sff9d51b6c5a73163': `Alternatif Metin`,
 'sffdadf0a576fd802': `Yükseklik`,
     };
-  

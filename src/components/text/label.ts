@@ -1,21 +1,20 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
-import type { BuilderComponent } from "../../types/BuilderComponent";
-import { FONT_OPTIONS } from "../../builder/data/data";
+import type { BuilderComponent } from "../builder-component";
+import { FONT_OPTIONS } from "../../model/font-options";
 
 const DEFAULT_FONT =
   "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif";
 
 export const LabelComponent: BuilderComponent = {
   type: "label",
-  label: () => msg("Label"),
+  label: (msg) => msg("Label"),
   group: "text",
 
   defaultData: {
     font: DEFAULT_FONT,
   },
 
-  render: (data) => {
+  render: (data, msg) => {
     const font = data?.font ?? DEFAULT_FONT;
     const color = data?.color ?? "#000000";
     const content = data?.content ?? msg("Label");
@@ -38,7 +37,7 @@ export const LabelComponent: BuilderComponent = {
     `;
   },
 
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "content",
       label: msg("Label text"),
@@ -71,7 +70,7 @@ export const LabelComponent: BuilderComponent = {
       placeholder: `${msg("e.g.")} 32px ${msg("or")} 2em`,
     }
   ],
-  settings: ({ data, setData }) => {
+  settings: ({ data, setData }, msg) => {
     const current = (data?.font as string) ?? DEFAULT_FONT;
     const currentLabel =
       FONT_OPTIONS.find((f) => f.value === current)?.label ?? msg("Choose font");
@@ -95,7 +94,7 @@ export const LabelComponent: BuilderComponent = {
             <sl-menu
               style="max-height: 220px; overflow: auto; min-width: 260px;"
               @sl-select=${(e: CustomEvent) => {
-                const item = e.detail.item as any;
+                const item = e.detail.item as HTMLElement & { value?: string };
                 const next = String(item?.value ?? "");
                 if (next) setData({ font: next });
               }}

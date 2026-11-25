@@ -1,6 +1,5 @@
 import { html } from "lit";
-import { msg } from "@lit/localize";
-import type { BuilderComponent } from "../../types/BuilderComponent";
+import type { BuilderComponent } from "../builder-component";
 
 /**
  * Small default placeholder video (MDN demo, can be replaced later)
@@ -10,7 +9,7 @@ const PLACEHOLDER_VIDEO =
 
 export const VideoComponent: BuilderComponent = {
   type: "video",
-  label: () => msg("Video"),
+  label: (msg) => msg("Video"),
   group: "media",
 
   defaultData: {
@@ -68,7 +67,7 @@ export const VideoComponent: BuilderComponent = {
     `;
   },
 
-  bindings: () => [
+  bindings: (msg) => [
     {
       key: "src",
       label: msg("Video URL"),
@@ -128,7 +127,7 @@ export const VideoComponent: BuilderComponent = {
   ],
 
   // Upload and reset belong into custom settings
-  settings: ({ setData }) => {
+  settings: ({ setData }, msg) => {
     const onFileChange = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       const file = input.files?.[0];
