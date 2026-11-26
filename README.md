@@ -1,5 +1,5 @@
-# Website Builder (`@webwriter/website-builder@2.1.0`)
-[License: MIT](LICENSE) | Version: 2.1.0
+# Website Builder (`@webwriter/website-builder@2.1.1`)
+[License: MIT](LICENSE) | Version: 2.1.1
 
 Build and explore static websites with different layouts.
 
