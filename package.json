@@ -1,6 +1,6 @@
 {
   "name": "@webwriter/website-builder",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Build and explore static websites with different layouts.",
   "keywords": [
     "webwriter-widget",
@@ -166,6 +166,7 @@
     "./snippets/flow-starter.html": "./snippets/flow-starter.html",
     "./snippets/flow-advanced.html": "./snippets/flow-advanced.html",
     "./icon": "./icon.svg",
+    "./preview": "./assets/preview.mp4",
     "./editing-config.json": "./editing-config.json",
     "./custom-elements.json": "./custom-elements.json",
     "./tests/functionality.*": {
